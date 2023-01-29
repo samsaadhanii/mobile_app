@@ -1,0 +1,68 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class SideDrawer extends StatefulWidget {
+  const SideDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<SideDrawer> createState() => _SideDrawerState();
+}
+
+class _SideDrawerState extends State<SideDrawer> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          _createHeader(context),
+          Divider(
+            thickness: 5,
+            color: Theme.of(context).primaryColor,
+          ),
+          _createDrawerItem(
+              Icons.confirmation_num_sharp, 'Morphological Analyzer', () {})
+        ],
+      ),
+    );
+  }
+
+  Widget _createHeader(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.only(left: 30, top: 30, right: 30, bottom: 30),
+      height: 150.00,
+      child: appLogo,
+    );
+  }
+
+  Widget _createDrawerItem(
+    IconData icon,
+    String text,
+    GestureTapCallback onTap,
+  ) {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          Icon(icon),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(text),
+          )
+        ],
+      ),
+
+      // Update the state of the app with onTap
+      // ...
+      // Then close the drawer
+      onTap: onTap,
+    );
+  }
+}
+
+Image appLogo = const Image(
+  image: ExactAssetImage("assets/images/samsadhani3.jpg"),
+  // height: 150,
+  //width: 200.0,
+  alignment: FractionalOffset.center,
+  fit: BoxFit.fitHeight,
+);
