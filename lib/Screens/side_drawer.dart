@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/Screens/noun_generator.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -20,7 +20,10 @@ class _SideDrawerState extends State<SideDrawer> {
             color: Theme.of(context).primaryColor,
           ),
           _createDrawerItem(
-              Icons.confirmation_num_sharp, 'Morphological Analyzer', () {})
+              Icons.confirmation_num_sharp, 'Morphological Noun Generator', () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const NounGenerator()));
+          })
         ],
       ),
     );
