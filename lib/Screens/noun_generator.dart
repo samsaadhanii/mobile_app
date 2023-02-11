@@ -1,7 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'package:mobile_app/Screens/noun_generator_output1.dart';
+import 'package:mobile_app/web_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import '../Constants/constants.dart';
 
 class NounGenerator extends StatefulWidget {
   const NounGenerator({Key? key}) : super(key: key);
@@ -11,145 +12,211 @@ class NounGenerator extends StatefulWidget {
 }
 
 class _NounGeneratorState extends State<NounGenerator> {
-  var _responseBody;
+  TextEditingController inputController = TextEditingController();
+  bool _isLoading = false;
+  String inputStr = '';
 
   @override
   void initState() {
-    makeRequest();
+    inputController.text = 'राम';
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    // WebAPI.nounGenRequest().then((value) {
+    //   debugPrint(value.body.toString());
+    //   setState(() {
+    //     if (value.statusCode == 200) {
+    //       _responseBody = jsonDecode(value.body);
+    //     }
+    //   });
+    // });
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Noun Generator'),
-      ),
-      // body: Table(
-      //   border: TableBorder.all(),
-      //   columnWidths: const <int, TableColumnWidth>{
-      //     0: FlexColumnWidth(),
-      //     1: FlexColumnWidth(),
-      //     2: FlexColumnWidth(),
-      //     3: FlexColumnWidth(),
-      //   },
-      //   defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-      //   children: <TableRow>[
-      //     TableRow(
-      //       children: <Widget>[
-      //         Container(
-      //           height: 32,
-      //           color: Colors.green,
-      //         ),
-      //         TableCell(
-      //           verticalAlignment: TableCellVerticalAlignment.top,
-      //           child: Container(
-      //             height: 32,
-      //             width: 32,
-      //             color: Colors.red,
-      //           ),
-      //         ),
-      //         Container(
-      //           height: 64,
-      //           color: Colors.blue,
-      //         ),
-      //         Container(
-      //           height: 64,
-      //           color: Colors.blue,
-      //         ),
-      //       ],
-      //     ),
-      //     TableRow(
-      //       decoration: const BoxDecoration(
-      //         color: Colors.grey,
-      //       ),
-      //       children: <Widget>[
-      //         Container(
-      //           height: 64,
-      //           width: 128,
-      //           color: Colors.purple,
-      //         ),
-      //         Container(
-      //           height: 32,
-      //           color: Colors.yellow,
-      //         ),
-      //         Center(
-      //           child: Container(
-      //             height: 32,
-      //             width: 32,
-      //             color: Colors.orange,
-      //           ),
-      //         ),
-      //         Center(
-      //           child: Container(
-      //             height: 32,
-      //             width: 32,
-      //             color: Colors.orange,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
-      body: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Expanded(
-              child: Text(
-                'form',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: const Text('Noun Generator'),
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+
+                ///Input Encoder
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: FormBuilderDropdown(
+                    name: 'Input Encoder',
+                    items: Const.inputEncodingList.map((option) {
+                      return DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: "Input Encoder",
+                      border: OutlineInputBorder(),
+                    ),
+                    initialValue: Const.inputEncodingList[0],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                ///Output Encoder
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: FormBuilderDropdown(
+                    name: 'Output Encoder',
+                    items: Const.outputEncodingList.map((option) {
+                      return DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: "Output Encoder",
+                      border: OutlineInputBorder(),
+                    ),
+                    initialValue: Const.outputEncodingList[0],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                /// Input
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: TextFormField(
+                    controller: inputController,
+                    decoration: const InputDecoration(
+                      labelText: 'प्रातिपदिकम्/Prātipadikam',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (String value) {
+                      inputController.text = value;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                ///Category
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: FormBuilderDropdown(
+                    name: 'Category',
+                    items: Const.list3.map((option) {
+                      return DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: "Category",
+                      border: OutlineInputBorder(),
+                    ),
+                    initialValue: Const.list3[0],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                ///Gender
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: FormBuilderDropdown(
+                    name: 'Gender',
+                    items: Const.genderList.map((option) {
+                      return DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: "Gender",
+                      border: OutlineInputBorder(),
+                    ),
+                    initialValue: Const.genderList[0],
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                /// button
+                Container(
+                  height: 60,
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        WebAPI.transLiterate(input: inputController.text).then(
+                          (inputLiteral) =>
+                              WebAPI.nounGenRequest(inputString: inputLiteral)
+                                  .then(
+                            (dataList) {
+                              setState(
+                                () {
+                                  _isLoading = false;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          NounGeneratorOutput(data: dataList),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: const Text('रूपाणि दर्श्यताम्')),
+                ),
+                // DisplayData(
+                //   data: _responseBody,
+                // ),
+              ],
             ),
           ),
-          DataColumn(
-            label: Expanded(
-              child: Text(
-                'vib',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
+        ),
+        if (_isLoading)
+          const Opacity(
+            opacity: 0.2,
+            child: ModalBarrier(dismissible: false, color: Colors.black),
           ),
-          DataColumn(
-            label: Expanded(
-              child: Text(
-                'vac',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
+        if (_isLoading)
+          const Center(
+            child: CircularProgressIndicator(),
           ),
-        ],
-        rows: getRows(),
-        // const <DataRow>[
-        //   DataRow(
-        //     cells: <DataCell>[
-        //       DataCell(Text('Sarah')),
-        //       DataCell(Text('19')),
-        //       DataCell(Text('Student')),
-        //     ],
-        //   ),
-        //   DataRow(
-        //     cells: <DataCell>[
-        //       DataCell(Text('Janine')),
-        //       DataCell(Text('43')),
-        //       DataCell(Text('Professor')),
-        //     ],
-        //   ),
-        //   DataRow(
-        //     cells: <DataCell>[
-        //       DataCell(Text('William')),
-        //       DataCell(Text('27')),
-        //       DataCell(Text('Associate Professor')),
-        //     ],
-        //   ),
-        // ],
-      ),
+      ],
+    );
+  }
+}
+
+class DisplayData extends StatefulWidget {
+  const DisplayData({Key? key, required this.data}) : super(key: key);
+  final data;
+  @override
+  State<DisplayData> createState() => _DisplayDataState();
+}
+
+class _DisplayDataState extends State<DisplayData> {
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      columns: getColumns(),
+      rows: getRows(),
     );
   }
 
   List<DataRow> getRows() {
     List<DataRow> l = [];
-    if (_responseBody != null) {
-      List r = _responseBody as List;
+    if (widget.data != null) {
+      List r = widget.data as List;
       for (var element in r) {
         l.add(DataRow(cells: [
           DataCell(Text(element['form'])),
@@ -161,14 +228,32 @@ class _NounGeneratorState extends State<NounGenerator> {
     return l;
   }
 
-  Future<void> makeRequest() async {
-    var url =
-        'http://scl.samsaadhanii.in/cgi-bin/scl/skt_gen/noun/noun_gen_json.cgi?rt=vana&gen=puM&jAwi=nA&level=1';
-    var httpClient = HttpClient();
-    var request = await httpClient.getUrl(Uri.parse(url));
-    var response = await request.close();
-    var responseBody = await response.transform(utf8.decoder).join();
-    _responseBody = jsonDecode(responseBody);
-    print(_responseBody);
+  List<DataColumn> getColumns() {
+    return const <DataColumn>[
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'form',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'vib',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+      DataColumn(
+        label: Expanded(
+          child: Text(
+            'vac',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+      ),
+    ];
   }
 }
