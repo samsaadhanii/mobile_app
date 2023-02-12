@@ -15,6 +15,7 @@ class _NounGeneratorState extends State<NounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;
   String inputStr = '';
+  String outputEncodingStr = Const.outputEncodingList[0];
 
   @override
   void initState() {
@@ -83,7 +84,10 @@ class _NounGeneratorState extends State<NounGenerator> {
                       labelText: "Output Encoder",
                       border: OutlineInputBorder(),
                     ),
-                    initialValue: Const.outputEncodingList[0],
+                    initialValue: outputEncodingStr,
+                    onChanged: (value) {
+                      outputEncodingStr = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -109,7 +113,7 @@ class _NounGeneratorState extends State<NounGenerator> {
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                   child: FormBuilderDropdown(
                     name: 'Category',
-                    items: Const.list3.map((option) {
+                    items: Const.categoryList.map((option) {
                       return DropdownMenuItem(
                         value: option,
                         child: Text(option),
@@ -119,7 +123,7 @@ class _NounGeneratorState extends State<NounGenerator> {
                       labelText: "Category",
                       border: OutlineInputBorder(),
                     ),
-                    initialValue: Const.list3[0],
+                    initialValue: Const.categoryList[0],
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -153,23 +157,34 @@ class _NounGeneratorState extends State<NounGenerator> {
                         setState(() {
                           _isLoading = true;
                         });
-                        WebAPI.transLiterate(input: inputController.text).then(
+                        WebAPI.transLiterateWord(input: inputController.text)
+                            .then(
                           (inputLiteral) =>
                               WebAPI.nounGenRequest(inputString: inputLiteral)
                                   .then(
                             (dataList) {
-                              setState(
-                                () {
-                                  _isLoading = false;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          NounGeneratorOutput(data: dataList),
-                                    ),
-                                  );
-                                },
-                              );
+                              WebAPI.transLiterateData(
+                                      body: dataList,
+                                      tar: Const.encodingAbbreviation(
+                                          outputEncodingStr))
+                                  .then((value) {
+                                setState(
+                                  () {
+                                    Map curData = formatData(value);
+                                    _isLoading = false;
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            NounGeneratorOutput(
+                                          data: curData,
+                                          encoding: outputEncodingStr,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              });
                             },
                           ),
                         );
@@ -195,65 +210,37 @@ class _NounGeneratorState extends State<NounGenerator> {
       ],
     );
   }
-}
 
-class DisplayData extends StatefulWidget {
-  const DisplayData({Key? key, required this.data}) : super(key: key);
-  final data;
-  @override
-  State<DisplayData> createState() => _DisplayDataState();
-}
-
-class _DisplayDataState extends State<DisplayData> {
-  @override
-  Widget build(BuildContext context) {
-    return DataTable(
-      columns: getColumns(),
-      rows: getRows(),
-    );
-  }
-
-  List<DataRow> getRows() {
-    List<DataRow> l = [];
-    if (widget.data != null) {
-      List r = widget.data as List;
-      for (var element in r) {
-        l.add(DataRow(cells: [
-          DataCell(Text(element['form'])),
-          DataCell(Text(element['vib'])),
-          DataCell(Text(element['vac'])),
-        ]));
+  /// formatting WX to IAST displayable format
+  Map formatData(List data) {
+    Map<String, List<String>> curData = <String, List<String>>{};
+    List<String> vacanam = [];
+    for (var element in data) {
+      //diameters.putIfAbsent(0.383, () => 'Random');
+      if (element['vib'] != null) {
+        curData.putIfAbsent(element['vib'], () => [element['vib'], '', '', '']);
+      }
+      if (element['vac'] != null) {
+        if (!vacanam.contains(element['vac'])) vacanam.add(element['vac']);
       }
     }
-    return l;
-  }
-
-  List<DataColumn> getColumns() {
-    return const <DataColumn>[
-      DataColumn(
-        label: Expanded(
-          child: Text(
-            'form',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-      ),
-      DataColumn(
-        label: Expanded(
-          child: Text(
-            'vib',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-      ),
-      DataColumn(
-        label: Expanded(
-          child: Text(
-            'vac',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-      ),
-    ];
+    curData.forEach((key, value) {
+      print(value);
+    });
+    for (var element in data) {
+      // print(element['vib']);
+      String key = element['vib'];
+      if (curData.containsKey(key)) {
+        if (element['vac'].toString().contains(vacanam[0])) {
+          curData[key]![1] = element['form'];
+        } else if (element['vac'].toString().contains(vacanam[1])) {
+          curData[key]![2] = element['form'];
+        } else if (element['vac'].toString().contains(vacanam[2])) {
+          curData[key]![3] = element['form'];
+        }
+        // print(curData[key]);
+      }
+    }
+    return curData;
   }
 }

@@ -10,10 +10,7 @@ class WebAPI with ChangeNotifier {
   // noun generator
   static String noun_gen = "$scl/skt_gen/noun/noun_gen_json.cgi?";
   static String transliterator =
-      "http://45.9.190.177/transliteration/trans.php?src=Devanagari&tar=WX";
-
-  static String transliterator2 =
-      "http://45.9.190.177/transliteration/trans.php?src=WX&tar=IAST";
+      "http://45.9.190.177/transliteration/trans.php";
 
   // static Future<http.Response> nounGenRequest() async {
   //   var url = '$noun_gen rt=vana&gen=puM&jAwi=nA&level=1';
@@ -37,9 +34,14 @@ class WebAPI with ChangeNotifier {
     return responseData;
   }
 
-  static Future<String> transLiterate({required String input}) async {
+  static Future<String> transLiterateWord({
+    required String input,
+    String src = 'Devanagari',
+    String tar = 'WX',
+  }) async {
     var body = jsonEncode({'text': input});
-    http.Response resp = await http.post(Uri.parse(transliterator), body: body);
+    var url = '$transliterator?src=$src&tar=$tar';
+    http.Response resp = await http.post(Uri.parse(url), body: body);
     String outputStr = '';
     if (resp.statusCode == 200) {
       final responseData = json.decode(resp.body);
@@ -51,14 +53,18 @@ class WebAPI with ChangeNotifier {
     return outputStr;
   }
 
-  static Future<List<dynamic>> transLiterateData({required var body}) async {
-    // var body = jsonEncode({'text': input});
+  static Future<List<dynamic>> transLiterateData({
+    required var body,
+    String src = 'WX',
+    String tar = 'IAST',
+  }) async {
+    var url = '$transliterator?src=$src&tar=$tar';
     http.Response resp =
-        await http.post(Uri.parse(transliterator2), body: jsonEncode(body));
+        await http.post(Uri.parse(url), body: jsonEncode(body));
     List<dynamic> outputList = [];
     if (resp.statusCode == 200) {
       final responseData = json.decode(resp.body);
-      if (kDebugMode) print('output: $responseData');
+      if (kDebugMode) print('Transliterated data: $responseData');
       outputList = responseData;
 
       /// TODO:- check for empty string and post a snackBar message
