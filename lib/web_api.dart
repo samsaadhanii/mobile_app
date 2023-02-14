@@ -11,6 +11,9 @@ class WebAPI with ChangeNotifier {
   static String noun_gen = "$scl/skt_gen/noun/noun_gen_json.cgi?";
   static String transliterator =
       "http://45.9.190.177/transliteration/trans.php";
+  static String ashtadhyayi_simulator =
+      "$scl/ashtadhyayi_simulator/simulation.cgi?";
+  static String dictionary = "$scl/MT/dict_help_json.cgi?word=";
 
   // static Future<http.Response> nounGenRequest() async {
   //   var url = '$noun_gen rt=vana&gen=puM&jAwi=nA&level=1';
@@ -25,6 +28,7 @@ class WebAPI with ChangeNotifier {
       String gender = 'puM',
       String category = 'nA'}) async {
     var url = '${noun_gen}rt=$inputString&gen=$gender&jAwi=$category&level=1';
+    print('noun gen req: $url');
     http.Response resp = await http.get(Uri.parse(url));
     List<dynamic> responseData = [];
     if (resp.statusCode == 200) {
@@ -70,5 +74,42 @@ class WebAPI with ChangeNotifier {
       /// TODO:- check for empty string and post a snackBar message
     }
     return outputList;
+  }
+
+  static Future<String> simulation({
+    required String inputWrod,
+    String encoding = 'IAST',
+    String vibhakti = 'praWamA',
+    String linga = 'puM',
+    String vacana = 'ekavacana',
+  }) async {
+    var url =
+        '${ashtadhyayi_simulator}encoding=$encoding&praatipadika=$inputWrod&vibhakti=$vibhakti&linga=$linga&vacana=$vacana';
+    print(url);
+    http.Response resp = await http.get(Uri.parse(url));
+    String outputStr = '';
+    if (resp.statusCode == 200) {
+      final responseData = (utf8.decode(resp.bodyBytes));
+      if (kDebugMode) print('Simulation data: $responseData');
+      outputStr = responseData;
+
+      /// TODO:- check for empty string and post a snackBar message
+    }
+    return outputStr;
+  }
+
+  static Future<String> getDictionary({required String inputWord}) async {
+    var url = '$dictionary$inputWord';
+    print(url);
+    http.Response resp = await http.get(Uri.parse(url));
+    String outputStr = '';
+    if (resp.statusCode == 200) {
+      final responseData = (utf8.decode(resp.bodyBytes));
+      if (kDebugMode) print('Dictionary data: $responseData');
+      outputStr = responseData;
+
+      /// TODO:- check for empty string and post a snackBar message
+    }
+    return outputStr;
   }
 }

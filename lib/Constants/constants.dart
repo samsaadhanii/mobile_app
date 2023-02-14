@@ -56,27 +56,77 @@ Devanagari	Devanagari
     }
   }
 
+  static String CAT_NAMA = "नाम (nāma)";
+  static String CAT_SARVANAMA = "सर्वनाम (sarvanāma)";
+  static String CAT_NUMERAL = "सङ्ख्या (Numeral)";
+  static String CAT_CARDINAL = "सङ्ख्येय (cardinal)";
+  static String CAT_ORDINAL = "पूरण (ordinal)";
+
   static List<String> categoryList = [
-    'नाम (nāma)',
-    'सर्वनाम (sarvanāma)',
-    'सङ्ख्या (Numeral)',
-    'सङ्ख्येय (cardinal)',
-    'पूरण (ordinal)',
-  ];
-  static List<String> genderList = [
-    'पुंलिङ्गम् (masc)',
-    'नपुंसकलिङ्गम् (neuter)',
-    'स्त्रीलिङ्गम् (feminine)',
-    '-(For अस्मद्, युष्मद्)',
+    CAT_NAMA,
+    CAT_SARVANAMA,
+    CAT_NUMERAL,
+    CAT_CARDINAL,
+    CAT_ORDINAL,
   ];
 
-  static List<String> vibList = [
+  static String catAbbreviation(String type) {
+    if (type == CAT_NAMA) {
+      return 'nA';
+    } else if (type == CAT_SARVANAMA) {
+      return 'sarva';
+    } else if (type == CAT_NUMERAL) {
+      return 'saMKyA';
+    } else if (type == CAT_CARDINAL) {
+      return 'saMKyeyam';
+    } else {
+      return 'pUraNam';
+    }
+  }
+
+  static String GEN_MASC = "पुंलिङ्गम् (masc)";
+  static String GEN_NEUTER = "नपुंसकलिङ्गम् (neuter)";
+  static String GEN_FEMININE = "स्त्रीलिङ्गम् (feminine)";
+  static String GEN_FOR = "-(For अस्मद्, युष्मद्)";
+
+  static List<String> genderList = [
+    GEN_MASC,
+    GEN_NEUTER,
+    GEN_FEMININE,
+    GEN_FOR,
+  ];
+  static String genderAbbreviation(String type) {
+    if (type == GEN_MASC) {
+      return 'puM';
+    } else if (type == GEN_NEUTER) {
+      return 'napuM';
+    } else if (type == GEN_FEMININE) {
+      return 'swrI';
+    } else {
+      return 'a';
+    }
+  }
+
+  static List<String> vibList_IAST = [
     'prathamā',
     'dvitīyā',
     'tṛtīyā',
+    'caturthī',
     'pañcamī',
     'ṣaṣṭhī',
     'saptamī',
     'saṃ.pra',
+  ];
+
+  static List<String> vibList_WX = [
+    'praWamA',
+    'xviwIyA',
+    'wqwIyA',
+    'cawurWI',
+    'paFcamI',
+    'RaRTI',
+    'sapwamI',
+    'samboXana',
+    '',
   ];
 }

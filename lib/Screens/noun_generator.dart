@@ -15,25 +15,15 @@ class _NounGeneratorState extends State<NounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;
   String inputStr = '';
+  String inputEncodingStr = Const.inputEncodingList[0];
   String outputEncodingStr = Const.outputEncodingList[0];
+  String gender = Const.genderList[0];
+  String category = Const.categoryList[0];
 
   @override
   void initState() {
     inputController.text = 'राम';
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // WebAPI.nounGenRequest().then((value) {
-    //   debugPrint(value.body.toString());
-    //   setState(() {
-    //     if (value.statusCode == 200) {
-    //       _responseBody = jsonDecode(value.body);
-    //     }
-    //   });
-    // });
-    super.didChangeDependencies();
   }
 
   @override
@@ -64,7 +54,10 @@ class _NounGeneratorState extends State<NounGenerator> {
                       labelText: "Input Encoder",
                       border: OutlineInputBorder(),
                     ),
-                    initialValue: Const.inputEncodingList[0],
+                    initialValue: inputEncodingStr,
+                    onChanged: (value) {
+                      inputEncodingStr = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -96,14 +89,18 @@ class _NounGeneratorState extends State<NounGenerator> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                   child: TextFormField(
+                    autofocus: true,
                     controller: inputController,
                     decoration: const InputDecoration(
                       labelText: 'प्रातिपदिकम्/Prātipadikam',
                       border: OutlineInputBorder(),
                     ),
-                    onChanged: (String value) {
-                      inputController.text = value;
-                    },
+                    // onChanged: (String value) {
+                    //   setState(() {
+                    //     inputController.text = value;
+                    //   });
+                    // },
+                    keyboardType: TextInputType.text,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -123,7 +120,10 @@ class _NounGeneratorState extends State<NounGenerator> {
                       labelText: "Category",
                       border: OutlineInputBorder(),
                     ),
-                    initialValue: Const.categoryList[0],
+                    initialValue: category,
+                    onChanged: (value) {
+                      category = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -143,7 +143,10 @@ class _NounGeneratorState extends State<NounGenerator> {
                       labelText: "Gender",
                       border: OutlineInputBorder(),
                     ),
-                    initialValue: Const.genderList[0],
+                    initialValue: gender,
+                    onChanged: (value) {
+                      gender = value!;
+                    },
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -157,11 +160,15 @@ class _NounGeneratorState extends State<NounGenerator> {
                         setState(() {
                           _isLoading = true;
                         });
-                        WebAPI.transLiterateWord(input: inputController.text)
-                            .then(
-                          (inputLiteral) =>
-                              WebAPI.nounGenRequest(inputString: inputLiteral)
-                                  .then(
+                        WebAPI.transLiterateWord(
+                          input: inputController.text,
+                          src: Const.encodingAbbreviation(inputEncodingStr),
+                        ).then(
+                          (inputLiteral) => WebAPI.nounGenRequest(
+                            inputString: inputLiteral,
+                            gender: Const.genderAbbreviation(gender),
+                            category: Const.catAbbreviation(category),
+                          ).then(
                             (dataList) {
                               WebAPI.transLiterateData(
                                       body: dataList,
@@ -179,6 +186,8 @@ class _NounGeneratorState extends State<NounGenerator> {
                                             NounGeneratorOutput(
                                           data: curData,
                                           encoding: outputEncodingStr,
+                                          gender: gender,
+                                          inputWord: inputController.text,
                                         ),
                                       ),
                                     );
@@ -216,7 +225,6 @@ class _NounGeneratorState extends State<NounGenerator> {
     Map<String, List<String>> curData = <String, List<String>>{};
     List<String> vacanam = [];
     for (var element in data) {
-      //diameters.putIfAbsent(0.383, () => 'Random');
       if (element['vib'] != null) {
         curData.putIfAbsent(element['vib'], () => [element['vib'], '', '', '']);
       }
@@ -224,9 +232,9 @@ class _NounGeneratorState extends State<NounGenerator> {
         if (!vacanam.contains(element['vac'])) vacanam.add(element['vac']);
       }
     }
-    curData.forEach((key, value) {
-      print(value);
-    });
+    // curData.forEach((key, value) {
+    //   print(value);
+    // });
     for (var element in data) {
       // print(element['vib']);
       String key = element['vib'];
