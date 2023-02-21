@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/theme_data.dart';
 import 'Screens/home_page.dart';
 
 void main() {
@@ -13,6 +14,8 @@ class Samsaadhanii extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print('themeBlue: ${ThemeBlueWhite.themeBlue}');
+    return ThemeBlueWhite.theApp('Samsaadhanii');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

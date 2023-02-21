@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/noun_generator.dart';
+import 'package:mobile_app/Screens/sandhi.dart';
+
+import '../theme_data.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -23,7 +26,19 @@ class _SideDrawerState extends State<SideDrawer> {
               Icons.confirmation_num_sharp, 'Morphological Noun Generator', () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const NounGenerator()));
-          })
+          }),
+          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi', () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Sandhi()));
+          }),
+          Switch(
+            value: ThemeBlueWhite.themeBlue,
+            onChanged: (value) {
+              setState(() {
+                ThemeBlueWhite.themeBlue = value;
+              });
+            },
+          ),
         ],
       ),
     );

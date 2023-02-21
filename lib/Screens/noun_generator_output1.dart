@@ -58,12 +58,17 @@ class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
                   height: 10,
                 ),
                 Center(
-                  child: DataTable(
-                    horizontalMargin: 10,
-                    columnSpacing: 20,
-                    border: TableBorder.all(),
-                    columns: getColumns(),
-                    rows: getRows(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FittedBox(
+                      child: DataTable(
+                        horizontalMargin: 10,
+                        columnSpacing: 20,
+                        border: TableBorder.all(),
+                        columns: getColumns(),
+                        rows: getRows(),
+                      ),
+                    ),
                   ),
                 ),
               ],

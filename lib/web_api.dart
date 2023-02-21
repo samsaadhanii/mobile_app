@@ -14,6 +14,7 @@ class WebAPI with ChangeNotifier {
   static String ashtadhyayi_simulator =
       "$scl/ashtadhyayi_simulator/simulation.cgi?";
   static String dictionary = "$scl/MT/dict_help_json.cgi?word=";
+  static String sandhiAPI = "$scl/sandhi/sandhi_json.cgi?";
 
   // static Future<http.Response> nounGenRequest() async {
   //   var url = '$noun_gen rt=vana&gen=puM&jAwi=nA&level=1';
@@ -111,5 +112,20 @@ class WebAPI with ChangeNotifier {
       /// TODO:- check for empty string and post a snackBar message
     }
     return outputStr;
+  }
+
+  static Future<List> sandhiRequest({
+    String input1 = '',
+    String input2 = '',
+  }) async {
+    var url = '${sandhiAPI}word1=$input1&word2=$input2';
+    print('Sandhi req: $url');
+    http.Response resp = await http.get(Uri.parse(url));
+    List<dynamic> responseData = [];
+    if (resp.statusCode == 200) {
+      responseData = json.decode(utf8.decode(resp.bodyBytes));
+      // if (kDebugMode) print(responseData);
+    }
+    return responseData;
   }
 }

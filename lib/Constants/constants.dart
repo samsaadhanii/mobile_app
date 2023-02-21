@@ -129,4 +129,24 @@ Devanagari	Devanagari
     'samboXana',
     '',
   ];
+
+  static List<String> sandhiTableHeadings(String type) {
+    if (type == UNICODE_DEVANAGARI) {
+      return [
+        'प्रथमपदम्',
+        'द्वितीयपदम्',
+        'संहितपदम्',
+        'सन्धिः',
+        'सूत्रम्/वार्तिकम्',
+      ];
+    } else {
+      return [
+        'prathamapadam',
+        'dvitīyapadam',
+        'saṃhitapadam',
+        'sandhiḥ',
+        'sūtram/vārtikam',
+      ];
+    }
+  }
 }
