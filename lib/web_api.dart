@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 
 class WebAPI with ChangeNotifier {
   static String base = "http://scl.samsaadhanii.in";
-  static String CGI_BIN = "$base/cgi-bin";
+  static String base1 = "https://sanskrit.uohyd.ac.in";
+  static String CGI_BIN = "$base1/cgi-bin";
   static String scl = "$CGI_BIN/scl";
 
   // noun generator
-  static String noun_gen = "$scl/skt_gen/noun/noun_gen_json.cgi?";
+  static String noun_gen = "$scl/skt_gen/noun/noun_gen.cgi?";
   static String transliterator =
       "http://45.9.190.177/transliteration/trans.php";
   static String ashtadhyayi_simulator =
@@ -24,17 +25,22 @@ class WebAPI with ChangeNotifier {
   //   return response;
   // }
 
-  static Future<List> nounGenRequest(
-      {String inputString = '',
-      String gender = 'puM',
-      String category = 'nA'}) async {
-    var url = '${noun_gen}rt=$inputString&gen=$gender&jAwi=$category&level=1';
+  static Future<List> nounGenRequest({
+    String inputString = '',
+    String gender = 'puM',
+    String category = 'nA',
+    String inEncoding = 'WX',
+    String outEncoding = 'Unicode',
+  }) async {
+    var url =
+        '${noun_gen}rt=$inputString&gen=$gender&jAwi=$category&level=1&mode=json&encoding=$inEncoding&outencoding=$outEncoding';
     print('noun gen req: $url');
     http.Response resp = await http.get(Uri.parse(url));
     List<dynamic> responseData = [];
     if (resp.statusCode == 200) {
-      responseData = json.decode(utf8.decode(resp.bodyBytes));
       if (kDebugMode) print(responseData);
+      responseData = json.decode(utf8.decode(resp.bodyBytes));
+      // responseData = json.decode(resp.body);
     }
     return responseData;
   }
@@ -46,6 +52,7 @@ class WebAPI with ChangeNotifier {
   }) async {
     var body = jsonEncode({'text': input});
     var url = '$transliterator?src=$src&tar=$tar';
+    print('transLiterateWord url$url');
     http.Response resp = await http.post(Uri.parse(url), body: body);
     String outputStr = '';
     if (resp.statusCode == 200) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/Screens/noun_generator.dart';
+import 'package:mobile_app/Screens/noun_generator/noun_generator.dart';
 import 'package:mobile_app/Screens/sandhi.dart';
 
 import '../theme_data.dart';

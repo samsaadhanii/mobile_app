@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Constants/constants.dart';
-import '../web_api.dart';
+import '../../web_api.dart';
 import 'ashtadhyayi_simulator.dart';
 import 'dictionary.dart';
 
@@ -52,7 +52,7 @@ class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
                       );
                     });
                   },
-                  child: const Text('Dictionary'),
+                  child: Text(widget.inputWord),
                 ),
                 const SizedBox(
                   height: 10,

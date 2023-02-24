@@ -1,3 +1,5 @@
+typedef void MyFunction(int);
+
 class Const {
   static String UNICODE_DEVANAGARI = "Unicode-Devanagari";
   static String WX_ALPHABETIC = "WX-Alphabetic";
@@ -23,19 +25,19 @@ class Const {
   ];
   static String encodingAbbreviation(String type) {
     if (type == UNICODE_DEVANAGARI) {
-      return 'Devanagari';
+      return 'Unicode';
     } else if (type == WX_ALPHABETIC) {
       return 'WX';
     } else if (type == ITRANS_5_3) {
       return 'Itrans';
     } else if (type == KYOTO_HARVARD_KH) {
-      return 'HK';
+      return 'VH';
     } else if (type == SLP1) {
-      return 'SLP1';
+      return 'SLP';
     } else if (type == IAST_ROMAN_DIACRITIC) {
       return 'IAST';
     } else {
-      return 'Devanagari';
+      return 'Unicode';
     }
     /*
     * Roman (Harvard-Kyoto)	HK

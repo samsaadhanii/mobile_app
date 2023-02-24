@@ -1,8 +1,8 @@
-import 'package:mobile_app/Screens/noun_generator_output1.dart';
+import 'package:mobile_app/Screens/noun_generator/noun_generator_output1.dart';
 import 'package:mobile_app/web_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import '../Constants/constants.dart';
+import '../../Constants/constants.dart';
 
 class NounGenerator extends StatefulWidget {
   const NounGenerator({Key? key}) : super(key: key);
@@ -160,42 +160,30 @@ class _NounGeneratorState extends State<NounGenerator> {
                         setState(() {
                           _isLoading = true;
                         });
-                        WebAPI.transLiterateWord(
-                          input: inputController.text,
-                          src: Const.encodingAbbreviation(inputEncodingStr),
+                        WebAPI.nounGenRequest(
+                          inputString: inputController.text,
+                          inEncoding:
+                              Const.encodingAbbreviation(inputEncodingStr),
+                          outEncoding:
+                              Const.encodingAbbreviation(outputEncodingStr),
+                          gender: Const.genderAbbreviation(gender),
+                          category: Const.catAbbreviation(category),
                         ).then(
-                          (inputLiteral) => WebAPI.nounGenRequest(
-                            inputString: inputLiteral,
-                            gender: Const.genderAbbreviation(gender),
-                            category: Const.catAbbreviation(category),
-                          ).then(
-                            (dataList) {
-                              WebAPI.transLiterateData(
-                                      body: dataList,
-                                      tar: Const.encodingAbbreviation(
-                                          outputEncodingStr))
-                                  .then((value) {
-                                setState(
-                                  () {
-                                    Map curData = formatData(value);
-                                    _isLoading = false;
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            NounGeneratorOutput(
-                                          data: curData,
-                                          encoding: outputEncodingStr,
-                                          gender: gender,
-                                          inputWord: inputController.text,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              });
-                            },
-                          ),
+                          (dataList) {
+                            Map curData = formatData(dataList);
+                            _isLoading = false;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NounGeneratorOutput(
+                                  data: curData,
+                                  encoding: outputEncodingStr,
+                                  gender: gender,
+                                  inputWord: inputController.text,
+                                ),
+                              ),
+                            );
+                          },
                         );
                       },
                       child: const Text('रूपाणि दर्श्यताम्')),
