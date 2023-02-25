@@ -81,8 +81,8 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
       ),
       if (_isLoading)
         const Opacity(
-          opacity: 0.2,
-          child: ModalBarrier(dismissible: false, color: CupertinoColors.black),
+          opacity: 0.8,
+          child: ModalBarrier(dismissible: false, color: CupertinoColors.white),
         ),
       if (_isLoading)
         const Center(

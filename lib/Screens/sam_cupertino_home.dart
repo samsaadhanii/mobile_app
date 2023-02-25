@@ -1,36 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
+import '../widgets/app_logo.dart';
+
 class SamCupertinoHome extends StatelessWidget {
   const SamCupertinoHome({super.key, required this.title});
   final String title;
-  // This shows a CupertinoModalPopup which hosts a CupertinoActionSheet.
-  // void _showActionSheet(BuildContext context) {
-  //   showCupertinoModalPopup<void>(
-  //     context: context,
-  //     builder: (BuildContext context) => CupertinoActionSheet(
-  //       title: const Text('Saṃsādhanī Tools'),
-  //       // message: const Text('Message'),
-  //       actions: <CupertinoActionSheetAction>[
-  //         CupertinoActionSheetAction(
-  //           onPressed: () async {
-  //             await Future.delayed(const Duration(microseconds: 1));
-  //             Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     builder: (context) => const NounGenerator()));
-  //           },
-  //           child: const Text('Morphological Noun Generator'),
-  //         ),
-  //         CupertinoActionSheetAction(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: const Text('Sandhi'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -38,41 +12,37 @@ class SamCupertinoHome extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(middle: Text(title)),
       child: Column(children: <Widget>[
         const SizedBox(height: 100),
+        Container(
+          alignment: Alignment.center,
+          padding:
+              const EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
+          height: 150.00,
+          child: appLogo,
+        ),
+        const SizedBox(height: 30),
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(20.0),
           child: RichText(
             text: const TextSpan(
-              text: '   Saṃsādhanī is a computational platform developed '
-                  'at the Department of Sanskrit studies for Sanskrit language '
-                  'processing. \n\n'
-                  'It hosts several computational tools such as'
-                  ' morphological analyser, morphological generator, sandhi '
-                  'analysis and generation modules, and a dependency parser and'
-                  ' Sanskrit-Hindi Machine Translation system.',
+              text: ' Saṃsādhanī is a computational platform developed '
+                  'at the Department of Sanskrit Studies, University of Hyderabad for Sanskrit language '
+                  'processing. \n\n\n\n'
+                  '  It hosts the following Sanskrit computational tools:\n'
+                  ' - morphological analyser,\n'
+                  ' - morphological generator,\n'
+                  ' - sandhi analysis and generation modules,\n'
+                  ' - dependency parser and \n'
+                  ' - Sanskrit-Hindi Machine Translation system.',
               style: TextStyle(
                 color: CupertinoColors.black,
                 fontSize: 18,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w300,
                 fontStyle: FontStyle.normal,
-                fontFamily: 'oswald',
+                // fontFamily: 'iFont',
               ),
             ),
           ),
         ),
-        // Expanded(
-        //   child: Align(
-        //     alignment: Alignment.bottomCenter,
-        //     child: FittedBox(
-        //       child: CupertinoButton(
-        //         onPressed: () => _showActionSheet(context),
-        //         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        //         color: CupertinoColors.systemTeal,
-        //         child: const Text('                  Tools                  ',
-        //             style: TextStyle(fontSize: 24)),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ]),
     );
   }

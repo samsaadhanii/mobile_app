@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_app/Screens/sandhi/cupertino_sandhi.dart';
 import 'noun_generator/dummy.dart';
 
 class SamCupertinoTools extends StatefulWidget {
@@ -35,7 +36,15 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
             CupertinoListTile.notched(
               title: const Text('Sandhi'),
               trailing: const CupertinoListTileChevron(),
-              onTap: () {},
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoSandhi();
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),

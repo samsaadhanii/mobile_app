@@ -29,11 +29,11 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
         return CupertinoTabView(
           builder: (BuildContext context) {
             if (index == 0) {
-              return const SamCupertinoHome(title: 'Samsaadhanii');
+              return const SamCupertinoHome(title: 'Saṃsādhanī');
             } else if (index == 1) {
               return const SamCupertinoTools();
             } else {
-              return const SamCupertinoHome(title: 'Samsaadhanii');
+              return const SamCupertinoHome(title: 'Saṃsādhanī');
             }
           },
         );

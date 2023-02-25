@@ -124,8 +124,11 @@ class WebAPI with ChangeNotifier {
   static Future<List> sandhiRequest({
     String input1 = '',
     String input2 = '',
+    String inEncoding = 'WX',
+    String outEncoding = 'Unicode',
   }) async {
-    var url = '${sandhiAPI}word1=$input1&word2=$input2';
+    var url =
+        '${sandhiAPI}word1=$input1&word2=$input2&encoding=$inEncoding&outencoding=$outEncoding';
     print('Sandhi req: $url');
     http.Response resp = await http.get(Uri.parse(url));
     List<dynamic> responseData = [];

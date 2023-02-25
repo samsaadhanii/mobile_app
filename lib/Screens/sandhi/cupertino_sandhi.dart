@@ -1,29 +1,33 @@
 import 'package:flutter/cupertino.dart';
+
 import '../../Constants/constants.dart';
 import '../../web_api.dart';
-import 'cupertino_noun_gen_output1.dart';
+import 'cupertino_sandhi_output.dart';
 
 const double _kItemExtent = 32.0;
 
-class CupertinoNounGenerator extends StatefulWidget {
-  const CupertinoNounGenerator({Key? key}) : super(key: key);
+class CupertinoSandhi extends StatefulWidget {
+  const CupertinoSandhi({Key? key}) : super(key: key);
 
   @override
-  State<CupertinoNounGenerator> createState() => _CupertinoNounGeneratorState();
+  State<CupertinoSandhi> createState() => _CupertinoSandhiState();
 }
 
-class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
-  int _selectedIE = 0;
-  int _selectedOE = 0;
-  int _category = 0;
-  int _gender = 0;
-  final TextEditingController _inputTextController = TextEditingController();
+class _CupertinoSandhiState extends State<CupertinoSandhi> {
+  TextEditingController firstInputController = TextEditingController();
+  TextEditingController secondInputController = TextEditingController();
   bool _isLoading = false;
+  String inputStr1 = '';
+  String inputStr2 = '';
+  String inputEncodingStr = Const.inputEncodingList[0];
+  String outputEncodingStr = Const.outputEncodingList[0];
+  bool transliterated = false;
 
   @override
   void initState() {
+    firstInputController.text = 'लक्ष्मीवान्';
+    secondInputController.text = 'शुभलक्षणः';
     super.initState();
-    _inputTextController.text = 'राम';
   }
 
   void _showDialog(Widget child) {
@@ -51,7 +55,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
     return Stack(children: [
       CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Noun Generator'),
+          middle: Text('Sandhi'),
         ),
         child: body(),
       ),
@@ -75,21 +79,21 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
           const SizedBox(height: 10),
           cDropDown(
               text1: 'Input encoding: ',
-              selected: _selectedIE,
+              selected: inputEncodingStr,
               ddList: Const.inputEncodingList,
               onChange: (value) {
                 setState(() {
-                  _selectedIE = value!;
+                  inputEncodingStr = Const.inputEncodingList[value!];
                 });
               }),
           const SizedBox(height: 5),
           cDropDown(
               text1: 'Output encoding: ',
-              selected: _selectedOE,
+              selected: outputEncodingStr,
               ddList: Const.outputEncodingList,
               onChange: (value) {
                 setState(() {
-                  _selectedOE = value!;
+                  outputEncodingStr = Const.outputEncodingList[value!];
                 });
               }),
           const SizedBox(height: 5),
@@ -98,77 +102,68 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
               const SizedBox(width: 10),
               const SizedBox(
                 width: 130,
-                child: Text('प्रातिपदिकम्/Prātipadikam:'),
+                child: Text('First Word'),
               ),
               Container(
                 width: 215,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
-                  controller: _inputTextController,
-                  placeholder: 'प्रातिपदिकम्/Prātipadikam',
+                  controller: firstInputController,
+                  placeholder: 'First Word',
                   padding: const EdgeInsets.all(15.0),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 5),
-          cDropDown(
-              text1: 'Category: ',
-              selected: _category,
-              ddList: Const.categoryList,
-              onChange: (value) {
-                setState(() {
-                  _category = value!;
-                });
-              }),
-          const SizedBox(height: 5),
-          cDropDown(
-              text1: 'Gender: ',
-              selected: _gender,
-              ddList: Const.genderList,
-              onChange: (value) {
-                setState(() {
-                  _gender = value!;
-                });
-              }),
+          Row(
+            children: [
+              const SizedBox(width: 10),
+              const SizedBox(
+                width: 130,
+                child: Text('Second Word'),
+              ),
+              Container(
+                width: 215,
+                padding: const EdgeInsets.all(8.0),
+                // alignment: Alignment.centerRight,
+                child: CupertinoTextField(
+                  controller: secondInputController,
+                  placeholder: 'Second Word',
+                  padding: const EdgeInsets.all(15.0),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 30),
           CupertinoButton.filled(
             onPressed: () {
               setState(() {
                 _isLoading = true;
               });
-              String inputStr = _inputTextController.text;
-              String inputEncodingStr = Const.encodingAbbreviation(
-                  Const.inputEncodingList[_selectedIE]);
-              String outputEncodingStr = Const.encodingAbbreviation(
-                  Const.outputEncodingList[_selectedOE]);
-              String gender =
-                  Const.genderAbbreviation(Const.genderList[_gender]);
-              String category =
-                  Const.catAbbreviation(Const.categoryList[_category]);
+              String inputStr1 = firstInputController.text;
+              String inputStr2 = secondInputController.text;
+              String inEnStr = Const.encodingAbbreviation(inputEncodingStr);
+              String outEnStr = Const.encodingAbbreviation(outputEncodingStr);
 
-              WebAPI.nounGenRequest(
-                inputString: inputStr,
-                gender: gender,
-                category: category,
-                inEncoding: inputEncodingStr,
-                outEncoding: outputEncodingStr,
+              WebAPI.sandhiRequest(
+                input1: inputStr1,
+                input2: inputStr2,
+                inEncoding: inEnStr,
+                outEncoding: outEnStr,
               ).then(
                 (dataList) {
                   setState(
                     () {
-                      Map curData = formatData(dataList);
                       _isLoading = false;
                       Future.delayed(Duration.zero, () {
                         Navigator.of(context).push(
                           CupertinoPageRoute(
                             builder: (BuildContext context) {
-                              return CupertinoNGOutput(
-                                data: curData,
-                                encoding: inputEncodingStr,
-                                gender: gender,
-                                inputWord: inputStr,
+                              return CupertinoSandhiOutput(
+                                data: dataList,
+                                encoding: outputEncodingStr,
                               );
                             },
                           ),
@@ -179,7 +174,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 },
               );
             },
-            child: const Text('रूपाणि दर्श्यताम्'),
+            child: const Text('Submit'),
           ),
         ],
       ),
@@ -188,9 +183,9 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
 
   Center cDropDown(
       {required String text1,
-      required int selected,
+      required String selected,
       required List ddList,
-      required MyFunction onChange}) {
+      required MyFunction2 onChange}) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -237,7 +232,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 ),
                 // This displays the selected fruit name.
                 child: Text(
-                  ddList[selected],
+                  selected,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 16.0,
@@ -249,37 +244,5 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
         ),
       ),
     );
-  }
-
-  /// formatting WX to IAST displayable format
-  Map formatData(List data) {
-    Map<String, List<String>> curData = <String, List<String>>{};
-    List<String> vacanam = [];
-    for (var element in data) {
-      if (element['vib'] != null) {
-        curData.putIfAbsent(element['vib'], () => [element['vib'], '', '', '']);
-      }
-      if (element['vac'] != null) {
-        if (!vacanam.contains(element['vac'])) vacanam.add(element['vac']);
-      }
-    }
-    // curData.forEach((key, value) {
-    //   print(value);
-    // });
-    for (var element in data) {
-      // print(element['vib']);
-      String key = element['vib'];
-      if (curData.containsKey(key)) {
-        if (element['vac'].toString().contains(vacanam[0])) {
-          curData[key]![1] = element['form'];
-        } else if (element['vac'].toString().contains(vacanam[1])) {
-          curData[key]![2] = element['form'];
-        } else if (element['vac'].toString().contains(vacanam[2])) {
-          curData[key]![3] = element['form'];
-        }
-        // print(curData[key]);
-      }
-    }
-    return curData;
   }
 }

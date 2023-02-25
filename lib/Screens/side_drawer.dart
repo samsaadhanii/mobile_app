@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/noun_generator/noun_generator.dart';
-import 'package:mobile_app/Screens/sandhi.dart';
+import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 
 import '../theme_data.dart';
+import '../widgets/app_logo.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -76,11 +77,3 @@ class _SideDrawerState extends State<SideDrawer> {
     );
   }
 }
-
-Image appLogo = const Image(
-  image: ExactAssetImage("assets/images/samsadhani3.jpg"),
-  // height: 150,
-  //width: 200.0,
-  alignment: FractionalOffset.center,
-  fit: BoxFit.fitHeight,
-);

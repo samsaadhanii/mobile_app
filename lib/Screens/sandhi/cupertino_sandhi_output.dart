@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Constants/constants.dart';
+import '../../Constants/constants.dart';
 
-class SandhiOutput extends StatefulWidget {
-  const SandhiOutput({
+class CupertinoSandhiOutput extends StatefulWidget {
+  const CupertinoSandhiOutput({
     Key? key,
     required this.data,
     required this.encoding,
@@ -12,49 +13,39 @@ class SandhiOutput extends StatefulWidget {
   final String encoding;
 
   @override
-  State<SandhiOutput> createState() => _SandhiOutputState();
+  State<CupertinoSandhiOutput> createState() => _CupertinoSandhiOutputState();
 }
 
-class _SandhiOutputState extends State<SandhiOutput> {
-  final bool _isLoading = false;
+class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          appBar: AppBar(
-            title: const Text('Output'),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FittedBox(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  DataTable(
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Output'),
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Center(
+                  child: DataTable(
                     horizontalMargin: 10,
-                    columnSpacing: 20,
+                    columnSpacing: 10,
                     border: TableBorder.all(),
                     columns: getColumns(),
                     rows: getRows(),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
-        if (_isLoading)
-          const Opacity(
-            opacity: 0.2,
-            child: ModalBarrier(dismissible: false, color: Colors.black),
-          ),
-        if (_isLoading)
-          const Center(
-            child: CircularProgressIndicator(),
-          ),
-      ],
+      ),
     );
   }
 

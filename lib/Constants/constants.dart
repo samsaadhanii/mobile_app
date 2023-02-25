@@ -1,4 +1,5 @@
 typedef void MyFunction(int);
+typedef void MyFunction2(String);
 
 class Const {
   static String UNICODE_DEVANAGARI = "Unicode-Devanagari";

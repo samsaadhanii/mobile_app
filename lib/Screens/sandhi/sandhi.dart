@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:mobile_app/Screens/sandhi_output.dart';
+import 'package:mobile_app/Screens/sandhi/sandhi_output.dart';
 
-import '../Constants/constants.dart';
-import '../web_api.dart';
+import '../../Constants/constants.dart';
+import '../../web_api.dart';
 
 class Sandhi extends StatefulWidget {
   const Sandhi({Key? key}) : super(key: key);
@@ -192,36 +192,4 @@ class _SandhiState extends State<Sandhi> {
       ],
     );
   }
-  //
-  // /// formatting WX to IAST displayable format
-  // Map formatData(List data) {
-  //   Map<String, List<String>> curData = <String, List<String>>{};
-  //   List<String> vacanam = [];
-  //   for (var element in data) {
-  //     if (element['vib'] != null) {
-  //       curData.putIfAbsent(element['vib'], () => [element['vib'], '', '', '']);
-  //     }
-  //     if (element['vac'] != null) {
-  //       if (!vacanam.contains(element['vac'])) vacanam.add(element['vac']);
-  //     }
-  //   }
-  //   // curData.forEach((key, value) {
-  //   //   print(value);
-  //   // });
-  //   for (var element in data) {
-  //     // print(element['vib']);
-  //     String key = element['vib'];
-  //     if (curData.containsKey(key)) {
-  //       if (element['vac'].toString().contains(vacanam[0])) {
-  //         curData[key]![1] = element['form'];
-  //       } else if (element['vac'].toString().contains(vacanam[1])) {
-  //         curData[key]![2] = element['form'];
-  //       } else if (element['vac'].toString().contains(vacanam[2])) {
-  //         curData[key]![3] = element['form'];
-  //       }
-  //       // print(curData[key]);
-  //     }
-  //   }
-  //   return curData;
-  // }
 }

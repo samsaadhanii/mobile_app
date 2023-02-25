@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/theme_data.dart';
-import 'Screens/home_page.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
@@ -15,13 +14,7 @@ class Samsaadhanii extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('themeBlue: ${ThemeBlueWhite.themeBlue}');
-    return ThemeBlueWhite.theApp('Samsaadhanii');
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(title: 'Samsaadhanii'),
-    );
+    return ThemeBlueWhite.theApp('Saṃsādhanī');
   }
 }
 
