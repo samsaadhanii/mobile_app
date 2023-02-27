@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Constants/constants.dart';
 import '../../web_api.dart';
+import '../cupertino_data_not_found.dart';
 import 'cupertino_ashtadhyayi_sim.dart';
 import 'cupertino_dictionary.dart';
 
@@ -140,15 +141,26 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
           setState(() {
             _isLoading = false;
           });
-
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => CupertinoAshtadhyayiSimulator(
-                content: value,
-              ),
-            ),
-          );
+          Future.delayed(Duration.zero, () {
+            if (value.isEmpty) {
+              Navigator.of(context).push(
+                CupertinoPageRoute(
+                  builder: (BuildContext context) {
+                    return const CupertinoDataNotFound();
+                  },
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => CupertinoAshtadhyayiSimulator(
+                    content: value,
+                  ),
+                ),
+              );
+            }
+          });
         });
       },
       child: Text(text),

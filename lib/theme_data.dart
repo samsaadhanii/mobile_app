@@ -21,7 +21,7 @@ class ThemeBlueWhite {
         debugShowCheckedModeBanner: false,
         title: title1,
         theme: const CupertinoThemeData(brightness: Brightness.light),
-        home: SamCupertinoTab(),
+        home: const SamCupertinoTab(),
         // home: CupertinoPageScaffold(
         //   navigationBar: CupertinoNavigationBar(
         //     middle: Text(title1),

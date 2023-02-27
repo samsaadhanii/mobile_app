@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import '../../Constants/constants.dart';
 import '../../web_api.dart';
+import '../cupertino_data_not_found.dart';
 import 'cupertino_noun_gen_output1.dart';
 
 const double _kItemExtent = 32.0;
@@ -158,22 +159,34 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 (dataList) {
                   setState(
                     () {
-                      Map curData = formatData(dataList);
                       _isLoading = false;
-                      Future.delayed(Duration.zero, () {
-                        Navigator.of(context).push(
-                          CupertinoPageRoute(
-                            builder: (BuildContext context) {
-                              return CupertinoNGOutput(
-                                data: curData,
-                                encoding: inputEncodingStr,
-                                gender: gender,
-                                inputWord: inputStr,
-                              );
-                            },
-                          ),
-                        );
-                      });
+                      if (dataList.isEmpty) {
+                        Future.delayed(Duration.zero, () {
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (BuildContext context) {
+                                return const CupertinoDataNotFound();
+                              },
+                            ),
+                          );
+                        });
+                      } else {
+                        Map curData = formatData(dataList);
+                        Future.delayed(Duration.zero, () {
+                          Navigator.of(context).push(
+                            CupertinoPageRoute(
+                              builder: (BuildContext context) {
+                                return CupertinoNGOutput(
+                                  data: curData,
+                                  encoding: inputEncodingStr,
+                                  gender: gender,
+                                  inputWord: inputStr,
+                                );
+                              },
+                            ),
+                          );
+                        });
+                      }
                     },
                   );
                 },

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class WebAPI with ChangeNotifier {
   static String base = "http://scl.samsaadhanii.in";
   static String base1 = "https://sanskrit.uohyd.ac.in";
-  static String CGI_BIN = "$base1/cgi-bin";
+  static String CGI_BIN = "$base/cgi-bin";
   static String scl = "$CGI_BIN/scl";
 
   // noun generator
@@ -35,13 +35,16 @@ class WebAPI with ChangeNotifier {
     var url =
         '${noun_gen}rt=$inputString&gen=$gender&jAwi=$category&level=1&mode=json&encoding=$inEncoding&outencoding=$outEncoding';
     print('noun gen req: $url');
-    http.Response resp = await http.get(Uri.parse(url));
     List<dynamic> responseData = [];
-    if (resp.statusCode == 200) {
-      if (kDebugMode) print(responseData);
-      responseData = json.decode(utf8.decode(resp.bodyBytes));
-      // responseData = json.decode(resp.body);
-    }
+
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        if (kDebugMode) print(responseData);
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
+        // responseData = json.decode(resp.body);
+      }
+    } catch (e) {}
     return responseData;
   }
 
@@ -94,15 +97,18 @@ class WebAPI with ChangeNotifier {
     var url =
         '${ashtadhyayi_simulator}encoding=$encoding&praatipadika=$inputWrod&vibhakti=$vibhakti&linga=$linga&vacana=$vacana';
     print(url);
-    http.Response resp = await http.get(Uri.parse(url));
     String outputStr = '';
-    if (resp.statusCode == 200) {
-      final responseData = (utf8.decode(resp.bodyBytes));
-      if (kDebugMode) print('Simulation data: $responseData');
-      outputStr = responseData;
 
-      /// TODO:- check for empty string and post a snackBar message
-    }
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        final responseData = (utf8.decode(resp.bodyBytes));
+        if (kDebugMode) print('Simulation data: $responseData');
+        outputStr = responseData;
+
+        /// TODO:- check for empty string and post a snackBar message
+      }
+    } catch (e) {}
     return outputStr;
   }
 
@@ -130,12 +136,15 @@ class WebAPI with ChangeNotifier {
     var url =
         '${sandhiAPI}word1=$input1&word2=$input2&encoding=$inEncoding&outencoding=$outEncoding';
     print('Sandhi req: $url');
-    http.Response resp = await http.get(Uri.parse(url));
     List<dynamic> responseData = [];
-    if (resp.statusCode == 200) {
-      responseData = json.decode(utf8.decode(resp.bodyBytes));
-      // if (kDebugMode) print(responseData);
-    }
+
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
+        // if (kDebugMode) print(responseData);
+      }
+    } catch (e) {}
     return responseData;
   }
 }

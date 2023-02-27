@@ -3,6 +3,7 @@ import 'package:mobile_app/web_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../../Constants/constants.dart';
+import '../data_not_found.dart';
 
 class NounGenerator extends StatefulWidget {
   const NounGenerator({Key? key}) : super(key: key);
@@ -170,19 +171,28 @@ class _NounGeneratorState extends State<NounGenerator> {
                           category: Const.catAbbreviation(category),
                         ).then(
                           (dataList) {
-                            Map curData = formatData(dataList);
                             _isLoading = false;
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NounGeneratorOutput(
-                                  data: curData,
-                                  encoding: outputEncodingStr,
-                                  gender: gender,
-                                  inputWord: inputController.text,
+                            if (dataList.isEmpty) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const DataNotFound(),
                                 ),
-                              ),
-                            );
+                              );
+                            } else {
+                              Map curData = formatData(dataList);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NounGeneratorOutput(
+                                    data: curData,
+                                    encoding: outputEncodingStr,
+                                    gender: gender,
+                                    inputWord: inputController.text,
+                                  ),
+                                ),
+                              );
+                            }
                           },
                         );
                       },
