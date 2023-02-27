@@ -14,17 +14,18 @@ class CupertinoNounGenerator extends StatefulWidget {
 }
 
 class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
-  int _selectedIE = 0;
-  int _selectedOE = 0;
-  int _category = 0;
-  int _gender = 0;
-  final TextEditingController _inputTextController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
   bool _isLoading = false;
+  String inputStr = '';
+  String inputEncodingStr = Const.inputEncodingList[0];
+  String outputEncodingStr = Const.outputEncodingList[0];
+  String gender = Const.genderList[0];
+  String category = Const.categoryList[0];
 
   @override
   void initState() {
     super.initState();
-    _inputTextController.text = 'राम';
+    inputController.text = 'राम';
   }
 
   void _showDialog(Widget child) {
@@ -76,21 +77,21 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
           const SizedBox(height: 10),
           cDropDown(
               text1: 'Input encoding: ',
-              selected: _selectedIE,
+              selected: inputEncodingStr,
               ddList: Const.inputEncodingList,
               onChange: (value) {
                 setState(() {
-                  _selectedIE = value!;
+                  inputEncodingStr = Const.inputEncodingList[value!];
                 });
               }),
           const SizedBox(height: 5),
           cDropDown(
               text1: 'Output encoding: ',
-              selected: _selectedOE,
+              selected: outputEncodingStr,
               ddList: Const.outputEncodingList,
               onChange: (value) {
                 setState(() {
-                  _selectedOE = value!;
+                  outputEncodingStr = Const.outputEncodingList[value!];
                 });
               }),
           const SizedBox(height: 5),
@@ -106,7 +107,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
-                  controller: _inputTextController,
+                  controller: inputController,
                   placeholder: 'प्रातिपदिकम्/Prātipadikam',
                   padding: const EdgeInsets.all(15.0),
                 ),
@@ -116,21 +117,21 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
           const SizedBox(height: 5),
           cDropDown(
               text1: 'Category: ',
-              selected: _category,
+              selected: category,
               ddList: Const.categoryList,
               onChange: (value) {
                 setState(() {
-                  _category = value!;
+                  category = Const.categoryList[value!];
                 });
               }),
           const SizedBox(height: 5),
           cDropDown(
               text1: 'Gender: ',
-              selected: _gender,
+              selected: gender,
               ddList: Const.genderList,
               onChange: (value) {
                 setState(() {
-                  _gender = value!;
+                  gender = Const.genderList[value!];
                 });
               }),
           const SizedBox(height: 30),
@@ -139,22 +140,18 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
               setState(() {
                 _isLoading = true;
               });
-              String inputStr = _inputTextController.text;
-              String inputEncodingStr = Const.encodingAbbreviation(
-                  Const.inputEncodingList[_selectedIE]);
-              String outputEncodingStr = Const.encodingAbbreviation(
-                  Const.outputEncodingList[_selectedOE]);
-              String gender =
-                  Const.genderAbbreviation(Const.genderList[_gender]);
-              String category =
-                  Const.catAbbreviation(Const.categoryList[_category]);
+              String inputStr = inputController.text;
+              String inEnStr = Const.encodingAbbreviation(inputEncodingStr);
+              String outEnStr = Const.encodingAbbreviation(outputEncodingStr);
+              String gen = Const.genderAbbreviation(gender);
+              String cate = Const.catAbbreviation(category);
 
               WebAPI.nounGenRequest(
                 inputString: inputStr,
-                gender: gender,
-                category: category,
-                inEncoding: inputEncodingStr,
-                outEncoding: outputEncodingStr,
+                gender: gen,
+                category: cate,
+                inEncoding: inEnStr,
+                outEncoding: outEnStr,
               ).then(
                 (dataList) {
                   setState(
@@ -180,7 +177,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                               builder: (BuildContext context) {
                                 return CupertinoNGOutput(
                                   data: curData,
-                                  encoding: inputEncodingStr,
+                                  encoding: outputEncodingStr,
                                   gender: gender,
                                   inputWord: inputStr,
                                 );
@@ -203,9 +200,9 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
 
   Center cDropDown(
       {required String text1,
-      required int selected,
+      required String selected,
       required List ddList,
-      required MyFunction onChange}) {
+      required MyFunction2 onChange}) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -252,7 +249,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 ),
                 // This displays the selected fruit name.
                 child: Text(
-                  ddList[selected],
+                  selected,
                   style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 16.0,
