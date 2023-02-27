@@ -171,7 +171,9 @@ class _NounGeneratorState extends State<NounGenerator> {
                           category: Const.catAbbreviation(category),
                         ).then(
                           (dataList) {
-                            _isLoading = false;
+                            setState(() {
+                              _isLoading = false;
+                            });
                             if (dataList.isEmpty) {
                               Navigator.push(
                                 context,

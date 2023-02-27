@@ -159,7 +159,9 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
                 (dataList) {
                   setState(
                     () {
-                      _isLoading = false;
+                      setState(() {
+                        _isLoading = false;
+                      });
                       if (dataList.isEmpty) {
                         Future.delayed(Duration.zero, () {
                           Navigator.of(context).push(
