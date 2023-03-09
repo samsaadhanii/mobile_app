@@ -42,6 +42,35 @@ class _SandhiState extends State<Sandhi> {
               children: [
                 const SizedBox(height: 20),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: const StadiumBorder()),
+                      child: const Text('Basic'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          shape: const StadiumBorder()),
+                      child: const Text('Intermediate'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          shape: const StadiumBorder()),
+                      child: const Text('Advanced'),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
                 ///Input Encoder
                 Container(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
@@ -139,8 +168,10 @@ class _SandhiState extends State<Sandhi> {
                         });
                         String inputStr1 = firstInputController.text;
                         String inputStr2 = secondInputController.text;
-                        String inEnStr = Const.encodingAbbreviation(inputEncodingStr);
-                        String outEnStr = Const.encodingAbbreviation(outputEncodingStr);
+                        String inEnStr =
+                            Const.encodingAbbreviation(inputEncodingStr);
+                        String outEnStr =
+                            Const.encodingAbbreviation(outputEncodingStr);
 
                         WebAPI.sandhiRequest(
                           input1: inputStr1,
