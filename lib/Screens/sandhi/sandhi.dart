@@ -137,37 +137,27 @@ class _SandhiState extends State<Sandhi> {
                         setState(() {
                           _isLoading = true;
                         });
-                        WebAPI.transLiterateWord(
-                          input: firstInputController.text,
-                          src: Const.encodingAbbreviation(inputEncodingStr),
-                        ).then((inputLiteral) {
-                          inputStr1 = inputLiteral;
-                          WebAPI.transLiterateWord(
-                            input: secondInputController.text,
-                            src: Const.encodingAbbreviation(inputEncodingStr),
-                          ).then((inputLiteral) {
-                            inputStr2 = inputLiteral;
-                            WebAPI.sandhiRequest(
-                                    input1: inputStr1, input2: inputStr2)
-                                .then((dataList) {
-                              WebAPI.transLiterateData(
-                                      body: dataList,
-                                      tar: Const.encodingAbbreviation(
-                                          outputEncodingStr))
-                                  .then((value) {
-                                setState(() {
-                                  _isLoading = false;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SandhiOutput(
-                                          data: value,
-                                          encoding: outputEncodingStr),
-                                    ),
-                                  );
-                                });
-                              });
-                            });
+                        String inputStr1 = firstInputController.text;
+                        String inputStr2 = secondInputController.text;
+                        String inEnStr = Const.encodingAbbreviation(inputEncodingStr);
+                        String outEnStr = Const.encodingAbbreviation(outputEncodingStr);
+
+                        WebAPI.sandhiRequest(
+                          input1: inputStr1,
+                          input2: inputStr2,
+                          inEncoding: inEnStr,
+                          outEncoding: outEnStr,
+                        ).then((dataList) {
+                          setState(() {
+                            _isLoading = false;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SandhiOutput(
+                                    data: dataList,
+                                    encoding: outputEncodingStr),
+                              ),
+                            );
                           });
                         });
                       },

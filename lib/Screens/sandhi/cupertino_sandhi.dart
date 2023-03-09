@@ -97,6 +97,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
                 });
               }),
           const SizedBox(height: 5),
+          /// Input 1
           Row(
             children: [
               const SizedBox(width: 10),
@@ -117,6 +118,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
             ],
           ),
           const SizedBox(height: 5),
+          /// Input 2
           Row(
             children: [
               const SizedBox(width: 10),
