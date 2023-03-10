@@ -24,6 +24,7 @@ class Const {
     IAST_ROMAN_DIACRITIC,
     UNICODE_DEVANAGARI,
   ];
+
   static String encodingAbbreviation(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return 'Unicode';
@@ -98,6 +99,7 @@ Devanagari	Devanagari
     GEN_FEMININE,
     GEN_FOR,
   ];
+
   static String genderAbbreviation(String type) {
     if (type == GEN_MASC) {
       return 'puM';
@@ -109,17 +111,19 @@ Devanagari	Devanagari
       return 'a';
     }
   }
+
   static String genderName(String type, String encode) {
-    if(encode == UNICODE_DEVANAGARI){
-    if (type == GEN_MASC) {
-      return 'पुं';
-    } else if (type == GEN_NEUTER) {
-      return 'नपुंसक';
-    } else if (type == GEN_FEMININE) {
-      return 'स्त्री';
+    if (encode == UNICODE_DEVANAGARI) {
+      if (type == GEN_MASC) {
+        return 'पुं';
+      } else if (type == GEN_NEUTER) {
+        return 'नपुंसक';
+      } else if (type == GEN_FEMININE) {
+        return 'स्त्री';
+      } else {
+        return 'अ';
+      }
     } else {
-      return 'अ';
-    }}else{
       if (type == GEN_MASC) {
         return 'puM';
       } else if (type == GEN_NEUTER) {
@@ -128,7 +132,8 @@ Devanagari	Devanagari
         return 'strī';
       } else {
         return 'a';
-      }}
+      }
+    }
   }
 
   static List<String> vibList_IAST = [
@@ -173,6 +178,20 @@ Devanagari	Devanagari
       ];
     }
   }
+
+  static String SENTENCE = "Sentence";
+  static String WORD = "Word";
+
+  static List<String> textTypeList = [SENTENCE, WORD];
+
+  static String textTypeAbbreviation(String type) {
+    if (type == SENTENCE) {
+      return 'sentence';
+    } else {
+      return 'word';
+    }
+  }
+
 }
 
 enum LearnerLevel { basic, intermediate, advanced }
