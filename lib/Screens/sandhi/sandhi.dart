@@ -21,6 +21,7 @@ class _SandhiState extends State<Sandhi> {
   String inputEncodingStr = Const.inputEncodingList[0];
   String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
+  LearnerLevel _lType = LearnerLevel.basic;
 
   @override
   void initState() {
@@ -42,31 +43,41 @@ class _SandhiState extends State<Sandhi> {
               children: [
                 const SizedBox(height: 20),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          shape: const StadiumBorder()),
-                      child: const Text('Basic'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          shape: const StadiumBorder()),
-                      child: const Text('Intermediate'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          shape: const StadiumBorder()),
-                      child: const Text('Advanced'),
-                    ),
-                  ],
+                ListTile(
+                  title: const Text('Basic'),
+                  leading: Radio<LearnerLevel>(
+                    value: LearnerLevel.basic,
+                    groupValue: _lType,
+                    onChanged: (LearnerLevel? value) {
+                      setState(() {
+                        _lType = value!;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Intermediate'),
+                  leading: Radio<LearnerLevel>(
+                    value: LearnerLevel.intermediate,
+                    groupValue: _lType,
+                    onChanged: (LearnerLevel? value) {
+                      setState(() {
+                        _lType = value!;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Advanced'),
+                  leading: Radio<LearnerLevel>(
+                    value: LearnerLevel.advanced,
+                    groupValue: _lType,
+                    onChanged: (LearnerLevel? value) {
+                      setState(() {
+                        _lType = value!;
+                      });
+                    },
+                  ),
                 ),
 
                 const SizedBox(height: 20),

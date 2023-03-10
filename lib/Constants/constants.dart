@@ -174,3 +174,5 @@ Devanagari	Devanagari
     }
   }
 }
+
+enum LearnerLevel { basic, intermediate, advanced }
