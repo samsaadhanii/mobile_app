@@ -23,6 +23,14 @@ class NounGeneratorOutput extends StatefulWidget {
 
 class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
   bool _isLoading = false;
+  String dickWord = '';
+
+  @override
+  void initState() {
+    dickWord =
+        '${widget.inputWord} (${Const.genderName(widget.gender, widget.encoding)})';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +60,7 @@ class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
                       );
                     });
                   },
-                  child: Text(widget.inputWord),
+                  child: Text(dickWord),
                 ),
                 const SizedBox(
                   height: 10,

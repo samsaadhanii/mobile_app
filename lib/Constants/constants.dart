@@ -109,6 +109,27 @@ Devanagari	Devanagari
       return 'a';
     }
   }
+  static String genderName(String type, String encode) {
+    if(encode == UNICODE_DEVANAGARI){
+    if (type == GEN_MASC) {
+      return 'पुं';
+    } else if (type == GEN_NEUTER) {
+      return 'नपुंसक';
+    } else if (type == GEN_FEMININE) {
+      return 'स्त्री';
+    } else {
+      return 'अ';
+    }}else{
+      if (type == GEN_MASC) {
+        return 'puM';
+      } else if (type == GEN_NEUTER) {
+        return 'napuṃsaka';
+      } else if (type == GEN_FEMININE) {
+        return 'strī';
+      } else {
+        return 'a';
+      }}
+  }
 
   static List<String> vibList_IAST = [
     'prathamā',
