@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/noun_generator/noun_generator.dart';
 import 'package:mobile_app/Screens/sandhi/sandhi.dart';
-
-import '../theme_data.dart';
+import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import '../widgets/app_logo.dart';
 
 class SideDrawer extends StatefulWidget {
@@ -32,14 +31,18 @@ class _SideDrawerState extends State<SideDrawer> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Sandhi()));
           }),
-          Switch(
-            value: ThemeBlueWhite.themeBlue,
-            onChanged: (value) {
-              setState(() {
-                ThemeBlueWhite.themeBlue = value;
-              });
-            },
-          ),
+          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi Splitter', () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const SandhiSplitter()));
+          }),
+          // Switch(
+          //   value: ThemeBlueWhite.themeBlue,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       ThemeBlueWhite.themeBlue = value;
+          //     });
+          //   },
+          // ),
         ],
       ),
     );
