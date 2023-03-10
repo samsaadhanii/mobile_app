@@ -27,8 +27,10 @@ class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
 
   @override
   void initState() {
-    dickWord =
-        '${widget.inputWord} (${Const.genderName(widget.gender, widget.encoding)})';
+    dickWord = '${widget.inputWord} (${Const.genderName(
+      widget.gender,
+      widget.encoding,
+    )})';
     super.initState();
   }
 

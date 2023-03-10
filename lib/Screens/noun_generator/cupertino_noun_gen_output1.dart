@@ -26,6 +26,18 @@ class CupertinoNGOutput extends StatefulWidget {
 
 class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
   bool _isLoading = false;
+  String dickWord = '';
+
+  @override
+  void initState() {
+    dickWord = '${widget.inputWord} (${Const.genderName(
+      widget.gender,
+      widget.encoding,
+    )})';
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -56,7 +68,7 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                       );
                     });
                   },
-                  child: Text(widget.inputWord),
+                  child: Text(dickWord),
                 ),
                 const SizedBox(
                   height: 10,
