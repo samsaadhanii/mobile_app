@@ -196,8 +196,10 @@ class _SandhiState extends State<Sandhi> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SandhiOutput(
-                                    data: dataList,
-                                    encoding: outputEncodingStr),
+                                  data: dataList,
+                                  encoding: outputEncodingStr,
+                                  lType: _lType,
+                                ),
                               ),
                             );
                           });
