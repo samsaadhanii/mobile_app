@@ -18,7 +18,26 @@ class SandhiOutput extends StatefulWidget {
 }
 
 class _SandhiOutputState extends State<SandhiOutput> {
-  final bool _isLoading = false;
+  bool _isLoading = false, _isInit = true;
+  double w = 0, h = 0, t= 0, s = 0;
+
+  @override
+  void didChangeDependencies() {
+    if(_isInit) {
+      _isInit = false;
+      w = MediaQuery
+          .of(context)
+          .size
+          .width;
+      h = w / 2;
+      t = h / 3;
+      if (widget.lType == LearnerLevel.intermediate ||
+          widget.lType == LearnerLevel.advanced) t = w / 7;
+      s = h / 2;
+    }
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -87,10 +106,6 @@ class _SandhiOutputState extends State<SandhiOutput> {
   }
 
   List<DataRow> getRows() {
-    double w = MediaQuery.of(context).size.width;
-    double half = w / 2;
-    double t = half / 3;
-    double s = half / 2;
     List<DataRow> l = [];
     for (var element in widget.data) {
       l.add(DataRow(cells: [
@@ -115,14 +130,14 @@ class _SandhiOutputState extends State<SandhiOutput> {
         if (widget.lType == LearnerLevel.intermediate ||
             widget.lType == LearnerLevel.advanced)
           DataCell(SizedBox(
-              width: s,
+              width: t,
               child: Text(
                 element['sanXiH'],
                 softWrap: true,
               ))),
         if (widget.lType == LearnerLevel.advanced)
           DataCell(SizedBox(
-              width: s, child: Text(element['sUwram'], softWrap: true))),
+              width: t, child: Text(element['sUwram'], softWrap: true))),
       ]));
     }
     return l;
@@ -136,11 +151,6 @@ class _SandhiOutputState extends State<SandhiOutput> {
   }
 
   List<DataColumn> getColumns() {
-    double w = MediaQuery.of(context).size.width;
-    double half = w / 2;
-    double t = half / 3;
-    double s = half / 2;
-    print(w);
     List<String> h = Const.sandhiTableHeadings(widget.encoding);
     return <DataColumn>[
       DataColumn(label: SizedBox(width: t, child: Text(h[0], softWrap: true))),
@@ -149,10 +159,10 @@ class _SandhiOutputState extends State<SandhiOutput> {
       if (widget.lType == LearnerLevel.intermediate ||
           widget.lType == LearnerLevel.advanced)
         DataColumn(
-            label: SizedBox(width: s, child: Text(h[3], softWrap: true))),
+            label: SizedBox(width: t, child: Text(h[3], softWrap: true))),
       if (widget.lType == LearnerLevel.advanced)
         DataColumn(
-            label: SizedBox(width: s, child: Text(h[4], softWrap: true))),
+            label: SizedBox(width: t, child: Text(h[4], softWrap: true))),
     ];
   }
 }
