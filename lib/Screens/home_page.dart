@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_app/Screens/side_drawer.dart';
@@ -18,6 +18,9 @@ class _HomePageState extends State<HomePage> {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   bool timedLogout = false;
+  PackageInfo? packageInfo;
+  String license = '';
+  String buildNumber = '';
 
   @override
   void initState() {
@@ -26,6 +29,23 @@ class _HomePageState extends State<HomePage> {
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
+    getPackageInfo();
+
+
+  }
+
+  Future<void> getPackageInfo() async {
+    packageInfo = await PackageInfo.fromPlatform();
+    packageInfo != null ? print('packageInfo available') : print('packageInfo not available');
+    license = packageInfo != null ? packageInfo!.version.toString() : '1';
+    buildNumber = packageInfo != null ? packageInfo!.buildNumber.toString() : '1';
+    print(license);
+    print(buildNumber);
+    //This is to make sure the fetched value of package info gets into UI
+    setState(() {
+      // _isLoading = true;
+    });
   }
 
   @override
@@ -92,8 +112,9 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(25.0),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Container(),
                 RichText(
                   text: const TextSpan(
                     text: '   Saṃsādhanī is a computational platform developed '
@@ -146,7 +167,8 @@ class _HomePageState extends State<HomePage> {
                 //     ),
                 //   ),
                 // ),
-                Container()
+                Container(),
+                Text('version: $license')
               ],
             ),
           ),
