@@ -179,19 +179,26 @@ Devanagari	Devanagari
     }
   }
 
-  static String SENTENCE = "Sentence";
-  static String WORD = "Word";
+  static const String SENTENCE = "Sentence";
+  static const String WORD = "Word";
 
   static List<String> textTypeList = [SENTENCE, WORD];
 
   static String textTypeAbbreviation(String type) {
     if (type == SENTENCE) {
-      return 'sentence';
+      return 'sent';
     } else {
       return 'word';
     }
   }
 
+  static String outEncodingAbbreviation(String type) {
+    if (type == UNICODE_DEVANAGARI) {
+      return 'D';
+    } else {
+      return 'I';
+    }
+  }
 }
 
 enum LearnerLevel { basic, intermediate, advanced }

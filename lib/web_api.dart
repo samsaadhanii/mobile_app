@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'Constants/constants.dart';
 
 class WebAPI with ChangeNotifier {
   static String base = "http://scl.samsaadhanii.in";
-  static String base1 = "https://sanskrit.uohyd.ac.in";
-  static String CGI_BIN = "$base/cgi-bin";
+  static String base1 = "http://sanskrit.uohyd.ac.in";
+  static String CGI_BIN = "$base1/cgi-bin";
   static String scl = "$CGI_BIN/scl";
 
   // noun generator
@@ -16,6 +17,7 @@ class WebAPI with ChangeNotifier {
       "$scl/ashtadhyayi_simulator/simulation.cgi?";
   static String dictionary = "$scl/MT/dict_help_json.cgi?word=";
   static String sandhiAPI = "$scl/sandhi/sandhi_json.cgi?";
+  static String sandhiSplitterAPI = "$scl/sandhi_splitter/sandhi_splitter.cgi?";
 
   // static Future<http.Response> nounGenRequest() async {
   //   var url = '$noun_gen rt=vana&gen=puM&jAwi=nA&level=1';
@@ -137,6 +139,27 @@ class WebAPI with ChangeNotifier {
         '${sandhiAPI}word1=$input1&word2=$input2&encoding=$inEncoding&outencoding=$outEncoding';
     print('Sandhi req: $url');
     List<dynamic> responseData = [];
+
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
+        // if (kDebugMode) print(responseData);
+      }
+    } catch (e) {}
+    return responseData;
+  }
+
+  static Future<Map> sandhiSplitter({
+    String input1 = '',
+    String textType = Const.SENTENCE,
+    String inEncoding = 'WX',
+    String outEncoding = 'Unicode',
+  }) async {
+    var url =
+        '${sandhiSplitterAPI}word=$input1&encoding=$inEncoding&outencoding=$outEncoding&mode=$textType&disp_mode=json';
+    // print('Sandhi splitter req: $url');
+    Map responseData = <String, dynamic>{};
 
     try {
       http.Response resp = await http.get(Uri.parse(url));
