@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/Screens/sandhi/cupertino_sandhi.dart';
+import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dart';
 import 'noun_generator/dummy.dart';
 
 class SamCupertinoTools extends StatefulWidget {
@@ -41,6 +42,19 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
                   CupertinoPageRoute(
                     builder: (BuildContext context) {
                       return const CupertinoSandhi();
+                    },
+                  ),
+                );
+              }),
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Sandhi Splitter'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoSandhiSplitter();
                     },
                   ),
                 );
