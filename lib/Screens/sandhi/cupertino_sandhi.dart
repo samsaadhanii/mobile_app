@@ -22,9 +22,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
   String inputEncodingStr = Const.inputEncodingList[0];
   String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
-  bool _basicSwitch = true;
-  bool _interSwitch = false;
-  bool _advSwitch = false;
+  LearnerLevel? _lType = LearnerLevel.basic;
 
   @override
   void initState() {
@@ -80,57 +78,98 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
       child: Column(
         children: [
           const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // Row(
+          //   children: [
+          //     const SizedBox(width: 50),
+          //     Column(
+          //       children: [
+          //         Row(
+          //           children: [
+          //             const SizedBox(width: 150, child: Text('Basic')),
+          //             CupertinoSwitch(
+          //               value: _basicSwitch,
+          //               onChanged: (value) {
+          //                 _basicSwitch = value;
+          //                 _interSwitch = !value;
+          //                 _advSwitch = !value;
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //         Row(
+          //           children: [
+          //             const SizedBox(width: 150, child: Text('Intermediate')),
+          //             CupertinoSwitch(
+          //               value: _interSwitch,
+          //               onChanged: (value) {
+          //                 _interSwitch = value;
+          //                 if (_interSwitch) {
+          //                   _basicSwitch = false;
+          //                   _advSwitch = false;
+          //                 }
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //         Row(
+          //           children: [
+          //             const SizedBox(width: 150, child: Text('Advanced')),
+          //             CupertinoSwitch(
+          //               value: _advSwitch,
+          //               onChanged: (value) {
+          //                 _advSwitch = value;
+          //                 if (_advSwitch) {
+          //                   _basicSwitch = false;
+          //                   _interSwitch = false;
+          //                 }
+          //               },
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
+          CupertinoListSection(
             children: [
-              Row(
-                children: [
-                  const Text('Basic'),
-                  CupertinoSwitch(
-                    value: _basicSwitch,
-                    onChanged: (value) {
-                      _basicSwitch = value;
-                      if (_basicSwitch) {
-                        _interSwitch = false;
-                        _advSwitch = false;
-                      }
-                    },
-                  ),
-                ],
+              CupertinoListTile(
+                title: const Text("Basic"),
+                leading: CupertinoRadio<LearnerLevel>(
+                  value: LearnerLevel.basic,
+                  groupValue: _lType,
+                  onChanged: (LearnerLevel? value) {
+                    setState(() {
+                      _lType = value;
+                    });
+                  },
+                ),
               ),
-              Row(
-                children: [
-                  const Text('Intermediate'),
-                  CupertinoSwitch(
-                    value: _interSwitch,
-                    onChanged: (value) {
-                      _interSwitch = value;
-                      if (_interSwitch) {
-                        _basicSwitch = false;
-                        _advSwitch = false;
-                      }
-                    },
-                  ),
-                ],
+              CupertinoListTile(
+                title: const Text("Intermediate"),
+                leading: CupertinoRadio<LearnerLevel>(
+                  value: LearnerLevel.intermediate,
+                  groupValue: _lType,
+                  onChanged: (LearnerLevel? value) {
+                    setState(() {
+                      _lType = value;
+                    });
+                  },
+                ),
               ),
-              Row(
-                children: [
-                  const Text('Advanced'),
-                  CupertinoSwitch(
-                    value: _advSwitch,
-                    onChanged: (value) {
-                      _advSwitch = value;
-                      if (_advSwitch) {
-                        _basicSwitch = false;
-                        _interSwitch = false;
-                      }
-                    },
-                  ),
-                ],
-              ),
+              CupertinoListTile(
+                title: const Text("Advanced"),
+                leading: CupertinoRadio<LearnerLevel>(
+                  value: LearnerLevel.advanced,
+                  groupValue: _lType,
+                  onChanged: (LearnerLevel? value) {
+                    setState(() {
+                      _lType = value;
+                    });
+                  },
+                ),
+              )
             ],
           ),
-
           const SizedBox(height: 10),
           cDropDown(
               text1: 'Input encoding: ',
@@ -223,6 +262,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
                               return CupertinoSandhiOutput(
                                 data: dataList,
                                 encoding: outputEncodingStr,
+                                lType: _lType,
                               );
                             },
                           ),
