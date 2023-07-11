@@ -19,8 +19,8 @@ class CupertinoSandhiOutput extends StatefulWidget {
 }
 
 class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
-  bool _isInit = true, _w1Spelling = false, _w2Spelling = false;
-  bool _w1LastL = true, _w2FirstL = false, _modifiedL = false;
+  bool _isInit = true, _w1Spelling = true, _w2Spelling = true;
+  bool _w1LastL = true, _w2FirstL = true, _modifiedL = true;
   double w = 0, h = 0, t = 0, s = 0;
 
   @override
@@ -209,37 +209,47 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                 const SizedBox(height: 10),
 
                 /// spelling word 1 & spelling word 2
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.amber[50],
-                      ),
-                      child: Text(
-                        e['spelling_word1'],
-                        style: const TextStyle(color: Colors.redAccent),
-                      ),
-                    ),
-                    const Text(' + '),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.red[300],
-                      ),
-                      child: Text(
-                        e['spelling_word2'],
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
+                _w1Spelling || _w2Spelling
+                    ? Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _w1Spelling?
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.amber[50],
+                                ),
+                                child: Text(
+                                  e['spelling_word1'],
+                                  style:
+                                      const TextStyle(color: Colors.redAccent),
+                                ),
+                              ):Container(),
+                              const Text(' + '),
+                              _w2Spelling?
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.red[300],
+                                ),
+                                child: Text(
+                                  e['spelling_word2'],
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ):Container(),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      )
+                    : Container(),
 
                 /// Last and first letter & Modified letter
+                _w1LastL||_w2FirstL||_modifiedL?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -247,6 +257,7 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        _w1LastL?
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
@@ -257,9 +268,9 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                             e['last_letter'],
                             style: const TextStyle(color: Colors.white),
                           ),
-                        ),
+                        ):Container(),
                         const Text(' + '),
-                        Container(
+                        _w2FirstL?Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
@@ -269,12 +280,13 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                             e['first_letter'],
                             style: const TextStyle(color: Colors.white),
                           ),
-                        ),
+                        ):Container(),
                       ],
                     ),
-                    const Text(' + '),
+                    const Text(' = '),
 
                     /// Modified letter
+                    _modifiedL?
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -285,9 +297,9 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                         e['modified_letter'],
                         style: const TextStyle(color: Colors.red),
                       ),
-                    ),
+                    ):Container(),
                   ],
-                ),
+                ):Container(),
               ],
             ),
           ),
