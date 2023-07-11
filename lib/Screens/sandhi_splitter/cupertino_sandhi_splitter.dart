@@ -150,7 +150,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                         text: outputStr1,
                       ),
                       maxLines: null,
-                      placeholder: 'Output',
+                      // placeholder: 'Output',
                       keyboardType: TextInputType.none,
                     ),
                   ),

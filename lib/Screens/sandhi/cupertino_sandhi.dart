@@ -151,6 +151,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
             ],
           ),
           const SizedBox(height: 10),
+          ///Input Encoder
           CW.cDropDown(
               text1: 'Input encoding: ',
               selected: inputEncodingStr,
@@ -162,6 +163,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
               },
           context:context,),
           const SizedBox(height: 5),
+          ///Output Encoder
           CW.cDropDown(
               text1: 'Output encoding: ',
               selected: outputEncodingStr,
@@ -234,6 +236,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
                 outEncoding: outEnStr,
               ).then(
                 (dataList) {
+                  print(dataList);
                   setState(
                     () {
                       _isLoading = false;
