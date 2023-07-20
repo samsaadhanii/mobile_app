@@ -13,7 +13,7 @@ class Samsaadhanii extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print('themeBlue: ${ThemeBlueWhite.themeBlue}');
+    // print('themeBlue: ${ThemeBlueWhite.themeBlue}');
     return ThemeBlueWhite.theApp('Saṃsādhanī');
   }
 }

@@ -4,7 +4,7 @@ import 'Screens/cpertino_tab.dart';
 import 'Screens/home_page.dart';
 
 class ThemeBlueWhite {
-  static bool themeBlue = false;
+  static bool themeBlue = true;
 
   static Widget theApp(String title1) {
     print('themeBlue: $themeBlue');
