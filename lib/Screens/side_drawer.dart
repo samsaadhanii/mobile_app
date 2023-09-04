@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/noun_generator/noun_generator.dart';
 import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
+import 'package:mobile_app/Screens/verb_generator/verb_generator_page1.dart';
 import '../widgets/app_logo.dart';
 
 class SideDrawer extends StatefulWidget {
@@ -31,9 +32,18 @@ class _SideDrawerState extends State<SideDrawer> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Sandhi()));
           }),
-          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi Splitter', () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SandhiSplitter()));
+          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi Splitter',
+              () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SandhiSplitter()));
+          }),
+          _createDrawerItem(Icons.confirmation_num_sharp, 'Verb Generator', () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VerbGeneratorPage1()));
           }),
           // Switch(
           //   value: ThemeBlueWhite.themeBlue,

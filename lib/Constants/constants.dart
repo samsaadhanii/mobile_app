@@ -52,6 +52,61 @@ Devanagari	Devanagari
     * */
   }
 
+  static List<String> verbEncodingList = [
+    IAST_ROMAN_DIACRITIC,
+    UNICODE_DEVANAGARI,
+    WX_ALPHABETIC,
+  ];
+
+  static String verbEncodingAbbreviation(String type) {
+    if (type == IAST_ROMAN_DIACRITIC) {
+      return 'rom';
+    } else if (type == UNICODE_DEVANAGARI) {
+      return 'dev';
+    } else if (type == WX_ALPHABETIC) {
+      return 'wx';
+    } else {
+      return 'dev';
+    }
+    /*
+    * Roman (Harvard-Kyoto)	HK
+Roman (IAST)	IAST
+
+Roman (ITRANS)	Itrans
+Roman (SLP1)	SLP1
+Roman (WX)	WX
+Devanagari	Devanagari
+    * */
+  }
+
+  static List<String> prefixEncodingList = [
+    IAST_ROMAN_DIACRITIC,
+    UNICODE_DEVANAGARI,
+  ];
+
+  static String prefixEncodingAbbreviation(String type) {
+    // Specific to Prefix in verb generator
+    // The prefix list is in 'wx' amd 'dev' formats
+    // but wee should display them in 'roman' and 'dev'
+    // so convert 'wx' to 'roman'
+    if (type == IAST_ROMAN_DIACRITIC) {
+      return 'wx';
+    } else if (type == UNICODE_DEVANAGARI) {
+      return 'dev';
+    } else {
+      return 'dev';
+    }
+    /*
+    * Roman (Harvard-Kyoto)	HK
+Roman (IAST)	IAST
+
+Roman (ITRANS)	Itrans
+Roman (SLP1)	SLP1
+Roman (WX)	WX
+Devanagari	Devanagari
+    * */
+  }
+
   static List<String> headings(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return ['एकवचनम्', 'द्विवचनम्', 'बहुवचनम्'];
