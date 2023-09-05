@@ -6,7 +6,7 @@ import 'Constants/constants.dart';
 class WebAPI with ChangeNotifier {
   static String base = "https://scl.samsaadhanii.in";
   static String base1 = "https://sanskrit.uohyd.ac.in";
-  static String CGI_BIN = "$base/cgi-bin";
+  static String CGI_BIN = "$base1/cgi-bin";
   static String scl = "$CGI_BIN/scl";
 
   // noun generator
@@ -82,7 +82,7 @@ class WebAPI with ChangeNotifier {
     List<dynamic> outputList = [];
     if (resp.statusCode == 200) {
       final responseData = json.decode(resp.body);
-      if (kDebugMode) print('Transliterated data: $responseData');
+      // if (kDebugMode) print('Transliterated data: $responseData');
       outputList = responseData;
 
       /// TODO:- check for empty string and post a snackBar message
@@ -97,8 +97,12 @@ class WebAPI with ChangeNotifier {
     String linga = 'puM',
     String vacana = 'ekavacana',
   }) async {
-    var url =
-        '${ashtadhyayi_simulator}encoding=$encoding&praatipadika=$inputWrod&vibhakti=$vibhakti&linga=$linga&vacana=$vacana';
+    var url = '${ashtadhyayi_simulator}'
+        'encoding=$encoding'
+        '&praatipadika=$inputWrod'
+        '&vibhakti=$vibhakti'
+        '&linga=$linga'
+        '&vacana=$vacana';
     print(url);
     String outputStr = '';
 
@@ -136,8 +140,11 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Unicode',
   }) async {
-    var url =
-        '${sandhiAPI}word1=$input1&word2=$input2&encoding=$inEncoding&outencoding=$outEncoding';
+    var url = '${sandhiAPI}'
+        'word1=$input1'
+        '&word2=$input2'
+        '&encoding=$inEncoding'
+        '&outencoding=$outEncoding';
     print('Sandhi req: $url');
     List<dynamic> responseData = [];
 
@@ -157,8 +164,12 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Unicode',
   }) async {
-    var url =
-        '${sandhiSplitterAPI}word=$input1&encoding=$inEncoding&outencoding=$outEncoding&mode=$textType&disp_mode=json';
+    var url = '${sandhiSplitterAPI}'
+        'word=$input1'
+        '&encoding=$inEncoding'
+        '&outencoding=$outEncoding'
+        '&mode=$textType'
+        '&disp_mode=json';
     // print('Sandhi splitter req: $url');
     Map responseData = <String, dynamic>{};
 
@@ -174,22 +185,29 @@ class WebAPI with ChangeNotifier {
 
   static Future<List> verbRequest({
     String input1 = 'gam1_gamLz_BvAxiH_gawO',
-    String input2 = 'karwari-parasmEpaxI',
+    String input2 = 'karwari-uBayapaxI',
     String input3 = '-',
     String inEncoding = 'WX',
-    String outEncoding = 'Unicode',
+    String outEncoding = 'Devanagari',
   }) async {
-    var url =
-        '${verb_genAPI}vb=$input1&prayoga_paxI=$input2&upasarga=$input3&encoding=$inEncoding&outencoding=$outEncoding&mode=json';
-    print('verb req: $url');
+    var url = '${verb_genAPI}'
+        'vb=$input1'
+        '&prayoga_paxI=$input2'
+        '&upasarga=$input3'
+        '&encoding=$inEncoding'
+        '&outencoding=$outEncoding'
+        '&mode=json';
     List<dynamic> responseData = [];
-
+    print(url);
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
-        // responseData = json.decode(utf8.decode(resp.bodyBytes));
-        responseData = json.decode(resp.body);
-        print(resp.body);
+        String withCTRLCharacter = utf8.decode(resp.bodyBytes);
+
+        ///\n gives error when parsing json in flutter
+        var withoutCTRLCharacter = withCTRLCharacter.replaceAll('\n', '\\n');
+        responseData = json.decode(withoutCTRLCharacter);
+
         // if (kDebugMode) print(responseData);
       }
     } catch (e) {}

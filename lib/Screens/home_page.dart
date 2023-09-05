@@ -31,15 +31,16 @@ class _HomePageState extends State<HomePage> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
     getPackageInfo();
-
-
   }
 
   Future<void> getPackageInfo() async {
     packageInfo = await PackageInfo.fromPlatform();
-    packageInfo != null ? print('packageInfo available') : print('packageInfo not available');
+    packageInfo != null
+        ? print('packageInfo available')
+        : print('packageInfo not available');
     license = packageInfo != null ? packageInfo!.version.toString() : '1';
-    buildNumber = packageInfo != null ? packageInfo!.buildNumber.toString() : '1';
+    buildNumber =
+        packageInfo != null ? packageInfo!.buildNumber.toString() : '1';
     print(license);
     print(buildNumber);
     //This is to make sure the fetched value of package info gets into UI
@@ -118,12 +119,14 @@ class _HomePageState extends State<HomePage> {
                 RichText(
                   text: const TextSpan(
                     text: '   Saṃsādhanī is a computational platform developed '
-                        'at the Department of Sanskrit studies for Sanskrit language '
-                        'processing. \n\n'
-                        'It hosts several computational tools such as'
-                        ' morphological analyser, morphological generator, sandhi '
-                        'analysis and generation modules, and a dependency parser and'
-                        ' Sanskrit-Hindi Machine Translation system.',
+                        'at the Department of Sanskrit studies for Sanskrit '
+                        'language processing to overcome these difficulties. \n\n\n'
+                        'It hosts several computational tools such as word  '
+                        'analyser, word generator, sandhi joiner and sandhi '
+                        'analyser, sentential analyser and sentence generator, '
+                        'and also a  Sanskrit-Hindi Machine Translation system.'
+                        '\n\n\n'
+                        'The words are also linked to various monolingual and bilingual dictionaries.',
                     style: TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 18,

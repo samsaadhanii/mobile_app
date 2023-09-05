@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import 'package:mobile_app/Screens/verb_generator/verb_generator_page1.dart';
 import '../widgets/app_logo.dart';
+import 'about_page.dart';
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -24,26 +25,33 @@ class _SideDrawerState extends State<SideDrawer> {
             color: Theme.of(context).primaryColor,
           ),
           _createDrawerItem(
-              Icons.confirmation_num_sharp, 'Morphological Noun Generator', () {
+              Icons.filter_tilt_shift, 'Morphological Noun Generator', () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const NounGenerator()));
           }),
-          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi', () {
+          _createDrawerItem(Icons.nature_outlined, 'Sandhi', () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Sandhi()));
           }),
-          _createDrawerItem(Icons.confirmation_num_sharp, 'Sandhi Splitter',
-              () {
+          _createDrawerItem(Icons.call_split_rounded, 'Sandhi Splitter', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const SandhiSplitter()));
           }),
-          _createDrawerItem(Icons.confirmation_num_sharp, 'Verb Generator', () {
+          _createDrawerItem(Icons.short_text_outlined, 'Verb Generator', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const VerbGeneratorPage1()));
+          }),
+          Divider(
+            thickness: 1,
+            color: Theme.of(context).secondaryHeaderColor,
+          ),
+          _createDrawerItem(Icons.account_box_outlined, 'About', () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AppAboutPage()));
           }),
           // Switch(
           //   value: ThemeBlueWhite.themeBlue,

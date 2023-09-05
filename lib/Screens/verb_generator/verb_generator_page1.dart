@@ -206,7 +206,8 @@ class _VerbGeneratorPage1State extends State<VerbGeneratorPage1> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => VerbGeneratorPage2(
-                                        selectedVerb: selectedVerb,
+                                        selectedVerb: verbList[selectedIndex]
+                                            ['wx'],
                                       )));
                         },
                         child: const Text('Next')),

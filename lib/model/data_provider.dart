@@ -27,7 +27,7 @@ class DataProvider extends ChangeNotifier {
       List<dynamic> data = json.decode(value);
       print('verb data: ${data.length}');
       List<String> source = [];
-      prefixData.add({"wx": " ", "dev": " ", "rom": ""});
+      prefixData.add({"wx": "-", "dev": "-", "rom": "-"});
       for (var element in data) {
         Map<String, dynamic> tmp = element;
         source.add(tmp['wx']);
