@@ -6,11 +6,14 @@ PODS:
   - package_info_plus (0.4.5):
     - Flutter
   - ReachabilitySwift (5.0.0)
+  - url_launcher_ios (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -23,13 +26,16 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   package_info_plus: fd030dabf36271f146f1f3beacd48f564b0f17f7
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
 
-PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+PODFILE CHECKSUM: fff3348f19d060f45045a9c9fbca3a264147c2f7
 
 COCOAPODS: 1.12.1

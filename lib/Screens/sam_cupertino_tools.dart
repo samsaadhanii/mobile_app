@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/Screens/sandhi/cupertino_sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dart';
+import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_page1.dart';
 import 'noun_generator/dummy.dart';
 
 class SamCupertinoTools extends StatefulWidget {
@@ -55,6 +56,19 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
                   CupertinoPageRoute(
                     builder: (BuildContext context) {
                       return const CupertinoSandhiSplitter();
+                    },
+                  ),
+                );
+              }),
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Verb Generator'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoVerbGenerator1();
                     },
                   ),
                 );
