@@ -23,6 +23,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
   String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
   LearnerLevel? _lType = LearnerLevel.basic;
+  late Size dSize;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
 
   @override
   Widget build(BuildContext context) {
+    dSize = MediaQuery.sizeOf(context);
     return Stack(children: [
       CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
@@ -180,12 +182,12 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
           Row(
             children: [
               const SizedBox(width: 10),
-              const SizedBox(
-                width: 130,
-                child: Text('First Word'),
+              SizedBox(
+                width: dSize.width*0.4,
+                child: const Text('First Word'),
               ),
               Container(
-                width: 215,
+                width: dSize.width*0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
@@ -202,12 +204,12 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
           Row(
             children: [
               const SizedBox(width: 10),
-              const SizedBox(
-                width: 130,
-                child: Text('Second Word'),
+              SizedBox(
+                width: dSize.width*0.4,
+                child: const Text('Second Word'),
               ),
               Container(
-                width: 215,
+                width: dSize.width*0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(

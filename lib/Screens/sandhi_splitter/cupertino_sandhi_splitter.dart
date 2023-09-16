@@ -22,6 +22,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
   String inputEncodingStr = Const.inputEncodingList[0];
   String outputEncodingStr = Const.outputEncodingList[0];
   String textTypeStr = Const.textTypeList[0];
+  late Size dSize;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
 
   @override
   Widget build(BuildContext context) {
+    dSize = MediaQuery.sizeOf(context);
     return Stack(
       children: [
         CupertinoPageScaffold(
@@ -90,12 +92,12 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                       Row(
                         children: [
                           const SizedBox(width: 10),
-                          const SizedBox(
-                            width: 130,
-                            child: Text('First Word'),
+                          SizedBox(
+                            width: dSize.width*0.4,
+                            child: const Text('First Word'),
                           ),
                           Container(
-                            width: 215,
+                            width: dSize.width*0.5,
                             padding: const EdgeInsets.all(8.0),
                             // alignment: Alignment.centerRight,
                             child: CupertinoTextField(
