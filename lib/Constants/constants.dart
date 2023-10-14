@@ -254,6 +254,12 @@ Devanagari	Devanagari
       return 'I';
     }
   }
+
+  static const String PARASMAIPADI = "Parasmaipadi";
+  static const String ATMANEPADI = "Atmanepadi";
+
+  static List<String> padiList = [ATMANEPADI, PARASMAIPADI];
+
 }
 
 enum LearnerLevel { basic, intermediate, advanced }

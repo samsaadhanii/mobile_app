@@ -39,9 +39,9 @@ class DataProvider extends ChangeNotifier {
         for (int i = 1; i < prefixData.length; i++) {
           prefixData[i]['rom'] = value[i - 1];
         }
+        prefixDataLoaded = true;
+        notifyListeners();
       });
-      prefixDataLoaded = true;
-      notifyListeners();
     });
   }
   // int _count = 0;
