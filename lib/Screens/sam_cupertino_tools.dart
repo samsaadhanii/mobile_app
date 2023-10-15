@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/Screens/sandhi/cupertino_sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dart';
-import 'noun_generator/dummy.dart';
+// import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_page1.dart';
+import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_prefix.dart';
+import 'noun_generator/cupertino_noun_generator.dart';
 
 class SamCupertinoTools extends StatefulWidget {
   const SamCupertinoTools({Key? key}) : super(key: key);
@@ -22,7 +24,7 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
           // header: const Text('Sam Tools'),
           children: <CupertinoListTile>[
             CupertinoListTile.notched(
-              title: const Text('Morphological Noun Generator'),
+              title: const Text('Noun Generator'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(
@@ -55,6 +57,19 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
                   CupertinoPageRoute(
                     builder: (BuildContext context) {
                       return const CupertinoSandhiSplitter();
+                    },
+                  ),
+                );
+              }),
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Verb Generator'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoVerbGeneratorPrefix();
                     },
                   ),
                 );

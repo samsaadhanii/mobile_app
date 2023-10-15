@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   text: const TextSpan(
                     text: '   Saṃsādhanī is a computational platform developed '
                         'at the Department of Sanskrit studies for Sanskrit '
-                        'language processing to overcome these difficulties. \n\n\n'
+                        'language processing. \n\n\n'
                         'It hosts several computational tools such as word  '
                         'analyser, word generator, sandhi joiner and sandhi '
                         'analyser, sentential analyser and sentence generator, '

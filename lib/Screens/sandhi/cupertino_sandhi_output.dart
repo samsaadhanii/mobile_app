@@ -48,41 +48,42 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
             ? basicOutput()
             : Column(
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.lightBlueAccent,
-                        child: Row(
-                          children: [
-                            (widget.lType == LearnerLevel.intermediate ||
-                                    widget.lType == LearnerLevel.advanced)
-                                ? const Icon(Icons.check)
-                                : const Icon(Icons.close),
-                            const SizedBox(width: 6),
-                            const Text('Sandhi'),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.lightBlueAccent,
-                        child: Row(
-                          children: [
-                            (widget.lType == LearnerLevel.advanced)
-                                ? const Icon(Icons.check)
-                                : const Icon(Icons.close),
-                            const SizedBox(width: 6),
-                            const Text('sūtram'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  /// No longer used
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Container(
+                  //       padding: const EdgeInsets.all(8),
+                  //       color: Colors.lightBlueAccent,
+                  //       child: Row(
+                  //         children: [
+                  //           (widget.lType == LearnerLevel.intermediate ||
+                  //                   widget.lType == LearnerLevel.advanced)
+                  //               ? const Icon(Icons.check)
+                  //               : const Icon(Icons.close),
+                  //           const SizedBox(width: 6),
+                  //           const Text('Sandhi'),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     Container(
+                  //       padding: const EdgeInsets.all(8),
+                  //       color: Colors.lightBlueAccent,
+                  //       child: Row(
+                  //         children: [
+                  //           (widget.lType == LearnerLevel.advanced)
+                  //               ? const Icon(Icons.check)
+                  //               : const Icon(Icons.close),
+                  //           const SizedBox(width: 6),
+                  //           const Text('sūtram'),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

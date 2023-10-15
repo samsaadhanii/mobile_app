@@ -48,6 +48,7 @@ class CW {
         required List ddList,
         required MyFunction2 onChange,
       required BuildContext context,}) {
+    Size dSize = MediaQuery.sizeOf(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -56,7 +57,7 @@ class CW {
           children: [
             const SizedBox(width: 10),
             SizedBox(
-              width: 130,
+              width: dSize.width*0.4,
               child: Text(text1,
                   style: const TextStyle(
                     color: CupertinoColors.black,
@@ -65,7 +66,7 @@ class CW {
                   )),
             ),
             Container(
-              width: 200,
+              width: dSize.width*0.5,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   border: Border.all(color: CupertinoColors.lightBackgroundGray)

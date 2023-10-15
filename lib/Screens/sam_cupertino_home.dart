@@ -102,15 +102,15 @@ class _SamCupertinoHomeState extends State<SamCupertinoHome> {
             padding: const EdgeInsets.all(20.0),
             child: RichText(
               text: const TextSpan(
-                text: ' Saṃsādhanī is a computational platform developed '
-                    'at the Department of Sanskrit Studies, University of Hyderabad for Sanskrit language '
-                    'processing. \n\n\n\n'
-                    '  It hosts the following Sanskrit computational tools:\n'
-                    ' - morphological analyser,\n'
-                    ' - morphological generator,\n'
-                    ' - sandhi analysis and generation modules,\n'
-                    ' - dependency parser and \n'
-                    ' - Sanskrit-Hindi Machine Translation system.',
+                text: '   Saṃsādhanī is a computational platform developed '
+                    'at the Department of Sanskrit studies for Sanskrit '
+                    'language processing. \n\n\n'
+                    'It hosts several computational tools such as word  '
+                    'analyser, word generator, sandhi joiner and sandhi '
+                    'analyser, sentential analyser and sentence generator, '
+                    'and also a  Sanskrit-Hindi Machine Translation system.'
+                    '\n\n\n'
+                    'The words are also linked to various monolingual and bilingual dictionaries.',
                 style: TextStyle(
                   color: CupertinoColors.black,
                   fontSize: 18,

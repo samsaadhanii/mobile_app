@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import '../../widgets/cupertino_widgets.dart';
 import '../../Constants/constants.dart';
 import '../../web_api.dart';
 import 'cupertino_sandhi_output.dart';
@@ -19,10 +18,11 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
   bool _isLoading = false;
   String inputStr1 = '';
   String inputStr2 = '';
-  String inputEncodingStr = Const.inputEncodingList[0];
-  String outputEncodingStr = Const.outputEncodingList[0];
+  // String inputEncodingStr = Const.inputEncodingList[0];
+  // String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
   LearnerLevel? _lType = LearnerLevel.basic;
+  late Size dSize;
 
   @override
   void initState() {
@@ -33,6 +33,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
 
   @override
   Widget build(BuildContext context) {
+    dSize = MediaQuery.sizeOf(context);
     return Stack(children: [
       CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
@@ -151,41 +152,17 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
             ],
           ),
           const SizedBox(height: 10),
-          ///Input Encoder
-          CW.cDropDown(
-              text1: 'Input encoding: ',
-              selected: inputEncodingStr,
-              ddList: Const.inputEncodingList,
-              onChange: (value) {
-                setState(() {
-                  inputEncodingStr = Const.inputEncodingList[value!];
-                });
-              },
-          context:context,),
-          const SizedBox(height: 5),
-          ///Output Encoder
-          CW.cDropDown(
-              text1: 'Output encoding: ',
-              selected: outputEncodingStr,
-              ddList: Const.outputEncodingList,
-              onChange: (value) {
-                setState(() {
-                  outputEncodingStr = Const.outputEncodingList[value!];
-                });
-              },
-              context:context,),
-          const SizedBox(height: 5),
 
           /// Input 1
           Row(
             children: [
               const SizedBox(width: 10),
-              const SizedBox(
-                width: 130,
-                child: Text('First Word'),
+              SizedBox(
+                width: dSize.width*0.4,
+                child: const Text('First Word'),
               ),
               Container(
-                width: 215,
+                width: dSize.width*0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
@@ -202,12 +179,12 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
           Row(
             children: [
               const SizedBox(width: 10),
-              const SizedBox(
-                width: 130,
-                child: Text('Second Word'),
+              SizedBox(
+                width: dSize.width*0.4,
+                child: const Text('Second Word'),
               ),
               Container(
-                width: 215,
+                width: dSize.width*0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
