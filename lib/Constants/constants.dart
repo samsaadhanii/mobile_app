@@ -263,3 +263,8 @@ Devanagari	Devanagari
 }
 
 enum LearnerLevel { basic, intermediate, advanced }
+
+/// Global variables used to store the input and output encodings
+/// to be used throughout the app
+String inputEncodingStr = Const.inputEncodingList[0];
+String outputEncodingStr = Const.outputEncodingList[0];
