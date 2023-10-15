@@ -24,7 +24,7 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
           // header: const Text('Sam Tools'),
           children: <CupertinoListTile>[
             CupertinoListTile.notched(
-              title: const Text('Morphological Noun Generator'),
+              title: const Text('Noun Generator'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(

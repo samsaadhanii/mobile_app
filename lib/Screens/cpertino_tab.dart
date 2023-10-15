@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_app/Screens/cupertino_about.dart';
 import 'package:mobile_app/Screens/sam_cupertino_home.dart';
 import 'package:mobile_app/Screens/sam_cupertino_tools.dart';
 
@@ -29,6 +30,10 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
             icon: Icon(CupertinoIcons.settings_solid),
             label: 'Settings',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.at_circle),
+            label: 'About',
+          ),
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
@@ -40,6 +45,8 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
               return const SamCupertinoTools();
             } else if (index == 2) {
               return const CupertinoSettings();
+            } else if (index == 3) {
+              return const CupertinoAboutPage();
             } else {
               return SamCupertinoHome(title: 'Saṃsādhanī');
             }
