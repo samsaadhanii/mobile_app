@@ -174,6 +174,14 @@ class _NounGeneratorState extends State<NounGenerator> {
                             setState(() {
                               _isLoading = false;
                             });
+
+                            /// Convert the input word to proper output encoding
+                            /// to display in the next page
+                            String tmp = WebAPI.transLiterateWord(
+                                input: inputController.text,
+                                src: inputEncodingStr,
+                                tar: outputEncodingStr) as String;
+                            print(tmp);
                             if (dataList.isEmpty) {
                               Navigator.push(
                                 context,
