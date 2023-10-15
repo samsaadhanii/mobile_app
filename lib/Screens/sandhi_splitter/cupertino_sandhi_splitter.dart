@@ -20,8 +20,6 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
   bool _isLoading = false;
   String inputStr1 = '';
   String outputStr1 = '';
-  String inputEncodingStr = Const.inputEncodingList[0];
-  String outputEncodingStr = Const.outputEncodingList[0];
   String textTypeStr = Const.textTypeList[0];
   late Size dSize;
   final Uri _url = Uri.parse('https://sanskrit.inria.fr');
@@ -52,33 +50,6 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                       Column(
                         children: [
                           const SizedBox(height: 20),
-
-                          ///Input Encoder
-                          CW.cDropDown(
-                              text1: 'Input encoding: ',
-                              selected: inputEncodingStr,
-                              ddList: Const.inputEncodingList,
-                              onChange: (value) {
-                                setState(() {
-                                  inputEncodingStr = Const.inputEncodingList[value!];
-                                });
-                              },
-                              context: context),
-                          const SizedBox(height: 5),
-
-                          ///Output Encoder
-                          CW.cDropDown(
-                              text1: 'Output encoding: ',
-                              selected: outputEncodingStr,
-                              ddList: Const.outputEncodingList,
-                              onChange: (value) {
-                                setState(() {
-                                  outputEncodingStr =
-                                      Const.outputEncodingList[value!];
-                                });
-                              },
-                              context: context),
-                          const SizedBox(height: 5),
 
                           ///Text Type
                           CW.cDropDown(

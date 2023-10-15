@@ -17,8 +17,8 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;
   String inputStr = '';
-  String inputEncodingStr = Const.inputEncodingList[0];
-  String outputEncodingStr = Const.outputEncodingList[0];
+  // String inputEncodingStr = Const.inputEncodingList[0];
+  // String outputEncodingStr = Const.outputEncodingList[0];
   String gender = Const.genderList[0];
   String category = Const.categoryList[0];
 late Size dSize;
@@ -76,26 +76,26 @@ late Size dSize;
       child: Column(
         children: [
           const SizedBox(height: 10),
-          cDropDown(
-              text1: 'Input encoding: ',
-              selected: inputEncodingStr,
-              ddList: Const.inputEncodingList,
-              onChange: (value) {
-                setState(() {
-                  inputEncodingStr = Const.inputEncodingList[value!];
-                });
-              }),
-          const SizedBox(height: 5),
-          cDropDown(
-              text1: 'Output encoding: ',
-              selected: outputEncodingStr,
-              ddList: Const.outputEncodingList,
-              onChange: (value) {
-                setState(() {
-                  outputEncodingStr = Const.outputEncodingList[value!];
-                });
-              }),
-          const SizedBox(height: 5),
+          // cDropDown(
+          //     text1: 'Input encoding: ',
+          //     selected: inputEncodingStr,
+          //     ddList: Const.inputEncodingList,
+          //     onChange: (value) {
+          //       setState(() {
+          //         inputEncodingStr = Const.inputEncodingList[value!];
+          //       });
+          //     }),
+          // const SizedBox(height: 5),
+          // cDropDown(
+          //     text1: 'Output encoding: ',
+          //     selected: outputEncodingStr,
+          //     ddList: Const.outputEncodingList,
+          //     onChange: (value) {
+          //       setState(() {
+          //         outputEncodingStr = Const.outputEncodingList[value!];
+          //       });
+          //     }),
+          // const SizedBox(height: 5),
           Row(
             children: [
               const SizedBox(width: 10),
