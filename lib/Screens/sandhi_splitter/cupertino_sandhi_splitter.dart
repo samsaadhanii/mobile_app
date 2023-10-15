@@ -26,7 +26,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
 
   @override
   void initState() {
-    firstInputController.text = 'कश्चित्कान्ताविरहगुरुणास्वाधिकारात्प्रमत्त';
+    firstInputController.text = 'कश्चित्कान्ताविरहगुरुणास्वाधिकारात्प्रमत्तः';
     super.initState();
   }
 
