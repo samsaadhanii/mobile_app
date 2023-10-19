@@ -24,27 +24,35 @@ class _SideDrawerState extends State<SideDrawer> {
             thickness: 5,
             color: Theme.of(context).primaryColor,
           ),
+          _createDrawerItem(Icons.filter_tilt_shift,
+              'Morphological Analyser (शब्द-विश्लेषक)', () {}),
           _createDrawerItem(
-              Icons.filter_tilt_shift, 'Morphological Noun Generator', () {
+              Icons.filter_tilt_shift, 'Noun Generator (नामरूप-निष्पादिका)',
+              () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const NounGenerator()));
           }),
-          _createDrawerItem(Icons.nature_outlined, 'Sandhi', () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Sandhi()));
-          }),
-          _createDrawerItem(Icons.call_split_rounded, 'Sandhi Splitter', () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const SandhiSplitter()));
-          }),
-          _createDrawerItem(Icons.short_text_outlined, 'Verb Generator', () {
+          _createDrawerItem(Icons.short_text_outlined,
+              'Verb Generator (क्रियारूप-निष्पादिका)', () {
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const VerbGeneratorPage1()));
           }),
+          _createDrawerItem(Icons.nature_outlined, 'Sandhi Joining (सन्धि)',
+              () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Sandhi()));
+          }),
+          _createDrawerItem(
+              Icons.call_split_rounded, 'Sandhi Analyser (सन्धि-विच्छेद)', () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SandhiSplitter()));
+          }),
+          _createDrawerItem(
+              Icons.call_split_rounded, 'Dhātupāṭhaḥ (धातुपाठः)', () {}),
           Divider(
             thickness: 1,
             color: Theme.of(context).secondaryHeaderColor,

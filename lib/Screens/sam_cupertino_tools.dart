@@ -24,7 +24,12 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
           // header: const Text('Sam Tools'),
           children: <CupertinoListTile>[
             CupertinoListTile.notched(
-              title: const Text('Noun Generator'),
+              title: const Text('Morphological Analyser (शब्द-विश्लेषक)'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () {},
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Noun Generator (नामरूप-निष्पादिका)'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(
@@ -37,7 +42,20 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
               }),
             ),
             CupertinoListTile.notched(
-              title: const Text('Sandhi'),
+              title: const Text('Verb Generator (क्रियारूप-निष्पादिका)'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoVerbGeneratorPrefix();
+                    },
+                  ),
+                );
+              }),
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Sandhi Joining (सन्धि)'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(
@@ -50,7 +68,7 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
               }),
             ),
             CupertinoListTile.notched(
-              title: const Text('Sandhi Splitter'),
+              title: const Text('Sandhi Analyser (सन्धि-विच्छेद)'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(
@@ -63,17 +81,9 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
               }),
             ),
             CupertinoListTile.notched(
-              title: const Text('Verb Generator'),
+              title: const Text('Dhātupāṭhaḥ (धातुपाठः)'),
               trailing: const CupertinoListTileChevron(),
-              onTap: () => Future.delayed(Duration.zero, () {
-                Navigator.of(context).push(
-                  CupertinoPageRoute(
-                    builder: (BuildContext context) {
-                      return const CupertinoVerbGeneratorPrefix();
-                    },
-                  ),
-                );
-              }),
+              onTap: () {},
             ),
           ],
         ),
