@@ -23,7 +23,8 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.list_bullet),
+            icon: ImageIcon(AssetImage("assets/images/tools1.png")),
+            // icon: Icon(CupertinoIcons.list_bullet),
             label: 'Tools',
           ),
           BottomNavigationBarItem(
