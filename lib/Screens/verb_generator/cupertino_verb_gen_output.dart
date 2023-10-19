@@ -41,7 +41,7 @@ class _CupertinoVerbGeneratorOutputState
             input2: 'karwari-uBayapaxI',
             input3: widget.selectedPrefix,
             inEncoding: 'WX',
-            outEncoding: 'IAST')
+            outEncoding: outputEncodingStr)
         .then((value) {
       setState(() {
         _isLoading = false;

@@ -21,7 +21,6 @@ class _CupertinoVerbGeneratorPrefixState
   bool prefixListReady = false;
   bool updatePrefix = true;
   int selectedIndex = 0;
-  int selectedEncoding = 0;
   final ScrollController controller = ScrollController();
   List<String> displayPrefixList = [];
   String searchText = '';
@@ -49,8 +48,7 @@ class _CupertinoVerbGeneratorPrefixState
       /// Fill the prefix list with the prefixes of the selected encoding
       displayPrefixList.clear();
       for (var element in list) {
-        String? tmp = element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])];
+        String? tmp = element[Const.prefixEncodingAbbreviation(inputEncodingStr)];
         if (tmp != null) {
           if (searchText.isEmpty) {
             displayPrefixList.add(tmp);

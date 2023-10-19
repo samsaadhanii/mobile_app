@@ -22,7 +22,6 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
   bool verbListReady = false;
   bool updateData = true;
   int selectedIndex = 0;
-  int selectedEncoding = 0;
   final ScrollController controller = ScrollController();
   List<String> displayVerbList = [];
   String searchText = '';
@@ -51,7 +50,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
       displayVerbList.clear();
       for (var element in verbList) {
         String verb = element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])];
+            inputEncodingStr)];
         bool tmp = verb.contains(searchText);
         if (tmp) {
           displayVerbList.add(verb);
