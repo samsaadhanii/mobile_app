@@ -102,26 +102,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
                             height: 400,
                             child: SingleChildScrollView(
                               child: CupertinoListSection(
-                                children: displayVerbList
-                                    .map(
-                                      (e) => CupertinoListTile(
-                                        title: Text(e),
-                                        backgroundColor:
-                                        selectedVerb.compareTo(e) == 0
-                                            ? CupertinoColors.activeBlue
-                                            : (indexCnt++) % 2 == 0
-                                            ? CupertinoColors
-                                            .lightBackgroundGray
-                                            : CupertinoColors.white,
-
-                                        onTap: () {
-                                          setState(() {
-                                            selectedVerb = e;
-                                          });
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
+                                children: generateList(),
                               ),
                             ),
                           )
@@ -156,6 +137,30 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
         ),
     ]);
   }
+List<CupertinoListTile> generateList(){
+    List<CupertinoListTile>list = [];
+for(int i =0; i<displayVerbList.length;i++)
+  {
+    String e = displayVerbList[i];
+    list.add(CupertinoListTile(
+      title: Text(e),
+      backgroundColor:
+      selectedVerb.compareTo(e) == 0
+          ? CupertinoColors.activeBlue
+          : (indexCnt++) % 2 == 0
+          ? CupertinoColors
+          .lightBackgroundGray
+          : CupertinoColors.white,
+
+      onTap: () {
+        setState(() {
+          selectedVerb = e;
+          selectedIndex = i;
+        });
+      },));
+  }
+    return list;
+}
 }
 
 class SearchTextField extends StatelessWidget {
