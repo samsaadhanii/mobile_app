@@ -44,9 +44,9 @@ class _CupertinoVerbGeneratorOutputState
             outEncoding: outputEncodingStr)
         .then((value) {
       setState(() {
-        _isLoading = false;
         output = value;
-        // print(output);
+        _isLoading = false;
+        print(output);
         // print(output.length);
         // txt.text = value as String;
       });
@@ -55,7 +55,8 @@ class _CupertinoVerbGeneratorOutputState
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    if (_isLoading) {
+      return Stack(
       children: [
         CupertinoPageScaffold(
           // backgroundColor: CupertinoColors.lightBackgroundGray,
@@ -85,30 +86,7 @@ class _CupertinoVerbGeneratorOutputState
               },
             ),
           ),
-          child: _selectedPadi.contains(Const.ATMANEPADI)
-              ? buildAtmanepadi(context)
-              : buildParasmaipadi(context),
-          // child: buildTab(context),
-          // body: SafeArea(child: buildTab(context)),
-          // bottomNavigationBar: BottomNavigationBar(
-          //   items: const <BottomNavigationBarItem>[
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.home),
-          //       label: 'Active',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.business),
-          //       label: 'Passive/Impersonal',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.school),
-          //       label: 'Causative',
-          //     ),
-          //   ],
-          //   currentIndex: _selectedIndex,
-          //   selectedItemColor: Colors.amber[800],
-          //   onTap: _onItemTapped,
-          // ),
+          child: const Center(child:Text('Loading...')),
         ),
         if (_isLoading)
           const Opacity(
@@ -123,6 +101,40 @@ class _CupertinoVerbGeneratorOutputState
           ),
       ],
     );
+    } else {
+      return CupertinoPageScaffold(
+            // backgroundColor: CupertinoColors.lightBackgroundGray,
+            navigationBar: CupertinoNavigationBar(
+              // middle: Text('Verb Generator'),
+              middle: CupertinoSegmentedControl<String>(
+                selectedColor: CupertinoColors.activeBlue,
+                // Provide horizontal padding around the children.
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                // This represents a currently selected segmented control.
+                groupValue: _selectedPadi,
+                // Callback that sets the selected segmented control.
+                onValueChanged: (String value) {
+                  setState(() {
+                    _selectedPadi = value;
+                  });
+                },
+                children: const <String, Widget>{
+                  Const.ATMANEPADI: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(Const.ATMANEPADI),
+                  ),
+                  Const.PARASMAIPADI: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(Const.PARASMAIPADI),
+                  ),
+                },
+              ),
+            ),
+            child: _selectedPadi.contains(Const.ATMANEPADI)
+                ? buildAtmanepadi(context)
+                : buildParasmaipadi(context),
+          );
+    }
   }
 
   Widget buildAtmanepadi(BuildContext context) {
@@ -139,25 +151,25 @@ class _CupertinoVerbGeneratorOutputState
               ///Atmanepadi
               cText(awmane[0]['paxI']),
               const SizedBox(height: 14),
-              cText(awmane[0]['lakāra_0']),
+              cText(awmane[0]['lakAra_0']),
               buildFormTable(awmane[0]['l_forms_0']),
-              cText(awmane[0]['lakāra_1']),
+              cText(awmane[0]['lakAra_1']),
               buildFormTable(awmane[0]['l_forms_1']),
-              cText(awmane[0]['lakāra_2']),
+              cText(awmane[0]['lakAra_2']),
               buildFormTable(awmane[0]['l_forms_2']),
-              cText(awmane[0]['lakāra_3']),
+              cText(awmane[0]['lakAra_3']),
               buildFormTable(awmane[0]['l_forms_3']),
-              cText(awmane[0]['lakāra_4']),
+              cText(awmane[0]['lakAra_4']),
               buildFormTable(awmane[0]['l_forms_4']),
-              cText(awmane[0]['lakāra_5']),
+              cText(awmane[0]['lakAra_5']),
               buildFormTable(awmane[0]['l_forms_5']),
-              cText(awmane[0]['lakāra_6']),
+              cText(awmane[0]['lakAra_6']),
               buildFormTable(awmane[0]['l_forms_6']),
-              cText(awmane[0]['lakāra_7']),
+              cText(awmane[0]['lakAra_7']),
               buildFormTable(awmane[0]['l_forms_7']),
-              cText(awmane[0]['lakāra_8']),
+              cText(awmane[0]['lakAra_8']),
               buildFormTable(awmane[0]['l_forms_8']),
-              cText(awmane[0]['lakāra_9']),
+              cText(awmane[0]['lakAra_9']),
               buildFormTable(awmane[0]['l_forms_9']),
             ],
           ),
@@ -181,25 +193,25 @@ class _CupertinoVerbGeneratorOutputState
               ///Parasmaipadi
               cText(parasme[0]['paxI']),
               const SizedBox(height: 14),
-              cText(parasme[0]['lakāra_0']),
+              cText(parasme[0]['lakAra_0']),
               buildFormTable(parasme[0]['l_forms_0']),
-              cText(parasme[0]['lakāra_1']),
+              cText(parasme[0]['lakAra_1']),
               buildFormTable(parasme[0]['l_forms_1']),
-              cText(parasme[0]['lakāra_2']),
+              cText(parasme[0]['lakAra_2']),
               buildFormTable(parasme[0]['l_forms_2']),
-              cText(parasme[0]['lakāra_3']),
+              cText(parasme[0]['lakAra_3']),
               buildFormTable(parasme[0]['l_forms_3']),
-              cText(parasme[0]['lakāra_4']),
+              cText(parasme[0]['lakAra_4']),
               buildFormTable(parasme[0]['l_forms_4']),
-              cText(parasme[0]['lakāra_5']),
+              cText(parasme[0]['lakAra_5']),
               buildFormTable(parasme[0]['l_forms_5']),
-              cText(parasme[0]['lakāra_6']),
+              cText(parasme[0]['lakAra_6']),
               buildFormTable(parasme[0]['l_forms_6']),
-              cText(parasme[0]['lakāra_7']),
+              cText(parasme[0]['lakAra_7']),
               buildFormTable(parasme[0]['l_forms_7']),
-              cText(parasme[0]['lakāra_8']),
+              cText(parasme[0]['lakAra_8']),
               buildFormTable(parasme[0]['l_forms_8']),
-              cText(parasme[0]['lakāra_9']),
+              cText(parasme[0]['lakAra_9']),
               buildFormTable(parasme[0]['l_forms_9']),
             ],
           ),
@@ -297,6 +309,13 @@ class _CupertinoVerbGeneratorOutputState
   }
 
   Widget buildFormTable(List<dynamic> data) {
+    String pur = outputEncodingStr==Const.UNICODE_DEVANAGARI?'पुरुषः':'purusah';
+    String eka = outputEncodingStr==Const.UNICODE_DEVANAGARI?'एकवचनम्':'ekavacanam';
+    String dvi = outputEncodingStr==Const.UNICODE_DEVANAGARI?'द्विवचनम्':'dvivacanam';
+    String bah = outputEncodingStr==Const.UNICODE_DEVANAGARI?'बहुवचनम्':'bahuvacanam';
+    String pra = outputEncodingStr==Const.UNICODE_DEVANAGARI?'प्रथम':'prathama';
+    String mad = outputEncodingStr==Const.UNICODE_DEVANAGARI?'मध्यम':'madhyama';
+    String utt = outputEncodingStr==Const.UNICODE_DEVANAGARI?'उत्तम':'uttama';
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -305,40 +324,40 @@ class _CupertinoVerbGeneratorOutputState
             : CupertinoColors.systemOrange,
         child: Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('purusah', style: TextStyle(fontSize: 14)),
-                Text('ekavacanam', style: TextStyle(fontSize: 14)),
-                Text('dvivacanam', style: TextStyle(fontSize: 14)),
-                Text('bahuvacanam', style: TextStyle(fontSize: 14)),
+                Text(pur, style: const TextStyle(fontSize: 14)),
+                Text(eka, style: const TextStyle(fontSize: 14)),
+                Text(dvi, style: const TextStyle(fontSize: 14)),
+                Text(bah, style: const TextStyle(fontSize: 14)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text('prathama'),
-                Text(data[0]['form']),
-                Text(data[1]['form']),
-                Text(data[2]['form']),
+                Text(pra),
+                Flexible(child: Text(data[0]['form'],softWrap: true)),
+                Flexible(child: Text(data[1]['form'],softWrap: true)),
+                Flexible(child: Text(data[2]['form'],softWrap: true)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text('madhyama'),
-                Text(data[3]['form']),
-                Text(data[4]['form']),
-                Text(data[5]['form']),
+                Text(mad),
+                Flexible(child: Text(data[3]['form'],softWrap: true)),
+                Flexible(child: Text(data[4]['form'],softWrap: true)),
+                Flexible(child: Text(data[5]['form'],softWrap: true)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text('uttama'),
-                Text(data[6]['form']),
-                Text(data[7]['form']),
-                Text(data[8]['form']),
+                Text(utt),
+                Flexible(child: Text(data[6]['form'],softWrap: true)),
+                Flexible(child: Text(data[7]['form'],softWrap: true)),
+                Flexible(child: Text(data[8]['form'],softWrap: true)),
               ],
             ),
           ],

@@ -110,6 +110,8 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
                     const SizedBox(height: 10),
                     CupertinoButton(
                         onPressed: () {
+                          print('selectedPrefix: ${widget.selectedPrefix}');
+                          print('selectedVerb: ${verbList[selectedIndex]['wx']}');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
