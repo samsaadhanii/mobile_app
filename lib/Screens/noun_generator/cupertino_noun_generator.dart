@@ -117,7 +117,7 @@ late Size dSize;
           ),
           const SizedBox(height: 5),
           cDropDown(
-              text1: 'Category: ',
+              text1: 'जाति / Category : ',
               selected: category,
               ddList: Const.categoryList,
               onChange: (value) {
@@ -127,7 +127,7 @@ late Size dSize;
               }),
           const SizedBox(height: 5),
           cDropDown(
-              text1: 'Gender: ',
+              text1: 'लिङ् / Gender : ',
               selected: gender,
               ddList: Const.genderList,
               onChange: (value) {
@@ -192,7 +192,7 @@ late Size dSize;
                 },
               );
             },
-            child: const Text('रूपाणि दर्श्यताम्'),
+            child: const Text('रूपाणि दर्श्यताम् / Display forms'),
           ),
         ],
       ),
