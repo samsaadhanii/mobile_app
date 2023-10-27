@@ -42,11 +42,12 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
       title: const Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
       applicationDescription: const Text(
-        'Saṃsādhanī is a computational platform developed at the Department '
-            'of Sanskrit studies for Sanskrit language processing following the'
-            ' traditional knowledge systems of Vyākaraṇa, Nyāya and Mīmāṃsā and'
-            ' the theories of śābdabodhaḥ. All the tools are developed by a '
-            'Team led by Prof. Amba Kulkarni and her research students',
+        'Saṃsādhanī is a computational platform developed at the Department'
+            ' of Sanskrit studies for Sanskrit language processing to overcome'
+            ' these difficulties. It hosts several computational tools such as'
+            ' morphological analyser, morphological generator, sandhi analysis '
+            'and generation modules, and a dependency parser and Sanskrit-Hindi'
+            ' Machine Translation system.',
         textAlign: TextAlign.justify,
       ),
       applicationIcon: Padding(
