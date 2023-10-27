@@ -54,7 +54,7 @@ late Size dSize;
     return Stack(children: [
       CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Noun Generator'),
+          middle: Text('Noun Generator (नामरूप-निष्पादिका)'),
         ),
         child: body(),
       ),

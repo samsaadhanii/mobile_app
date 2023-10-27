@@ -66,24 +66,15 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
           title: Text('View Changelog'),
           icon: Icon(mat.Icons.view_list),
         ),
-        // MarkdownPageListTile(
-        //   filename: 'LICENSE.md',
-        //   title: Text('View License'),
-        //   icon: Icon(mat.Icons.description),
-        // ),
         MarkdownPageListTile(
           filename: 'CONTRIBUTING.md',
           title: Text('Contributing'),
           icon: Icon(mat.Icons.share),
         ),
-        MarkdownPageListTile(
-          filename: 'CODE_OF_CONDUCT.md',
-          title: Text('Code of conduct'),
-          icon: Icon(mat.Icons.sentiment_satisfied),
-        ),
         LicensesPageListTile(
-          title: Text('Open source Licenses'),
+          title: Text('Open source License'),
           icon: Icon(mat.Icons.favorite),
+
         ),
       ],
     );

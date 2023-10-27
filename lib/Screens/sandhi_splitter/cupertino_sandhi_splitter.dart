@@ -37,7 +37,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
       children: [
         CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Sandhi Splitter'),
+            middle: Text('Sandhi Analyser (सन्धि-विच्छेद)'),
           ),
           child: SafeArea(
             child: Column(

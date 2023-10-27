@@ -66,7 +66,7 @@ class _CupertinoVerbGeneratorPrefixState
       SafeArea(
         child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Verb Generator'),
+            middle: Text('Verb Generator (क्रियारूप-निष्पादिका)'),
           ),
           child: (_isLoading)
               ? const Center(child: Text('loading!'))
