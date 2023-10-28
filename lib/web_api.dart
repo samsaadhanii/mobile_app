@@ -190,13 +190,21 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Devanagari',
   }) async {
-    var url = '${verb_genAPI}'
+    var url;
+    if(outEncoding.contains('IAST')) url = '${verb_genAPI}'
         'vb=$input1'
         '&prayoga_paxI=$input2'
         '&upasarga=$input3'
         '&encoding=$inEncoding'
-        '&outencoding=$outEncoding'
+        '&outencoding=IAST'
         '&mode=json';
+    else url = '${verb_genAPI}'
+        'vb=$input1'
+        '&prayoga_paxI=$input2'
+        '&encoding=$inEncoding'
+        '&upasarga=-'
+        '&mode=json';
+
     List<dynamic> responseData = [];
     print(url);
     try {
