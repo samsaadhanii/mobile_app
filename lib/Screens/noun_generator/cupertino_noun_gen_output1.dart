@@ -26,11 +26,11 @@ class CupertinoNGOutput extends StatefulWidget {
 
 class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
   bool _isLoading = false;
-  String dickWord = '';
+  String dictWord = '';
 
   @override
   void initState() {
-    dickWord = '${widget.inputWord} (${Const.genderName(
+    dictWord = '${widget.inputWord} (${Const.genderName(
       widget.gender,
       widget.encoding,
     )})';
@@ -52,6 +52,7 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                 const SizedBox(
                   height: 10,
                 ),
+                /// Input word
                 TextButton(
                   onPressed: () {
                     WebAPI.getDictionary(inputWord: widget.inputWord)
@@ -68,11 +69,12 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                       );
                     });
                   },
-                  child: Text(dickWord),
+                  child: Text(dictWord),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
+                /// Data Table
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

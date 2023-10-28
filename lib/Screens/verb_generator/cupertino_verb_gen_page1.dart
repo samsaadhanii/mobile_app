@@ -46,6 +46,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.sizeOf(context).width;
     if (verbList.isNotEmpty) {
       displayVerbList.clear();
       for (var element in verbList) {
@@ -65,65 +66,67 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
           ),
           child: (_isLoading)
               ? const Center(child: Text('loading!'))
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    /// Heading - verbs
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          'Verbal Root', // Set the title text here
-                          style: TextStyle(
-                            fontSize: 20, // Set the font size
+              : SafeArea(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /// Heading - verbs
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(
+                            'Verbal Root', // Set the title text here
+                            style: TextStyle(
+                              fontSize: 20, // Set the font size
 
-                            fontWeight: FontWeight.bold, // Set the font weight
+                              fontWeight: FontWeight.bold, // Set the font weight
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    /// Search bar for verbs
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SearchTextField(
-                        fieldValue: (String value) {
-                          setState(() {
-                            searchText = value;
-                          });
-                        },
+                      /// Search bar for verbs
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SearchTextField(
+                          fieldValue: (String value) {
+                            setState(() {
+                              searchText = value;
+                            });
+                          },
+                        ),
                       ),
-                    ),
 
-                    /// Display the list of verbs
-                    displayVerbList.isNotEmpty
-                        ? SizedBox(
-                            height: 400,
-                            child: SingleChildScrollView(
-                              child: CupertinoListSection(
-                                children: generateList(),
+                      /// Display the list of verbs
+                      displayVerbList.isNotEmpty
+                          ? SizedBox(
+                              height: w * 0.9,
+                              child: SingleChildScrollView(
+                                child: CupertinoListSection(
+                                  children: generateList(),
+                                ),
                               ),
-                            ),
-                          )
-                        : Container(),
-                    // Text(selectedVerb),
-                    const SizedBox(height: 10),
-                    CupertinoButton(
-                        onPressed: () {
-                          print('selectedPrefix: ${widget.selectedPrefix}');
-                          print('selectedVerb: ${verbList[selectedIndex]['wx']}');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CupertinoVerbGeneratorOutput(
-                                    selectedPrefix: widget.selectedPrefix,
-                                    selectedVerb: verbList[selectedIndex]
-                                    ['wx'],
-                                  )));
-                        },
-                        child: const Text('Next')),
-                  ],
-                ),
+                            )
+                          : Container(),
+                      // Text(selectedVerb),
+                      const SizedBox(height: 10),
+                      CupertinoButton(
+                          onPressed: () {
+                            print('selectedPrefix: ${widget.selectedPrefix}');
+                            print('selectedVerb: ${verbList[selectedIndex]['wx']}');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CupertinoVerbGeneratorOutput(
+                                      selectedPrefix: widget.selectedPrefix,
+                                      selectedVerb: verbList[selectedIndex]
+                                      ['wx'],
+                                    )));
+                          },
+                          child: const Text('Next')),
+                    ],
+                  ),
+              ),
         ),
       ),
       if (_isLoading)
