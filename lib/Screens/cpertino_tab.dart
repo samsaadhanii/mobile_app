@@ -41,7 +41,7 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
         return CupertinoTabView(
           builder: (BuildContext context) {
             if (index == 0) {
-              return SamCupertinoHome(title: 'Saṃsādhanī');
+              return const SamCupertinoHome(title: 'Saṃsādhanī');
             } else if (index == 1) {
               return const SamCupertinoTools();
             } else if (index == 2) {
@@ -49,7 +49,7 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
             } else if (index == 3) {
               return const CupertinoAboutPage();
             } else {
-              return SamCupertinoHome(title: 'Saṃsādhanī');
+              return const SamCupertinoHome(title: 'Saṃsādhanī');
             }
           },
         );

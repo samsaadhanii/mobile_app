@@ -97,7 +97,7 @@ class WebAPI with ChangeNotifier {
     String linga = 'puM',
     String vacana = 'ekavacana',
   }) async {
-    var url = '${ashtadhyayi_simulator}'
+    var url = '$ashtadhyayi_simulator'
         'encoding=$encoding'
         '&praatipadika=$inputWrod'
         '&vibhakti=$vibhakti'
@@ -140,7 +140,7 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Unicode',
   }) async {
-    var url = '${sandhiAPI}'
+    var url = '$sandhiAPI'
         'word1=$input1'
         '&word2=$input2'
         '&encoding=$inEncoding'
@@ -164,7 +164,7 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Unicode',
   }) async {
-    var url = '${sandhiSplitterAPI}'
+    var url = '$sandhiSplitterAPI'
         'word=$input1'
         '&encoding=$inEncoding'
         '&outencoding=$outEncoding'
@@ -190,7 +190,7 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Devanagari',
   }) async {
-    var url = '${verb_genAPI}'
+    var url = '$verb_genAPI'
         'vb=$input1'
         '&prayoga_paxI=$input2'
         '&upasarga=$input3'
