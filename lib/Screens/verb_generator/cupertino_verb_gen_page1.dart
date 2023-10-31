@@ -22,7 +22,6 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
   bool verbListReady = false;
   bool updateData = true;
   int selectedIndex = 0;
-  int selectedEncoding = 0;
   final ScrollController controller = ScrollController();
   List<String> displayVerbList = [];
   String searchText = '';
@@ -51,7 +50,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
       displayVerbList.clear();
       for (var element in verbList) {
         String verb = element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])];
+            inputEncodingStr)];
         bool tmp = verb.contains(searchText);
         if (tmp) {
           displayVerbList.add(verb);
@@ -102,26 +101,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
                             height: 400,
                             child: SingleChildScrollView(
                               child: CupertinoListSection(
-                                children: displayVerbList
-                                    .map(
-                                      (e) => CupertinoListTile(
-                                        title: Text(e),
-                                        backgroundColor:
-                                        selectedVerb.compareTo(e) == 0
-                                            ? CupertinoColors.activeBlue
-                                            : (indexCnt++) % 2 == 0
-                                            ? CupertinoColors
-                                            .lightBackgroundGray
-                                            : CupertinoColors.white,
-
-                                        onTap: () {
-                                          setState(() {
-                                            selectedVerb = e;
-                                          });
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
+                                children: generateList(),
                               ),
                             ),
                           )
@@ -130,6 +110,8 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
                     const SizedBox(height: 10),
                     CupertinoButton(
                         onPressed: () {
+                          print('selectedPrefix: ${widget.selectedPrefix}');
+                          print('selectedVerb: ${verbList[selectedIndex]['wx']}');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -156,6 +138,30 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
         ),
     ]);
   }
+List<CupertinoListTile> generateList(){
+    List<CupertinoListTile>list = [];
+for(int i =0; i<displayVerbList.length;i++)
+  {
+    String e = displayVerbList[i];
+    list.add(CupertinoListTile(
+      title: Text(e),
+      backgroundColor:
+      selectedVerb.compareTo(e) == 0
+          ? CupertinoColors.activeBlue
+          : (indexCnt++) % 2 == 0
+          ? CupertinoColors
+          .lightBackgroundGray
+          : CupertinoColors.white,
+
+      onTap: () {
+        setState(() {
+          selectedVerb = e;
+          selectedIndex = i;
+        });
+      },));
+  }
+    return list;
+}
 }
 
 class SearchTextField extends StatelessWidget {

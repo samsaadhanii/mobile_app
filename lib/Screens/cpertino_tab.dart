@@ -32,7 +32,7 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
             label: 'Settings',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.at_circle),
+            icon: Icon(CupertinoIcons.info_circle),
             label: 'About',
           ),
         ],
