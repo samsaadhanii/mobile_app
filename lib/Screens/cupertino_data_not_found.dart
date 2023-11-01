@@ -10,14 +10,14 @@ class CupertinoDataNotFound extends StatefulWidget {
 class _CupertinoDataNotFoundState extends State<CupertinoDataNotFound> {
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
+    return const CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
         middle: Text('Data not found'),
       ),
       child: Center(
         child: FittedBox(
           child: Column(
-            children: const [
+            children: [
               Icon(
                 CupertinoIcons.clear_circled,
                 color: CupertinoColors.destructiveRed,

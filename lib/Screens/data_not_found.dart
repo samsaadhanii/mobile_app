@@ -14,10 +14,10 @@ class _DataNotFoundState extends State<DataNotFound> {
       appBar: AppBar(
         title: const Text('Data not found'),
       ),
-      body: Center(
+      body: const Center(
         child: FittedBox(
           child: Column(
-            children: const [
+            children: [
               Icon(
                 Icons.close,
                 color: Colors.redAccent,

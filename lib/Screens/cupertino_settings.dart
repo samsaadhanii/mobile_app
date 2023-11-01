@@ -11,7 +11,7 @@ class CupertinoSettings extends StatefulWidget {
 const double _kItemExtent = 32.0;
 
 class _CupertinoSettingsState extends State<CupertinoSettings> {
-  bool _isLoading = false;
+  final bool _isLoading = false;
   // String inputEncodingStr = Const.inputEncodingList[0];
   // String outputEncodingStr = Const.outputEncodingList[0];
   late Size dSize;

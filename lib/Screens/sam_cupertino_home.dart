@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import '../widgets/app_logo.dart';
 
 class SamCupertinoHome extends StatefulWidget {
-  SamCupertinoHome({super.key, required this.title});
+  const SamCupertinoHome({super.key, required this.title});
   final String title;
 
   @override
