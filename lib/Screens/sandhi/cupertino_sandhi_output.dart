@@ -44,64 +44,65 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
         middle: Text('Output'),
       ),
       child: SafeArea(
-        child: widget.lType == LearnerLevel.basic
-            ? basicOutput()
-            : Column(
-                children: [
-                  /// No longer used
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     Container(
-                  //       padding: const EdgeInsets.all(8),
-                  //       color: Colors.lightBlueAccent,
-                  //       child: Row(
-                  //         children: [
-                  //           (widget.lType == LearnerLevel.intermediate ||
-                  //                   widget.lType == LearnerLevel.advanced)
-                  //               ? const Icon(Icons.check)
-                  //               : const Icon(Icons.close),
-                  //           const SizedBox(width: 6),
-                  //           const Text('Sandhi'),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     Container(
-                  //       padding: const EdgeInsets.all(8),
-                  //       color: Colors.lightBlueAccent,
-                  //       child: Row(
-                  //         children: [
-                  //           (widget.lType == LearnerLevel.advanced)
-                  //               ? const Icon(Icons.check)
-                  //               : const Icon(Icons.close),
-                  //           const SizedBox(width: 6),
-                  //           const Text('sūtram'),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FittedBox(
-                      child: Center(
-                        child: DataTable(
-                          horizontalMargin: 10,
-                          columnSpacing: 10,
-                          border: TableBorder.all(),
-                          columns: getColumns(),
-                          rows: getRows(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-      ),
+          child: widget.lType == LearnerLevel.basic
+              ? basicOutput()
+              : alternativeOutput()
+          // : Column(
+          //     children: [
+          //       /// No longer used
+          //       // const SizedBox(
+          //       //   height: 10,
+          //       // ),
+          //       // Row(
+          //       //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       //   children: [
+          //       //     Container(
+          //       //       padding: const EdgeInsets.all(8),
+          //       //       color: Colors.lightBlueAccent,
+          //       //       child: Row(
+          //       //         children: [
+          //       //           (widget.lType == LearnerLevel.intermediate ||
+          //       //                   widget.lType == LearnerLevel.advanced)
+          //       //               ? const Icon(Icons.check)
+          //       //               : const Icon(Icons.close),
+          //       //           const SizedBox(width: 6),
+          //       //           const Text('Sandhi'),
+          //       //         ],
+          //       //       ),
+          //       //     ),
+          //       //     Container(
+          //       //       padding: const EdgeInsets.all(8),
+          //       //       color: Colors.lightBlueAccent,
+          //       //       child: Row(
+          //       //         children: [
+          //       //           (widget.lType == LearnerLevel.advanced)
+          //       //               ? const Icon(Icons.check)
+          //       //               : const Icon(Icons.close),
+          //       //           const SizedBox(width: 6),
+          //       //           const Text('sūtram'),
+          //       //         ],
+          //       //       ),
+          //       //     ),
+          //       //   ],
+          //       // ),
+          //       const SizedBox(height: 10),
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: FittedBox(
+          //           child: Center(
+          //             child: DataTable(
+          //               horizontalMargin: 10,
+          //               columnSpacing: 10,
+          //               border: TableBorder.all(),
+          //               columns: getColumns(),
+          //               rows: getRows(),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          ),
     );
   }
 
@@ -216,32 +217,35 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _w1Spelling?
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.amber[50],
-                                ),
-                                child: Text(
-                                  e['spelling_word1'],
-                                  style:
-                                      const TextStyle(color: Colors.redAccent),
-                                ),
-                              ):Container(),
+                              _w1Spelling
+                                  ? Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.amber[50],
+                                      ),
+                                      child: Text(
+                                        e['spelling_word1'],
+                                        style: const TextStyle(
+                                            color: Colors.redAccent),
+                                      ),
+                                    )
+                                  : Container(),
                               const Text(' + '),
-                              _w2Spelling?
-                              Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.red[300],
-                                ),
-                                child: Text(
-                                  e['spelling_word2'],
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ):Container(),
+                              _w2Spelling
+                                  ? Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.red[300],
+                                      ),
+                                      child: Text(
+                                        e['spelling_word2'],
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                           const SizedBox(height: 10),
@@ -250,57 +254,64 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                     : Container(),
 
                 /// Last and first letter & Modified letter
-                _w1LastL||_w2FirstL||_modifiedL?
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    /// Last and first letter
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _w1LastL?
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.red,
+                _w1LastL || _w2FirstL || _modifiedL
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          /// Last and first letter
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _w1LastL
+                                  ? Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.red,
+                                      ),
+                                      child: Text(
+                                        e['last_letter'],
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    )
+                                  : Container(),
+                              const Text(' + '),
+                              _w2FirstL
+                                  ? Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: Colors.blue,
+                                      ),
+                                      child: Text(
+                                        e['first_letter'],
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
                           ),
-                          child: Text(
-                            e['last_letter'],
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ):Container(),
-                        const Text(' + '),
-                        _w2FirstL?Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.blue,
-                          ),
-                          child: Text(
-                            e['first_letter'],
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ):Container(),
-                      ],
-                    ),
-                    const Text(' = '),
+                          const Text(' = '),
 
-                    /// Modified letter
-                    _modifiedL?
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.lightGreenAccent,
-                      ),
-                      child: Text(
-                        e['modified_letter'],
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ):Container(),
-                  ],
-                ):Container(),
+                          /// Modified letter
+                          _modifiedL
+                              ? Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.lightGreenAccent,
+                                  ),
+                                  child: Text(
+                                    e['modified_letter'],
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -378,4 +389,107 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
       ),
     );
   }
+
+  Widget alternativeOutput() {
+    List<String> h = Const.sandhiTableHeadings(outputEncodingStr);
+    List<Container> cList = [];
+    // for (var e in widget.data) {
+    List e = widget.data;
+    for (int i = 0; i < e.length; i++) {
+      bool flag = (i) % 2 == 0;
+      cList.add(Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: CupertinoColors.lightBackgroundGray,
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Column(children: [
+          Row(
+            children: [
+              Text(h[0], style: const TextStyle(fontSize: 14)),
+              Text(e[i]['word1']),
+            ],
+          ),
+          const Divider(height: 5),
+          Row(
+            children: [
+              Text(h[1], style: const TextStyle(fontSize: 14)),
+              Text(e[i]['word2']),
+            ],
+          ),
+          const Divider(height: 5),
+          Row(
+            children: [
+              Text(h[2], style: const TextStyle(fontSize: 14)),
+              Expanded(
+                  child: Text(
+                e[i]['saMhiwapaxam'],
+                softWrap: true,
+              )),
+            ],
+          ),
+          const Divider(height: 5),
+          Row(
+            children: [
+              Text(
+                h[3],
+                style: const TextStyle(fontSize: 14),
+                softWrap: true,
+              ),
+              Expanded(
+                  child: Text(
+                e[i]['sanXiH'],
+                softWrap: true,
+              )),
+            ],
+          ),
+          const Divider(height: 5),
+          if (widget.lType == LearnerLevel.advanced)Row(
+            children: [
+              Text(
+                h[4],
+                style: const TextStyle(fontSize: 14),
+                softWrap: true,
+              ),
+              Expanded(
+                  child: Text(
+                e[i]['sUwram'],
+                softWrap: true,
+              )),
+            ],
+          ),
+          const Divider(height: 5),
+        ]),
+      ));
+    }
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CupertinoListSection.insetGrouped(
+              dividerMargin: 5,
+              children: cList),
+        ],
+      ),
+    );
+  }
+
+// Widget buildFormTable(List<dynamic> data) {
+//   String prathama =
+//       outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'prathama';
+//   String dvitiya =
+//       outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'dvitiya';
+//   String samhita =
+//       outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'samhita';
+//   String sandhi =
+//       outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'sandhi';
+//   return Padding(
+//     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+//     child: Container(
+//       child: Column(children: [
+//         Text(prathama, style: const TextStyle(fontSize: 14)),
+//         Text(data['word1'])
+//       ],),
+//     ),
+//   );
+// }
 }
