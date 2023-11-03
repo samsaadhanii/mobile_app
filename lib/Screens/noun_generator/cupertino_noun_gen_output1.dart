@@ -36,7 +36,22 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
     )})';
     super.initState();
   }
-
+@override
+  void didChangeDependencies() {
+  WebAPI.transLiterateWord(
+      input: widget.inputWord,
+      src: Const.verbAPIOutEncodingAbbreviation(inputEncodingStr),
+      tar: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr)).then((value) {
+    print('Transliterate Out: $value');
+    setState(() {
+      dictWord = '$value (${Const.genderName(
+        widget.gender,
+        widget.encoding,
+      )})';
+    });
+  });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
