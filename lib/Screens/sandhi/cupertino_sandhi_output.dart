@@ -215,7 +215,7 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                     ? Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               _w1Spelling
                                   ? Container(
@@ -228,23 +228,27 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
                                         e['spelling_word1'],
                                         style: const TextStyle(
                                             color: Colors.redAccent),
+                                        softWrap: true,
                                       ),
                                     )
                                   : Container(),
                               const Text(' + '),
                               _w2Spelling
-                                  ? Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Colors.red[300],
+                                  ? Expanded(
+                                    child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: Colors.red[300],
+                                        ),
+                                        child: Text(
+                                          e['spelling_word2'],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          softWrap: true,
+                                        ),
                                       ),
-                                      child: Text(
-                                        e['spelling_word2'],
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    )
+                                  )
                                   : Container(),
                             ],
                           ),
@@ -416,10 +420,8 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
           text1(h[3], tsPurple()),
           text2(e[i]['sanXiH']),
           const Divider(height: 5),
-          if (widget.lType == LearnerLevel.advanced)
-                text1(h[4], tsRed()),
-          if (widget.lType == LearnerLevel.advanced)
-                text2(e[i]['sUwram']),
+          if (widget.lType == LearnerLevel.advanced) text1(h[4], tsRed()),
+          if (widget.lType == LearnerLevel.advanced) text2(e[i]['sUwram']),
           const Divider(height: 5),
         ]),
       ));
@@ -436,42 +438,40 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
     );
   }
 
-  Widget cText(String s) {
-    TextEditingController textController = TextEditingController(text: s);
-    return CupertinoTextField.borderless(
-      controller: textController,
-      readOnly: true,
-    );
-  }
-  Widget text1(String s, TextStyle ts){
-
-    return Text(s,
+  Widget text1(String s, TextStyle ts) {
+    return Text(
+      s,
       style: ts,
-      textAlign: TextAlign.start
+      textAlign: TextAlign.start,
+      softWrap: true,
     );
   }
-  Widget text2(String s){
-    return SizedBox(width:w,child: Text(s,textAlign: TextAlign.center));
+
+  Widget text2(String s) {
+    return SizedBox(
+      width: w,
+      child: Text(s, textAlign: TextAlign.center,softWrap: true),
+    );
   }
-  TextStyle ts1(){
-    return const TextStyle(
-        fontSize: 14, color: CupertinoColors.activeGreen);
+
+  TextStyle ts1() {
+    return const TextStyle(fontSize: 14, color: CupertinoColors.activeGreen);
   }
-  TextStyle tsBlue(){
-    return const TextStyle(
-        fontSize: 14, color: CupertinoColors.activeBlue);
+
+  TextStyle tsBlue() {
+    return const TextStyle(fontSize: 14, color: CupertinoColors.activeBlue);
   }
-  TextStyle tsOrange(){
-    return const TextStyle(
-        fontSize: 14, color: CupertinoColors.activeOrange);
+
+  TextStyle tsOrange() {
+    return const TextStyle(fontSize: 14, color: CupertinoColors.activeOrange);
   }
-  TextStyle tsPurple(){
-    return const TextStyle(
-        fontSize: 14, color: CupertinoColors.systemPurple);
+
+  TextStyle tsPurple() {
+    return const TextStyle(fontSize: 14, color: CupertinoColors.systemPurple);
   }
-  TextStyle tsRed(){
-    return const TextStyle(
-        fontSize: 14, color: CupertinoColors.destructiveRed);
+
+  TextStyle tsRed() {
+    return const TextStyle(fontSize: 14, color: CupertinoColors.destructiveRed);
   }
 // Widget buildFormTable(List<dynamic> data) {
 //   String prathama =
