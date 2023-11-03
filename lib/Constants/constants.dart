@@ -78,6 +78,13 @@ Roman (WX)	WX
 Devanagari	Devanagari
     * */
   }
+  static String verbAPIOutEncodingAbbreviation(String type) {
+    if (type == IAST_ROMAN_DIACRITIC) {
+      return 'IAST';
+    } else {
+      return 'Devanagari';
+    }
+  }
 
   static List<String> prefixEncodingList = [
     IAST_ROMAN_DIACRITIC,
