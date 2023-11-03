@@ -396,68 +396,30 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
     // for (var e in widget.data) {
     List e = widget.data;
     for (int i = 0; i < e.length; i++) {
-      bool flag = (i) % 2 == 0;
+      // bool flag = (i) % 2 == 0;
       cList.add(Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: CupertinoColors.lightBackgroundGray,
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          color: CupertinoColors.systemGrey6,
         ),
         padding: const EdgeInsets.all(10),
-        child: Column(children: [
-          Row(
-            children: [
-              Text(h[0], style: const TextStyle(fontSize: 14)),
-              Text(e[i]['word1']),
-            ],
-          ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          text1(h[0], ts1()),
+          text2(e[i]['word1']),
           const Divider(height: 5),
-          Row(
-            children: [
-              Text(h[1], style: const TextStyle(fontSize: 14)),
-              Text(e[i]['word2']),
-            ],
-          ),
+          text1(h[1], tsBlue()),
+          text2(e[i]['word2']),
           const Divider(height: 5),
-          Row(
-            children: [
-              Text(h[2], style: const TextStyle(fontSize: 14)),
-              Expanded(
-                  child: Text(
-                e[i]['saMhiwapaxam'],
-                softWrap: true,
-              )),
-            ],
-          ),
+          text1(h[2], tsOrange()),
+          text2(e[i]['saMhiwapaxam']),
           const Divider(height: 5),
-          Row(
-            children: [
-              Text(
-                h[3],
-                style: const TextStyle(fontSize: 14),
-                softWrap: true,
-              ),
-              Expanded(
-                  child: Text(
-                e[i]['sanXiH'],
-                softWrap: true,
-              )),
-            ],
-          ),
+          text1(h[3], tsPurple()),
+          text2(e[i]['sanXiH']),
           const Divider(height: 5),
-          if (widget.lType == LearnerLevel.advanced)Row(
-            children: [
-              Text(
-                h[4],
-                style: const TextStyle(fontSize: 14),
-                softWrap: true,
-              ),
-              Expanded(
-                  child: Text(
-                e[i]['sUwram'],
-                softWrap: true,
-              )),
-            ],
-          ),
+          if (widget.lType == LearnerLevel.advanced)
+                text1(h[4], tsRed()),
+          if (widget.lType == LearnerLevel.advanced)
+                text2(e[i]['sUwram']),
           const Divider(height: 5),
         ]),
       ));
@@ -466,13 +428,51 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
       child: Column(
         children: [
           CupertinoListSection.insetGrouped(
-              dividerMargin: 5,
+              // header: Text(""),
+              backgroundColor: CupertinoColors.white,
               children: cList),
         ],
       ),
     );
   }
 
+  Widget cText(String s) {
+    TextEditingController textController = TextEditingController(text: s);
+    return CupertinoTextField.borderless(
+      controller: textController,
+      readOnly: true,
+    );
+  }
+  Widget text1(String s, TextStyle ts){
+
+    return Text(s,
+      style: ts,
+      textAlign: TextAlign.start
+    );
+  }
+  Widget text2(String s){
+    return SizedBox(width:w,child: Text(s,textAlign: TextAlign.center));
+  }
+  TextStyle ts1(){
+    return const TextStyle(
+        fontSize: 14, color: CupertinoColors.activeGreen);
+  }
+  TextStyle tsBlue(){
+    return const TextStyle(
+        fontSize: 14, color: CupertinoColors.activeBlue);
+  }
+  TextStyle tsOrange(){
+    return const TextStyle(
+        fontSize: 14, color: CupertinoColors.activeOrange);
+  }
+  TextStyle tsPurple(){
+    return const TextStyle(
+        fontSize: 14, color: CupertinoColors.systemPurple);
+  }
+  TextStyle tsRed(){
+    return const TextStyle(
+        fontSize: 14, color: CupertinoColors.destructiveRed);
+  }
 // Widget buildFormTable(List<dynamic> data) {
 //   String prathama =
 //       outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'prathama';
