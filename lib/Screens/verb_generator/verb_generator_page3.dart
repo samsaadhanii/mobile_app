@@ -173,61 +173,61 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    awmane[0]['lakāra_0'],
+                    awmane[0]['lakAra_0'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_0']),
                   Text(
-                    awmane[0]['lakāra_1'],
+                    awmane[0]['lakAra_1'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_1']),
                   Text(
-                    awmane[0]['lakāra_2'],
+                    awmane[0]['lakAra_2'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_2']),
                   Text(
-                    awmane[0]['lakāra_3'],
+                    awmane[0]['lakAra_3'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_3']),
                   Text(
-                    awmane[0]['lakāra_4'],
+                    awmane[0]['lakAra_4'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_4']),
                   Text(
-                    awmane[0]['lakāra_5'],
+                    awmane[0]['lakAra_5'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_5']),
                   Text(
-                    awmane[0]['lakāra_6'],
+                    awmane[0]['lakAra_6'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_6']),
                   Text(
-                    awmane[0]['lakāra_7'],
+                    awmane[0]['lakAra_7'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_7']),
                   Text(
-                    awmane[0]['lakāra_8'],
+                    awmane[0]['lakAra_8'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(awmane[0]['l_forms_8']),
                   Text(
-                    awmane[0]['lakāra_9'],
+                    awmane[0]['lakAra_9'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
@@ -244,61 +244,61 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    parasme[0]['lakāra_0'],
+                    parasme[0]['lakAra_0'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_0']),
                   Text(
-                    parasme[0]['lakāra_1'],
+                    parasme[0]['lakAra_1'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_1']),
                   Text(
-                    parasme[0]['lakāra_2'],
+                    parasme[0]['lakAra_2'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_2']),
                   Text(
-                    parasme[0]['lakāra_3'],
+                    parasme[0]['lakAra_3'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_3']),
                   Text(
-                    parasme[0]['lakāra_4'],
+                    parasme[0]['lakAra_4'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_4']),
                   Text(
-                    parasme[0]['lakāra_5'],
+                    parasme[0]['lakAra_5'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_5']),
                   Text(
-                    parasme[0]['lakāra_6'],
+                    parasme[0]['lakAra_6'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_6']),
                   Text(
-                    parasme[0]['lakāra_7'],
+                    parasme[0]['lakAra_7'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_7']),
                   Text(
-                    parasme[0]['lakāra_8'],
+                    parasme[0]['lakAra_8'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),
                   buildFormTable(parasme[0]['l_forms_8']),
                   Text(
-                    parasme[0]['lakāra_9'],
+                    parasme[0]['lakAra_9'],
                     style:
                         const TextStyle(fontSize: 16, color: Colors.redAccent),
                   ),

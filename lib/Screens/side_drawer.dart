@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/noun_generator/noun_generator.dart';
 import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
-import 'package:mobile_app/Screens/verb_generator/verb_generator_page1.dart';
+import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 import '../widgets/app_logo.dart';
 import 'about_page.dart';
 
@@ -37,7 +37,7 @@ class _SideDrawerState extends State<SideDrawer> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const VerbGeneratorPage1()));
+                    builder: (context) => const VerbGeneratorPrefixes()));
           }),
           _createDrawerItem(Icons.nature_outlined, 'Sandhi Joining (सन्धि)',
               () {

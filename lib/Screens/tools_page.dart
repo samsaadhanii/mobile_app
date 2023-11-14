@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
-import 'package:mobile_app/Screens/verb_generator/verb_generator_page1.dart';
+import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 
 import 'noun_generator/noun_generator.dart';
 
@@ -67,7 +67,7 @@ class _ToolsPageState extends State<ToolsPage> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return const VerbGeneratorPage1();
+                        return const VerbGeneratorPrefixes();
                       },
                     ),
                   );

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Constants/constants.dart';
-import 'package:mobile_app/Screens/verb_generator/verb_generator_page2.dart';
+import 'package:mobile_app/Screens/verb_generator/verb_generator_page3.dart';
 import 'package:mobile_app/model/data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
-class VerbGeneratorPage1 extends StatefulWidget {
-  const VerbGeneratorPage1({super.key});
+class VerbGeneratorVerbs extends StatefulWidget {
+  const VerbGeneratorVerbs({super.key, required this.selectedPrefix});
+
+  final String selectedPrefix;
 
   @override
-  State<VerbGeneratorPage1> createState() => _VerbGeneratorPage1State();
+  State<VerbGeneratorVerbs> createState() => _VerbGeneratorVerbsState();
 }
 
-class _VerbGeneratorPage1State extends State<VerbGeneratorPage1> {
+class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
   bool _isLoading = false;
   List<Map<String, dynamic>> verbList = [];
   String selectedVerb = '';
@@ -205,7 +207,8 @@ class _VerbGeneratorPage1State extends State<VerbGeneratorPage1> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => VerbGeneratorPage2(
+                                  builder: (context) => VerbGeneratorPage3(
+                                        selectedPrefix: widget.selectedPrefix,
                                         selectedVerb: verbList[selectedIndex]
                                             ['wx'],
                                       )));
