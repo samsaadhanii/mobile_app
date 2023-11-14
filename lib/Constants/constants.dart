@@ -78,6 +78,13 @@ Roman (WX)	WX
 Devanagari	Devanagari
     * */
   }
+  static String verbAPIOutEncodingAbbreviation(String type) {
+    if (type == IAST_ROMAN_DIACRITIC) {
+      return 'IAST';
+    } else {
+      return 'Devanagari';
+    }
+  }
 
   static List<String> prefixEncodingList = [
     IAST_ROMAN_DIACRITIC,
@@ -217,19 +224,19 @@ Devanagari	Devanagari
   static List<String> sandhiTableHeadings(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return [
-        'प्रथमपदम्',
-        'द्वितीयपदम्',
-        'संहितपदम्',
-        'सन्धिः',
-        'सूत्रम्/वार्तिकम्',
+        'प्रथमपदम्:  ',
+        'द्वितीयपदम्:  ',
+        'संहितपदम्:  ',
+        'सन्धिः  ',
+        'सूत्रम्/वार्तिकम्:  ',
       ];
     } else {
       return [
-        'prathamapadam',
-        'dvitīyapadam',
-        'saṃhitapadam',
-        'sandhiḥ',
-        'sūtram/vārtikam',
+        'prathamapadam:  ',
+        'dvitīyapadam:  ',
+        'saṃhitapadam:  ',
+        'sandhiḥ:  ',
+        'sūtram/vārtikam:  ',
       ];
     }
   }

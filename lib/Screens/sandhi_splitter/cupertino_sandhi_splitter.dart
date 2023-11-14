@@ -37,7 +37,7 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
       children: [
         CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Sandhi Splitter'),
+            middle: Text('Sandhi Analyser (सन्धि-विच्छेद)'),
           ),
           child: SafeArea(
             child: Column(
@@ -137,8 +137,14 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                 ),
                 Column(
                   children: [
-                    const Text('Powered by Sanskrit Heritage Platform'),
-                    CupertinoButton(onPressed: _launchUrl, child: const Text('https://sanskrit.inria.fr')),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Text('Powered by'),
+                        CupertinoButton(onPressed: _launchUrl, child: const Text('Sanskrit Heritage Platform')),
+                        const SizedBox(width: 5),
+                      ],
+                    ),
                     const SizedBox(height: 5),
                   ],
                 ),

@@ -42,6 +42,7 @@ class _CupertinoVerbGeneratorPrefixState
 
   @override
   Widget build(BuildContext context) {
+    double w = MediaQuery.sizeOf(context).width;
     var list = Provider.of<DataProvider>(context).prefixData;
     print('list length: ${list.length}');
     if (list.length > 1) {
@@ -66,7 +67,7 @@ class _CupertinoVerbGeneratorPrefixState
       SafeArea(
         child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Verb Generator'),
+            middle: Text('Verb Generator (क्रियारूप-निष्पादिका)'),
           ),
           child: (_isLoading)
               ? const Center(child: Text('loading!'))
@@ -108,7 +109,7 @@ class _CupertinoVerbGeneratorPrefixState
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                 color: CupertinoColors.activeOrange,
-                                height: 400,
+                                height: w * 0.9,
                                 child: SingleChildScrollView(
                                   child: CupertinoListSection(
                                     children: displayPrefixList

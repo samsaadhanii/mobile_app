@@ -37,7 +37,7 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
     return Stack(children: [
       CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text('Sandhi'),
+          middle: Text('Sandhi Joining (सन्धि)'),
         ),
         child: body(),
       ),

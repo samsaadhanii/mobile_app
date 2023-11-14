@@ -88,40 +88,72 @@ class _SamCupertinoHomeState extends State<SamCupertinoHome> {
     } else {
       res = CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(middle: Text(widget.title)),
-        child: Column(children: <Widget>[
-          const SizedBox(height: 100),
-          Container(
-            alignment: Alignment.center,
-            padding:
-                const EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
-            height: 150.00,
-            child: appLogo,
-          ),
-          const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: RichText(
-              text: const TextSpan(
-                text: '   Saṃsādhanī is a computational platform developed '
-                    'at the Department of Sanskrit studies for Sanskrit '
-                    'language processing. \n\n\n'
-                    'It hosts several computational tools such as word  '
-                    'analyser, word generator, sandhi joiner and sandhi '
-                    'analyser, sentential analyser and sentence generator, '
-                    'and also a  Sanskrit-Hindi Machine Translation system.'
-                    '\n\n\n'
-                    'The words are also linked to various monolingual and bilingual dictionaries.',
-                style: TextStyle(
-                  color: CupertinoColors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300,
-                  fontStyle: FontStyle.normal,
-                  // fontFamily: 'iFont',
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.only(left: 30, top: 10, right: 30, bottom: 10),
+                height: 150.00,
+                child: appLogo,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: const TextSpan(
+                    text: '   Saṃsādhanī is a computational platform developed '
+                        'at the Department of Sanskrit studies for Sanskrit '
+                        'language processing.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                      // fontFamily: 'iFont',
+                    ),
+                  ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: const TextSpan(
+                    text: 'It hosts several computational tools such as word  '
+                        'analyser, word generator, sandhi joiner and sandhi '
+                        'analyser, sentential analyser and sentence generator, '
+                        'and also a  Sanskrit-Hindi Machine Translation system.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                      // fontFamily: 'iFont',
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: const TextSpan(
+                    text: '   The words are also linked to various monolingual and bilingual dictionaries.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      fontStyle: FontStyle.normal,
+                      // fontFamily: 'iFont',
+                    ),
+                  ),
+                ),
+              ),
+              ],
             ),
           ),
-        ]),
+        ),
       );
     }
     return res;

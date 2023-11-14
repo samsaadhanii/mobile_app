@@ -3,6 +3,7 @@ import 'package:mobile_app/Screens/sandhi/cupertino_sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dart';
 // import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_page1.dart';
 import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_prefix.dart';
+import 'dhatupatha/dhatupatha_page_one.dart';
 import 'noun_generator/cupertino_noun_generator.dart';
 
 class SamCupertinoTools extends StatefulWidget {
@@ -83,7 +84,15 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
             CupertinoListTile.notched(
               title: const Text('Dhātupāṭhaḥ (धातुपाठः)'),
               trailing: const CupertinoListTileChevron(),
-              onTap: () {},
+              onTap: ()  => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const DhatupathaPageOne();
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),

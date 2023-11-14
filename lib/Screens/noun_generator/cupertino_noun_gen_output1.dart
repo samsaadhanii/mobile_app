@@ -26,17 +26,32 @@ class CupertinoNGOutput extends StatefulWidget {
 
 class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
   bool _isLoading = false;
-  String dickWord = '';
+  String dictWord = '';
 
   @override
   void initState() {
-    dickWord = '${widget.inputWord} (${Const.genderName(
+    dictWord = '${widget.inputWord} (${Const.genderName(
       widget.gender,
       widget.encoding,
     )})';
     super.initState();
   }
-
+@override
+  void didChangeDependencies() {
+  WebAPI.transLiterateWord(
+      input: widget.inputWord,
+      src: Const.verbAPIOutEncodingAbbreviation(inputEncodingStr),
+      tar: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr)).then((value) {
+    print('Transliterate Out: $value');
+    setState(() {
+      dictWord = '$value (${Const.genderName(
+        widget.gender,
+        widget.encoding,
+      )})';
+    });
+  });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +67,7 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                 const SizedBox(
                   height: 10,
                 ),
+                /// Input word
                 TextButton(
                   onPressed: () {
                     WebAPI.getDictionary(inputWord: widget.inputWord)
@@ -68,11 +84,12 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                       );
                     });
                   },
-                  child: Text(dickWord),
+                  child: Text(dictWord),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
+                /// Data Table
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

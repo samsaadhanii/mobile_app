@@ -41,12 +41,12 @@ class _CupertinoVerbGeneratorOutputState
             input2: 'karwari-uBayapaxI',
             input3: widget.selectedPrefix,
             inEncoding: 'WX',
-            outEncoding: outputEncodingStr)
+            outEncoding: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr))
         .then((value) {
       setState(() {
         output = value;
         _isLoading = false;
-        print(output);
+        // print(output);
         // print(output.length);
         // txt.text = value as String;
       });
@@ -140,6 +140,7 @@ class _CupertinoVerbGeneratorOutputState
   Widget buildAtmanepadi(BuildContext context) {
     if (output.isNotEmpty) {
       List<dynamic> awmane = output[0]['Awmane'];
+      print(awmane);
       return SafeArea(
         child: SingleChildScrollView(
           child: Column(
