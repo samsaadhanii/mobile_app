@@ -1,15 +1,9 @@
-// ignore_for_file: public_member_api_docs
-
 import 'package:about/about.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../widgets/app_logo.dart';
-
-// import 'pubspec.dart';
-
-// void main() => runApp(const MyApp());
 
 class AppAboutPage extends StatefulWidget {
   const AppAboutPage({Key? key}) : super(key: key);
@@ -49,11 +43,12 @@ class _AppAboutPageState extends State<AppAboutPage> {
       title: const Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
       applicationDescription: const Text(
-        'Saṃsādhanī is a computational platform developed at the Department '
-        'of Sanskrit studies for Sanskrit language processing following the'
-        ' traditional knowledge systems of Vyākaraṇa, Nyāya and Mīmāṃsā and'
-        ' the theories of śābdabodhaḥ. All the tools are developed by a '
-        'Team led by Prof. Amba Kulkarni and her research students',
+        'Saṃsādhanī is a computational platform developed at the Department'
+        ' of Sanskrit studies for Sanskrit language processing to overcome'
+        ' these difficulties. It hosts several computational tools such as'
+        ' morphological analyser, morphological generator, sandhi analysis '
+        'and generation modules, and a dependency parser and Sanskrit-Hindi'
+        ' Machine Translation system.',
         textAlign: TextAlign.justify,
       ),
       applicationIcon: Padding(
@@ -73,19 +68,9 @@ class _AppAboutPageState extends State<AppAboutPage> {
           icon: Icon(Icons.view_list),
         ),
         MarkdownPageListTile(
-          filename: 'LICENSE.md',
-          title: Text('View License'),
-          icon: Icon(Icons.description),
-        ),
-        MarkdownPageListTile(
           filename: 'CONTRIBUTING.md',
           title: Text('Contributing'),
           icon: Icon(Icons.share),
-        ),
-        MarkdownPageListTile(
-          filename: 'CODE_OF_CONDUCT.md',
-          title: Text('Code of conduct'),
-          icon: Icon(Icons.sentiment_satisfied),
         ),
         LicensesPageListTile(
           title: Text('Open source Licenses'),

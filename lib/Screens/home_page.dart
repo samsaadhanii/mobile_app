@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_app/Screens/side_drawer.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -176,7 +175,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        drawer: const SideDrawer(),
+        // drawer: const SideDrawer(),
       );
     }
     return res;

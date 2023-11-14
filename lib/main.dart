@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/cpertino_tab.dart';
-import 'Screens/home_page.dart';
+import 'Screens/tabbed_view.dart';
 import 'model/data_provider.dart';
 
 void main() {
@@ -35,7 +35,7 @@ class _SamMaterialState extends State<SamMaterial> {
       debugShowCheckedModeBanner: false,
       title: appTitle,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(title: appTitle),
+      home: TabbedView(title: appTitle),
     );
   }
 }
