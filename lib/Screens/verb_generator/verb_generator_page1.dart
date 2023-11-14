@@ -104,11 +104,11 @@ class _VerbGeneratorPage1State extends State<VerbGeneratorPage1> {
                             height: MediaQuery.sizeOf(context).height * 0.6,
                             child: SearchableList<String>(
                               initialList: displayVerbList,
-                              builder: (iniIndex, acIndex) {
-                                final isSelected = iniIndex == selectedIndex;
+                              builder: (list, index, item) {
+                                final isSelected = index == selectedIndex;
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: acIndex.isEven
+                                    color: index.isEven
                                         ? Colors.black12
                                         : Colors.white10,
                                     border:
@@ -116,13 +116,13 @@ class _VerbGeneratorPage1State extends State<VerbGeneratorPage1> {
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: ListTile(
-                                    title: Text(displayVerbList[iniIndex]),
+                                    title: Text(displayVerbList[index]),
                                     tileColor: isSelected ? Colors.blue : null,
                                     onTap: () {
                                       setState(() {
                                         selectedIndex = isSelected
                                             ? -1
-                                            : iniIndex; // Toggle selection
+                                            : index; // Toggle selection
                                       });
                                     },
                                   ),
