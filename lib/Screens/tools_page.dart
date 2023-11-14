@@ -19,49 +19,73 @@ class _ToolsPageState extends State<ToolsPage> {
           children: <Widget>[
             Card(
               child: ListTile(
-                title: const Text('Morphological Analyser (शब्द-विश्लेषक)'),
+                title: const Text('Morphological Analyser ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(शब्द-विश्लेषक)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
             Card(
               child: ListTile(
-                title: const Text('Noun Generator (नामरूप-निष्पादिका)'),
+                title: const Text('Noun Generator ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(नामरूप-निष्पादिका)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
             Card(
               child: ListTile(
-                title: const Text('Verb Generator (क्रियारूप-निष्पादिका)'),
+                title: const Text('Verb Generator ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(क्रियारूप-निष्पादिका)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
             Card(
               child: ListTile(
-                title: const Text('Sandhi Joining (सन्धि)'),
+                title: const Text('Sandhi Joining ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(सन्धि)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
             Card(
               child: ListTile(
-                title: const Text('Sandhi Analyser (सन्धि-विच्छेद)'),
+                title: const Text('Sandhi Analyser ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(सन्धि-विच्छेद)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
             Card(
               child: ListTile(
-                title: const Text('Dhātupāṭhaḥ (धातुपाठः)'),
+                title: const Text('Dhātupāṭhaḥ ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text(''),
+                subtitle: const Text('(धातुपाठः)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () {},
               ),
             ),
