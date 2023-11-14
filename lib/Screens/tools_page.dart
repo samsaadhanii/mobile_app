@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/Screens/sandhi/sandhi.dart';
+import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
+import 'package:mobile_app/Screens/verb_generator/verb_generator_page1.dart';
+
+import 'noun_generator/noun_generator.dart';
 
 class ToolsPage extends StatefulWidget {
   const ToolsPage({super.key});
@@ -38,7 +43,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(नामरूप-निष्पादिका)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const NounGenerator();
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
             Card(
@@ -50,7 +63,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(क्रियारूप-निष्पादिका)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const VerbGeneratorPage1();
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
             Card(
@@ -62,7 +83,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(सन्धि)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const Sandhi();
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
             Card(
@@ -74,7 +103,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(सन्धि-विच्छेद)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const SandhiSplitter();
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
             Card(
