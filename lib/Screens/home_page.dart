@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+import '../widgets/app_logo.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
   final String title;
@@ -114,7 +116,13 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(),
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(
+                      left: 30, top: 10, right: 30, bottom: 10),
+                  height: 150.00,
+                  child: appLogo,
+                ),
                 RichText(
                   text: const TextSpan(
                     text: '   Saṃsādhanī is a computational platform developed '

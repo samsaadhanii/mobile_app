@@ -33,21 +33,21 @@ class _TabbedViewState extends State<TabbedView> {
             icon: ImageIcon(AssetImage("assets/images/tools1.png"),
                 color: Colors.white),
             label: 'Tools',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_outlined, color: Colors.white),
             label: 'Settings',
-            backgroundColor: Colors.purple,
+            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info_outline, color: Colors.white),
             label: 'About',
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.blue,
           ),
         ],
         onTap: (int index) {
-          print('index: $index');
+          // print('index: $index');
           setState(() {
             selectedTab = index;
           });
