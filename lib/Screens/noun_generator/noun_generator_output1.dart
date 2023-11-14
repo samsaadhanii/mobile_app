@@ -23,15 +23,33 @@ class NounGeneratorOutput extends StatefulWidget {
 
 class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
   bool _isLoading = false;
-  String dickWord = '';
+  String dictWord = '';
 
   @override
   void initState() {
-    dickWord = '${widget.inputWord} (${Const.genderName(
+    dictWord = '${widget.inputWord} (${Const.genderName(
       widget.gender,
       widget.encoding,
     )})';
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    WebAPI.transLiterateWord(
+            input: widget.inputWord,
+            src: Const.verbAPIOutEncodingAbbreviation(inputEncodingStr),
+            tar: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr))
+        .then((value) {
+      print('Transliterate Out: $value');
+      setState(() {
+        dictWord = '$value (${Const.genderName(
+          widget.gender,
+          widget.encoding,
+        )})';
+      });
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -62,7 +80,7 @@ class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
                       );
                     });
                   },
-                  child: Text(dickWord),
+                  child: Text(dictWord),
                 ),
                 const SizedBox(
                   height: 10,

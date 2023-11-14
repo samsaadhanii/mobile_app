@@ -114,33 +114,40 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(25.0),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(
-                      left: 30, top: 10, right: 30, bottom: 10),
+                      left: 30, top: 0, right: 30, bottom: 10),
                   height: 150.00,
                   child: appLogo,
                 ),
-                RichText(
-                  text: const TextSpan(
-                    text: '   Saṃsādhanī is a computational platform developed '
-                        'at the Department of Sanskrit studies for Sanskrit '
-                        'language processing. \n\n\n'
-                        'It hosts several computational tools such as word  '
-                        'analyser, word generator, sandhi joiner and sandhi '
-                        'analyser, sentential analyser and sentence generator, '
-                        'and also a  Sanskrit-Hindi Machine Translation system.'
-                        '\n\n\n'
-                        'The words are also linked to various monolingual and bilingual dictionaries.',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      fontFamily: 'oswald',
-                    ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      RichText(
+                        text: const TextSpan(
+                          text:
+                              '   Saṃsādhanī is a computational platform developed '
+                              'at the Department of Sanskrit studies for Sanskrit '
+                              'language processing. \n\n\n'
+                              'It hosts several computational tools such as word  '
+                              'analyser, word generator, sandhi joiner and sandhi '
+                              'analyser, sentential analyser and sentence generator, '
+                              'and also a  Sanskrit-Hindi Machine Translation system.'
+                              '\n\n\n'
+                              'The words are also linked to various monolingual and bilingual dictionaries.',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.normal,
+                            fontFamily: 'oswald',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 // RichText(
@@ -177,8 +184,8 @@ class _HomePageState extends State<HomePage> {
                 //     ),
                 //   ),
                 // ),
-                Container(),
-                Text('version: $license')
+                // Container(),
+                // Text('version: $license')
               ],
             ),
           ),
