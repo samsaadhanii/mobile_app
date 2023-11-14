@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import '../../widgets/display_dictionary.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage(
@@ -19,7 +19,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
         title: Text('Dictionary: ${widget.inputWord}'),
       ),
       body: widget.content.isNotEmpty
-          ? SingleChildScrollView(child: Html(data: widget.content))
+          ? DisplayDictionary.displayDictionary(widget.content)
           : const Center(child: Text('No data available')),
     );
   }

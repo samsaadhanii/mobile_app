@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class CupertinoDictionary extends StatefulWidget {
   const CupertinoDictionary(
@@ -39,9 +36,10 @@ Widget displayDictionary(final resp) {
   List<String> ts = [];
   for (String l in list) {
     String str = l.trim();
-    if(str.isNotEmpty){
-    print('l: $l');
-    ts.add(l);}
+    if (str.isNotEmpty) {
+      print('l: $l');
+      ts.add(l);
+    }
   }
   return Column(
     children: [
@@ -57,7 +55,8 @@ Widget displayDictionary(final resp) {
     ],
   );
 }
-Widget createListView(List<dynamic> list){
+
+Widget createListView(List<dynamic> list) {
   return Expanded(
     child: ListView.builder(
       itemCount: list.length,
