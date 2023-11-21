@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Constants/constants.dart';
 import '../../web_api.dart';
@@ -21,6 +22,7 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
   bool _isLoading = false;
   bool fetchData = true;
   List<dynamic> output = [];
+  String _selectedPadi = Const.ATMANEPADI;
 
   @override
   void initState() {
@@ -88,27 +90,52 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(title: const Text('Verb Generator')),
-          body: SafeArea(child: buildTab(context)),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Active',
+          appBar: AppBar(
+              title: CupertinoSegmentedControl<String>(
+            selectedColor: CupertinoColors.activeBlue,
+            // Provide horizontal padding around the children.
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            // This represents a currently selected segmented control.
+            groupValue: _selectedPadi,
+            // Callback that sets the selected segmented control.
+            onValueChanged: (String value) {
+              setState(() {
+                _selectedPadi = value;
+              });
+            },
+            children: const <String, Widget>{
+              Const.ATMANEPADI: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(Const.ATMANEPADI),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.business),
-                label: 'Passive/Impersonal',
+              Const.PARASMAIPADI: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(Const.PARASMAIPADI),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.school),
-                label: 'Causative',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[800],
-            onTap: _onItemTapped,
-          ),
+            },
+          )),
+          body: _selectedPadi.contains(Const.ATMANEPADI)
+              ? buildAtmanepadi(context)
+              : buildParasmaipadi(context),
+          // bottomNavigationBar: BottomNavigationBar(
+          //   items: const <BottomNavigationBarItem>[
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.home),
+          //       label: 'Active',
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.business),
+          //       label: 'Passive/Impersonal',
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.school),
+          //       label: 'Causative',
+          //     ),
+          //   ],
+          //   currentIndex: _selectedIndex,
+          //   selectedItemColor: Colors.amber[800],
+          //   onTap: _onItemTapped,
+          // ),
         ),
         if (_isLoading)
           const Opacity(
@@ -151,10 +178,9 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
     // );
   }
 
-  Widget buildTab(BuildContext context) {
+  Widget buildAtmanepadi(BuildContext context) {
     Container con = Container();
     if (output.isNotEmpty) {
-      List<dynamic> parasme = output[0]['parasmE'];
       List<dynamic> awmane = output[0]['Awmane'];
       con = Container(
         width: MediaQuery.sizeOf(context).width,
@@ -195,6 +221,26 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
                   buildFormTable(awmane[0]['l_forms_9']),
                 ],
               ),
+            ],
+          ),
+        ),
+      );
+    }
+    return con;
+  }
+
+  Widget buildParasmaipadi(BuildContext context) {
+    Container con = Container();
+    if (output.isNotEmpty) {
+      List<dynamic> parasme = output[0]['parasmE'];
+      con = Container(
+        width: MediaQuery.sizeOf(context).width,
+        height: MediaQuery.sizeOf(context).height,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              Text(output[0]['rt']),
 
               ///Parasmaipadi
               Column(
