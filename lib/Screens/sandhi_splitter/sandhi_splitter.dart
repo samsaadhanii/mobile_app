@@ -25,7 +25,7 @@ class _SandhiSplitterState extends State<SandhiSplitter> {
 
   @override
   void initState() {
-    firstInputController.text = 'कश्चित्कान्ताविरहगुरुणास्वाधिकारात्प्रमत्त';
+    firstInputController.text = 'कश्चित्कान्ताविरहगुरुणास्वाधिकारात्प्रमत्तः';
     super.initState();
   }
 
