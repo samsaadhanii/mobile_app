@@ -36,15 +36,14 @@ class DisplayDictionary {
         itemBuilder: (_, i) {
           return Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Center(
-                  child: Text(
+              child: Text(
                 list[i],
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.justify,
                 style: const TextStyle(
                   fontSize: 12.0,
                   // color: CupertinoColors.inactiveGray,
                 ),
-              )));
+              ));
         },
       ),
     );
