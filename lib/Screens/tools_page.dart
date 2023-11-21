@@ -3,6 +3,7 @@ import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 
+import 'morph_analyser/morph_analyser.dart';
 import 'noun_generator/noun_generator.dart';
 
 class ToolsPage extends StatefulWidget {
@@ -31,7 +32,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(शब्द-विश्लेषक)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const MorphAnalyser();
+                      },
+                    ),
+                  );
+                },
               ),
             ),
             Card(
