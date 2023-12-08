@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobile_app/Constants/constants.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -29,7 +30,11 @@ class _SettingsPageState extends State<SettingsPage> {
               SizedBox(height: 10),
               Text(
                 'Select your preferred input and',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'NotoSans',
+                ),
               ),
               Text(
                 ' output encoding',
@@ -41,36 +46,47 @@ class _SettingsPageState extends State<SettingsPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              /// Input Encoding
               Container(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                child: DropdownMenu(
-                  label: const Text('Input encoding: ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  initialSelection: inputEncodingStr,
-                  dropdownMenuEntries: Const.inputEncodingList
-                      .map((e) => DropdownMenuEntry(
-                            value: e,
-                            label: (e),
-                          ))
-                      .toList(),
-                  onSelected: (value) {},
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                child: FormBuilderDropdown(
+                  name: 'Input encoding: ',
+                  items: Const.inputEncodingList.map((option) {
+                    return DropdownMenuItem(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(
+                    labelText: 'Input encoding: ',
+                    border: OutlineInputBorder(),
+                  ),
+                  initialValue: inputEncodingStr,
+                  onChanged: (value) {
+                    inputEncodingStr = value!;
+                  },
                 ),
               ),
+
+              /// Output Encoding
               Container(
-                padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
-                child: DropdownMenu(
-                  label: const Text('Output encoding: ',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  initialSelection: outputEncodingStr,
-                  dropdownMenuEntries: Const.outputEncodingList
-                      .map((e) => DropdownMenuEntry(
-                            value: e,
-                            label: (e),
-                          ))
-                      .toList(),
-                  onSelected: (value) {},
+                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                child: FormBuilderDropdown(
+                  name: 'Output encoding: ',
+                  items: Const.outputEncodingList.map((option) {
+                    return DropdownMenuItem(
+                      value: option,
+                      child: Text(option),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(
+                    labelText: 'Output encoding: ',
+                    border: OutlineInputBorder(),
+                  ),
+                  initialValue: outputEncodingStr,
+                  onChanged: (value) {
+                    outputEncodingStr = value!;
+                  },
                 ),
               ),
             ],

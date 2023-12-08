@@ -18,8 +18,6 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
   bool _isLoading = false;
   String inputStr1 = '';
   String inputStr2 = '';
-  // String inputEncodingStr = Const.inputEncodingList[0];
-  // String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
   LearnerLevel? _lType = LearnerLevel.basic;
   late Size dSize;
@@ -158,11 +156,11 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
             children: [
               const SizedBox(width: 10),
               SizedBox(
-                width: dSize.width*0.4,
+                width: dSize.width * 0.4,
                 child: const Text('First Word'),
               ),
               Container(
-                width: dSize.width*0.5,
+                width: dSize.width * 0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
@@ -180,11 +178,11 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
             children: [
               const SizedBox(width: 10),
               SizedBox(
-                width: dSize.width*0.4,
+                width: dSize.width * 0.4,
                 child: const Text('Second Word'),
               ),
               Container(
-                width: dSize.width*0.5,
+                width: dSize.width * 0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
@@ -241,5 +239,4 @@ class _CupertinoSandhiState extends State<CupertinoSandhi> {
       ),
     );
   }
-
 }

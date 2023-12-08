@@ -17,8 +17,6 @@ class _SandhiState extends State<Sandhi> {
   bool _isLoading = false;
   String inputStr1 = '';
   String inputStr2 = '';
-  // String inputEncodingStr = Const.inputEncodingList[0];
-  // String outputEncodingStr = Const.outputEncodingList[0];
   bool transliterated = false;
   LearnerLevel _lType = LearnerLevel.basic;
 
@@ -80,52 +78,6 @@ class _SandhiState extends State<Sandhi> {
                 ),
 
                 const SizedBox(height: 20),
-                //
-                // ///Input Encoder
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                //   child: FormBuilderDropdown(
-                //     name: 'Input Encoder',
-                //     items: Const.inputEncodingList.map((option) {
-                //       return DropdownMenuItem(
-                //         value: option,
-                //         child: Text(option),
-                //       );
-                //     }).toList(),
-                //     decoration: const InputDecoration(
-                //       labelText: "Input Encoder",
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     initialValue: inputEncodingStr,
-                //     onChanged: (value) {
-                //       inputEncodingStr = value!;
-                //     },
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
-                //
-                // ///Output Encoder
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                //   child: FormBuilderDropdown(
-                //     name: 'Output Encoder',
-                //     items: Const.outputEncodingList.map((option) {
-                //       return DropdownMenuItem(
-                //         value: option,
-                //         child: Text(option),
-                //       );
-                //     }).toList(),
-                //     decoration: const InputDecoration(
-                //       labelText: "Output Encoder",
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     initialValue: outputEncodingStr,
-                //     onChanged: (value) {
-                //       outputEncodingStr = value!;
-                //     },
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
 
                 /// Input 1
                 Container(

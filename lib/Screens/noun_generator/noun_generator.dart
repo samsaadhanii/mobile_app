@@ -16,8 +16,6 @@ class _NounGeneratorState extends State<NounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;
   String inputStr = '';
-  // String inputEncodingStr = Const.inputEncodingList[0];
-  // String outputEncodingStr = Const.outputEncodingList[0];
   String gender = Const.genderList[0];
   String category = Const.categoryList[0];
 
@@ -39,52 +37,6 @@ class _NounGeneratorState extends State<NounGenerator> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-
-                // ///Input Encoder
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                //   child: FormBuilderDropdown(
-                //     name: 'Input Encoder',
-                //     items: Const.inputEncodingList.map((option) {
-                //       return DropdownMenuItem(
-                //         value: option,
-                //         child: Text(option),
-                //       );
-                //     }).toList(),
-                //     decoration: const InputDecoration(
-                //       labelText: "Input Encoder",
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     initialValue: inputEncodingStr,
-                //     onChanged: (value) {
-                //       inputEncodingStr = value!;
-                //     },
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
-                //
-                // ///Output Encoder
-                // Container(
-                //   padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                //   child: FormBuilderDropdown(
-                //     name: 'Output Encoder',
-                //     items: Const.outputEncodingList.map((option) {
-                //       return DropdownMenuItem(
-                //         value: option,
-                //         child: Text(option),
-                //       );
-                //     }).toList(),
-                //     decoration: const InputDecoration(
-                //       labelText: "Output Encoder",
-                //       border: OutlineInputBorder(),
-                //     ),
-                //     initialValue: outputEncodingStr,
-                //     onChanged: (value) {
-                //       outputEncodingStr = value!;
-                //     },
-                //   ),
-                // ),
-                // const SizedBox(height: 10),
 
                 /// Input
                 Container(

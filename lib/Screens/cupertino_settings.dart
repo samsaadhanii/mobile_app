@@ -8,12 +8,11 @@ class CupertinoSettings extends StatefulWidget {
   @override
   State<CupertinoSettings> createState() => _CupertinoSettingsState();
 }
+
 const double _kItemExtent = 32.0;
 
 class _CupertinoSettingsState extends State<CupertinoSettings> {
   final bool _isLoading = false;
-  // String inputEncodingStr = Const.inputEncodingList[0];
-  // String outputEncodingStr = Const.outputEncodingList[0];
   late Size dSize;
 
   @override
@@ -84,9 +83,9 @@ class _CupertinoSettingsState extends State<CupertinoSettings> {
 
   Center cDropDown(
       {required String text1,
-        required String selected,
-        required List ddList,
-        required MyFunction2 onChange}) {
+      required String selected,
+      required List ddList,
+      required MyFunction2 onChange}) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -95,7 +94,7 @@ class _CupertinoSettingsState extends State<CupertinoSettings> {
           children: [
             const SizedBox(width: 10),
             SizedBox(
-              width: dSize.width*0.4,
+              width: dSize.width * 0.4,
               child: Text(text1,
                   style: const TextStyle(
                     color: CupertinoColors.black,
@@ -104,12 +103,12 @@ class _CupertinoSettingsState extends State<CupertinoSettings> {
                   )),
             ),
             Container(
-              width: dSize.width*0.5,
+              width: dSize.width * 0.5,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   border: Border.all(color: CupertinoColors.lightBackgroundGray)
-                // color: CupertinoColors.extraLightBackgroundGray,
-              ),
+                  // color: CupertinoColors.extraLightBackgroundGray,
+                  ),
               // padding: const EdgeInsets.all(7.0),
               child: CupertinoButton(
                 padding: EdgeInsets.zero,
@@ -147,25 +146,23 @@ class _CupertinoSettingsState extends State<CupertinoSettings> {
     );
   }
 
-
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
         context: context,
         builder: (BuildContext context) => Container(
-          height: 216,
-          padding: const EdgeInsets.only(top: 6.0),
-          // The Bottom margin is provided to align the popup above the system navigation bar.
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          // Provide a background color for the popup.
-          color: CupertinoColors.systemBackground.resolveFrom(context),
-          // Use a SafeArea widget to avoid system overlaps.
-          child: SafeArea(
-            top: false,
-            child: child,
-          ),
-        ));
+              height: 216,
+              padding: const EdgeInsets.only(top: 6.0),
+              // The Bottom margin is provided to align the popup above the system navigation bar.
+              margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              // Provide a background color for the popup.
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              // Use a SafeArea widget to avoid system overlaps.
+              child: SafeArea(
+                top: false,
+                child: child,
+              ),
+            ));
   }
-
 }

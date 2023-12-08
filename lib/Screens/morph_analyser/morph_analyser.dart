@@ -16,8 +16,6 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
   bool _isLoading = false;
   String inputStr1 = '';
   String outputStr1 = '';
-  String inputEncodingStr = Const.inputEncodingList[0];
-  String outputEncodingStr = Const.outputEncodingList[0];
   String textTypeStr = Const.textTypeList[0];
   late Size dSize;
   String output1 = '';

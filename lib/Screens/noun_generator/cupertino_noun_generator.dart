@@ -21,7 +21,7 @@ class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
   // String outputEncodingStr = Const.outputEncodingList[0];
   String gender = Const.genderList[0];
   String category = Const.categoryList[0];
-late Size dSize;
+  late Size dSize;
   @override
   void initState() {
     super.initState();
@@ -76,35 +76,15 @@ late Size dSize;
       child: Column(
         children: [
           const SizedBox(height: 10),
-          // cDropDown(
-          //     text1: 'Input encoding: ',
-          //     selected: inputEncodingStr,
-          //     ddList: Const.inputEncodingList,
-          //     onChange: (value) {
-          //       setState(() {
-          //         inputEncodingStr = Const.inputEncodingList[value!];
-          //       });
-          //     }),
-          // const SizedBox(height: 5),
-          // cDropDown(
-          //     text1: 'Output encoding: ',
-          //     selected: outputEncodingStr,
-          //     ddList: Const.outputEncodingList,
-          //     onChange: (value) {
-          //       setState(() {
-          //         outputEncodingStr = Const.outputEncodingList[value!];
-          //       });
-          //     }),
-          // const SizedBox(height: 5),
           Row(
             children: [
               const SizedBox(width: 10),
               SizedBox(
-                width: dSize.width*0.4,
+                width: dSize.width * 0.4,
                 child: const Text('प्रातिपदिकम्/Prātipadikam:'),
               ),
               Container(
-                width: dSize.width*0.5,
+                width: dSize.width * 0.5,
                 padding: const EdgeInsets.all(8.0),
                 // alignment: Alignment.centerRight,
                 child: CupertinoTextField(
@@ -212,7 +192,7 @@ late Size dSize;
           children: [
             const SizedBox(width: 10),
             SizedBox(
-              width: dSize.width*0.4,
+              width: dSize.width * 0.4,
               child: Text(text1,
                   style: const TextStyle(
                     color: CupertinoColors.black,
@@ -221,7 +201,7 @@ late Size dSize;
                   )),
             ),
             Container(
-              width: dSize.width*0.5,
+              width: dSize.width * 0.5,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(6)),
                   border: Border.all(color: CupertinoColors.lightBackgroundGray)
