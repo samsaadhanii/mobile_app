@@ -3,6 +3,7 @@ import 'package:mobile_app/Screens/sandhi/sandhi.dart';
 import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 
+import 'dhatupatha/dhatupatha_page_one.dart';
 import 'morph_analyser/morph_analyser.dart';
 import 'noun_generator/noun_generator.dart';
 
@@ -132,7 +133,15 @@ class _ToolsPageState extends State<ToolsPage> {
                 subtitle: const Text('(धातुपाठः)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                onTap: () {},
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const DhatupathaPageOne();
+                      },
+                    ),
+                  );
+                }),
               ),
             ),
           ],

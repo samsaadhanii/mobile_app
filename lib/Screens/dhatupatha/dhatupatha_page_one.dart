@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart' as mat;
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -93,7 +94,6 @@ const String kLogExamplePage = '''
 </html>
 ''';
 
-
 class DhatupathaPageOne extends StatefulWidget {
   const DhatupathaPageOne({super.key});
 
@@ -120,7 +120,7 @@ class _DhatupathaPageOneState extends State<DhatupathaPageOne> {
     }
 
     final WebViewController controller =
-    WebViewController.fromPlatformCreationParams(params);
+        WebViewController.fromPlatformCreationParams(params);
     // #enddocregion platform_features
 
     controller
@@ -168,7 +168,7 @@ Page resource error:
         },
       )
       ..loadRequest(Uri.parse('https://samsaadhanii-dhatupatha.netlify.app/'));
-      // ..loadRequest(Uri.parse('https://flutter.dev'));
+    // ..loadRequest(Uri.parse('https://flutter.dev'));
 
     // #docregion platform_features
     // if (controller.platform is AndroidWebViewController) {
@@ -183,11 +183,20 @@ Page resource error:
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('Pāṇinian Dhātuvṛttis'),
-      ),
-      child: SafeArea(child: WebViewWidget(controller: _controller)),
-    );
+    if (TargetPlatform.iOS == mat.Theme.of(context).platform) {
+      return CupertinoPageScaffold(
+        navigationBar: const CupertinoNavigationBar(
+          middle: Text('Pāṇinian Dhātuvṛttis'),
+        ),
+        child: SafeArea(child: WebViewWidget(controller: _controller)),
+      );
+    } else {
+      return mat.Scaffold(
+        appBar: mat.AppBar(
+          title: const Text('Pāṇinian Dhātuvṛttis'),
+        ),
+        body: SafeArea(child: WebViewWidget(controller: _controller)),
+      );
+    }
   }
 }
