@@ -213,4 +213,35 @@ class WebAPI with ChangeNotifier {
     } catch (e) {}
     return responseData;
   }
+
+  ///*****
+  /// Morphological Analyser
+  /// The API link for morph analyser is here:
+  /// #Usage:
+  /// #https://sanskrit.uohyd.ac.in/cgi-bin/scl/morph/morph.cgi?morfword=rAmaH&encoding=WX&outencoding=DEV&mode=json
+  ///
+  /// #Outencoding: IAST/DEV
+  /// ******************************************************************************
+  static Future<Map> morphAnalyser({
+    String input1 = 'rAmaH',
+    String inEncoding = 'WX',
+    String outEncoding = 'Devanagari',
+  }) async {
+    var url = '$scl/morph/morph.cgi?'
+        'morfword=$input1'
+        '&encoding=$inEncoding'
+        '&outencoding=$outEncoding'
+        '&mode=json';
+    print('Morph analyser req: $url');
+    Map<dynamic, dynamic> responseData = {};
+
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
+        if (kDebugMode) print(responseData);
+      }
+    } catch (e) {}
+    return responseData;
+  }
 }

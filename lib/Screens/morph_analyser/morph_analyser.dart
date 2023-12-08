@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Constants/constants.dart';
+import '../../web_api.dart';
 
 class MorphAnalyser extends StatefulWidget {
   const MorphAnalyser({super.key});
@@ -19,6 +20,14 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
   String outputEncodingStr = Const.outputEncodingList[0];
   String textTypeStr = Const.textTypeList[0];
   late Size dSize;
+  String output1 = '';
+  String output2 = '';
+
+  @override
+  void initState() {
+    firstInputController.text = 'रामः';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,110 +37,118 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
           appBar: AppBar(
             title: const Text('Morph Analyser'),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(height: 20),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
 
-                        /// Input 1
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                          child: TextFormField(
-                            autofocus: true,
-                            controller: firstInputController,
-                            decoration: const InputDecoration(
-                              labelText: 'Input Word',
-                              border: OutlineInputBorder(),
-                            ),
-                            // onChanged: (String value) {
-                            //   setState(() {
-                            //     inputController.text = value;
-                            //   });
-                            // },
-                            keyboardType: TextInputType.text,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-
-                        /// button
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                String inputStr1 = firstInputController.text;
-                                String mode =
-                                    Const.textTypeAbbreviation(textTypeStr);
-                                String inEnStr = Const.encodingAbbreviation(
-                                    inputEncodingStr);
-                                String outEnStr = Const.outEncodingAbbreviation(
-                                    outputEncodingStr);
-
-                                // WebAPI.sandhiSplitter(
-                                //     input1: inputStr1,
-                                //     textType: mode,
-                                //     inEncoding: inEnStr,
-                                //     outEncoding: outEnStr)
-                                //     .then((value) {
-                                //   setState(() {
-                                //     _isLoading = false;
-                                //     outputStr1 =
-                                //         value['segmentation'].toString();
-                                //     // print(value);
-                                //   });
-                                // });
-                              },
-                              child: const Text('Show Analysis')),
-                        ),
-                      ],
+                /// Input 1
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: TextFormField(
+                    autofocus: true,
+                    controller: firstInputController,
+                    decoration: const InputDecoration(
+                      labelText: 'Input Word',
+                      border: OutlineInputBorder(),
                     ),
+                    // onChanged: (String value) {
+                    //   setState(() {
+                    //     inputController.text = value;
+                    //   });
+                    // },
+                    keyboardType: TextInputType.text,
+                  ),
+                ),
+                const SizedBox(height: 10),
 
-                    // create a text field to display output
-                    Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                          child: TextFormField(
-                            autofocus: true,
-                            controller: TextEditingController(text: outputStr1),
-                            decoration: const InputDecoration(
-                              labelText: 'Output:',
-                              border: OutlineInputBorder(),
+                /// button
+                Container(
+                  height: 60,
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        String inputStr1 = firstInputController.text;
+
+                        String inEnStr =
+                            Const.encodingAbbreviation(inputEncodingStr);
+                        String outEnStr =
+                            Const.outEncodingAbbreviation(outputEncodingStr);
+
+                        WebAPI.morphAnalyser(
+                                input1: inputStr1,
+                                inEncoding: inEnStr,
+                                outEncoding: outEnStr)
+                            .then((value) {
+                          Map data = value;
+                          setState(() {
+                            _isLoading = false;
+                            if (data.isNotEmpty) {
+                              output1 = value[0]['ANS'].toString();
+                              output2 = value[1]['ANS'].toString();
+                            } else {
+                              output1 = 'No analysis found';
+                              output2 = '';
+                            }
+                            // print(value);
+                          });
+                        });
+                      },
+                      child: const Text('Show Analysis')),
+                ),
+                // create a text field to display output
+                Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width * 0.9,
+                      // height: MediaQuery.sizeOf(context).height * 0.5,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      // padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: output1,
+                              style: TextStyle(
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                backgroundColor: Colors.pink.shade50,
+                                // fontSize: 20,
+                              ),
                             ),
-                            maxLines: null,
-                            keyboardType: TextInputType.none,
-                          ),
+                            TextSpan(
+                              text: output2,
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
+                                backgroundColor: Colors.blue.shade50,
+                                // fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                      // child: TextFormField(
+                      //   autofocus: true,
+                      //   controller: TextEditingController(text: outputStr1),
+                      //   decoration: const InputDecoration(
+                      //     labelText: 'Output:',
+                      //     border: OutlineInputBorder(),
+                      //   ),
+                      //   maxLines: null,
+                      //   keyboardType: TextInputType.none,
+                      // ),
                     ),
                   ],
                 ),
-              ),
-              // Column(
-              //   children: [
-              //     Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //       children: [
-              //         const Text('Powered by'),
-              //         ElevatedButton(
-              //             onPressed: _launchUrl,
-              //             child: const Text('Sanskrit Heritage Platform')),
-              //         const SizedBox(width: 5),
-              //       ],
-              //     ),
-              //     const SizedBox(height: 5),
-              //   ],
-              // ),
-            ],
+              ],
+            ),
           ),
         ),
         if (_isLoading)
