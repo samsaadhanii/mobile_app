@@ -81,12 +81,16 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
                                 inEncoding: inEnStr,
                                 outEncoding: outEnStr)
                             .then((value) {
-                          Map data = value;
+                          List<dynamic> morphList = value;
                           setState(() {
                             _isLoading = false;
-                            if (data.isNotEmpty) {
-                              output1 = value[0]['ANS'].toString();
-                              output2 = value[1]['ANS'].toString();
+                            if (morphList.isNotEmpty) {
+                              output1 = morphList[0]['RT'] +
+                                  ' ' +
+                                  morphList[0]['ANS'];
+                              output2 = morphList[1]['RT'] +
+                                  ' ' +
+                                  morphList[1]['ANS'];
                             } else {
                               output1 = 'No analysis found';
                               output2 = '';

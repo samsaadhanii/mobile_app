@@ -176,6 +176,7 @@ class WebAPI with ChangeNotifier {
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
+        print(utf8.decode(resp.bodyBytes));
         responseData = json.decode(utf8.decode(resp.bodyBytes));
         // if (kDebugMode) print(responseData);
       }
@@ -222,7 +223,7 @@ class WebAPI with ChangeNotifier {
   ///
   /// #Outencoding: IAST/DEV
   /// ******************************************************************************
-  static Future<Map> morphAnalyser({
+  static Future<List> morphAnalyser({
     String input1 = 'rAmaH',
     String inEncoding = 'WX',
     String outEncoding = 'Devanagari',
@@ -233,11 +234,12 @@ class WebAPI with ChangeNotifier {
         '&outencoding=$outEncoding'
         '&mode=json';
     print('Morph analyser req: $url');
-    Map<dynamic, dynamic> responseData = {};
+    List<dynamic> responseData = [];
 
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
+        /// \n gives error when try to Json.decode a  List data into a Map in flutter
         responseData = json.decode(utf8.decode(resp.bodyBytes));
         if (kDebugMode) print(responseData);
       }
@@ -245,3 +247,12 @@ class WebAPI with ChangeNotifier {
     return responseData;
   }
 }
+
+///***************************************************************************
+///Krt Generator
+///The API link for Krt generator is the following:
+/// #Usage:
+/// #https://sanskrit.uohyd.ac.in/cgi-bin/scl/skt_gen/kqw/kqw_gen.cgi?vb=gam1_gamLz_BvAxiH_gawO&upasarga=-&encoding=WX&outencoding=Devanagari&mode=json
+/// # the values of upasarga and vb are the same as those in the verb generator.
+/// ************************
+

@@ -85,6 +85,13 @@ Devanagari	Devanagari
       return 'Devanagari';
     }
   }
+static String morphOutEncodingAbbreviation(String type) {
+    if (type == IAST_ROMAN_DIACRITIC) {
+      return 'IAST';
+    } else {
+      return 'DEV';
+    }
+  }
 
   static List<String> prefixEncodingList = [
     IAST_ROMAN_DIACRITIC,

@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dar
 // import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_page1.dart';
 import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_prefix.dart';
 import 'dhatupatha/dhatupatha_page_one.dart';
+import 'morph_analyser/cupertino_morph_analyser.dart';
 import 'noun_generator/cupertino_noun_generator.dart';
 
 class SamCupertinoTools extends StatefulWidget {
@@ -27,7 +28,15 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
             CupertinoListTile.notched(
               title: const Text('Morphological Analyser (शब्द-विश्लेषक)'),
               trailing: const CupertinoListTileChevron(),
-              onTap: () {},
+              onTap: () => Future.delayed(Duration.zero, () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const CupertinoMorphAnalyser();
+                    },
+                  ),
+                );
+              }),
             ),
             CupertinoListTile.notched(
               title: const Text('Noun Generator (नामरूप-निष्पादिका)'),
