@@ -215,6 +215,43 @@ class WebAPI with ChangeNotifier {
     return responseData;
   }
 
+  ///***************************************************************************
+  ///Krt Generator
+  ///The API link for Krt generator is the following:
+  /// #Usage:
+  /// #https://sanskrit.uohyd.ac.in/cgi-bin/scl/skt_gen/kqw/kqw_gen.cgi?vb=gam1_gamLz_BvAxiH_gawO&upasarga=-&encoding=WX&outencoding=Devanagari&mode=json
+  /// # the values of upasarga and vb are the same as those in the verb generator.
+  /// ************************
+  static Future<List> krtRequest({
+    String input1 = 'rAmaH',
+    String input3 = '-',
+    String inEncoding = 'WX',
+    String outEncoding = 'Devanagari',
+  }) async {
+    var url = '$scl/skt_gen/kqw/kqw_gen.cgi?'
+        'vb=$input1'
+        '&upasarga=$input3'
+        '&encoding=$inEncoding'
+        '&outencoding=$outEncoding'
+        '&mode=json';
+    print('Krt generator req: $url');
+    List<dynamic> responseData = [];
+
+    try {
+      http.Response resp = await http.get(Uri.parse(url));
+      if (resp.statusCode == 200) {
+        String withCTRLCharacter = utf8.decode(resp.bodyBytes);
+
+        ///\n gives error when parsing json in flutter
+        var withoutCTRLCharacter = withCTRLCharacter.replaceAll('\n', '\\n');
+        responseData = json.decode(withoutCTRLCharacter);
+
+        if (kDebugMode) print(responseData);
+      }
+    } catch (e) {}
+    return responseData;
+  }
+
   ///*****
   /// Morphological Analyser
   /// The API link for morph analyser is here:
@@ -247,12 +284,3 @@ class WebAPI with ChangeNotifier {
     return responseData;
   }
 }
-
-///***************************************************************************
-///Krt Generator
-///The API link for Krt generator is the following:
-/// #Usage:
-/// #https://sanskrit.uohyd.ac.in/cgi-bin/scl/skt_gen/kqw/kqw_gen.cgi?vb=gam1_gamLz_BvAxiH_gawO&upasarga=-&encoding=WX&outencoding=Devanagari&mode=json
-/// # the values of upasarga and vb are the same as those in the verb generator.
-/// ************************
-

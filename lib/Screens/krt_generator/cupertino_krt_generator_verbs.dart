@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+
 import '../../Constants/constants.dart';
 import '../../model/data_provider.dart';
-import 'cupertino_verb_gen_output.dart';
+import 'cupertino_krt_generator_output.dart';
 
-class CupertinoVerbGenerator1 extends StatefulWidget {
-  const CupertinoVerbGenerator1({super.key, required this.selectedPrefix});
+class CupertinoKrtGeneratorVerbs extends StatefulWidget {
+  const CupertinoKrtGeneratorVerbs({super.key, required this.selectedPrefix});
 
   final String selectedPrefix;
 
   @override
-  State<CupertinoVerbGenerator1> createState() =>
-      _CupertinoVerbGenerator1State();
+  State<CupertinoKrtGeneratorVerbs> createState() =>
+      _CupertinoKrtGeneratorVerbsState();
 }
 
-class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
+class _CupertinoKrtGeneratorVerbsState
+    extends State<CupertinoKrtGeneratorVerbs> {
   bool _isLoading = false;
   List<Map<String, dynamic>> verbList = [];
   String selectedVerb = '';
@@ -60,7 +62,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
       SafeArea(
         child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Verb Generator (क्रियारूप-निष्पादिका)'),
+            middle: Text('Krt Generator'),
           ),
           child: (_isLoading)
               ? const Center(child: Text('loading!'))
@@ -118,7 +120,7 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
                                 context,
                                 CupertinoPageRoute(
                                     builder: (context) =>
-                                        CupertinoVerbGeneratorOutput(
+                                        CupertinoKrtGeneratorOutput(
                                           selectedPrefix: widget.selectedPrefix,
                                           selectedVerb: verbList[selectedIndex]
                                               ['wx'],

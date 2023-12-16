@@ -41,7 +41,8 @@ class _CupertinoVerbGeneratorOutputState
             input2: 'karwari-uBayapaxI',
             input3: widget.selectedPrefix,
             inEncoding: 'WX',
-            outEncoding: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr))
+            outEncoding:
+                Const.verbAPIOutEncodingAbbreviation(outputEncodingStr))
         .then((value) {
       setState(() {
         output = value;
@@ -57,52 +58,8 @@ class _CupertinoVerbGeneratorOutputState
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Stack(
-      children: [
-        CupertinoPageScaffold(
-          // backgroundColor: CupertinoColors.lightBackgroundGray,
-          navigationBar: CupertinoNavigationBar(
-            // middle: Text('Verb Generator'),
-            middle: CupertinoSegmentedControl<String>(
-              selectedColor: CupertinoColors.activeBlue,
-              // Provide horizontal padding around the children.
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              // This represents a currently selected segmented control.
-              groupValue: _selectedPadi,
-              // Callback that sets the selected segmented control.
-              onValueChanged: (String value) {
-                setState(() {
-                  _selectedPadi = value;
-                });
-              },
-              children: const <String, Widget>{
-                Const.ATMANEPADI: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(Const.ATMANEPADI),
-                ),
-                Const.PARASMAIPADI: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(Const.PARASMAIPADI),
-                ),
-              },
-            ),
-          ),
-          child: const Center(child:Text('Loading...')),
-        ),
-        if (_isLoading)
-          const Opacity(
-            opacity: 0.2,
-            child:
-                ModalBarrier(dismissible: false, color: CupertinoColors.black),
-          ),
-        if (_isLoading)
-          const Center(
-            child: CupertinoActivityIndicator(
-                radius: 20.0, color: CupertinoColors.activeBlue),
-          ),
-      ],
-    );
-    } else {
-      return CupertinoPageScaffold(
+        children: [
+          CupertinoPageScaffold(
             // backgroundColor: CupertinoColors.lightBackgroundGray,
             navigationBar: CupertinoNavigationBar(
               // middle: Text('Verb Generator'),
@@ -130,10 +87,54 @@ class _CupertinoVerbGeneratorOutputState
                 },
               ),
             ),
-            child: _selectedPadi.contains(Const.ATMANEPADI)
-                ? buildAtmanepadi(context)
-                : buildParasmaipadi(context),
-          );
+            child: const Center(child: Text('Loading...')),
+          ),
+          if (_isLoading)
+            const Opacity(
+              opacity: 0.2,
+              child: ModalBarrier(
+                  dismissible: false, color: CupertinoColors.black),
+            ),
+          if (_isLoading)
+            const Center(
+              child: CupertinoActivityIndicator(
+                  radius: 20.0, color: CupertinoColors.activeBlue),
+            ),
+        ],
+      );
+    } else {
+      return CupertinoPageScaffold(
+        // backgroundColor: CupertinoColors.lightBackgroundGray,
+        navigationBar: CupertinoNavigationBar(
+          // middle: Text('Verb Generator'),
+          middle: CupertinoSegmentedControl<String>(
+            selectedColor: CupertinoColors.activeBlue,
+            // Provide horizontal padding around the children.
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            // This represents a currently selected segmented control.
+            groupValue: _selectedPadi,
+            // Callback that sets the selected segmented control.
+            onValueChanged: (String value) {
+              setState(() {
+                _selectedPadi = value;
+              });
+            },
+            children: const <String, Widget>{
+              Const.ATMANEPADI: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(Const.ATMANEPADI),
+              ),
+              Const.PARASMAIPADI: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(Const.PARASMAIPADI),
+              ),
+            },
+          ),
+        ),
+        child: _selectedPadi.contains(Const.ATMANEPADI)
+            ? buildAtmanepadi(context)
+            : buildParasmaipadi(context),
+      );
     }
   }
 
@@ -310,13 +311,23 @@ class _CupertinoVerbGeneratorOutputState
   }
 
   Widget buildFormTable(List<dynamic> data) {
-    String pur = outputEncodingStr==Const.UNICODE_DEVANAGARI?'पुरुषः':'purusah';
-    String eka = outputEncodingStr==Const.UNICODE_DEVANAGARI?'एकवचनम्':'ekavacanam';
-    String dvi = outputEncodingStr==Const.UNICODE_DEVANAGARI?'द्विवचनम्':'dvivacanam';
-    String bah = outputEncodingStr==Const.UNICODE_DEVANAGARI?'बहुवचनम्':'bahuvacanam';
-    String pra = outputEncodingStr==Const.UNICODE_DEVANAGARI?'प्रथम':'prathama';
-    String mad = outputEncodingStr==Const.UNICODE_DEVANAGARI?'मध्यम':'madhyama';
-    String utt = outputEncodingStr==Const.UNICODE_DEVANAGARI?'उत्तम':'uttama';
+    String pur =
+        outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'पुरुषः' : 'purusah';
+    String eka = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'एकवचनम्'
+        : 'ekavacanam';
+    String dvi = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'द्विवचनम्'
+        : 'dvivacanam';
+    String bah = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'बहुवचनम्'
+        : 'bahuvacanam';
+    String pra =
+        outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'प्रथम' : 'prathama';
+    String mad =
+        outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'मध्यम' : 'madhyama';
+    String utt =
+        outputEncodingStr == Const.UNICODE_DEVANAGARI ? 'उत्तम' : 'uttama';
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -338,27 +349,27 @@ class _CupertinoVerbGeneratorOutputState
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(pra),
-                Flexible(child: Text(data[0]['form'],softWrap: true)),
-                Flexible(child: Text(data[1]['form'],softWrap: true)),
-                Flexible(child: Text(data[2]['form'],softWrap: true)),
+                Flexible(child: Text(data[0]['form'], softWrap: true)),
+                Flexible(child: Text(data[1]['form'], softWrap: true)),
+                Flexible(child: Text(data[2]['form'], softWrap: true)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(mad),
-                Flexible(child: Text(data[3]['form'],softWrap: true)),
-                Flexible(child: Text(data[4]['form'],softWrap: true)),
-                Flexible(child: Text(data[5]['form'],softWrap: true)),
+                Flexible(child: Text(data[3]['form'], softWrap: true)),
+                Flexible(child: Text(data[4]['form'], softWrap: true)),
+                Flexible(child: Text(data[5]['form'], softWrap: true)),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(utt),
-                Flexible(child: Text(data[6]['form'],softWrap: true)),
-                Flexible(child: Text(data[7]['form'],softWrap: true)),
-                Flexible(child: Text(data[8]['form'],softWrap: true)),
+                Flexible(child: Text(data[6]['form'], softWrap: true)),
+                Flexible(child: Text(data[7]['form'], softWrap: true)),
+                Flexible(child: Text(data[8]['form'], softWrap: true)),
               ],
             ),
           ],
