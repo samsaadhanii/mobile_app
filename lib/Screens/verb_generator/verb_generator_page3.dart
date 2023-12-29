@@ -105,11 +105,11 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
             },
             children: const <String, Widget>{
               Const.ATMANEPADI: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                 child: Text(Const.ATMANEPADI),
               ),
               Const.PARASMAIPADI: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.fromLTRB(2, 5, 2, 5),
                 child: Text(Const.PARASMAIPADI),
               ),
             },
@@ -200,25 +200,25 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
                   ),
                   const SizedBox(height: 14),
                   Text(awmane[0]['lakAra_0'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_0']),
+                  buildFormTableBig(awmane[0]['l_forms_0']),
                   Text(awmane[0]['lakAra_1'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_1']),
+                  buildFormTableBig(awmane[0]['l_forms_1']),
                   Text(awmane[0]['lakAra_2'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_2']),
+                  buildFormTableBig(awmane[0]['l_forms_2']),
                   Text(awmane[0]['lakAra_3'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_3']),
+                  buildFormTableBig(awmane[0]['l_forms_3']),
                   Text(awmane[0]['lakAra_4'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_4']),
+                  buildFormTableBig(awmane[0]['l_forms_4']),
                   Text(awmane[0]['lakAra_5'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_5']),
+                  buildFormTableBig(awmane[0]['l_forms_5']),
                   Text(awmane[0]['lakAra_6'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_6']),
+                  buildFormTableBig(awmane[0]['l_forms_6']),
                   Text(awmane[0]['lakAra_7'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_7']),
+                  buildFormTableBig(awmane[0]['l_forms_7']),
                   Text(awmane[0]['lakAra_8'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_8']),
+                  buildFormTableBig(awmane[0]['l_forms_8']),
                   Text(awmane[0]['lakAra_9'], style: tStyle(), softWrap: true),
-                  buildFormTable(awmane[0]['l_forms_9']),
+                  buildFormTableBig(awmane[0]['l_forms_9']),
                 ],
               ),
             ],
@@ -251,25 +251,25 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
                   ),
                   const SizedBox(height: 14),
                   Text(parasme[0]['lakAra_0'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_0']),
+                  buildFormTableBig(parasme[0]['l_forms_0']),
                   Text(parasme[0]['lakAra_1'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_1']),
+                  buildFormTableBig(parasme[0]['l_forms_1']),
                   Text(parasme[0]['lakAra_2'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_2']),
+                  buildFormTableBig(parasme[0]['l_forms_2']),
                   Text(parasme[0]['lakAra_3'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_3']),
+                  buildFormTableBig(parasme[0]['l_forms_3']),
                   Text(parasme[0]['lakAra_4'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_4']),
+                  buildFormTableBig(parasme[0]['l_forms_4']),
                   Text(parasme[0]['lakAra_5'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_5']),
+                  buildFormTableBig(parasme[0]['l_forms_5']),
                   Text(parasme[0]['lakAra_6'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_6']),
+                  buildFormTableBig(parasme[0]['l_forms_6']),
                   Text(parasme[0]['lakAra_7'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_7']),
+                  buildFormTableBig(parasme[0]['l_forms_7']),
                   Text(parasme[0]['lakAra_8'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_8']),
+                  buildFormTableBig(parasme[0]['l_forms_8']),
                   Text(parasme[0]['lakAra_9'], style: tStyle(), softWrap: true),
-                  buildFormTable(parasme[0]['l_forms_9']),
+                  buildFormTableBig(parasme[0]['l_forms_9']),
                 ],
               ),
             ],
@@ -397,68 +397,117 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
       ),
     );
   }
-  // Widget buildFormTable(List<dynamic> data) {
-  //   return Column(
-  //     children: [
-  //       const SizedBox(height: 2),
-  //       Container(
-  //         color: Colors.orange[50],
-  //         child: DataTable(
-  //           columnSpacing: 12,
-  //           horizontalMargin: 12,
-  //           clipBehavior: Clip.antiAlias,
-  //           // dataRowHeight: 24,
-  //           // isVerticalScrollBarVisible: true,
-  //           // dataRowColor: Colors.blue,
-  //           columns: const [
-  //             DataColumn(
-  //                 label: Text('purusah', style: TextStyle(fontSize: 14))),
-  //             DataColumn(
-  //                 label: Text('ekavacanam', style: TextStyle(fontSize: 14))),
-  //             DataColumn(
-  //                 label: Text('dvivacanam', style: TextStyle(fontSize: 14))),
-  //             DataColumn(
-  //                 label: Text('bahuvacanam', style: TextStyle(fontSize: 14))),
-  //           ],
-  //           rows: [
-  //             DataRow(
-  //               cells: [
-  //                 const DataCell(Text('prathama')),
-  //                 DataCell(Flexible(child: Text(data[0]['form']))),
-  //                 DataCell(Flexible(child: Text(data[1]['form']))),
-  //                 DataCell(Flexible(child: Text(data[2]['form']))),
-  //               ],
-  //             ),
-  //             DataRow(
-  //               cells: [
-  //                 const DataCell(Text('madhyama')),
-  //                 DataCell(Flexible(child: Text(data[3]['form']))),
-  //                 DataCell(Flexible(child: Text(data[4]['form']))),
-  //                 DataCell(Flexible(child: Text(data[5]['form']))),
-  //               ],
-  //             ),
-  //             DataRow(
-  //               cells: [
-  //                 const DataCell(Text('uttama')),
-  //                 DataCell(Flexible(child: Text(data[6]['form']))),
-  //                 DataCell(Flexible(child: Text(data[7]['form']))),
-  //                 DataCell(Flexible(child: Text(data[8]['form']))),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       const SizedBox(height: 14),
-  //     ],
-  //   );
-  // }
 
-  // DataRow buildRow(List<dynamic> data) {
-  //   return DataRow(cells: [
-  //     DataCell(Text(data[0]['person'])),
-  //     DataCell(Text(data[0]['form'])),
-  //     DataCell(Text(data[1]['form'])),
-  //     DataCell(Text(data[2]['form'])),
-  //   ]);
-  // }
+  Widget buildFormTableBig(List<dynamic> data) {
+    String eka = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'एकवचनम्'
+        : 'ekavacanam';
+    String dvi = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'द्विवचनम्'
+        : 'dvivacanam';
+    String bah = outputEncodingStr == Const.UNICODE_DEVANAGARI
+        ? 'बहुवचनम्'
+        : 'bahuvacanam';
+    return Container(
+      // color: _selectedPadi.contains(Const.ATMANEPADI)
+      //     ? CupertinoColors.systemYellow
+      //     : CupertinoColors.systemOrange,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.black),
+        // color: Colors.blue[100],
+      ),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              // color: Colors.blue[100],
+            ),
+            child: Column(
+              children: [
+                Text(eka,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      decoration: TextDecoration.underline,
+                    )),
+                buildThreeListTiles(
+                    data[0]['form'], data[3]['form'], data[6]['form']),
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.black),
+              // color: Colors.blue[100],
+            ),
+            child: Column(
+              children: [
+                Text(dvi,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      decoration: TextDecoration.underline,
+                    )),
+                buildThreeListTiles(
+                    data[1]['form'], data[4]['form'], data[7]['form']),
+              ],
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              // color: Colors.blue[100],
+            ),
+            child: Column(
+              children: [
+                Text(bah,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      decoration: TextDecoration.underline,
+                    )),
+                buildThreeListTiles(
+                    data[2]['form'], data[5]['form'], data[8]['form']),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+Column buildThreeListTiles(one, two, three) {
+  String pra = outputEncodingStr == Const.UNICODE_DEVANAGARI
+      ? 'प्रथमपुरुषः'
+      : 'prathamapurusah';
+  String mad = outputEncodingStr == Const.UNICODE_DEVANAGARI
+      ? 'मध्यमपुरुषः'
+      : 'madhyamapurusah';
+  String utt = outputEncodingStr == Const.UNICODE_DEVANAGARI
+      ? 'उत्तमपुरुषः'
+      : 'uttamapurusah';
+  return Column(
+    children: [
+      ListTile(
+        title: Text(pra),
+        // trailing: Text(data[0]['form'], softWrap: true),
+        subtitle: Text(one, softWrap: true),
+        tileColor: Colors.amberAccent,
+      ),
+      ListTile(
+        title: Text(mad),
+        // trailing: Text(data[0]['form'], softWrap: true),
+        subtitle: Text(two, softWrap: true),
+        tileColor: Colors.lightGreenAccent,
+      ),
+      ListTile(
+        title: Text(utt),
+        // trailing: Text(data[0]['form'], softWrap: true),
+        subtitle: Text(three, softWrap: true),
+        tileColor: Colors.lightBlueAccent,
+      ),
+    ],
+  );
 }
