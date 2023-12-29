@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 
 import 'dhatupatha/dhatupatha_page_one.dart';
+import 'krt_generator/krt_generator_prefix.dart';
 import 'morph_analyser/morph_analyser.dart';
 import 'noun_generator/noun_generator.dart';
 
@@ -138,6 +139,26 @@ class _ToolsPageState extends State<ToolsPage> {
                     MaterialPageRoute(
                       builder: (BuildContext context) {
                         return const DhatupathaPageOne();
+                      },
+                    ),
+                  );
+                }),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: const Text('Krt Generator ',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                subtitle: const Text('()',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                onTap: () => Future.delayed(Duration.zero, () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const KrtGeneratorPrefix();
                       },
                     ),
                   );
