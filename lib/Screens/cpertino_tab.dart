@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_app/Screens/contributors.dart';
 import 'package:mobile_app/Screens/cupertino_about.dart';
 import 'package:mobile_app/Screens/sam_cupertino_home.dart';
 import 'package:mobile_app/Screens/sam_cupertino_tools.dart';
@@ -35,6 +36,10 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
             icon: Icon(CupertinoIcons.info_circle),
             label: 'About',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.group_solid),
+            label: 'Contributors',
+          ),
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
@@ -48,6 +53,8 @@ class _SamCupertinoTabState extends State<SamCupertinoTab> {
               return const CupertinoSettings();
             } else if (index == 3) {
               return const CupertinoAboutPage();
+            } else if (index == 4) {
+              return const Contributors();
             } else {
               return const SamCupertinoHome(title: 'Saṃsādhanī');
             }
