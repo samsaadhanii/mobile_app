@@ -58,21 +58,22 @@ class _AppAboutPageState extends State<AppAboutPage> {
       applicationLegalese: 'Copyright © {{ author }}, {{ year }}',
       children: const <Widget>[
         MarkdownPageListTile(
-          filename: 'README.md',
+          filename: 'assets/README.md',
           title: Text('View Readme'),
           icon: Icon(Icons.all_inclusive),
         ),
+        // MarkdownPageListTile(
+        //   filename: 'assets/CHANGELOG.md',
+        //   title: Text('View Changelog'),
+        //   icon: Icon(Icons.view_list),
+        // ),
         MarkdownPageListTile(
-          filename: 'CHANGELOG.md',
-          title: Text('View Changelog'),
-          icon: Icon(Icons.view_list),
-        ),
-        MarkdownPageListTile(
-          filename: 'CONTRIBUTING.md',
+          filename: 'assets/CONTRIBUTING.md',
           title: Text('Contributing'),
           icon: Icon(Icons.share),
         ),
-        LicensesPageListTile(
+        MarkdownPageListTile(
+          filename: 'assets/LICENSE',
           title: Text('Open source Licenses'),
           icon: Icon(Icons.favorite),
         ),
