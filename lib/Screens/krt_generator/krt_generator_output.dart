@@ -148,7 +148,7 @@ class _KrtGeneratorOutputState extends State<KrtGeneratorOutput> {
         children: [
           Scaffold(
             appBar: AppBar(
-              title: const Text('Krt Generator'),
+              title: const Text('Krt Generator (कृदन्तरूपनिष्पादिका)'),
             ),
             body: const Center(child: Text('Loading...')),
           ),

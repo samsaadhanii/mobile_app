@@ -138,7 +138,7 @@ class _CupertinoKrtGeneratorOutputState
         children: [
           const CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
-              middle: Text('Krt Generator'),
+              middle: Text('Krt Generator (कृदन्तरूपनिष्पादिका)'),
             ),
             child: Center(child: Text('Loading...')),
           ),

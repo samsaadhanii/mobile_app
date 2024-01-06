@@ -56,7 +56,8 @@ class _KrtGeneratorVerbsState extends State<KrtGeneratorVerbs> {
       children: [
         Scaffold(
           appBar: AppBar(
-            title: const Center(child: Text('Krt Generator')),
+            title: const Center(
+                child: Text('Krt Generator (कृदन्तरूपनिष्पादिका)')),
             actions: [
               PopupMenuButton<int>(
                 onSelected: (int value) {

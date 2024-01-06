@@ -62,7 +62,7 @@ class _CupertinoKrtGeneratorVerbsState
       SafeArea(
         child: CupertinoPageScaffold(
           navigationBar: const CupertinoNavigationBar(
-            middle: Text('Krt Generator'),
+            middle: Text('Krt Generator (कृदन्तरूपनिष्पादिका)'),
           ),
           child: (_isLoading)
               ? const Center(child: Text('loading!'))

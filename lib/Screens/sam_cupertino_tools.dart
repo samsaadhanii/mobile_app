@@ -105,7 +105,7 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
               }),
             ),
             CupertinoListTile.notched(
-              title: const Text('Krt Generator'),
+              title: const Text('Krt Generator (कृदन्तरूपनिष्पादिका)'),
               trailing: const CupertinoListTileChevron(),
               onTap: () => Future.delayed(Duration.zero, () {
                 Navigator.of(context).push(

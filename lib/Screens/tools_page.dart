@@ -151,7 +151,7 @@ class _ToolsPageState extends State<ToolsPage> {
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                subtitle: const Text('()',
+                subtitle: const Text('(कृदन्तरूपनिष्पादिका)',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 onTap: () => Future.delayed(Duration.zero, () {
