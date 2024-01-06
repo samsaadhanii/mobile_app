@@ -35,7 +35,7 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
       values: {
         'version': packageInfo != null ? packageInfo!.version.toString() : '1',
         'buildNumber':
-        packageInfo != null ? packageInfo!.buildNumber.toString() : '102',
+            packageInfo != null ? packageInfo!.buildNumber.toString() : '102',
         'year': DateTime.now().year.toString(),
         'author': 'https://sanskrit.uohyd.ac.in/faculty/amba/',
       },
@@ -43,11 +43,11 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
       applicationDescription: const Text(
         'Saṃsādhanī is a computational platform developed at the Department'
-            ' of Sanskrit studies for Sanskrit language processing to overcome'
-            ' these difficulties. It hosts several computational tools such as'
-            ' morphological analyser, morphological generator, sandhi analysis '
-            'and generation modules, and a dependency parser and Sanskrit-Hindi'
-            ' Machine Translation system.',
+        ' of Sanskrit studies for Sanskrit language processing to overcome'
+        ' these difficulties. It hosts several computational tools such as'
+        ' morphological analyser, morphological generator, sandhi analysis '
+        'and generation modules, and a dependency parser and Sanskrit-Hindi'
+        ' Machine Translation system.',
         textAlign: TextAlign.justify,
       ),
       applicationIcon: Padding(
@@ -57,24 +57,24 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
       applicationLegalese: 'Copyright © {{ author }}, {{ year }}',
       children: const <Widget>[
         MarkdownPageListTile(
-          filename: 'README.md',
+          filename: 'assets/README.md',
           title: Text('View Readme'),
           icon: Icon(mat.Icons.all_inclusive),
         ),
         MarkdownPageListTile(
-          filename: 'CHANGELOG.md',
+          filename: 'assets/CHANGELOG.md',
           title: Text('View Changelog'),
           icon: Icon(mat.Icons.view_list),
         ),
         MarkdownPageListTile(
-          filename: 'CONTRIBUTING.md',
+          filename: 'assets/CONTRIBUTING.md',
           title: Text('Contributing'),
           icon: Icon(mat.Icons.share),
         ),
-        LicensesPageListTile(
+        MarkdownPageListTile(
+          filename: 'assets/LICENSE',
           title: Text('Open source License'),
           icon: Icon(mat.Icons.favorite),
-
         ),
       ],
     );

@@ -77,6 +77,11 @@ flutter:
    - assets/images/
    - assets/verblist.json
    - assets/prefix_list.json
+   - assets/README.md
+   - assets/CHANGELOG.md
+   - assets/CONTRIBUTING.md
+   - assets/LICENSE
+   - assets/CODE_OF_CONDUCT.md
 #   - images/samsadhani3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
