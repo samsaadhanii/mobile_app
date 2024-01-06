@@ -107,35 +107,43 @@ class _CupertinoMorphAnalyserState extends State<CupertinoMorphAnalyser> {
                       const SizedBox(height: 30),
 
                       // create a text field to display output
-                      CupertinoFormRow(
-                        helper: const Text(
-                          'Output',
-                          style: TextStyle(color: CupertinoColors.systemGrey),
-                        ),
-                        padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: CupertinoColors.systemGrey,
+                      CupertinoFormSection(
+                        header: const Text('Output'),
+                        children: [
+                          CupertinoFormRow(
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                                color: outputStr1.isNotEmpty
+                                    ? CupertinoColors
+                                        .systemPink.darkHighContrastColor
+                                    : CupertinoColors.systemGrey4,
+                              ),
+                              child: Text(outputStr1),
                             ),
-                            borderRadius: BorderRadius.circular(5),
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                color: CupertinoColors
-                                    .systemPink.darkHighContrastColor,
-                                child: Text(outputStr1),
+                          CupertinoFormRow(
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                                borderRadius: BorderRadius.circular(5),
+                                color: outputStr2.isNotEmpty
+                                    ? CupertinoColors.systemTeal
+                                    : CupertinoColors.systemGrey4,
                               ),
-                              const SizedBox(height: 10),
-                              Container(
-                                color: CupertinoColors.systemTeal,
-                                child: Text(outputStr2),
-                              ),
-                            ],
+                              child: Text(outputStr2),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),

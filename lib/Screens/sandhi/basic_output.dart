@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BasicOutput extends StatefulWidget {
-  BasicOutput({super.key, required this.data});
+  const BasicOutput({super.key, required this.data});
   final List data;
 
   @override

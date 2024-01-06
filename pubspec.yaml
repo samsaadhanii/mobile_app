@@ -105,7 +105,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_launcher_icons:
-  android: "Examole-Icon"
+  android: "launcher_icon"
   ios: true
   image_path: "assets/AppIcons/playstore.png"
   image_path_ios: "assets/AppIcons/appstore.png"

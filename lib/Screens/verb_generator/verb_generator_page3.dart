@@ -179,10 +179,10 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
   }
 
   Widget buildAtmanepadi(BuildContext context) {
-    Container con = Container();
+    Widget con = Container();
     if (output.isNotEmpty) {
       List<dynamic> awmane = output[0]['Awmane'];
-      con = Container(
+      con = SizedBox(
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
         child: SingleChildScrollView(
@@ -230,10 +230,10 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
   }
 
   Widget buildParasmaipadi(BuildContext context) {
-    Container con = Container();
+    Widget con = Container();
     if (output.isNotEmpty) {
       List<dynamic> parasme = output[0]['parasmE'];
-      con = Container(
+      con = SizedBox(
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
         child: SingleChildScrollView(
