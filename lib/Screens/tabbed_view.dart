@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/settings_page.dart';
 import 'package:mobile_app/Screens/tools_page.dart';
 
 import 'about_page.dart';
+import 'contributors.dart';
 
 class TabbedView extends StatefulWidget {
   const TabbedView({super.key, required this.title});
@@ -45,6 +46,11 @@ class _TabbedViewState extends State<TabbedView> {
             label: 'About',
             backgroundColor: Colors.blue,
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.groups_outlined, color: Colors.white),
+            label: 'Contributors',
+            backgroundColor: Colors.blue,
+          ),
         ],
         onTap: (int index) {
           // print('index: $index');
@@ -66,6 +72,8 @@ class _TabbedViewState extends State<TabbedView> {
       return const SettingsPage();
     } else if (index == 3) {
       return const AppAboutPage();
+    } else if (index == 4) {
+      return const Contributors();
     } else {
       return HomePage(title: widget.title);
     }

@@ -67,11 +67,11 @@ class _AppAboutPageState extends State<AppAboutPage> {
         //   title: Text('View Changelog'),
         //   icon: Icon(Icons.view_list),
         // ),
-        MarkdownPageListTile(
-          filename: 'assets/CONTRIBUTING.md',
-          title: Text('Contributing'),
-          icon: Icon(Icons.share),
-        ),
+        // MarkdownPageListTile(
+        //   filename: 'assets/CONTRIBUTING.md',
+        //   title: Text('Contributing'),
+        //   icon: Icon(Icons.share),
+        // ),
         MarkdownPageListTile(
           filename: 'assets/LICENSE',
           title: Text('Open source Licenses'),
