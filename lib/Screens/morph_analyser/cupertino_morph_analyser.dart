@@ -9,6 +9,10 @@ class CupertinoMorphAnalyser extends StatefulWidget {
   State<CupertinoMorphAnalyser> createState() => _CupertinoMorphAnalyserState();
 }
 
+/// ****************************************************
+/// This is the CupertinoMorphAnalyser class which is
+/// used to show the Morphological Analyser (शब्द-विश्लेषक)
+/// ****************************************************
 class _CupertinoMorphAnalyserState extends State<CupertinoMorphAnalyser> {
   TextEditingController firstInputController = TextEditingController();
   bool _isLoading = false;

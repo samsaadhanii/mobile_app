@@ -11,6 +11,10 @@ class MorphAnalyser extends StatefulWidget {
   State<MorphAnalyser> createState() => _MorphAnalyserState();
 }
 
+/// ****************************************************
+/// This is the MorphAnalyser class which is used to show the Morphological
+/// Analyser (शब्द-विश्लेषक) for Android version
+/// ****************************************************
 class _MorphAnalyserState extends State<MorphAnalyser> {
   TextEditingController firstInputController = TextEditingController();
   // TextEditingController secondInputController = TextEditingController();
