@@ -13,7 +13,7 @@ This is a Mobile app building project for Samsaadhanii tools
 
 **Tools used to build the Project**
 
-This project is built using [Android Studio](https://developer.android.com/studio) with [Flutter API](https://docs.flutter.dev/get-started/install) in Dart language for the purpose of multi-platform app building.
+This project is built using [Android Studio](https://developer.android.com/studio) with [Flutter API](https://docs.flutter.dev/get-started/install) in [Dart language](https://dart.dev/) for the purpose of multi-platform app building.
 
 **Supported Platforms**
 
