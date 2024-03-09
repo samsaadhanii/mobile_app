@@ -18,7 +18,6 @@ class VerbGeneratorPage3 extends StatefulWidget {
 }
 
 class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
-  int _selectedIndex = 0;
   bool _isLoading = false;
   bool fetchData = true;
   List<dynamic> output = [];
@@ -59,28 +58,20 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
   //   super.didChangeDependencies();
   // }
 
-  void _onItemTapped(int index) {
-    _selectedIndex = index;
-    loadData();
-  }
-
   void loadData() {
     setState(() {
       _isLoading = true;
     });
     WebAPI.verbRequest(
-            input1: widget.selectedVerb,
-            input2: 'karwari-uBayapaxI',
-            input3: widget.selectedPrefix,
-            inEncoding: 'WX',
-            outEncoding: 'IAST')
-        .then((value) {
+      input1: widget.selectedVerb,
+      input2: 'karwari-uBayapaxI',
+      input3: widget.selectedPrefix,
+      inEncoding: 'WX',
+      outEncoding: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr),
+    ).then((value) {
       setState(() {
         _isLoading = false;
         output = value;
-        // print(output);
-        // print(output.length);
-        // txt.text = value as String;
       });
     });
   }
@@ -117,25 +108,6 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
           body: _selectedPadi.contains(Const.ATMANEPADI)
               ? buildAtmanepadi(context)
               : buildParasmaipadi(context),
-          // bottomNavigationBar: BottomNavigationBar(
-          //   items: const <BottomNavigationBarItem>[
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.home),
-          //       label: 'Active',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.business),
-          //       label: 'Passive/Impersonal',
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.school),
-          //       label: 'Causative',
-          //     ),
-          //   ],
-          //   currentIndex: _selectedIndex,
-          //   selectedItemColor: Colors.amber[800],
-          //   onTap: _onItemTapped,
-          // ),
         ),
         if (_isLoading)
           const Opacity(
@@ -148,34 +120,6 @@ class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
           ),
       ],
     );
-    // return DefaultTabController(
-    //   length: 3, // Specify the number of tabs
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       title: const Text('Verb Generator'),
-    //       bottom: const TabBar(
-    //         tabs: [
-    //           Tab(text: 'Active'),
-    //           Tab(text: 'Passive/Impersonal'),
-    //           Tab(text: 'Causative'),
-    //         ],
-    //       ),
-    //     ),
-    //     body: const TabBarView(
-    //       children: [
-    //         Center(
-    //           child: Text('Active Content'),
-    //         ),
-    //         Center(
-    //           child: Text('Passive/Impersonal Content'),
-    //         ),
-    //         Center(
-    //           child: Text('Causative Content'),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 
   Widget buildAtmanepadi(BuildContext context) {

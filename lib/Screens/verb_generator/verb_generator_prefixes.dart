@@ -12,15 +12,40 @@ class VerbGeneratorPrefixes extends StatefulWidget {
   State<VerbGeneratorPrefixes> createState() => _VerbGeneratorPrefixesState();
 }
 
+///************************************************************
+/// This is the stateful class for the VerbGeneratorPrefixes.
+/// This class contains the list of prefixes available in the app.
+/// The prefixes are listed in the form of cards.
+/// Each card has a title, subtitle and a trailing icon.
+/// The trailing icon is an arrow icon which navigates to the
+/// respective verb page.
+/// ************************************************************
 class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
+  /// This variable is used to check if the data is loading or not.
   bool _isLoading = false;
+
+  /// This variable is used to store the list of prefixes.
   List<Map<String, dynamic>> prefixList = [];
+
+  /// This variable is used to store the selected prefix.
   String selectedPrefix = '';
+
+  /// This variable is used to check if the prefix list is ready or not.
   bool prefixListReady = false;
+
+  /// This variable is used to check if the prefix list is updated or not.
   bool updatePrefix = true;
+
+  /// This variable is used to store the selected index.
   int selectedIndex = 0;
-  int selectedEncoding = 0;
+
+  ///   This variable is used to store the selected encoding.
+  // int selectedEncoding = 0;
+
+  /// This variable is used to store the scroll controller.
   final ScrollController controller = ScrollController();
+
+  /// This variable is used to store the display prefix list.
   List<String> displayPrefixList = [];
 
   @override
@@ -36,13 +61,22 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
     super.didChangeDependencies();
   }
 
+  /// This function is used to build the widget for the VerbGeneratorPrefixes.
+  /// This function returns a Scaffold widget.
+  /// The Scaffold widget contains an AppBar and a body.
+  /// The body contains a Column widget.
+  /// The Column widget contains a Padding widget and a Container widget.
+  /// The Padding widget contains a Center widget and a Text widget.
+  /// The Container widget contains a Scrollbar widget and a ListView.builder widget.
+  /// The ListView.builder widget contains a itemBuilder and itemCount.
+  /// The itemBuilder contains a Container widget and a ListTile widget.
+  /// The ListTile widget contains a title and a onTap.
   @override
   Widget build(BuildContext context) {
     if (prefixList.isNotEmpty) {
       displayPrefixList.clear();
       for (var element in prefixList) {
-        String tmp = element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])];
+        String tmp = element[Const.verbEncodingAbbreviation(inputEncodingStr)];
         displayPrefixList.add(tmp);
       }
     }
@@ -51,25 +85,29 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
         Scaffold(
           appBar: AppBar(
             title: const Center(child: Text('Verb Generator')),
-            actions: [
-              PopupMenuButton<int>(
-                onSelected: (int value) {
-                  setState(() {
-                    selectedEncoding = value;
-                  });
-                },
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(
-                    value: 0,
-                    child: Text(Const.verbEncodingList[0]),
-                  ),
-                  PopupMenuItem(
-                    value: 1,
-                    child: Text(Const.verbEncodingList[1]),
-                  ),
-                ],
-              )
-            ],
+
+            /// This is the action button for the AppBar.
+            /// This button is a PopupMenuButton widget.
+            /// The PopupMenuButton widget contains an onSelected and itemBuilder.
+            // actions: [
+            //   PopupMenuButton<int>(
+            //     onSelected: (int value) {
+            //       setState(() {
+            //         selectedEncoding = value;
+            //       });
+            //     },
+            //     itemBuilder: (BuildContext context) => [
+            //       PopupMenuItem(
+            //         value: 0,
+            //         child: Text(Const.verbEncodingList[0]),
+            //       ),
+            //       PopupMenuItem(
+            //         value: 1,
+            //         child: Text(Const.verbEncodingList[1]),
+            //       ),
+            //     ],
+            //   )
+            // ],
           ),
           resizeToAvoidBottomInset: false,
           body: (_isLoading)
@@ -77,6 +115,7 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
               : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    ///
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Center(
@@ -145,54 +184,6 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
                             ),
                           )
                         : Container(),
-                    // prefixList.isNotEmpty
-                    //     ? Container(
-                    //         decoration: BoxDecoration(
-                    //           border: Border.all(color: Colors.orangeAccent),
-                    //           borderRadius: BorderRadius.circular(6),
-                    //         ),
-                    //         padding: const EdgeInsets.all(8),
-                    //         height: 400,
-                    //         child: Scrollbar(
-                    //           thickness: 10,
-                    //           thumbVisibility: true,
-                    //           trackVisibility: true,
-                    //           controller: controller,
-                    //           child: ListView.builder(
-                    //             controller: controller,
-                    //             shrinkWrap: true,
-                    //             physics: const ScrollPhysics(),
-                    //             itemBuilder: (context, index) {
-                    //               final isSelected = index == selectedIndex;
-                    //               Map<String, dynamic> tmp = prefixList[index];
-                    //               return Container(
-                    //                 decoration: BoxDecoration(
-                    //                   color: index.isEven
-                    //                       ? Colors.black12
-                    //                       : Colors.white10,
-                    //                   border:
-                    //                       Border.all(color: Colors.transparent),
-                    //                   borderRadius: BorderRadius.circular(6),
-                    //                 ),
-                    //                 child: ListTile(
-                    //                   title: Text(tmp['wx']),
-                    //                   tileColor:
-                    //                       isSelected ? Colors.blue : null, //
-                    //                   onTap: () {
-                    //                     setState(() {
-                    //                       selectedIndex = isSelected
-                    //                           ? -1
-                    //                           : index; // Toggle selection
-                    //                     });
-                    //                   },
-                    //                 ),
-                    //               );
-                    //             },
-                    //             itemCount: prefixList.length,
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : Container(),
                     FilledButton(
                         onPressed: () {
                           Navigator.push(
@@ -204,20 +195,6 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
                                       )));
                         },
                         child: const Text('Next')),
-                    // FilledButton(
-                    //     onPressed: () {
-                    //       setState(() {
-                    //         _isLoading = true;
-                    //       });
-                    //       WebAPI.verbRequest().then((value) {
-                    //         setState(() {
-                    //           _isLoading = false;
-                    //           // output = value;
-                    //           // txt.text = value as String;
-                    //         });
-                    //       });
-                    //     },
-                    //     child: const Text('Next')),
                   ],
                 ),
         ),

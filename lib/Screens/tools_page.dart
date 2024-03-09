@@ -15,6 +15,22 @@ class ToolsPage extends StatefulWidget {
   State<ToolsPage> createState() => _ToolsPageState();
 }
 
+///************************************************************
+/// This is the stateful class for the ToolsPage.
+/// This class contains the list of tools available in the app.
+/// The tools are listed in the form of cards.
+/// Each card has a title, subtitle and a trailing icon.
+/// The trailing icon is an arrow icon which navigates to the
+/// respective tool page.
+/// The tools are:
+/// 1. Morphological Analyser
+/// 2. Noun Generator
+/// 3. Verb Generator
+/// 4. Sandhi Joining
+/// 5. Sandhi Analyser
+/// 6. Dhatupatha
+/// 7. Krt Generator
+/// ************************************************************
 class _ToolsPageState extends State<ToolsPage> {
   @override
   Widget build(BuildContext context) {
@@ -25,6 +41,7 @@ class _ToolsPageState extends State<ToolsPage> {
       body: SafeArea(
         child: ListView(
           children: <Widget>[
+            /// Morphological Analyser
             Card(
               child: ListTile(
                 title: const Text('Morphological Analyser ',
@@ -45,6 +62,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 },
               ),
             ),
+
+            /// Noun Generator
             Card(
               child: ListTile(
                 title: const Text('Noun Generator ',
@@ -65,6 +84,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 }),
               ),
             ),
+
+            /// Verb Generator
             Card(
               child: ListTile(
                 title: const Text('Verb Generator ',
@@ -85,6 +106,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 }),
               ),
             ),
+
+            /// Sandhi Joining
             Card(
               child: ListTile(
                 title: const Text('Sandhi Joining ',
@@ -105,6 +128,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 }),
               ),
             ),
+
+            /// Sandhi Analyser
             Card(
               child: ListTile(
                 title: const Text('Sandhi Analyser ',
@@ -125,6 +150,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 }),
               ),
             ),
+
+            /// Dhatupatha
             Card(
               child: ListTile(
                 title: const Text('Dhātupāṭhaḥ ',
@@ -145,6 +172,8 @@ class _ToolsPageState extends State<ToolsPage> {
                 }),
               ),
             ),
+
+            /// Krt Generator
             Card(
               child: ListTile(
                 title: const Text('Krt Generator ',
