@@ -27,6 +27,6 @@ This project is designed for making mobile app for [Android](https://play.google
 
 This project can be built into mobile app for Android and IOS sepereatly with different methods.
 
-Building the app for Android can be found from the Flutter page from the folling link https://docs.flutter.dev/deployment/android
+- Building the app for Android can be found from the Flutter page from the folling link https://docs.flutter.dev/deployment/android
 
-Building the app for IOS can be found from the flutter page from the following link https://docs.flutter.dev/deployment/ios
+- Building the app for IOS can be found from the flutter page from the following link https://docs.flutter.dev/deployment/ios
