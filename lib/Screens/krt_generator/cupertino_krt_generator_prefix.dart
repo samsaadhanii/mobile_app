@@ -13,6 +13,13 @@ class CupertinoKrtGeneratorPrefix extends StatefulWidget {
       _CupertinoKrtGeneratorPrefixState();
 }
 
+/// ************************************************************
+/// This is the Cupertino version of the Krt Generator Prefix screen.
+/// It is called from CupertinoKrtGeneratorInput.
+/// It displays the list of prefixes for the selected encoding.
+/// The user selects a prefix from the list.
+/// The selected prefix is passed to CupertinoKrtGeneratorVerbs.
+/// ************************************************************
 class _CupertinoKrtGeneratorPrefixState
     extends State<CupertinoKrtGeneratorPrefix> {
   bool _isLoading = false;

@@ -15,6 +15,13 @@ class CupertinoKrtGeneratorVerbs extends StatefulWidget {
       _CupertinoKrtGeneratorVerbsState();
 }
 
+/// ************************************************************
+/// This is the Cupertino version of the Krt Generator Verbs screen.
+/// It is called from CupertinoKrtGeneratorPrefix.
+/// It displays the list of verbs for the selected prefix.
+/// The user selects a verb from the list.
+/// The selected verb is passed to CupertinoKrtGeneratorOutput.
+///
 class _CupertinoKrtGeneratorVerbsState
     extends State<CupertinoKrtGeneratorVerbs> {
   bool _isLoading = false;
