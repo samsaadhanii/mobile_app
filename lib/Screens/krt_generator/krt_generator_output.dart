@@ -17,6 +17,20 @@ class KrtGeneratorOutput extends StatefulWidget {
   State<KrtGeneratorOutput> createState() => _KrtGeneratorOutputState();
 }
 
+/// ************************************************************
+/// This is the Android version of the Krt Generator Output
+/// screen. It is called from KrtGeneratorInput.
+/// It displays the output of the Krt Generator API.
+/// The output is a list of maps. Each map contains the
+/// following keys
+/// kqw_prawyayaH, lifgam, form
+///   The kqw_prawyayaH is the key for the map of form and lifgam
+///   The form and lifgam are lists of strings.
+///   The form and lifgam are displayed in a table format.
+///   The kqw_prawyayaH is displayed in a separate column.
+///   The form and lifgam are displayed in a separate column.
+///   ************************************************************
+///
 class _KrtGeneratorOutputState extends State<KrtGeneratorOutput> {
   bool _isLoading = false;
   bool fetchData = true;

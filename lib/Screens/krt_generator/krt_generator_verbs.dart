@@ -14,6 +14,13 @@ class KrtGeneratorVerbs extends StatefulWidget {
   State<KrtGeneratorVerbs> createState() => _KrtGeneratorVerbsState();
 }
 
+/// ************************************************************
+/// This is the Android version of the Krt Generator Verbs screen.
+/// It is called from KrtGeneratorPrefix.
+/// It displays the list of verbs for the selected prefix.
+/// The user selects a verb from the list.
+/// The selected verb is passed to KrtGeneratorOutput.
+/// ************************************************************
 class _KrtGeneratorVerbsState extends State<KrtGeneratorVerbs> {
   bool _isLoading = false;
   List<Map<String, dynamic>> verbList = [];

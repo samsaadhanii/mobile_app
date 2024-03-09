@@ -12,6 +12,13 @@ class KrtGeneratorPrefix extends StatefulWidget {
   State<KrtGeneratorPrefix> createState() => _KrtGeneratorPrefixState();
 }
 
+/// ************************************************************
+/// This is the Android version of the Krt Generator Prefix screen.
+/// It is called from KrtGeneratorInput.
+/// It displays the list of prefixes for the selected encoding.
+/// The user selects a prefix from the list.
+/// The selected prefix is passed to KrtGeneratorVerbs.
+/// ************************************************************
 class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
   bool _isLoading = false;
   List<Map<String, dynamic>> prefixList = [];
