@@ -102,7 +102,7 @@ class DhatupathaPageOne extends StatefulWidget {
 }
 
 /// ************************************************************************
-/// loading the webview for the dhatupatha
+/// loading the webview for the dhatupatha page for Android and iOS
 /// ************************************************************************
 class _DhatupathaPageOneState extends State<DhatupathaPageOne> {
   late final WebViewController _controller;
