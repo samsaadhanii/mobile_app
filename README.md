@@ -1,6 +1,6 @@
 **Samsaadhanii**
 
-About Samsaadhanii
+**About Samsaadhanii**
 A simple tool for transliteration allows you to transliterate Sanskrit texts among various schemes.
 While sandhi shows joining of two Sanskrit words following the Paninian sutras, a sandhi splitter shows all possible splittings of a given Sanskrit string of characters.
 Morphological Generator shows the inflectional, and (some) derivational forms of a given noun or a verb. Ashtadhyayi_simulator shows the derivation of nominal forms of a noun by simulating the process Panini has employed in his Ashtadhyayi.
