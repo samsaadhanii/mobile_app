@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:searchable_listview/searchable_listview.dart';
-
 import '../../Constants/constants.dart';
 import '../../model/data_provider.dart';
 import 'krt_generator_verbs.dart';
@@ -20,7 +19,7 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
   bool prefixListReady = false;
   bool updatePrefix = true;
   int selectedIndex = 0;
-  int selectedEncoding = 0;
+  // int selectedEncoding = 0;
   final ScrollController controller = ScrollController();
   List<String> displayPrefixList = [];
 
@@ -42,8 +41,7 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
     if (prefixList.isNotEmpty) {
       displayPrefixList.clear();
       for (var element in prefixList) {
-        String tmp = element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])];
+        String tmp = element[Const.verbEncodingAbbreviation(inputEncodingStr)];
         displayPrefixList.add(tmp);
       }
     }
@@ -53,25 +51,6 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
           appBar: AppBar(
             title: const Center(
                 child: Text('Krt Generator (कृदन्तरूपनिष्पादिका)')),
-            actions: [
-              PopupMenuButton<int>(
-                onSelected: (int value) {
-                  setState(() {
-                    selectedEncoding = value;
-                  });
-                },
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(
-                    value: 0,
-                    child: Text(Const.verbEncodingList[0]),
-                  ),
-                  PopupMenuItem(
-                    value: 1,
-                    child: Text(Const.verbEncodingList[1]),
-                  ),
-                ],
-              )
-            ],
           ),
           resizeToAvoidBottomInset: false,
           body: (_isLoading)
@@ -147,54 +126,6 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
                             ),
                           )
                         : Container(),
-                    // prefixList.isNotEmpty
-                    //     ? Container(
-                    //         decoration: BoxDecoration(
-                    //           border: Border.all(color: Colors.orangeAccent),
-                    //           borderRadius: BorderRadius.circular(6),
-                    //         ),
-                    //         padding: const EdgeInsets.all(8),
-                    //         height: 400,
-                    //         child: Scrollbar(
-                    //           thickness: 10,
-                    //           thumbVisibility: true,
-                    //           trackVisibility: true,
-                    //           controller: controller,
-                    //           child: ListView.builder(
-                    //             controller: controller,
-                    //             shrinkWrap: true,
-                    //             physics: const ScrollPhysics(),
-                    //             itemBuilder: (context, index) {
-                    //               final isSelected = index == selectedIndex;
-                    //               Map<String, dynamic> tmp = prefixList[index];
-                    //               return Container(
-                    //                 decoration: BoxDecoration(
-                    //                   color: index.isEven
-                    //                       ? Colors.black12
-                    //                       : Colors.white10,
-                    //                   border:
-                    //                       Border.all(color: Colors.transparent),
-                    //                   borderRadius: BorderRadius.circular(6),
-                    //                 ),
-                    //                 child: ListTile(
-                    //                   title: Text(tmp['wx']),
-                    //                   tileColor:
-                    //                       isSelected ? Colors.blue : null, //
-                    //                   onTap: () {
-                    //                     setState(() {
-                    //                       selectedIndex = isSelected
-                    //                           ? -1
-                    //                           : index; // Toggle selection
-                    //                     });
-                    //                   },
-                    //                 ),
-                    //               );
-                    //             },
-                    //             itemCount: prefixList.length,
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : Container(),
                     FilledButton(
                         onPressed: () {
                           Navigator.push(
@@ -206,20 +137,6 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
                                       )));
                         },
                         child: const Text('Next')),
-                    // FilledButton(
-                    //     onPressed: () {
-                    //       setState(() {
-                    //         _isLoading = true;
-                    //       });
-                    //       WebAPI.verbRequest().then((value) {
-                    //         setState(() {
-                    //           _isLoading = false;
-                    //           // output = value;
-                    //           // txt.text = value as String;
-                    //         });
-                    //       });
-                    //     },
-                    //     child: const Text('Next')),
                   ],
                 ),
         ),

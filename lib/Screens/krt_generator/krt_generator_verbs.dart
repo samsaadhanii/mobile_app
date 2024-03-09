@@ -21,7 +21,6 @@ class _KrtGeneratorVerbsState extends State<KrtGeneratorVerbs> {
   bool verbListReady = false;
   bool updateData = true;
   int selectedIndex = 0;
-  int selectedEncoding = 0;
   final ScrollController controller = ScrollController();
   List<String> displayVerbList = [];
 
@@ -44,12 +43,12 @@ class _KrtGeneratorVerbsState extends State<KrtGeneratorVerbs> {
 
   @override
   Widget build(BuildContext context) {
-    print('selectedEncoding: ${Const.outputEncodingList[selectedEncoding]}');
+    print('selectedEncoding: ${inputEncodingStr}');
     if (verbList.isNotEmpty) {
       displayVerbList.clear();
       for (var element in verbList) {
-        displayVerbList.add(element[Const.verbEncodingAbbreviation(
-            Const.verbEncodingList[selectedEncoding])]);
+        displayVerbList
+            .add(element[Const.verbEncodingAbbreviation(inputEncodingStr)]);
       }
     }
     return Stack(
@@ -58,25 +57,6 @@ class _KrtGeneratorVerbsState extends State<KrtGeneratorVerbs> {
           appBar: AppBar(
             title: const Center(
                 child: Text('Krt Generator (कृदन्तरूपनिष्पादिका)')),
-            actions: [
-              PopupMenuButton<int>(
-                onSelected: (int value) {
-                  setState(() {
-                    selectedEncoding = value;
-                  });
-                },
-                itemBuilder: (BuildContext context) => [
-                  PopupMenuItem(
-                    value: 0,
-                    child: Text(Const.outputEncodingList[0]),
-                  ),
-                  PopupMenuItem(
-                    value: 1,
-                    child: Text(Const.outputEncodingList[1]),
-                  ),
-                ],
-              )
-            ],
           ),
           resizeToAvoidBottomInset: false,
           body: (_isLoading)
