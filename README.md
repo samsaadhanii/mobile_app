@@ -2,6 +2,7 @@
 
 This is a Mobile app building project for Samsaadhanii tools
 
+
 **About Samsaadhanii**
 
 - A simple tool for transliteration allows you to transliterate Sanskrit texts among various schemes.
@@ -10,14 +11,17 @@ This is a Mobile app building project for Samsaadhanii tools
 - Morphological Analyzer gives all possible analyses of a word.
 - Sanskrit-Hindi Accessor provides a tool to assist a reader in understanding a Sanskrit text with the help of Hindi glosses, following the steps of Sabda-viSleshaNam and aakaamkshaa.
 - गवेषिका (The first Search Engine for Sanskrit) allows you to search a Sanskrit word in various Corpora. It also allows you to search on a pratipadikam / dhaatu.
+- 
 
 **Tools used to build the Project**
 
 This project is built using [Android Studio](https://developer.android.com/studio) with [Flutter API](https://docs.flutter.dev/get-started/install) in [Dart language](https://dart.dev/) for the purpose of multi-platform app building.
 
+
 **Supported Platforms**
 
 This project is designed for making mobile app for [Android](https://play.google.com/) and [IOS phones](https://www.apple.com/in/app-store/) with reference to the Samsaadhanii page from the following web page https://sanskrit.uohyd.ac.in/scl/
+
 
 **How to build the mobile app**
 
