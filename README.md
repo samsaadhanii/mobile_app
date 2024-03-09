@@ -12,7 +12,7 @@ This is a Mobile app building project for Samsaadhanii tools
 - Sanskrit-Hindi Accessor provides a tool to assist a reader in understanding a Sanskrit text with the help of Hindi glosses, following the steps of Sabda-viSleshaNam and aakaamkshaa.
 - गवेषिका (The first Search Engine for Sanskrit) allows you to search a Sanskrit word in various Corpora. It also allows you to search on a pratipadikam / dhaatu.
 
-Samsaadhanii Mobile App
+**Samsaadhanii Mobile App**
 
 The mobile app supports the following samsaadhanii tools 
 - Morphological Analyser
