@@ -17,7 +17,7 @@ This project is built using [Android Studio](https://developer.android.com/studi
 
 **Supported Platforms**
 
-This project is designed for making mobile app for Android and IOS phones with reference to the Samsaadhanii page from the following web page https://sanskrit.uohyd.ac.in/scl/
+This project is designed for making mobile app for [Android](https://play.google.com/) and IOS phones with reference to the Samsaadhanii page from the following web page https://sanskrit.uohyd.ac.in/scl/
 
 **How to build the mobile app**
 
