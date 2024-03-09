@@ -49,7 +49,8 @@ class _CupertinoVerbGeneratorPrefixState
       /// Fill the prefix list with the prefixes of the selected encoding
       displayPrefixList.clear();
       for (var element in list) {
-        String? tmp = element[Const.prefixEncodingAbbreviation(inputEncodingStr)];
+        String? tmp =
+            element[Const.prefixEncodingAbbreviation(inputEncodingStr)];
         if (tmp != null) {
           if (searchText.isEmpty) {
             displayPrefixList.add(tmp);
@@ -147,13 +148,6 @@ class _CupertinoVerbGeneratorPrefixState
                                     selectedPrefix: selectedPrefix),
                               ),
                             );
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => VerbGeneratorPage2(
-                            //           selectedVerb: verbList[selectedIndex]
-                            //           ['wx'],
-                            //         )));
                           },
                           child: const Text('Next')),
                     ],

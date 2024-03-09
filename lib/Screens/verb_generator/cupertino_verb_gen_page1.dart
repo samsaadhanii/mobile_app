@@ -34,10 +34,6 @@ class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
       if (updateData) {
         updateData = false;
         verbList = Provider.of<DataProvider>(context).verbData;
-        // for (var element in data) {
-        //   Map<String, dynamic> tmp = element;
-        //   verbList.add(tmp);
-        // }
       }
     }
     super.didChangeDependencies();

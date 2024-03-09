@@ -17,6 +17,7 @@ class CupertinoVerbGeneratorOutput extends StatefulWidget {
       _CupertinoVerbGeneratorOutputState();
 }
 
+///
 class _CupertinoVerbGeneratorOutputState
     extends State<CupertinoVerbGeneratorOutput> {
   bool _isLoading = false;
