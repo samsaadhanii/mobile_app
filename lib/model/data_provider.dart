@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 
 import '../web_api.dart';
 
+/// Data provider class to provide data to the app using ChangeNotifier
+
 class DataProvider extends ChangeNotifier {
   bool verbDataLoaded = false;
   bool prefixDataLoaded = false;
@@ -23,6 +25,7 @@ class DataProvider extends ChangeNotifier {
       notifyListeners();
     });
 
+    /// Load prefix list from assets and convert wx to roman using webAPI
     rootBundle.loadString('assets/prefix_list.json').then((value) {
       List<dynamic> data = json.decode(value);
       print('verb data: ${data.length}');
