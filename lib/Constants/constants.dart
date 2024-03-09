@@ -1,7 +1,9 @@
 typedef void MyFunction(int);
 typedef void MyFunction2(String);
 
+///
 class Const {
+  /// encoding types used in samsaadhanii tools
   static String UNICODE_DEVANAGARI = "Unicode-Devanagari";
   static String WX_ALPHABETIC = "WX-Alphabetic";
   static String ITRANS_5_3 = "Itrans-5.3";
@@ -10,6 +12,7 @@ class Const {
   static String KYOTO_HARVARD_KH = "Kyoto-Harvard(KH)";
   static String IAST_ROMAN_DIACRITIC = "IAST(Roman Diacritic)";
 
+  /// input and output encoding lists
   static List<String> inputEncodingList = [
     UNICODE_DEVANAGARI,
     WX_ALPHABETIC,
@@ -20,11 +23,13 @@ class Const {
     IAST_ROMAN_DIACRITIC,
   ];
 
+  ///
   static List<String> outputEncodingList = [
     IAST_ROMAN_DIACRITIC,
     UNICODE_DEVANAGARI,
   ];
 
+  /// encoding abbreviation for the encoding list
   static String encodingAbbreviation(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return 'Unicode';
@@ -52,12 +57,14 @@ Devanagari	Devanagari
     * */
   }
 
+  /// verb encoding list
   static List<String> verbEncodingList = [
     IAST_ROMAN_DIACRITIC,
     UNICODE_DEVANAGARI,
     WX_ALPHABETIC,
   ];
 
+  /// verb encoding abbreviation
   static String verbEncodingAbbreviation(String type) {
     if (type == IAST_ROMAN_DIACRITIC) {
       return 'rom';
@@ -78,6 +85,8 @@ Roman (WX)	WX
 Devanagari	Devanagari
     * */
   }
+
+  /// verb out encoding abbreviation list
   static String verbAPIOutEncodingAbbreviation(String type) {
     if (type == IAST_ROMAN_DIACRITIC) {
       return 'IAST';
@@ -85,7 +94,9 @@ Devanagari	Devanagari
       return 'Devanagari';
     }
   }
-static String morphOutEncodingAbbreviation(String type) {
+
+  /// morph out encoding abbreviation list
+  static String morphOutEncodingAbbreviation(String type) {
     if (type == IAST_ROMAN_DIACRITIC) {
       return 'IAST';
     } else {
@@ -93,11 +104,13 @@ static String morphOutEncodingAbbreviation(String type) {
     }
   }
 
+  /// encoding list for prefix
   static List<String> prefixEncodingList = [
     IAST_ROMAN_DIACRITIC,
     UNICODE_DEVANAGARI,
   ];
 
+  /// prefix encoding abbreviation
   static String prefixEncodingAbbreviation(String type) {
     // Specific to Prefix in verb generator
     // The prefix list is in 'wx' amd 'dev' formats
@@ -121,6 +134,7 @@ Devanagari	Devanagari
     * */
   }
 
+  /// headings for the verb table
   static List<String> headings(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return ['एकवचनम्', 'द्विवचनम्', 'बहुवचनम्'];
@@ -129,12 +143,14 @@ Devanagari	Devanagari
     }
   }
 
+  /// headings for the verb table
   static String CAT_NAMA = "नाम (nāma)";
   static String CAT_SARVANAMA = "सर्वनाम (sarvanāma)";
   static String CAT_NUMERAL = "सङ्ख्या (Numeral)";
   static String CAT_CARDINAL = "सङ्ख्येय (cardinal)";
   static String CAT_ORDINAL = "पूरण (ordinal)";
 
+  /// category list for the morphological analysis
   static List<String> categoryList = [
     CAT_NAMA,
     CAT_SARVANAMA,
@@ -143,6 +159,7 @@ Devanagari	Devanagari
     CAT_ORDINAL,
   ];
 
+  /// category abbreviation for the morphological analysis
   static String catAbbreviation(String type) {
     if (type == CAT_NAMA) {
       return 'nA';
@@ -157,11 +174,13 @@ Devanagari	Devanagari
     }
   }
 
+  /// category name for the morphological analysis
   static String GEN_MASC = "पुंलिङ्गम् (masc)";
   static String GEN_NEUTER = "नपुंसकलिङ्गम् (neuter)";
   static String GEN_FEMININE = "स्त्रीलिङ्गम् (feminine)";
   static String GEN_FOR = "-(For अस्मद्, युष्मद्)";
 
+  /// gender list for the morphological analysis
   static List<String> genderList = [
     GEN_MASC,
     GEN_NEUTER,
@@ -169,6 +188,7 @@ Devanagari	Devanagari
     GEN_FOR,
   ];
 
+  /// gender abbreviation for the morphological analysis
   static String genderAbbreviation(String type) {
     if (type == GEN_MASC) {
       return 'puM';
@@ -181,6 +201,7 @@ Devanagari	Devanagari
     }
   }
 
+  /// gender name for the morphological analysis
   static String genderName(String type, String encode) {
     if (encode == UNICODE_DEVANAGARI) {
       if (type == GEN_MASC) {
@@ -205,6 +226,7 @@ Devanagari	Devanagari
     }
   }
 
+  /// list of vibhakti for the IAST encoding
   static List<String> vibList_IAST = [
     'prathamā',
     'dvitīyā',
@@ -216,6 +238,7 @@ Devanagari	Devanagari
     'saṃ.pra',
   ];
 
+  /// list of vibhakti for the WX encoding
   static List<String> vibList_WX = [
     'praWamA',
     'xviwIyA',
@@ -228,6 +251,7 @@ Devanagari	Devanagari
     '',
   ];
 
+  /// list of vibhakti for the Devanagari encoding
   static List<String> sandhiTableHeadings(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return [
@@ -253,6 +277,7 @@ Devanagari	Devanagari
 
   static List<String> textTypeList = [SENTENCE, WORD];
 
+  /// text type abbreviation
   static String textTypeAbbreviation(String type) {
     if (type == SENTENCE) {
       return 'sent';
@@ -261,6 +286,7 @@ Devanagari	Devanagari
     }
   }
 
+  /// output encoding abbreviation
   static String outEncodingAbbreviation(String type) {
     if (type == UNICODE_DEVANAGARI) {
       return 'D';
@@ -269,11 +295,11 @@ Devanagari	Devanagari
     }
   }
 
+  /// list of padi for the verb generation
   static const String PARASMAIPADI = "Parasmaipadi";
   static const String ATMANEPADI = "Atmanepadi";
 
   static List<String> padiList = [ATMANEPADI, PARASMAIPADI];
-
 }
 
 enum LearnerLevel { basic, intermediate, advanced }
