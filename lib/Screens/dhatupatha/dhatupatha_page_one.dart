@@ -101,6 +101,9 @@ class DhatupathaPageOne extends StatefulWidget {
   State<DhatupathaPageOne> createState() => _DhatupathaPageOneState();
 }
 
+/// ************************************************************************
+/// loading the webview for the dhatupatha
+/// ************************************************************************
 class _DhatupathaPageOneState extends State<DhatupathaPageOne> {
   late final WebViewController _controller;
 
