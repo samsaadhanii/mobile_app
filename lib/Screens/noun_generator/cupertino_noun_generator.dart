@@ -13,6 +13,13 @@ class CupertinoNounGenerator extends StatefulWidget {
   State<CupertinoNounGenerator> createState() => _CupertinoNounGeneratorState();
 }
 
+/// ****************************************************
+/// Noun Generator Screen in iOS version
+/// it takes following inputs from the user and displays the output
+/// 1. Prātipadikam (प्रातिपदिक / Noun)
+/// 2. Category (जाति)
+/// 3. Gender (लिङ्)
+/// ****************************************************
 class _CupertinoNounGeneratorState extends State<CupertinoNounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;

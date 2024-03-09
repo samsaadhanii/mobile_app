@@ -11,6 +11,9 @@ class DictionaryPage extends StatefulWidget {
   State<DictionaryPage> createState() => _DictionaryPageState();
 }
 
+/// ****************************************************
+/// Display the Dictionary for the given input word in Android version
+/// ****************************************************
 class _DictionaryPageState extends State<DictionaryPage> {
   @override
   Widget build(BuildContext context) {

@@ -21,6 +21,11 @@ class NounGeneratorOutput extends StatefulWidget {
   State<NounGeneratorOutput> createState() => _NounGeneratorOutputState();
 }
 
+/// ****************************************************
+/// Display the Noun Generator Output displayed in tabular form in Android version
+/// Uses the webAPI to fetch the data from the server and displays the data
+/// and Calls the Dictionary when user clicks on the word
+/// ****************************************************
 class _NounGeneratorOutputState extends State<NounGeneratorOutput> {
   bool _isLoading = false;
   String dictWord = '';

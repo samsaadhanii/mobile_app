@@ -9,6 +9,12 @@ class AshtadhyayiSimulation extends StatefulWidget {
   State<AshtadhyayiSimulation> createState() => _AshtadhyayiSimulationState();
 }
 
+/// ****************************************************
+/// Display the Ashtadhyayi Simulation content in HTML format using
+/// flutter_html package
+/// This is used in the NounGeneratorScreen to display the Ashtadhyayi
+/// content in Android version
+/// ****************************************************
 class _AshtadhyayiSimulationState extends State<AshtadhyayiSimulation> {
   @override
   Widget build(BuildContext context) {

@@ -12,6 +12,13 @@ class NounGenerator extends StatefulWidget {
   State<NounGenerator> createState() => _NounGeneratorState();
 }
 
+/// ****************************************************
+/// Noun Generator Screen in Android version
+/// it takes following inputs from the user and displays the output
+/// 1. Prātipadikam (प्रातिपदिक / Noun)
+/// 2. Category (जाति)
+/// 3. Gender (लिङ्)
+/// ****************************************************
 class _NounGeneratorState extends State<NounGenerator> {
   TextEditingController inputController = TextEditingController();
   bool _isLoading = false;

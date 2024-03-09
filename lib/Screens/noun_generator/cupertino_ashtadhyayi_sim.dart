@@ -11,6 +11,11 @@ class CupertinoAshtadhyayiSimulator extends StatefulWidget {
       _CupertinoAshtadhyayiSimulatorState();
 }
 
+/// ****************************************************
+/// Display the Ashtadhyayi Simulation content in HTML format
+/// This is used in the NounGeneratorScreen to display the Ashtadhyayi
+/// content in iOS version
+/// ****************************************************
 class _CupertinoAshtadhyayiSimulatorState
     extends State<CupertinoAshtadhyayiSimulator> {
   @override

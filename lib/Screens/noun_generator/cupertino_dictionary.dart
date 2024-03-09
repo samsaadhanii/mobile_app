@@ -12,6 +12,9 @@ class CupertinoDictionary extends StatefulWidget {
   State<CupertinoDictionary> createState() => _CupertinoDictionaryState();
 }
 
+/// ****************************************************
+/// Display the Dictionary for the given input word in iOS version
+/// ****************************************************
 class _CupertinoDictionaryState extends State<CupertinoDictionary> {
   @override
   Widget build(BuildContext context) {

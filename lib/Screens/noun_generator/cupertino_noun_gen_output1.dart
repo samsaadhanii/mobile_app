@@ -24,6 +24,11 @@ class CupertinoNGOutput extends StatefulWidget {
   State<CupertinoNGOutput> createState() => _CupertinoNGOutputState();
 }
 
+/// ****************************************************
+/// Display the Noun Generator Output displayed in tabular form in iOS version
+/// Uses the webAPI to fetch the data from the server and displays the data
+/// and Calls the Dictionary when user clicks on the word
+/// ****************************************************
 class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
   bool _isLoading = false;
   String dictWord = '';
@@ -36,20 +41,22 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
     )})';
     super.initState();
   }
-@override
+
+  @override
   void didChangeDependencies() {
-  WebAPI.transLiterateWord(
-      input: widget.inputWord,
-      src: Const.verbAPIOutEncodingAbbreviation(inputEncodingStr),
-      tar: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr)).then((value) {
-    print('Transliterate Out: $value');
-    setState(() {
-      dictWord = '$value (${Const.genderName(
-        widget.gender,
-        widget.encoding,
-      )})';
+    WebAPI.transLiterateWord(
+            input: widget.inputWord,
+            src: Const.verbAPIOutEncodingAbbreviation(inputEncodingStr),
+            tar: Const.verbAPIOutEncodingAbbreviation(outputEncodingStr))
+        .then((value) {
+      print('Transliterate Out: $value');
+      setState(() {
+        dictWord = '$value (${Const.genderName(
+          widget.gender,
+          widget.encoding,
+        )})';
+      });
     });
-  });
     super.didChangeDependencies();
   }
 
@@ -67,6 +74,7 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                 const SizedBox(
                   height: 10,
                 ),
+
                 /// Input word
                 TextButton(
                   onPressed: () {
@@ -89,6 +97,7 @@ class _CupertinoNGOutputState extends State<CupertinoNGOutput> {
                 const SizedBox(
                   height: 10,
                 ),
+
                 /// Data Table
                 Center(
                   child: Padding(
