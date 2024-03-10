@@ -14,6 +14,9 @@ class VerbGeneratorVerbs extends StatefulWidget {
   State<VerbGeneratorVerbs> createState() => _VerbGeneratorVerbsState();
 }
 
+/// ************************************************************
+/// This is the stateful class for the VerbGeneratorVerbs.
+///
 class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
   bool _isLoading = false;
   List<Map<String, dynamic>> verbList = [];

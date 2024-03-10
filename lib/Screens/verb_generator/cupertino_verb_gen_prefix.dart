@@ -13,6 +13,12 @@ class CupertinoVerbGeneratorPrefix extends StatefulWidget {
       _CupertinoVerbGeneratorPrefixState();
 }
 
+/// *********************************************************************
+/// Verb generator screen for Cupertino (iOS) devices - 1 (क्रियारूप-निष्पादिका)
+/// Here we provide options for the user to select the prefix for verb
+/// Which is the input screen for verb generation with one input field
+/// And a submit button to send the request to the server
+/// *********************************************************************
 class _CupertinoVerbGeneratorPrefixState
     extends State<CupertinoVerbGeneratorPrefix> {
   bool _isLoading = false;

@@ -14,6 +14,12 @@ class CupertinoVerbGenerator1 extends StatefulWidget {
       _CupertinoVerbGenerator1State();
 }
 
+/// *********************************************************************
+/// Verb generator screen for Cupertino (iOS) devices - 1 (क्रियारूप-निष्पादिका)
+/// Here we provide options for the user to select the verbal root
+/// Which is the input screen for verb generation with one input field
+/// And a submit button to send the request to the server
+///
 class _CupertinoVerbGenerator1State extends State<CupertinoVerbGenerator1> {
   bool _isLoading = false;
   List<Map<String, dynamic>> verbList = [];

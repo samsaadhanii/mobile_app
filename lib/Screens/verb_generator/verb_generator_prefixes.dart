@@ -13,12 +13,10 @@ class VerbGeneratorPrefixes extends StatefulWidget {
 }
 
 ///************************************************************
-/// This is the stateful class for the VerbGeneratorPrefixes.
-/// This class contains the list of prefixes available in the app.
-/// The prefixes are listed in the form of cards.
-/// Each card has a title, subtitle and a trailing icon.
-/// The trailing icon is an arrow icon which navigates to the
-/// respective verb page.
+/// Verb generator screen for Android devices - 1 (क्रियारूप-निष्पादिका)
+/// Here we provide options for the user to select the prefix for verb
+/// Which is the input screen for verb generation with one input field
+/// And a submit button to send the request to the server
 /// ************************************************************
 class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
   /// This variable is used to check if the data is loading or not.

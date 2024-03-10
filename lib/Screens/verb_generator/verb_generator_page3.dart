@@ -17,6 +17,12 @@ class VerbGeneratorPage3 extends StatefulWidget {
   State<VerbGeneratorPage3> createState() => _VerbGeneratorPage3State();
 }
 
+/// *********************************************************************
+/// Verb generator screen for Cupertino (iOS) devices - 3 (क्रियारूप-निष्पादिका)
+/// Here we display the output of Atmanepadi and Parasmaipadi in a
+/// tabular format for the selected verb and prefix input by the user
+/// with a color scheme for easy identification of the verb forms
+/// *********************************************************************
 class _VerbGeneratorPage3State extends State<VerbGeneratorPage3> {
   bool _isLoading = false;
   bool fetchData = true;

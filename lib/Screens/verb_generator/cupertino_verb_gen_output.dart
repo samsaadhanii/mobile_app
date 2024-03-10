@@ -17,7 +17,12 @@ class CupertinoVerbGeneratorOutput extends StatefulWidget {
       _CupertinoVerbGeneratorOutputState();
 }
 
-///
+/// *********************************************************************
+/// Verb generator output screen in tabular format for Cupertino (iOS) devices
+/// Here we display the output of Atmanepadi and Parasmaipadi in a
+/// tabular format for the selected verb and prefix input by the user
+/// with a color scheme for easy identification of the verb forms
+/// *********************************************************************
 class _CupertinoVerbGeneratorOutputState
     extends State<CupertinoVerbGeneratorOutput> {
   bool _isLoading = false;
