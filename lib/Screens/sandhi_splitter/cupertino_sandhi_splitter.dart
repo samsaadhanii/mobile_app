@@ -13,6 +13,13 @@ class CupertinoSandhiSplitter extends StatefulWidget {
       _CupertinoSandhiSplitterState();
 }
 
+/// ***********************************************************************
+/// Sandhi splitter screen for Cupertino (iOS) devices
+/// Here we provide options for the user to select the text type
+/// Which is the input screen for sandhi splitting with one input field
+/// And a submit button to send the request to the server
+/// And display the output in a text field
+/// ***********************************************************************
 class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
   TextEditingController firstInputController = TextEditingController();
 
@@ -69,11 +76,11 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                             children: [
                               const SizedBox(width: 10),
                               SizedBox(
-                                width: dSize.width*0.4,
+                                width: dSize.width * 0.4,
                                 child: const Text('First Word'),
                               ),
                               Container(
-                                width: dSize.width*0.5,
+                                width: dSize.width * 0.5,
                                 padding: const EdgeInsets.all(8.0),
                                 // alignment: Alignment.centerRight,
                                 child: CupertinoTextField(
@@ -93,11 +100,12 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                                 _isLoading = true;
                               });
                               String inputStr1 = firstInputController.text;
-                              String mode = Const.textTypeAbbreviation(textTypeStr);
+                              String mode =
+                                  Const.textTypeAbbreviation(textTypeStr);
                               String inEnStr =
                                   Const.encodingAbbreviation(inputEncodingStr);
-                              String outEnStr =
-                                  Const.outEncodingAbbreviation(outputEncodingStr);
+                              String outEnStr = Const.outEncodingAbbreviation(
+                                  outputEncodingStr);
 
                               WebAPI.sandhiSplitter(
                                       input1: inputStr1,
@@ -121,7 +129,10 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
 
                       // create a text field to display output
                       CupertinoFormRow(
-                        helper: const Text('Output',style: TextStyle(color: Colors.black26),),
+                        helper: const Text(
+                          'Output',
+                          style: TextStyle(color: Colors.black26),
+                        ),
                         padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
                         child: CupertinoTextField(
                           controller: TextEditingController(
@@ -141,7 +152,9 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Text('Powered by'),
-                        CupertinoButton(onPressed: _launchUrl, child: const Text('Sanskrit Heritage Platform')),
+                        CupertinoButton(
+                            onPressed: _launchUrl,
+                            child: const Text('Sanskrit Heritage Platform')),
                         const SizedBox(width: 5),
                       ],
                     ),
@@ -164,9 +177,10 @@ class _CupertinoSandhiSplitterState extends State<CupertinoSandhiSplitter> {
       ],
     );
   }
+
   Future<void> _launchUrl() async {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
   }
-  }
+}

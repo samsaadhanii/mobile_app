@@ -11,6 +11,13 @@ class SandhiSplitter extends StatefulWidget {
   State<SandhiSplitter> createState() => _SandhiSplitterState();
 }
 
+/// ***********************************************************************
+/// Sandhi splitter screen for Android devices
+/// Here we provide options for the user to select the text type
+/// Which is the input screen for sandhi splitting with one input field
+///  And a submit button to send the request to the server
+///  And display the output in a text field
+///  ***********************************************************************
 class _SandhiSplitterState extends State<SandhiSplitter> {
   TextEditingController firstInputController = TextEditingController();
   // TextEditingController secondInputController = TextEditingController();
