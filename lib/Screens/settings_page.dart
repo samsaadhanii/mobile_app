@@ -9,6 +9,10 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
+/// ************************************************************
+/// This is the SettingsPage for the Android version.
+/// It provides options for the user to select the input and output encoding
+/// which is used throughout the app for the conversion of text
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {

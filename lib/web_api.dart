@@ -3,6 +3,21 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'Constants/constants.dart';
 
+/// The WebAPI class is used to make API requests to the server
+/// The server is hosted at the University of Hyderabad
+/// The server is used to generate the following:
+/// 1. Noun forms
+/// 2. Verb forms
+/// 3. Sandhi
+/// 4. Sandhi Splitter
+/// 5. Krt forms
+/// 6. Morphological Analyser
+/// 7. Dictionary
+/// 8. Transliteration
+/// 9. Ashtadhyayi Simulator
+/// 10. Verb Generator
+/// 11. Krt Generator
+///
 class WebAPI with ChangeNotifier {
   static String base = "https://scl.samsaadhanii.in";
   static String base1 = "https://sanskrit.uohyd.ac.in";

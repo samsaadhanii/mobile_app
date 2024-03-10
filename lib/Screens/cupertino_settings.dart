@@ -11,6 +11,12 @@ class CupertinoSettings extends StatefulWidget {
 
 const double _kItemExtent = 32.0;
 
+/// *********************************************************************
+/// Saṃsādhanī app for Cupertino (iOS) devices
+/// This is the settings screen for the app (सेटिङ्गहरू)
+/// It provides options for the user to select the input and output encoding
+/// which is used throughout the app for the conversion of text
+/// *********************************************************************
 class _CupertinoSettingsState extends State<CupertinoSettings> {
   final bool _isLoading = false;
   late Size dSize;

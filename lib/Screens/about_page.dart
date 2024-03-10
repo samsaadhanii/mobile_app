@@ -12,6 +12,12 @@ class AppAboutPage extends StatefulWidget {
   State<AppAboutPage> createState() => _AppAboutPageState();
 }
 
+/// ***********************************************************************
+/// About page for the app
+/// Which displays the app version, build number, author and year
+/// And also provides links to view the Readme, Changelog, Contributing
+/// and Open source Licenses
+///
 class _AppAboutPageState extends State<AppAboutPage> {
   PackageInfo? packageInfo;
 

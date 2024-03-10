@@ -14,6 +14,12 @@ class TabbedView extends StatefulWidget {
   State<TabbedView> createState() => _TabbedViewState();
 }
 
+/// *********************************************************************
+/// Saṃsādhanī app for Android devices
+/// This is the main screen for the app
+/// It provides options for the user to select the home, tools, settings,
+/// about and contributors screens using the CupertinoTabScaffold
+/// *********************************************************************
 class _TabbedViewState extends State<TabbedView> {
   int selectedTab = 0;
   @override

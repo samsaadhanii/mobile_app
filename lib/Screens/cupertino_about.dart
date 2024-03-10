@@ -11,6 +11,12 @@ class CupertinoAboutPage extends StatefulWidget {
   State<CupertinoAboutPage> createState() => _CupertinoAboutPageState();
 }
 
+/// ***********************************************************************
+/// About page for the app for Cupertino (iOS) devices
+/// Which displays the app version, build number, author and year
+/// And also provides links to view the Readme, Changelog, Contributing
+/// and Open source Licenses using CupertinoPageScaffold
+/// ***********************************************************************
 class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
   PackageInfo? packageInfo;
 

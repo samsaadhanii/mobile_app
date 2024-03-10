@@ -14,6 +14,12 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+/// ************************************************************
+/// This is the stateful class for the HomePage.
+/// which displays the home page of the app with the app logo and a brief
+/// description of the app. It also checks for the internet connection
+/// and displays a message if there is no internet connection.
+/// ************************************************************
 class _HomePageState extends State<HomePage> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();

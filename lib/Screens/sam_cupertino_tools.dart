@@ -15,6 +15,9 @@ class SamCupertinoTools extends StatefulWidget {
   State<SamCupertinoTools> createState() => _SamCupertinoToolsState();
 }
 
+/// *********************************************************************
+/// This is the stateful class which list downs all the Samsaadhanii Tools.
+/// *********************************************************************
 class _SamCupertinoToolsState extends State<SamCupertinoTools> {
   @override
   Widget build(BuildContext context) {

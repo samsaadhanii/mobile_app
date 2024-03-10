@@ -13,6 +13,12 @@ class SamCupertinoTab extends StatefulWidget {
   State<SamCupertinoTab> createState() => _SamCupertinoTabState();
 }
 
+/// *********************************************************************
+/// Saṃsādhanī app for Cupertino (iOS) devices
+/// This is the main screen for the app
+/// It provides options for the user to select the home, tools, settings,
+/// about and contributors screens using the CupertinoTabScaffold
+/// *********************************************************************
 class _SamCupertinoTabState extends State<SamCupertinoTab> {
   @override
   Widget build(BuildContext context) {

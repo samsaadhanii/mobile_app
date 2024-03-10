@@ -7,6 +7,9 @@ class DataNotFound extends StatefulWidget {
   State<DataNotFound> createState() => _DataNotFoundState();
 }
 
+/// *********************************************************************
+/// This is the stateful class for the DataNotFound.
+/// *********************************************************************
 class _DataNotFoundState extends State<DataNotFound> {
   @override
   Widget build(BuildContext context) {

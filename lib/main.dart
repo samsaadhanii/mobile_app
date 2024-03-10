@@ -7,6 +7,14 @@ import 'Screens/cpertino_tab.dart';
 import 'Screens/tabbed_view.dart';
 import 'model/data_provider.dart';
 
+/// *************************************************************************
+/// The main entry point for the application
+///   - This is where the app starts
+///   - It provides the ChangeNotifierProvider for the DataProvider
+///   - It provides the defaultTargetPlatform for the app
+///   - It provides the MyHttpOverrides for the app
+///   - It provides the runApp for the app
+///   ***********************************************************************
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   runApp(

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart' as mat;
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-// #enddocregion platform_imports
 
+// #enddocregion platform_imports
+/// ***********************************************************************
+/// WebView for the contributors page
+/// ***********************************************************************
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
 <head><title>Navigation Delegate Example</title></head>
