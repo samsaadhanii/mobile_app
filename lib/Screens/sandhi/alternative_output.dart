@@ -16,6 +16,9 @@ class AlternativeOutput extends StatefulWidget {
   State<AlternativeOutput> createState() => _AlternativeOutputState();
 }
 
+/// *********************************************************************
+/// Sandhi alternative output screen in tabular format
+/// *********************************************************************
 class _AlternativeOutputState extends State<AlternativeOutput> {
   bool _isInit = true;
   double w = 0, h = 0, t = 0, s = 0;

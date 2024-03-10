@@ -12,6 +12,12 @@ class CupertinoSandhi extends StatefulWidget {
   State<CupertinoSandhi> createState() => _CupertinoSandhiState();
 }
 
+/// ***************************************************************************
+/// Sandhi joining screen for Cupertino (iOS) devices
+/// Here we provide options for the user to select the learner level
+/// Which is the input screen for sandhi joining with two input fields
+/// And a submit button to send the request to the server
+/// ***************************************************************************
 class _CupertinoSandhiState extends State<CupertinoSandhi> {
   TextEditingController firstInputController = TextEditingController();
   TextEditingController secondInputController = TextEditingController();

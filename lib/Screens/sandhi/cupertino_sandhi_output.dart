@@ -20,6 +20,11 @@ class CupertinoSandhiOutput extends StatefulWidget {
   State<CupertinoSandhiOutput> createState() => _CupertinoSandhiOutputState();
 }
 
+/// *********************************************************************
+/// Sandhi output screen in tabular format for Cupertino (iOS) devices
+/// Based on learner level, the output is displayed in a tabular format
+/// for basic, intermediate and advanced levels
+///
 class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
   bool _isInit = true;
   double w = 0, h = 0, t = 0, s = 0;

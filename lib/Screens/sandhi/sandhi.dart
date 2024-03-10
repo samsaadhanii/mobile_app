@@ -11,6 +11,12 @@ class Sandhi extends StatefulWidget {
   State<Sandhi> createState() => _SandhiState();
 }
 
+/// ***************************************************************************
+/// Sandhi joining screen for Android devices
+/// Here we provide options for the user to select the learner level
+/// Which is the input screen for sandhi joining with two input fields
+/// And a submit button to send the request to the server
+/// ***************************************************************************
 class _SandhiState extends State<Sandhi> {
   TextEditingController firstInputController = TextEditingController();
   TextEditingController secondInputController = TextEditingController();

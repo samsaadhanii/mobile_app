@@ -19,6 +19,11 @@ class SandhiOutput extends StatefulWidget {
   State<SandhiOutput> createState() => _SandhiOutputState();
 }
 
+/// *********************************************************************
+/// Sandhi output screen in tabular format for Android devices
+/// Based on learner level, the output is displayed in a tabular format
+/// for basic, intermediate and advanced levels
+///
 class _SandhiOutputState extends State<SandhiOutput> {
   bool _isLoading = false, _isInit = true;
   double w = 0, h = 0, t = 0, s = 0;

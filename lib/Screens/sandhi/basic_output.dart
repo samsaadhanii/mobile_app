@@ -9,6 +9,10 @@ class BasicOutput extends StatefulWidget {
   State<BasicOutput> createState() => _BasicOutputState();
 }
 
+/// *********************************************************************
+/// Sandhi basic output screen in tabular format
+/// with spelling, last and first letter and modified letter options
+/// *********************************************************************
 class _BasicOutputState extends State<BasicOutput> {
   bool _w1Spelling = true, _w2Spelling = true;
   bool _w1LastL = true, _w2FirstL = true, _modifiedL = true;
