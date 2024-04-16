@@ -21,7 +21,7 @@ import 'Constants/constants.dart';
 class WebAPI with ChangeNotifier {
   static String base = "https://scl.samsaadhanii.in";
   static String base1 = "https://sanskrit.uohyd.ac.in";
-  static String CGI_BIN = "$base1/cgi-bin";
+  static String CGI_BIN = "$base/cgi-bin";
   static String scl = "$CGI_BIN/scl";
 
   // noun generator
@@ -280,7 +280,7 @@ class WebAPI with ChangeNotifier {
     String inEncoding = 'WX',
     String outEncoding = 'Devanagari',
   }) async {
-    var url = '$scl/morph/morph.cgi?'
+    var url = '$scl/MT/prog/morph/morph.cgi?'
         'morfword=$input1'
         '&encoding=$inEncoding'
         '&outencoding=$outEncoding'
