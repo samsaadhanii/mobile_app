@@ -39,8 +39,10 @@ class DataProvider extends ChangeNotifier {
         prefixData.add(tmp);
       }
       WebAPI.transLiterateData(body: source).then((value) {
-        for (int i = 1; i < prefixData.length; i++) {
-          prefixData[i]['rom'] = value[i - 1];
+        if (value.isNotEmpty) {
+          for (int i = 1; i < prefixData.length; i++) {
+            prefixData[i]['rom'] = value[i - 1];
+          }
         }
         prefixDataLoaded = true;
         notifyListeners();

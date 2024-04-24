@@ -73,7 +73,7 @@ class WebAPI with ChangeNotifier {
   }) async {
     var body = jsonEncode({'text': input});
     var url = '$transliterator?src=$src&tar=$tar';
-    print('transLiterateWord url$url');
+    print('transLiterateWord url: $url');
     http.Response resp = await http.post(Uri.parse(url), body: body);
     String outputStr = '';
     if (resp.statusCode == 200) {
@@ -92,12 +92,13 @@ class WebAPI with ChangeNotifier {
     String tar = 'IAST',
   }) async {
     var url = '$transliterator?src=$src&tar=$tar';
+    print('transLiterateData url: $url');
     http.Response resp =
         await http.post(Uri.parse(url), body: jsonEncode(body));
     List<dynamic> outputList = [];
     if (resp.statusCode == 200) {
       final responseData = json.decode(resp.body);
-      // if (kDebugMode) print('Transliterated data: $responseData');
+      if (kDebugMode) print('Transliterated data: $responseData');
       outputList = responseData;
 
       /// TODO:- check for empty string and post a snackBar message
@@ -118,7 +119,7 @@ class WebAPI with ChangeNotifier {
         '&vibhakti=$vibhakti'
         '&linga=$linga'
         '&vacana=$vacana';
-    print(url);
+    print('Ashtadhyayi simulator url: $url');
     String outputStr = '';
 
     try {
@@ -136,7 +137,7 @@ class WebAPI with ChangeNotifier {
 
   static Future<String> getDictionary({required String inputWord}) async {
     var url = '$dictionary$inputWord';
-    print(url);
+    print('Dictionary url : $url');
     http.Response resp = await http.get(Uri.parse(url));
     String outputStr = '';
     if (resp.statusCode == 200) {
@@ -185,7 +186,7 @@ class WebAPI with ChangeNotifier {
         '&outencoding=$outEncoding'
         '&mode=$textType'
         '&disp_mode=json';
-    // print('Sandhi splitter req: $url');
+    print('Sandhi splitter req: $url');
     Map responseData = <String, dynamic>{};
 
     try {
@@ -214,7 +215,7 @@ class WebAPI with ChangeNotifier {
         '&outencoding=$outEncoding'
         '&mode=json';
     List<dynamic> responseData = [];
-    print(url);
+    print('verb Request req: $url');
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
