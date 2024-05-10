@@ -32,7 +32,8 @@ class WebAPI with ChangeNotifier {
       "$scl/ashtadhyayi_simulator/simulation.cgi?";
   static String dictionary = "$scl/MT/dict_help_json.cgi?word=";
   static String sandhiAPI = "$scl/sandhi/sandhi_json.cgi?";
-  static String sandhiSplitterAPI = "$scl/sandhi_splitter/sandhi_splitter.cgi?";
+  static String sandhiSplitterAPI =
+      "$scl/MT/prog/sandhi_splitter/sandhi_splitter.cgi?";
   static String verb_genAPI = "$scl/skt_gen/verb/verb_gen.cgi?";
 
   // static Future<http.Response> nounGenRequest() async {
