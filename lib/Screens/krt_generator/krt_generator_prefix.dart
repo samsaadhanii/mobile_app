@@ -86,27 +86,23 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
                             ),
                             padding: const EdgeInsets.all(8),
                             height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: SearchableList<String>(
+                            child: Container()/*SearchableListView<String>(
                               initialList: displayPrefixList,
-                              builder: (list, index, item) {
+                              itemBuilder: (context, item) {
+                                final index = displayPrefixList.indexOf(item);
                                 final isSelected = index == selectedIndex;
                                 return Container(
                                   decoration: BoxDecoration(
-                                    color: index.isEven
-                                        ? Colors.black12
-                                        : Colors.white10,
-                                    border:
-                                        Border.all(color: Colors.transparent),
+                                    color: index.isEven ? Colors.black12 : Colors.white10,
+                                    border: Border.all(color: Colors.transparent),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: ListTile(
-                                    title: Text(displayPrefixList[index]),
+                                    title: Text(item),
                                     tileColor: isSelected ? Colors.blue : null,
                                     onTap: () {
                                       setState(() {
-                                        selectedIndex = isSelected
-                                            ? 0
-                                            : index; // Toggle selection
+                                        selectedIndex = isSelected ? 0 : index;
                                       });
                                     },
                                   ),
@@ -114,9 +110,8 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
                               },
                               filter: (value) => displayPrefixList
                                   .where(
-                                    (element) =>
-                                        element.toLowerCase().contains(value),
-                                  )
+                                    (element) => element.toLowerCase().contains(value.toLowerCase()),
+                              )
                                   .toList(),
                               emptyWidget: const Text('No Prefixes'),
                               inputDecoration: InputDecoration(
@@ -130,7 +125,8 @@ class _KrtGeneratorPrefixState extends State<KrtGeneratorPrefix> {
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
-                            ),
+                            )*/
+                      ,
                           )
                         : Container(),
                     FilledButton(

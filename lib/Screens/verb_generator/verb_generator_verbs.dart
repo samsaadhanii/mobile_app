@@ -88,7 +88,7 @@ class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
                             ),
                             padding: const EdgeInsets.all(8),
                             height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: SearchableList<String>(
+                            child: Container()/*SearchableList<String>(
                               initialList: displayVerbList,
                               builder: (list, index, item) {
                                 final isSelected = index == selectedIndex;
@@ -132,7 +132,7 @@ class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
-                            ),
+                            )*/,
                           )
                         : Container(),
                     // verbList.isNotEmpty

@@ -20,11 +20,11 @@ class SamCupertinoHome extends StatefulWidget {
 /// and displays a message if there is no internet connection.
 /// ************************************************************
 class _SamCupertinoHomeState extends State<SamCupertinoHome> {
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  List<ConnectivityResult> _connectionStatus = ConnectivityResult.none as List<ConnectivityResult>;
 
   final Connectivity _connectivity = Connectivity();
 
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   bool timedLogout = false;
 
@@ -50,7 +50,7 @@ class _SamCupertinoHomeState extends State<SamCupertinoHome> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
-    late ConnectivityResult result;
+    late List<ConnectivityResult> result;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       result = await _connectivity.checkConnectivity();
@@ -69,7 +69,7 @@ class _SamCupertinoHomeState extends State<SamCupertinoHome> {
     return _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
     setState(() {
       _connectionStatus = result;
     });
