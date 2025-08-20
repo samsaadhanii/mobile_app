@@ -135,7 +135,32 @@ class _VerbGeneratorPrefixesState extends State<VerbGeneratorPrefixes> {
                             ),
                             padding: const EdgeInsets.all(8),
                             height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: Container()/*SearchableList<String>(
+                            child: SearchableList<String>(
+                              initialList: displayPrefixList,
+                              itemBuilder: (item) {
+                                return ListTile(
+                                  title: Text(item),
+                                  tileColor: displayPrefixList.indexOf(item) == selectedIndex ? Colors.blue : null,
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = displayPrefixList.indexOf(item);
+                                    });
+                                  },
+                                );
+                              },
+                              filter: (value) => displayPrefixList
+                                  .where((element) => element.toLowerCase().contains(value))
+                                  .toList(),
+                              emptyWidget: const Text('No verbs'),
+                              inputDecoration: InputDecoration(
+                                labelText: "Search Verbs",
+                                fillColor: Colors.white,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: Colors.blue, width: 1.0),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            )/*SearchableList<String>(
                               initialList: displayPrefixList,
                               builder: (list, index, item) {
                                 final isSelected = index == selectedIndex;

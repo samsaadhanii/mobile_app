@@ -88,51 +88,32 @@ class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
                             ),
                             padding: const EdgeInsets.all(8),
                             height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: Container()/*SearchableList<String>(
+                            child: SearchableList<String>(
                               initialList: displayVerbList,
-                              builder: (list, index, item) {
-                                final isSelected = index == selectedIndex;
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: index.isEven
-                                        ? Colors.black12
-                                        : Colors.white10,
-                                    border:
-                                        Border.all(color: Colors.transparent),
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: ListTile(
-                                    title: Text(displayVerbList[index]),
-                                    tileColor: isSelected ? Colors.blue : null,
-                                    onTap: () {
-                                      setState(() {
-                                        selectedIndex = isSelected
-                                            ? -1
-                                            : index; // Toggle selection
-                                      });
-                                    },
-                                  ),
+                              itemBuilder: (item) {
+                                return ListTile(
+                                  title: Text(item),
+                                  tileColor: displayVerbList.indexOf(item) == selectedIndex ? Colors.blue : null,
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = displayVerbList.indexOf(item);
+                                    });
+                                  },
                                 );
                               },
                               filter: (value) => displayVerbList
-                                  .where(
-                                    (element) =>
-                                        element.toLowerCase().contains(value),
-                                  )
+                                  .where((element) => element.toLowerCase().contains(value))
                                   .toList(),
                               emptyWidget: const Text('No verbs'),
                               inputDecoration: InputDecoration(
                                 labelText: "Search Verbs",
                                 fillColor: Colors.white,
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.blue,
-                                    width: 1.0,
-                                  ),
+                                  borderSide: const BorderSide(color: Colors.blue, width: 1.0),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                               ),
-                            )*/,
+                            ),
                           )
                         : Container(),
                     // verbList.isNotEmpty
