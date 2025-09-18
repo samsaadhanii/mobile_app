@@ -13,20 +13,12 @@ class SamCupertinoHome extends StatefulWidget {
   State<SamCupertinoHome> createState() => _SamCupertinoHomeState();
 }
 
-/// ************************************************************
-/// This is the stateful class for the Samsaadhanii Cuperino Home.
-/// which displays the home page of the app with the app logo and a brief
-/// description of the app. It also checks for the internet connection
-/// and displays a message if there is no internet connection.
-/// ************************************************************
 class _SamCupertinoHomeState extends State<SamCupertinoHome> {
-  List<ConnectivityResult> _connectionStatus = ConnectivityResult.none as List<ConnectivityResult>;
+  // Always store as a list, but normalize input
+  List<ConnectivityResult> _connectionStatus = [ConnectivityResult.none];
 
   final Connectivity _connectivity = Connectivity();
-
-  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
-
-  bool timedLogout = false;
+  late StreamSubscription<dynamic> _connectivitySubscription;
 
   @override
   void initState() {
@@ -43,128 +35,111 @@ class _SamCupertinoHomeState extends State<SamCupertinoHome> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
-    late List<ConnectivityResult> result;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      result = await _connectivity.checkConnectivity();
+      final result = await _connectivity.checkConnectivity();
+      if (!mounted) return;
+      _updateConnectionStatus(result);
     } on PlatformException catch (e) {
-      print('Couldn\'t check connectivity status $e');
-      return;
+      debugPrint("Couldn't check connectivity status: $e");
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
   }
 
-  Future<void> _updateConnectionStatus(List<ConnectivityResult> result) async {
+  void _updateConnectionStatus(dynamic value) {
+    // Normalize value → always a List<ConnectivityResult>
+    List<ConnectivityResult> normalized;
+
+    if (value is ConnectivityResult) {
+      normalized = [value];
+    } else if (value is List<ConnectivityResult>) {
+      normalized = value;
+    } else {
+      normalized = [ConnectivityResult.none];
+    }
+
     setState(() {
-      _connectionStatus = result;
+      _connectionStatus = normalized;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return check();
+    return _buildContent();
   }
 
-  Widget check() {
-    String txt = 'No internet connection';
-    Widget res;
-    if (_connectionStatus
-            .toString()
-            .compareTo(ConnectivityResult.none.toString()) ==
-        0) {
-      res = CupertinoPageScaffold(
+  Widget _buildContent() {
+    final hasConnection = !_connectionStatus.contains(ConnectivityResult.none);
+
+    if (!hasConnection) {
+      return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(middle: Text(widget.title)),
-        child: Center(child: Text(txt)),
-      );
-    } else {
-      res = CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(middle: Text(widget.title)),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(
-                      left: 30, top: 10, right: 30, bottom: 10),
-                  height: 150.00,
-                  child: appLogo,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: RichText(
-                    text: const TextSpan(
-                      text:
-                          '   Saṃsādhanī is a computational platform developed '
-                          'at the Department of Sanskrit studies for Sanskrit '
-                          'language processing.',
-                      style: TextStyle(
-                        color: CupertinoColors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        fontStyle: FontStyle.normal,
-                        // fontFamily: 'iFont',
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: RichText(
-                    text: const TextSpan(
-                      text:
-                          'It hosts several computational tools such as word  '
-                          'analyser, word generator, sandhi joiner and sandhi '
-                          'analyser, sentential analyser and sentence generator, '
-                          'and also a  Sanskrit-Hindi Machine Translation system.',
-                      style: TextStyle(
-                        color: CupertinoColors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        fontStyle: FontStyle.normal,
-                        // fontFamily: 'iFont',
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: RichText(
-                    text: const TextSpan(
-                      text:
-                          '   The words are also linked to various monolingual and bilingual dictionaries.',
-                      style: TextStyle(
-                        color: CupertinoColors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        fontStyle: FontStyle.normal,
-                        // fontFamily: 'iFont',
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        child: const Center(child: Text('No internet connection')),
       );
     }
-    return res;
+
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(middle: Text(widget.title)),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.only(
+                    left: 30, top: 10, right: 30, bottom: 10),
+                height: 150.0,
+                child: appLogo,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: '   Saṃsādhanī is a computational platform developed '
+                        'at the Department of Sanskrit studies for Sanskrit '
+                        'language processing.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: 'It hosts several computational tools such as word  '
+                        'analyser, word generator, sandhi joiner and sandhi '
+                        'analyser, sentential analyser and sentence generator, '
+                        'and also a Sanskrit-Hindi Machine Translation system.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: RichText(
+                  text: TextSpan(
+                    text:
+                        '   The words are also linked to various monolingual and bilingual dictionaries.',
+                    style: TextStyle(
+                      color: CupertinoColors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
