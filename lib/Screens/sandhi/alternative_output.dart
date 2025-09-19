@@ -30,7 +30,9 @@ class _AlternativeOutputState extends State<AlternativeOutput> {
       h = w / 2;
       t = h / 3;
       if (widget.lType == LearnerLevel.intermediate ||
-          widget.lType == LearnerLevel.advanced) t = w / 7;
+          widget.lType == LearnerLevel.advanced) {
+        t = w / 7;
+      }
       s = h / 2;
     }
     super.didChangeDependencies();
