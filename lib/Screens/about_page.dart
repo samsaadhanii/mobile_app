@@ -6,7 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../widgets/app_logo.dart';
 
 class AppAboutPage extends StatefulWidget {
-  const AppAboutPage({Key? key}) : super(key: key);
+  const AppAboutPage({super.key});
 
   @override
   State<AppAboutPage> createState() => _AppAboutPageState();

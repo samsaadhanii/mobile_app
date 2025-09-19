@@ -7,11 +7,11 @@ import 'basic_output.dart';
 
 class CupertinoSandhiOutput extends StatefulWidget {
   const CupertinoSandhiOutput({
-    Key? key,
+    super.key,
     required this.data,
     required this.encoding,
     this.lType = LearnerLevel.basic,
-  }) : super(key: key);
+  });
   final List data;
   final String encoding;
   final LearnerLevel? lType;
@@ -37,7 +37,9 @@ class _CupertinoSandhiOutputState extends State<CupertinoSandhiOutput> {
       h = w / 2;
       t = h / 3;
       if (widget.lType == LearnerLevel.intermediate ||
-          widget.lType == LearnerLevel.advanced) t = w / 7;
+          widget.lType == LearnerLevel.advanced) {
+        t = w / 7;
+      }
       s = h / 2;
     }
     super.didChangeDependencies();

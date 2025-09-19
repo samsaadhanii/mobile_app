@@ -9,12 +9,11 @@ import 'cupertino_dictionary.dart';
 
 class CupertinoNGOutput extends StatefulWidget {
   const CupertinoNGOutput(
-      {Key? key,
+      {super.key,
       required this.data,
       required this.encoding,
       required this.gender,
-      required this.inputWord})
-      : super(key: key);
+      required this.inputWord});
   final Map data;
   final String encoding;
   final String gender;

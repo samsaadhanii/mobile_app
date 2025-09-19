@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class AshtadhyayiSimulation extends StatefulWidget {
-  const AshtadhyayiSimulation({Key? key, required this.content})
-      : super(key: key);
+  const AshtadhyayiSimulation({super.key, required this.content});
   final String content;
   @override
   State<AshtadhyayiSimulation> createState() => _AshtadhyayiSimulationState();

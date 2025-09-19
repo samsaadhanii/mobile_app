@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:searchable_listview/searchable_listview.dart';
 import '../../Constants/constants.dart';
 import '../../model/data_provider.dart';
 import 'krt_generator_verbs.dart';

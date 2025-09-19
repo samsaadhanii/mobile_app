@@ -3,8 +3,7 @@ import '../../widgets/display_dictionary.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage(
-      {Key? key, required this.content, required this.inputWord})
-      : super(key: key);
+      {super.key, required this.content, required this.inputWord});
   final String content;
   final String inputWord;
   @override

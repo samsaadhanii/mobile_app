@@ -7,7 +7,7 @@ import 'package:mobile_app/Screens/sam_cupertino_tools.dart';
 import 'cupertino_settings.dart';
 
 class SamCupertinoTab extends StatefulWidget {
-  const SamCupertinoTab({Key? key}) : super(key: key);
+  const SamCupertinoTab({super.key});
 
   @override
   State<SamCupertinoTab> createState() => _SamCupertinoTabState();

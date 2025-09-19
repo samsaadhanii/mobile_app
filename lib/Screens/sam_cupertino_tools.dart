@@ -9,7 +9,7 @@ import 'morph_analyser/cupertino_morph_analyser.dart';
 import 'noun_generator/cupertino_noun_generator.dart';
 
 class SamCupertinoTools extends StatefulWidget {
-  const SamCupertinoTools({Key? key}) : super(key: key);
+  const SamCupertinoTools({super.key});
 
   @override
   State<SamCupertinoTools> createState() => _SamCupertinoToolsState();

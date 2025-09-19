@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class CupertinoAshtadhyayiSimulator extends StatefulWidget {
-  const CupertinoAshtadhyayiSimulator({Key? key, required this.content})
-      : super(key: key);
+  const CupertinoAshtadhyayiSimulator({super.key, required this.content});
   final String content;
 
   @override

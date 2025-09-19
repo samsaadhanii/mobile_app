@@ -6,7 +6,7 @@ import 'cupertino_sandhi_output.dart';
 // const double _kItemExtent = 32.0;
 
 class CupertinoSandhi extends StatefulWidget {
-  const CupertinoSandhi({Key? key}) : super(key: key);
+  const CupertinoSandhi({super.key});
 
   @override
   State<CupertinoSandhi> createState() => _CupertinoSandhiState();

@@ -5,7 +5,7 @@ import '../../Constants/constants.dart';
 import '../../web_api.dart';
 
 class Sandhi extends StatefulWidget {
-  const Sandhi({Key? key}) : super(key: key);
+  const Sandhi({super.key});
 
   @override
   State<Sandhi> createState() => _SandhiState();

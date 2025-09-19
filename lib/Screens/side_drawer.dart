@@ -7,7 +7,7 @@ import '../widgets/app_logo.dart';
 import 'about_page.dart';
 
 class SideDrawer extends StatefulWidget {
-  const SideDrawer({Key? key}) : super(key: key);
+  const SideDrawer({super.key});
 
   @override
   State<SideDrawer> createState() => _SideDrawerState();

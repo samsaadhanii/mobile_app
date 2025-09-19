@@ -5,7 +5,7 @@ import '../../Constants/constants.dart';
 import '../../web_api.dart';
 
 class SandhiSplitter extends StatefulWidget {
-  const SandhiSplitter({Key? key}) : super(key: key);
+  const SandhiSplitter({super.key});
 
   @override
   State<SandhiSplitter> createState() => _SandhiSplitterState();

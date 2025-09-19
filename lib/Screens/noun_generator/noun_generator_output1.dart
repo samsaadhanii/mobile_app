@@ -6,12 +6,11 @@ import 'dictionary.dart';
 
 class NounGeneratorOutput extends StatefulWidget {
   const NounGeneratorOutput(
-      {Key? key,
+      {super.key,
       required this.data,
       required this.encoding,
       required this.gender,
-      required this.inputWord})
-      : super(key: key);
+      required this.inputWord});
   final Map data;
   final String encoding;
   final String gender;

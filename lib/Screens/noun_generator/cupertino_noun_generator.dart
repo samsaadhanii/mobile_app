@@ -7,7 +7,7 @@ import 'cupertino_noun_gen_output1.dart';
 const double _kItemExtent = 32.0;
 
 class CupertinoNounGenerator extends StatefulWidget {
-  const CupertinoNounGenerator({Key? key}) : super(key: key);
+  const CupertinoNounGenerator({super.key});
 
   @override
   State<CupertinoNounGenerator> createState() => _CupertinoNounGeneratorState();

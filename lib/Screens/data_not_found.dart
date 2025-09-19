@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DataNotFound extends StatefulWidget {
-  const DataNotFound({Key? key}) : super(key: key);
+  const DataNotFound({super.key});
 
   @override
   State<DataNotFound> createState() => _DataNotFoundState();

@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class CupertinoDictionary extends StatefulWidget {
   const CupertinoDictionary(
-      {Key? key, required this.content, required this.inputWord})
-      : super(key: key);
+      {super.key, required this.content, required this.inputWord});
   final content;
   final String inputWord;
 

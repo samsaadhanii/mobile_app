@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class CupertinoDataNotFound extends StatefulWidget {
-  const CupertinoDataNotFound({Key? key}) : super(key: key);
+  const CupertinoDataNotFound({super.key});
 
   @override
   State<CupertinoDataNotFound> createState() => _CupertinoDataNotFoundState();

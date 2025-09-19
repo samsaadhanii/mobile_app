@@ -6,7 +6,7 @@ import '../../Constants/constants.dart';
 import '../data_not_found.dart';
 
 class NounGenerator extends StatefulWidget {
-  const NounGenerator({Key? key}) : super(key: key);
+  const NounGenerator({super.key});
 
   @override
   State<NounGenerator> createState() => _NounGeneratorState();

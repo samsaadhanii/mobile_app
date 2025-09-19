@@ -47,7 +47,7 @@ class _VerbGeneratorVerbsState extends State<VerbGeneratorVerbs> {
 
   @override
   Widget build(BuildContext context) {
-    print('selectedEncoding: ${inputEncodingStr}');
+    print('selectedEncoding: $inputEncodingStr');
     if (verbList.isNotEmpty) {
       displayVerbList.clear();
       for (var element in verbList) {

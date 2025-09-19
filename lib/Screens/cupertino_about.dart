@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' as mat;
 import '../widgets/app_logo.dart';
 
 class CupertinoAboutPage extends StatefulWidget {
-  const CupertinoAboutPage({Key? key}) : super(key: key);
+  const CupertinoAboutPage({super.key});
 
   @override
   State<CupertinoAboutPage> createState() => _CupertinoAboutPageState();
