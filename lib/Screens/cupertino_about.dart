@@ -43,7 +43,7 @@ class _CupertinoAboutPageState extends State<CupertinoAboutPage> {
         'buildNumber':
             packageInfo != null ? packageInfo!.buildNumber.toString() : '102',
         'year': DateTime.now().year.toString(),
-        'author': 'https://sanskrit.uohyd.ac.in/faculty/amba/',
+        'author': 'https://scl.samsaadhanii.in/amba/',
       },
       title: const Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',
