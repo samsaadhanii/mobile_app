@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/home_page.dart';
 import 'package:mobile_app/Screens/settings_page.dart';
 import 'package:mobile_app/Screens/tools_page.dart';
+import 'package:mobile_app/features/tools/tools_page_v2.dart';
 
 import 'about_page.dart';
 import 'contributors.dart';
@@ -73,7 +74,7 @@ class _TabbedViewState extends State<TabbedView> {
     if (index == 0) {
       return HomePage(title: widget.title);
     } else if (index == 1) {
-      return const ToolsPage();
+      return const ToolsPageV2();
     } else if (index == 2) {
       return const SettingsPage();
     } else if (index == 3) {
