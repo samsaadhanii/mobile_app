@@ -44,7 +44,7 @@ class _AppAboutPageState extends State<AppAboutPage> {
         'buildNumber':
             packageInfo != null ? packageInfo!.buildNumber.toString() : '102',
         'year': DateTime.now().year.toString(),
-        'author': 'https://scl.samsaadhanii.in/amba/',
+        'author': 'https://samsaadhanii.org/amba/',
       },
       title: const Text('About'),
       applicationVersion: 'Version {{ version }}, build #{{ buildNumber }}',

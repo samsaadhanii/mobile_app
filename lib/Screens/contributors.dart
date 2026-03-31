@@ -171,7 +171,7 @@ Page resource error:
         },
       )
       ..loadRequest(
-          Uri.parse('https://scl.samsaadhanii.in/scl/contributors.html'));
+          Uri.parse('https://samsaadhanii.org/scl/contributors.html'));
     // ..loadRequest(Uri.parse('https://flutter.dev'));
 
     // #docregion platform_features

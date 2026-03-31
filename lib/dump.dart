@@ -4,7 +4,7 @@
 //     String gender = 'puM',
 //     String category = 'nA'}) async {
 //   var url = WebAPI.noun_gen;
-//   // 'http://scl.samsaadhanii.in/cgi-bin/scl/skt_gen/noun/noun_gen_json.cgi?rt=vana&gen=puM&jAwi=nA&level=1';
+//   // 'http://samsaadhanii.org/cgi-bin/scl/skt_gen/noun/noun_gen_json.cgi?rt=vana&gen=puM&jAwi=nA&level=1';
 //   // print('hardcoded: $url');
 //   // print(inputController.text);
 //   url += 'rt=$inputString&gen=$gender&jAwi=$category&level=1';
