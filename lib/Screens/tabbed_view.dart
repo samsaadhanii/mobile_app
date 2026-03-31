@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Screens/home_page.dart';
 import 'package:mobile_app/Screens/settings_page.dart';
-import 'package:mobile_app/Screens/tools_page.dart';
 import 'package:mobile_app/features/tools/tools_page_v2.dart';
 
 import 'about_page.dart';
@@ -31,36 +30,36 @@ class _TabbedViewState extends State<TabbedView> {
       // ),
       body: loadSelectedPage(selectedTab),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white.withAlpha(180),
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined, color: Colors.white),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF4DB6AC),
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage("assets/images/tools1.png"),
-                color: Colors.white),
+            icon: ImageIcon(AssetImage("assets/images/tools1.png")),
             label: 'Tools',
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF4DB6AC),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined, color: Colors.white),
+            icon: Icon(Icons.settings_outlined),
             label: 'Settings',
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF4DB6AC),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline, color: Colors.white),
+            icon: Icon(Icons.info_outline),
             label: 'About',
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF4DB6AC),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups_outlined, color: Colors.white),
+            icon: Icon(Icons.groups_outlined),
             label: 'Contributors',
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFF4DB6AC),
           ),
         ],
         onTap: (int index) {
-          // print('index: $index');
           setState(() {
             selectedTab = index;
           });

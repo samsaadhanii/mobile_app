@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/cpertino_tab.dart';
 import 'Screens/tabbed_view.dart';
+import 'core/constants/app_theme.dart';
 import 'model/data_provider.dart';
 
 /// *************************************************************************
@@ -42,7 +43,7 @@ class _SamMaterialState extends State<SamMaterial> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: appTitle,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: AppTheme.lightTheme,
       home: TabbedView(title: appTitle),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../Constants/constants.dart';
+import '../../../core/constants/app_theme.dart';
 import '../../../shared/widgets/encoding_picker.dart';
 import '../../../shared/widgets/result_card.dart';
 import '../../../shared/widgets/sanskrit_input.dart';
@@ -141,11 +142,9 @@ class _MorphAnalyserScreenState extends State<MorphAnalyserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        title: const Text('Morphological Analyser'),
-        backgroundColor: Colors.grey.shade50,
-        surfaceTintColor: Colors.transparent,
+      appBar: const GradientAppBar(
+        title: 'Morphological Analyser',
+        showBack: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -157,7 +156,7 @@ class _MorphAnalyserScreenState extends State<MorphAnalyserScreen> {
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
-                side: BorderSide(color: Colors.grey.shade300),
+                side: BorderSide(color: AppColors.primary.withAlpha(80)),
               ),
               color: Colors.white,
               child: Padding(
@@ -207,13 +206,10 @@ class _MorphAnalyserScreenState extends State<MorphAnalyserScreen> {
             ),
             const SizedBox(height: 16),
             // ── Analyse button ────────────────────────────────────────
-            FilledButton.icon(
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(48),
-              ),
+            GradientButton(
+              label: 'Analyse',
+              icon: Icons.search,
               onPressed: _isLoading ? null : _analyse,
-              icon: const Icon(Icons.search),
-              label: const Text('Analyse'),
             ),
             const SizedBox(height: 20),
             // ── Results ───────────────────────────────────────────────
