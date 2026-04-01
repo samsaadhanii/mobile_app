@@ -80,6 +80,33 @@ class _SandhiAnalyserScreenState extends State<SandhiAnalyserScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // ── Unavailability banner ─────────────────────────────────
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFF3CD),
+                border: Border.all(color: const Color(0xFFFFB300)),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.warning_amber_rounded, color: Color(0xFFE65100), size: 22),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'This tool is temporarily unavailable. The server is being updated. Please check back later.',
+                      style: TextStyle(
+                        color: Color(0xFF5D3A00),
+                        fontSize: 14,
+                        height: 1.4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
             // ── Input card ────────────────────────────────────────────
             Card(
               elevation: 0,
@@ -145,7 +172,7 @@ class _SandhiAnalyserScreenState extends State<SandhiAnalyserScreen> {
             GradientButton(
               label: 'Analyse',
               icon: Icons.call_split,
-              onPressed: _isLoading ? null : _analyse,
+              onPressed: null,
             ),
             const SizedBox(height: 20),
             // ── Results ───────────────────────────────────────────────
