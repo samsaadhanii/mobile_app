@@ -220,15 +220,11 @@ class WebAPI with ChangeNotifier {
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
-        String withCTRLCharacter = utf8.decode(resp.bodyBytes);
-
-        ///\n gives error when parsing json in flutter
-        var withoutCTRLCharacter = withCTRLCharacter.replaceAll('\n', '\\n');
-        responseData = json.decode(withoutCTRLCharacter);
-
-        // if (kDebugMode) print(responseData);
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) print('verbRequest error: $e');
+    }
     return responseData;
   }
 
@@ -257,15 +253,11 @@ class WebAPI with ChangeNotifier {
     try {
       http.Response resp = await http.get(Uri.parse(url));
       if (resp.statusCode == 200) {
-        String withCTRLCharacter = utf8.decode(resp.bodyBytes);
-
-        ///\n gives error when parsing json in flutter
-        var withoutCTRLCharacter = withCTRLCharacter.replaceAll('\n', '\\n');
-        responseData = json.decode(withoutCTRLCharacter);
-
-        if (kDebugMode) print(responseData);
+        responseData = json.decode(utf8.decode(resp.bodyBytes));
       }
-    } catch (e) {}
+    } catch (e) {
+      if (kDebugMode) print('krtRequest error: $e');
+    }
     return responseData;
   }
 

@@ -18,7 +18,6 @@ class VerbGeneratorScreen extends StatefulWidget {
 class _VerbGeneratorScreenState extends State<VerbGeneratorScreen> {
   String _selectedDhatuWx = 'gam1_gamLz_BvAxiH_gawO';
   final _upasargaController = TextEditingController(text: '-');
-  String _inputEncoding = Const.UNICODE_DEVANAGARI;
   String _outputEncoding = Const.outputEncodingList[0]; // IAST
   bool _isLoading = false;
   bool _hasQueried = false;
@@ -45,10 +44,9 @@ class _VerbGeneratorScreenState extends State<VerbGeneratorScreen> {
       input3: _upasargaController.text.trim().isEmpty
           ? '-'
           : _upasargaController.text.trim(),
-      inEncoding: Const.encodingAbbreviation(_inputEncoding),
+      inEncoding: 'WX',
       outEncoding: Const.verbAPIOutEncodingAbbreviation(_outputEncoding),
     );
-
     if (!mounted) return;
     setState(() {
       _isLoading = false;
@@ -159,30 +157,13 @@ class _VerbGeneratorScreenState extends State<VerbGeneratorScreen> {
                       onSubmitted: (_) => _generate(),
                     ),
                     const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: EncodingPicker(
-                            label: 'Input Encoding',
-                            value: _inputEncoding,
-                            options: Const.inputEncodingList,
-                            onChanged: (v) {
-                              if (v != null) setState(() => _inputEncoding = v);
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: EncodingPicker(
-                            label: 'Output Encoding',
-                            value: _outputEncoding,
-                            options: Const.outputEncodingList,
-                            onChanged: (v) {
-                              if (v != null) setState(() => _outputEncoding = v);
-                            },
-                          ),
-                        ),
-                      ],
+                    EncodingPicker(
+                      label: 'Output Encoding',
+                      value: _outputEncoding,
+                      options: Const.outputEncodingList,
+                      onChanged: (v) {
+                        if (v != null) setState(() => _outputEncoding = v);
+                      },
                     ),
                   ],
                 ),

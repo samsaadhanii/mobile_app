@@ -86,8 +86,45 @@ class _DhatuPickerState extends State<DhatuPicker> {
   @override
   Widget build(BuildContext context) {
     final current = _current;
-    final displayDev = current?['dev']?.toString() ?? widget.selectedWx;
-    final displayRom = current?['rom']?.toString();
+
+    // Three states: still loading, loaded but no match, loaded with match.
+    Widget entryContent;
+    if (_verbList.isEmpty) {
+      entryContent = Row(
+        children: [
+          SizedBox(
+            width: 14,
+            height: 14,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.grey.shade500,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'Loading…',
+            style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+          ),
+        ],
+      );
+    } else if (current == null) {
+      entryContent = Text(
+        'Select a dhātu…',
+        style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
+      );
+    } else {
+      entryContent = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(current['dev']?.toString() ?? '', style: const TextStyle(fontSize: 15)),
+          Text(
+            current['rom']?.toString() ?? '',
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+          ),
+        ],
+      );
+    }
 
     return InkWell(
       onTap: _showPicker,
@@ -111,15 +148,7 @@ class _DhatuPickerState extends State<DhatuPicker> {
                     style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                   const SizedBox(height: 2),
-                  Text(displayDev, style: const TextStyle(fontSize: 15)),
-                  if (displayRom != null)
-                    Text(
-                      displayRom,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
+                  entryContent,
                 ],
               ),
             ),
