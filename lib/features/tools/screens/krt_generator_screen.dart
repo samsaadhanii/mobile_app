@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../Constants/constants.dart';
 import '../../../core/constants/app_theme.dart';
+import '../../../shared/widgets/dhatu_picker.dart';
 import '../../../shared/widgets/encoding_picker.dart';
 import '../../../shared/widgets/result_card.dart';
 import '../../../shared/widgets/sanskrit_input.dart';
@@ -15,10 +16,7 @@ class KrtGeneratorScreen extends StatefulWidget {
 }
 
 class _KrtGeneratorScreenState extends State<KrtGeneratorScreen> {
-  // Default dhatu in WX internal format — same as v1 default.
-  final _dhatuController = TextEditingController(
-    text: 'gam1_gamLz_BvAxiH_gawO',
-  );
+  String _selectedDhatuWx = 'gam1_gamLz_BvAxiH_gawO';
   final _upasargaController = TextEditingController(text: '-');
   String _outputEncoding = Const.outputEncodingList[0]; // IAST
   bool _isLoading = false;
@@ -28,13 +26,12 @@ class _KrtGeneratorScreenState extends State<KrtGeneratorScreen> {
 
   @override
   void dispose() {
-    _dhatuController.dispose();
     _upasargaController.dispose();
     super.dispose();
   }
 
   Future<void> _generate() async {
-    final dhatu = _dhatuController.text.trim();
+    final dhatu = _selectedDhatuWx;
     if (dhatu.isEmpty) return;
     setState(() {
       _isLoading = true;
@@ -111,10 +108,9 @@ class _KrtGeneratorScreenState extends State<KrtGeneratorScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SanskritInput(
-                      controller: _dhatuController,
-                      label: 'Dhātu (WX format)',
-                      hint: 'e.g. gam1_gamLz_BvAxiH_gawO',
+                    DhatuPicker(
+                      selectedWx: _selectedDhatuWx,
+                      onChanged: (wx) => setState(() => _selectedDhatuWx = wx),
                     ),
                     const SizedBox(height: 12),
                     SanskritInput(
