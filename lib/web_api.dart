@@ -222,9 +222,7 @@ class WebAPI with ChangeNotifier {
       if (resp.statusCode == 200) {
         responseData = json.decode(utf8.decode(resp.bodyBytes));
       }
-    } catch (e) {
-      if (kDebugMode) print('verbRequest error: $e');
-    }
+    } catch (e) {}
     return responseData;
   }
 
@@ -255,9 +253,7 @@ class WebAPI with ChangeNotifier {
       if (resp.statusCode == 200) {
         responseData = json.decode(utf8.decode(resp.bodyBytes));
       }
-    } catch (e) {
-      if (kDebugMode) print('krtRequest error: $e');
-    }
+    } catch (e) {}
     return responseData;
   }
 
