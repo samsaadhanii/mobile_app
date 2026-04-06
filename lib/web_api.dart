@@ -19,7 +19,7 @@ import 'Constants/constants.dart';
 /// 11. Krt Generator
 ///
 class WebAPI with ChangeNotifier {
-  static String base = "https://scl.samsaadhanii.in";
+  static String base = "https://samsaadhanii.org";
   // static String base1 = "https://sanskrit.uohyd.ac.in";
   static String CGI_BIN = "$base/cgi-bin";
   static String scl = "$CGI_BIN/scl";
