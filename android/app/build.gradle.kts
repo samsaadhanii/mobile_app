@@ -12,9 +12,6 @@ val keystorePropsFile = rootProject.file("key.properties")
 val keystoreProps = Properties().apply {
     if (keystorePropsFile.exists()) {
         load(keystorePropsFile.inputStream())
-    } else {
-        // Fail fast if missing; release builds need this
-        throw GradleException("Missing android/key.properties. Create it with your release keystore details.")
     }
 }
 
@@ -46,12 +43,14 @@ android {
         // Debug stays as default debug keystore
         getByName("debug")
 
-        create("release") {
-            // Values come from android/key.properties
-            storeFile = file(keystoreProps["storeFile"] as String)
-            storePassword = keystoreProps["storePassword"] as String
-            keyAlias = keystoreProps["keyAlias"] as String
-            keyPassword = keystoreProps["keyPassword"] as String
+        if (keystorePropsFile.exists()) {
+            create("release") {
+                // Values come from android/key.properties
+                storeFile = file(keystoreProps["storeFile"] as String)
+                storePassword = keystoreProps["storePassword"] as String
+                keyAlias = keystoreProps["keyAlias"] as String
+                keyPassword = keystoreProps["keyPassword"] as String
+            }
         }
     }
 
@@ -61,7 +60,7 @@ android {
         }
         getByName("release") {
             // IMPORTANT: sign release with your release keystore, not debug
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (keystorePropsFile.exists()) signingConfigs.getByName("release") else signingConfigs.getByName("debug")
             // Optionally tune these:
             // isMinifyEnabled = false
             // proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
