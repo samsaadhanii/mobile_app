@@ -93,9 +93,9 @@ class _CupertinoMorphAnalyserState extends State<CupertinoMorphAnalyser> {
                                   if (morphList.isNotEmpty) {
                                     outputStr1 =
                                         '${morphList[0]['RT']} ${morphList[0]['ANS']}';
-                                    outputStr2 = morphList[1]['RT'] +
-                                        ' ' +
-                                        morphList[1]['ANS'];
+                                    outputStr2 = morphList.length > 1
+                                        ? '${morphList[1]['RT']} ${morphList[1]['ANS']}'
+                                        : '';
                                   } else {
                                     outputStr1 = 'No analysis found';
                                   }

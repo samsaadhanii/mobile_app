@@ -79,8 +79,9 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
 
                             String inEnStr =
                                 Const.encodingAbbreviation(inputEncodingStr);
-                            String outEnStr = Const.outEncodingAbbreviation(
-                                outputEncodingStr);
+                            String outEnStr =
+                                Const.morphOutEncodingAbbreviation(
+                                    outputEncodingStr);
 
                             WebAPI.morphAnalyser(
                                     input1: inputStr1,
@@ -91,12 +92,11 @@ class _MorphAnalyserState extends State<MorphAnalyser> {
                               setState(() {
                                 _isLoading = false;
                                 if (morphList.isNotEmpty) {
-                                  outputStr1 = morphList[0]['RT'] +
-                                      ' ' +
-                                      morphList[0]['ANS'];
-                                  outputStr2 = morphList[1]['RT'] +
-                                      ' ' +
-                                      morphList[1]['ANS'];
+                                  outputStr1 =
+                                      '${morphList[0]['RT']} ${morphList[0]['ANS']}';
+                                  outputStr2 = morphList.length > 1
+                                      ? '${morphList[1]['RT']} ${morphList[1]['ANS']}'
+                                      : '';
                                 } else {
                                   outputStr1 = 'No analysis found';
                                   outputStr2 = '';
