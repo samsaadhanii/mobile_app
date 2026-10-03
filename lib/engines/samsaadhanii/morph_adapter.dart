@@ -60,6 +60,12 @@ const _padas = {
   'ātmanepadī': FeatureValue.atmanepada,
 };
 
+/// `vargaḥ`: `sarva` marks a pronoun (sarvanāma). `avy` is dropped before this
+/// table is read; other values are not known yet and stay unknown.
+const _vargas = {
+  'sarva': FeatureValue.sarvanama,
+};
+
 /// `sanādi_pratyayaḥ` (IAST output, seen live on `gamayawi`: `ṇic`).
 const _sanadis = {
   'ṇic': FeatureValue.nic,
@@ -104,6 +110,7 @@ const _keys = <String, (FeatureKind, Map<String, FeatureValue>)>{
   'padī': (FeatureKind.pada, _padas),
   'prayogaḥ': (FeatureKind.prayoga, _prayogas),
   'sanādi_pratyayaḥ': (FeatureKind.sanadi, _sanadis),
+  'vargaḥ': (FeatureKind.nominalCategory, _vargas),
   'gaṇaḥ': (FeatureKind.gana, _ganas),
 };
 

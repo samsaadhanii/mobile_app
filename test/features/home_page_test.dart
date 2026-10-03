@@ -89,7 +89,7 @@ void main() {
       await pumpHome(tester);
       await tester.enterText(find.byType(TextField), 'rAma AlayaH');
       await tester.pump();
-      expect(rows(tester), ['Split a text', 'Analyse a word', 'Join two words']);
+      expect(rows(tester), ['Split and analyse', 'Analyse a word', 'Join two words']);
       expect(find.text('WX, 2 words'), findsOneWidget);
     });
 
@@ -97,7 +97,7 @@ void main() {
       await pumpHome(tester);
       await tester.enterText(find.byType(TextField), 'rāmaḥ vanaṃ gacchati');
       await tester.pump();
-      expect(rows(tester), ['Split a text', 'Analyse a word']);
+      expect(rows(tester), ['Split and analyse', 'Analyse a word']);
       expect(find.text('IAST, 3 words'), findsOneWidget);
     });
 

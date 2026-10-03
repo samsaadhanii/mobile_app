@@ -7,7 +7,7 @@ enum Task {
     'Every possible analysis of one Sanskrit word.',
   ),
   splitText(
-    'Split a text',
+    'Split and analyse',
     'सन्धिविच्छेदः',
     'Split a sentence or compound into its words, optionally with each '
         'word analysed.',

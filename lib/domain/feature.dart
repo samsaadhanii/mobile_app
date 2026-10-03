@@ -14,6 +14,10 @@ enum FeatureKind {
   /// or intensive.
   sanadi,
 
+  /// Pronoun, numeral, cardinal or ordinal: the category of a nominal word
+  /// beyond its gender, case and number.
+  nominalCategory,
+
   /// Open list: the value is free text in [Feature.text] (kṛt suffixes such
   /// as `śatṛ`, `kta`, `tavyat`; later taddhitas).
   krtPratyaya,
@@ -76,6 +80,12 @@ enum FeatureValue {
   nic(FeatureKind.sanadi, 'ṇic', 'causative (ṇijanta)'),
   san(FeatureKind.sanadi, 'san', 'desiderative (sannanta)'),
   yan(FeatureKind.sanadi, 'yaṅ', 'intensive (yaṅanta)'),
+
+  // nominal category
+  sarvanama(FeatureKind.nominalCategory, 'sarvanāma', 'pronoun'),
+  sankhya(FeatureKind.nominalCategory, 'saṅkhyā', 'numeral'),
+  sankhyeya(FeatureKind.nominalCategory, 'saṅkhyeya', 'cardinal'),
+  purana(FeatureKind.nominalCategory, 'pūraṇa', 'ordinal'),
 
   // gaṇa
   bhvadi(FeatureKind.gana, 'bhvādiḥ', 'class 1 (bhvādi)'),

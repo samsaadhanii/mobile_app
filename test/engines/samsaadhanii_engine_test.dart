@@ -205,13 +205,13 @@ void main() {
       expect(x.wordClass, WordClass.noun);
       expect(x.lemma, const SanskritText('asmax')); // asmad in WX
       expect(x.features, [
-        _f(FeatureKind.unknown, FeatureValue.unknown, 'vargaḥ:sarva'),
+        _f(FeatureKind.nominalCategory, FeatureValue.sarvanama, 'sarva'),
         _f(FeatureKind.gender, FeatureValue.noGender, 'a'),
         _f(FeatureKind.vibhakti, FeatureValue.nominative, '1'),
         _f(FeatureKind.number, FeatureValue.singular, 'eka'),
       ]);
-      // vargaḥ:sarva (pronoun) is not documented here: reported, not guessed.
-      expect(unmapped, ['vargaḥ:sarva']);
+      // vargaḥ:sarva is the pronoun mark; the word class stays noun.
+      expect(unmapped, isEmpty);
     });
 
     test('gamyawe: one reading, passive', () async {

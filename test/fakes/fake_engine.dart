@@ -14,6 +14,7 @@ class FakeEngine implements Engine {
     this.tasks = const {Task.analyseWord, Task.splitText},
     this.analysis,
     this.segmentation,
+    this.segmentationPlain,
     this.latency = Duration.zero,
   });
 
@@ -29,8 +30,11 @@ class FakeEngine implements Engine {
   /// What [analyseWord] returns; `null` means [NotFound].
   final Outcome<WordAnalysis>? analysis;
 
-  /// What [segment] returns; `null` means [NotFound].
+  /// What [segment] returns with `analyse: true`; `null` means [NotFound].
   final Outcome<Segmentation>? segmentation;
+
+  /// What [segment] returns without `analyse`; defaults to [segmentation].
+  final Outcome<Segmentation>? segmentationPlain;
 
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
@@ -57,6 +61,7 @@ class FakeEngine implements Engine {
     if (!tasks.contains(Task.splitText)) {
       return Future.value(Unsupported(id, Task.splitText));
     }
-    return _after(segmentation ?? const NotFound());
+    final canned = analyse ? segmentation : (segmentationPlain ?? segmentation);
+    return _after(canned ?? const NotFound());
   }
 }
