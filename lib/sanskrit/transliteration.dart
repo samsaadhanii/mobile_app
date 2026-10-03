@@ -77,9 +77,11 @@ const _wxToIast = {
 };
 
 // Only lower case is listed; upper case is derived in _iastToWx.
+// `ṁ` is candrabindu (WX z), not anusvāra: that is how Samsaadhanii's own
+// IAST output uses it, although utf8roman2wx.lex reads it as M (U4b).
 const _iastToWxLower = {
   'ā': 'A', 'ī': 'I', 'ū': 'U', 'ḷ': 'L', 'ṛ': 'q', 'ṝ': 'Q',
-  'ai': 'E', 'au': 'O', 'ṃ': 'M', 'ṁ': 'M', 'ḥ': 'H',
+  'ai': 'E', 'au': 'O', 'ṃ': 'M', 'ṁ': 'z', 'ḥ': 'H',
   'kh': 'K', 'gh': 'G', 'ṅ': 'f', 'ch': 'C', 'jh': 'J', 'ñ': 'F',
   'ṭ': 't', 'ṭh': 'T', 'ḍ': 'd', 'ḍh': 'D', 'ṇ': 'N',
   't': 'w', 'th': 'W', 'd': 'x', 'dh': 'X', 'ph': 'P', 'bh': 'B',

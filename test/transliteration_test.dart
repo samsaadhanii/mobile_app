@@ -146,8 +146,11 @@ void main() {
       expect(toWx('Ṛṣi', Script.iast), 'qRi');
       expect(toWx('gacchati', Script.iast), 'gacCawi');
     });
-    test('dot above m reads as anusvara, as in the scl table', () {
-      expect(toWx('saṁskṛtam', Script.iast), 'saMskqwam');
+    test('dot above m is candrabindu, as in Samsaadhanii\'s own output', () {
+      expect(toWx('gamḷṁ', Script.iast), 'gamLz');
+      expect(toWx('saṃskṛtam', Script.iast), 'saMskqwam');
+      expect(convert('gamḷṁ', Script.iast, Script.devanagari), 'गमॢँ');
+      expect(toWx('gam\u1e37m\u0310', Script.iast), 'gamLz');
     });
   });
 
@@ -197,6 +200,15 @@ void main() {
       expect(mismatches, isEmpty);
     });
 
+    test('IAST rom and Devanagari dev give the same WX', () {
+      final mismatches = [
+        for (final v in verbs)
+          if (toWx(v['rom'], Script.iast) != toWx(v['dev'], Script.devanagari))
+            v['wx'],
+      ];
+      expect(mismatches, isEmpty);
+    });
+
     test('Devanagari -> WX -> Devanagari is the identity', () {
       final mismatches = [
         for (final v in verbs)
@@ -205,6 +217,52 @@ void main() {
             v['wx'],
       ];
       expect(mismatches, isEmpty);
+    });
+  });
+
+  group('the server\'s own transliteration (test/fixtures)', () {
+    const scripts = {
+      'WX-Alphabetic': Script.wx,
+      'Unicode-Devanagari': Script.devanagari,
+      'Unicode-Roman-Diacritic': Script.iast,
+    };
+    final records = (jsonDecode(
+                File('test/fixtures/server_transliteration.json')
+                    .readAsStringSync()) as List)
+        .cast<Map<String, dynamic>>();
+
+    // The server's converter reads IAST `ṁ` as anusvara; we read it as
+    // candrabindu, as Samsaadhanii's output uses it (U4b item 1). Every
+    // other answer must agree.
+    bool knownDisagreement(Map<String, dynamic> r) =>
+        r['from'] == 'Unicode-Roman-Diacritic' &&
+        (r['src'] as String).contains('ṁ');
+
+    test('has answers for 44 words in six directions', () {
+      expect(records.length, 264);
+    });
+
+    test('convert agrees with the server except for IAST ṁ', () {
+      final disagreements = [
+        for (final r in records)
+          if (!knownDisagreement(r) &&
+              convert(r['src'], scripts[r['from']]!, scripts[r['to']]!) !=
+                  r['answer'])
+            '${r['from']} -> ${r['to']}: ${r['src']}',
+      ];
+      expect(disagreements, isEmpty);
+    });
+
+    test('the known disagreements are exactly the ṁ cases', () {
+      final known = records.where(knownDisagreement).toList();
+      expect(known.length, 10);
+      for (final r in known) {
+        expect(
+            convert(r['src'], scripts[r['from']]!, scripts[r['to']]!) !=
+                r['answer'],
+            isTrue,
+            reason: 'if the server changed, drop this exception: ${r['src']}');
+      }
     });
   });
 }

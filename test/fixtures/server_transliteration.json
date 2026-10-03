@@ -1,0 +1,1586 @@
+[
+  {
+    "src": "kqRNa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "कृष्ण"
+  },
+  {
+    "src": "kqRNa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kṛṣṇa"
+  },
+  {
+    "src": "कृष्ण",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "kqRNa"
+  },
+  {
+    "src": "कृष्ण",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kṛṣṇa"
+  },
+  {
+    "src": "kṛṣṇa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "kqRNa"
+  },
+  {
+    "src": "kṛṣṇa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "कृष्ण"
+  },
+  {
+    "src": "jFAna",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "ज्ञान"
+  },
+  {
+    "src": "jFAna",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "jñāna"
+  },
+  {
+    "src": "ज्ञान",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "jFAna"
+  },
+  {
+    "src": "ज्ञान",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "jñāna"
+  },
+  {
+    "src": "jñāna",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "jFAna"
+  },
+  {
+    "src": "jñāna",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "ज्ञान"
+  },
+  {
+    "src": "rAmaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "रामः"
+  },
+  {
+    "src": "rAmaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "rāmaḥ"
+  },
+  {
+    "src": "रामः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "rAmaH"
+  },
+  {
+    "src": "रामः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "rāmaḥ"
+  },
+  {
+    "src": "rāmaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "rAmaH"
+  },
+  {
+    "src": "rāmaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "रामः"
+  },
+  {
+    "src": "saMskqwam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "संस्कृतम्"
+  },
+  {
+    "src": "saMskqwam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṃskṛtam"
+  },
+  {
+    "src": "संस्कृतम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "saMskqwam"
+  },
+  {
+    "src": "संस्कृतम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṃskṛtam"
+  },
+  {
+    "src": "saṃskṛtam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "saMskqwam"
+  },
+  {
+    "src": "saṃskṛtam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "संस्कृतम्"
+  },
+  {
+    "src": "AMSa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "आंश"
+  },
+  {
+    "src": "AMSa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "āṃśa"
+  },
+  {
+    "src": "आंश",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "AMSa"
+  },
+  {
+    "src": "आंश",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "āṃśa"
+  },
+  {
+    "src": "āṃśa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "AMSa"
+  },
+  {
+    "src": "āṃśa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "आंश"
+  },
+  {
+    "src": "vAk",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "वाक्"
+  },
+  {
+    "src": "vAk",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vāk"
+  },
+  {
+    "src": "वाक्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "vAk"
+  },
+  {
+    "src": "वाक्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vāk"
+  },
+  {
+    "src": "vāk",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "vAk"
+  },
+  {
+    "src": "vāk",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "वाक्"
+  },
+  {
+    "src": "paFcan",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "पञ्चन्"
+  },
+  {
+    "src": "paFcan",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "pañcan"
+  },
+  {
+    "src": "पञ्चन्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "paFcan"
+  },
+  {
+    "src": "पञ्चन्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "pañcan"
+  },
+  {
+    "src": "pañcan",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "paFcan"
+  },
+  {
+    "src": "pañcan",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "पञ्चन्"
+  },
+  {
+    "src": "gacCawi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गच्छति"
+  },
+  {
+    "src": "gacCawi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gacchati"
+  },
+  {
+    "src": "गच्छति",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "gacCawi"
+  },
+  {
+    "src": "गच्छति",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gacchati"
+  },
+  {
+    "src": "gacchati",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "gacCawi"
+  },
+  {
+    "src": "gacchati",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गच्छति"
+  },
+  {
+    "src": "BavawI",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "भवती"
+  },
+  {
+    "src": "BavawI",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhavatī"
+  },
+  {
+    "src": "भवती",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "BavawI"
+  },
+  {
+    "src": "भवती",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhavatī"
+  },
+  {
+    "src": "bhavatī",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "BavawI"
+  },
+  {
+    "src": "bhavatī",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "भवती"
+  },
+  {
+    "src": "xevaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "देवः"
+  },
+  {
+    "src": "xevaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "devaḥ"
+  },
+  {
+    "src": "देवः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "xevaH"
+  },
+  {
+    "src": "देवः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "devaḥ"
+  },
+  {
+    "src": "devaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "xevaH"
+  },
+  {
+    "src": "devaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "देवः"
+  },
+  {
+    "src": "puwraH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "पुत्रः"
+  },
+  {
+    "src": "puwraH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "putraḥ"
+  },
+  {
+    "src": "पुत्रः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "puwraH"
+  },
+  {
+    "src": "पुत्रः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "putraḥ"
+  },
+  {
+    "src": "putraḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "puwraH"
+  },
+  {
+    "src": "putraḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "पुत्रः"
+  },
+  {
+    "src": "rAmeNa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "रामेण"
+  },
+  {
+    "src": "rAmeNa",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "rāmeṇa"
+  },
+  {
+    "src": "रामेण",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "rAmeNa"
+  },
+  {
+    "src": "रामेण",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "rāmeṇa"
+  },
+  {
+    "src": "rāmeṇa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "rAmeNa"
+  },
+  {
+    "src": "rāmeṇa",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "रामेण"
+  },
+  {
+    "src": "vanam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "वनम्"
+  },
+  {
+    "src": "vanam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vanam"
+  },
+  {
+    "src": "वनम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "vanam"
+  },
+  {
+    "src": "वनम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vanam"
+  },
+  {
+    "src": "vanam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "vanam"
+  },
+  {
+    "src": "vanam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "वनम्"
+  },
+  {
+    "src": "ca",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "च"
+  },
+  {
+    "src": "ca",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ca"
+  },
+  {
+    "src": "च",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "ca"
+  },
+  {
+    "src": "च",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ca"
+  },
+  {
+    "src": "ca",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "ca"
+  },
+  {
+    "src": "ca",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "च"
+  },
+  {
+    "src": "gaNeSaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गणेशः"
+  },
+  {
+    "src": "gaNeSaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gaṇeśaḥ"
+  },
+  {
+    "src": "गणेशः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "gaNeSaH"
+  },
+  {
+    "src": "गणेशः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gaṇeśaḥ"
+  },
+  {
+    "src": "gaṇeśaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "gaNeSaH"
+  },
+  {
+    "src": "gaṇeśaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गणेशः"
+  },
+  {
+    "src": "mahABArawam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "महाभारतम्"
+  },
+  {
+    "src": "mahABArawam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "mahābhāratam"
+  },
+  {
+    "src": "महाभारतम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "mahABArawam"
+  },
+  {
+    "src": "महाभारतम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "mahābhāratam"
+  },
+  {
+    "src": "mahābhāratam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "mahABArawam"
+  },
+  {
+    "src": "mahābhāratam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "महाभारतम्"
+  },
+  {
+    "src": "BagavaxgIwA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "भगवद्गीता"
+  },
+  {
+    "src": "BagavaxgIwA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhagavadgītā"
+  },
+  {
+    "src": "भगवद्गीता",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "BagavaxgIwA"
+  },
+  {
+    "src": "भगवद्गीता",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhagavadgītā"
+  },
+  {
+    "src": "bhagavadgītā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "BagavaxgIwA"
+  },
+  {
+    "src": "bhagavadgītā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "भगवद्गीता"
+  },
+  {
+    "src": "yogaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "योगः"
+  },
+  {
+    "src": "yogaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "yogaḥ"
+  },
+  {
+    "src": "योगः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "yogaH"
+  },
+  {
+    "src": "योगः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "yogaḥ"
+  },
+  {
+    "src": "yogaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "yogaH"
+  },
+  {
+    "src": "yogaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "योगः"
+  },
+  {
+    "src": "vexaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "वेदः"
+  },
+  {
+    "src": "vexaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vedaḥ"
+  },
+  {
+    "src": "वेदः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "vexaH"
+  },
+  {
+    "src": "वेदः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vedaḥ"
+  },
+  {
+    "src": "vedaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "vexaH"
+  },
+  {
+    "src": "vedaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "वेदः"
+  },
+  {
+    "src": "pqWivI",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "पृथिवी"
+  },
+  {
+    "src": "pqWivI",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "pṛthivī"
+  },
+  {
+    "src": "पृथिवी",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "pqWivI"
+  },
+  {
+    "src": "पृथिवी",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "pṛthivī"
+  },
+  {
+    "src": "pṛthivī",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "pqWivI"
+  },
+  {
+    "src": "pṛthivī",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "पृथिवी"
+  },
+  {
+    "src": "Qwu",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "ॠतु"
+  },
+  {
+    "src": "Qwu",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ṝtu"
+  },
+  {
+    "src": "ॠतु",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "Qwu"
+  },
+  {
+    "src": "ॠतु",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ṝtu"
+  },
+  {
+    "src": "ṝtu",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "Qwu"
+  },
+  {
+    "src": "ṝtu",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "ॠतु"
+  },
+  {
+    "src": "guruH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गुरुः"
+  },
+  {
+    "src": "guruH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "guruḥ"
+  },
+  {
+    "src": "गुरुः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "guruH"
+  },
+  {
+    "src": "गुरुः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "guruḥ"
+  },
+  {
+    "src": "guruḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "guruH"
+  },
+  {
+    "src": "guruḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गुरुः"
+  },
+  {
+    "src": "SAswram",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "शास्त्रम्"
+  },
+  {
+    "src": "SAswram",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "śāstram"
+  },
+  {
+    "src": "शास्त्रम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "SAswram"
+  },
+  {
+    "src": "शास्त्रम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "śāstram"
+  },
+  {
+    "src": "śāstram",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "SAswram"
+  },
+  {
+    "src": "śāstram",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "शास्त्रम्"
+  },
+  {
+    "src": "viRNuH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "विष्णुः"
+  },
+  {
+    "src": "viRNuH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "viṣṇuḥ"
+  },
+  {
+    "src": "विष्णुः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "viRNuH"
+  },
+  {
+    "src": "विष्णुः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "viṣṇuḥ"
+  },
+  {
+    "src": "viṣṇuḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "viRNuH"
+  },
+  {
+    "src": "viṣṇuḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "विष्णुः"
+  },
+  {
+    "src": "ahaM",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "अहं"
+  },
+  {
+    "src": "ahaM",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ahaṃ"
+  },
+  {
+    "src": "अहं",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "ahaM"
+  },
+  {
+    "src": "अहं",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "ahaṃ"
+  },
+  {
+    "src": "ahaṃ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "ahaM"
+  },
+  {
+    "src": "ahaṃ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "अहं"
+  },
+  {
+    "src": "namaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "नमः"
+  },
+  {
+    "src": "namaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "namaḥ"
+  },
+  {
+    "src": "नमः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "namaH"
+  },
+  {
+    "src": "नमः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "namaḥ"
+  },
+  {
+    "src": "namaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "namaH"
+  },
+  {
+    "src": "namaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "नमः"
+  },
+  {
+    "src": "BUmiH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "भूमिः"
+  },
+  {
+    "src": "BUmiH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhūmiḥ"
+  },
+  {
+    "src": "भूमिः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "BUmiH"
+  },
+  {
+    "src": "भूमिः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "bhūmiḥ"
+  },
+  {
+    "src": "bhūmiḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "BUmiH"
+  },
+  {
+    "src": "bhūmiḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "भूमिः"
+  },
+  {
+    "src": "gqhe",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गृहे"
+  },
+  {
+    "src": "gqhe",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gṛhe"
+  },
+  {
+    "src": "गृहे",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "gqhe"
+  },
+  {
+    "src": "गृहे",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gṛhe"
+  },
+  {
+    "src": "gṛhe",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "gqhe"
+  },
+  {
+    "src": "gṛhe",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गृहे"
+  },
+  {
+    "src": "oM",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "ओं"
+  },
+  {
+    "src": "oM",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "oṃ"
+  },
+  {
+    "src": "ओं",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "oM"
+  },
+  {
+    "src": "ओं",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "oṃ"
+  },
+  {
+    "src": "oṃ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "oM"
+  },
+  {
+    "src": "oṃ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "ओं"
+  },
+  {
+    "src": "sUryaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "सूर्यः"
+  },
+  {
+    "src": "sUryaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "sūryaḥ"
+  },
+  {
+    "src": "सूर्यः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "sUryaH"
+  },
+  {
+    "src": "सूर्यः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "sūryaḥ"
+  },
+  {
+    "src": "sūryaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "sUryaH"
+  },
+  {
+    "src": "sūryaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "सूर्यः"
+  },
+  {
+    "src": "wawra",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "तत्र"
+  },
+  {
+    "src": "wawra",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "tatra"
+  },
+  {
+    "src": "तत्र",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "wawra"
+  },
+  {
+    "src": "तत्र",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "tatra"
+  },
+  {
+    "src": "tatra",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "wawra"
+  },
+  {
+    "src": "tatra",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "तत्र"
+  },
+  {
+    "src": "kRNoWi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "क्ष्णोथि"
+  },
+  {
+    "src": "kRNoWi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kṣṇothi"
+  },
+  {
+    "src": "क्ष्णोथि",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "kRNoWi"
+  },
+  {
+    "src": "क्ष्णोथि",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kṣṇothi"
+  },
+  {
+    "src": "kṣṇothi",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "kRNoWi"
+  },
+  {
+    "src": "kṣṇothi",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "क्ष्णोथि"
+  },
+  {
+    "src": "ASramaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "आश्रमः"
+  },
+  {
+    "src": "ASramaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "āśramaḥ"
+  },
+  {
+    "src": "आश्रमः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "ASramaH"
+  },
+  {
+    "src": "आश्रमः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "āśramaḥ"
+  },
+  {
+    "src": "āśramaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "ASramaH"
+  },
+  {
+    "src": "āśramaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "आश्रमः"
+  },
+  {
+    "src": "xaMRtrA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "दंष्ट्रा"
+  },
+  {
+    "src": "xaMRtrA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "daṃṣṭrā"
+  },
+  {
+    "src": "दंष्ट्रा",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "xaMRtrA"
+  },
+  {
+    "src": "दंष्ट्रा",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "daṃṣṭrā"
+  },
+  {
+    "src": "daṃṣṭrā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "xaMRtrA"
+  },
+  {
+    "src": "daṃṣṭrā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "दंष्ट्रा"
+  },
+  {
+    "src": "gamLz",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गमॢँ"
+  },
+  {
+    "src": "gamLz",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gamḷṁ"
+  },
+  {
+    "src": "गमॢँ",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "gamLz"
+  },
+  {
+    "src": "गमॢँ",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gamḷṁ"
+  },
+  {
+    "src": "gamḷṁ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "gamLM"
+  },
+  {
+    "src": "gamḷṁ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गमॢं"
+  },
+  {
+    "src": "puMsz",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "पुंस्ँ"
+  },
+  {
+    "src": "puMsz",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "puṃsṁ"
+  },
+  {
+    "src": "पुंस्ँ",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "puMsz"
+  },
+  {
+    "src": "पुंस्ँ",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "puṃsṁ"
+  },
+  {
+    "src": "puṃsṁ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "puMsM"
+  },
+  {
+    "src": "puṃsṁ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "पुंस्M"
+  },
+  {
+    "src": "hazsaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "हँसः"
+  },
+  {
+    "src": "hazsaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "haṁsaḥ"
+  },
+  {
+    "src": "हँसः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "hazsaH"
+  },
+  {
+    "src": "हँसः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "haṁsaḥ"
+  },
+  {
+    "src": "haṁsaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "haMsaH"
+  },
+  {
+    "src": "haṁsaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "हंसः"
+  },
+  {
+    "src": "sazskqwam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "सँस्कृतम्"
+  },
+  {
+    "src": "sazskqwam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṁskṛtam"
+  },
+  {
+    "src": "सँस्कृतम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "sazskqwam"
+  },
+  {
+    "src": "सँस्कृतम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṁskṛtam"
+  },
+  {
+    "src": "saṁskṛtam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "saMskqwam"
+  },
+  {
+    "src": "saṁskṛtam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "संस्कृतम्"
+  },
+  {
+    "src": "yAzwi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "याँति"
+  },
+  {
+    "src": "yAzwi",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "yāṁti"
+  },
+  {
+    "src": "याँति",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "yAzwi"
+  },
+  {
+    "src": "याँति",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "yāṁti"
+  },
+  {
+    "src": "yāṁti",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "yAMwi"
+  },
+  {
+    "src": "yāṁti",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "यांति"
+  },
+  {
+    "src": "gaMgA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "गंगा"
+  },
+  {
+    "src": "gaMgA",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gaṃgā"
+  },
+  {
+    "src": "गंगा",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "gaMgA"
+  },
+  {
+    "src": "गंगा",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "gaṃgā"
+  },
+  {
+    "src": "gaṃgā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "gaMgA"
+  },
+  {
+    "src": "gaṃgā",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "गंगा"
+  },
+  {
+    "src": "saMyogaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "संयोगः"
+  },
+  {
+    "src": "saMyogaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṃyogaḥ"
+  },
+  {
+    "src": "संयोगः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "saMyogaH"
+  },
+  {
+    "src": "संयोगः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "saṃyogaḥ"
+  },
+  {
+    "src": "saṃyogaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "saMyogaH"
+  },
+  {
+    "src": "saṃyogaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "संयोगः"
+  },
+  {
+    "src": "vaMSaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "वंशः"
+  },
+  {
+    "src": "vaMSaH",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vaṃśaḥ"
+  },
+  {
+    "src": "वंशः",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "vaMSaH"
+  },
+  {
+    "src": "वंशः",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "vaṃśaḥ"
+  },
+  {
+    "src": "vaṃśaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "vaMSaH"
+  },
+  {
+    "src": "vaṃśaḥ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "वंशः"
+  },
+  {
+    "src": "kiMcit",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "किंचिट्"
+  },
+  {
+    "src": "kiMcit",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kiṃciṭ"
+  },
+  {
+    "src": "किंचिट्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "kiMcit"
+  },
+  {
+    "src": "किंचिट्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "kiṃciṭ"
+  },
+  {
+    "src": "kiṃciṭ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "kiMcit"
+  },
+  {
+    "src": "kiṃciṭ",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "किंचिट्"
+  },
+  {
+    "src": "aMgam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Devanagari",
+    "answer": "अंगम्"
+  },
+  {
+    "src": "aMgam",
+    "from": "WX-Alphabetic",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "aṃgam"
+  },
+  {
+    "src": "अंगम्",
+    "from": "Unicode-Devanagari",
+    "to": "WX-Alphabetic",
+    "answer": "aMgam"
+  },
+  {
+    "src": "अंगम्",
+    "from": "Unicode-Devanagari",
+    "to": "Unicode-Roman-Diacritic",
+    "answer": "aṃgam"
+  },
+  {
+    "src": "aṃgam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "WX-Alphabetic",
+    "answer": "aMgam"
+  },
+  {
+    "src": "aṃgam",
+    "from": "Unicode-Roman-Diacritic",
+    "to": "Unicode-Devanagari",
+    "answer": "अंगम्"
+  }
+]
