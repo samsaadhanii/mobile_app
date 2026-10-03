@@ -1,0 +1,53 @@
+import 'outcome.dart';
+import 'sanskrit_text.dart';
+import 'segmentation.dart';
+import 'task.dart';
+import 'word_analysis.dart';
+
+enum EngineId { samsaadhanii, heritage }
+
+/// Who made an engine, shown under every result it gives.
+class EngineCredit {
+  final String name;
+  final String team;
+  final String url;
+
+  const EngineCredit({
+    required this.name,
+    required this.team,
+    required this.url,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      other is EngineCredit &&
+      other.name == name &&
+      other.team == team &&
+      other.url == url;
+
+  @override
+  int get hashCode => Object.hash(name, team, url);
+
+  @override
+  String toString() => 'EngineCredit($name, $team, $url)';
+}
+
+/// What the app asks of a Sanskrit engine (ARCHITECTURE.md 8.3).
+///
+/// A method for a task that is not in [tasks] returns [Unsupported] at once,
+/// without a network call. Only the first two tasks exist so far; the
+/// methods for the others (noun, verb, kṛt, sandhi, dictionary) are added
+/// with their result models, in later units.
+abstract interface class Engine {
+  EngineId get id;
+
+  EngineCredit get credit;
+
+  /// What this engine can answer today.
+  Set<Task> get tasks;
+
+  Future<Outcome<WordAnalysis>> analyseWord(SanskritText word);
+
+  Future<Outcome<Segmentation>> segment(SanskritText text,
+      {bool analyse = false});
+}
