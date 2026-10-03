@@ -16,6 +16,7 @@ const morphWords = {
   'gacCawi': 'gacCawi',
   'gacCan': 'gacCan',
   'ca': 'ca',
+  'AlayaH': 'AlayaH',
   'xyzq': 'xyzq',
   'empty': '',
 };

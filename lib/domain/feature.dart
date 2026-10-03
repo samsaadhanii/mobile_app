@@ -9,6 +9,10 @@ enum FeatureKind {
   pada,
   prayoga,
   gana,
+
+  /// Open list: the value is free text in [Feature.text] (kṛt suffixes such
+  /// as `śatṛ`, `kta`, `tavyat`; later taddhitas).
+  krtPratyaya,
   unknown,
 }
 
@@ -75,6 +79,9 @@ enum FeatureValue {
   tanadi(FeatureKind.gana, 'tanādiḥ', 'class 8 (tanādi)'),
   kryadi(FeatureKind.gana, 'kryādiḥ', 'class 9 (kryādi)'),
   curadi(FeatureKind.gana, 'curādiḥ', 'class 10 (curādi)'),
+
+  /// The feature's kind is an open list; the value is in `Feature.text`.
+  openClass(FeatureKind.unknown, '', 'open-class value'),
 
   unknown(FeatureKind.unknown, '', 'unknown');
 

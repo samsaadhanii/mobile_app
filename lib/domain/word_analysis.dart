@@ -2,29 +2,46 @@ import 'feature.dart';
 import 'list_equality.dart';
 import 'sanskrit_text.dart';
 
-enum WordClass { noun, verb, participle, indeclinable, other }
+enum WordClass {
+  noun,
+  verb,
+  participle,
+  indeclinable,
+
+  /// A non-final member of a compound, not analysed on its own
+  /// (in initio compositi).
+  compoundMember,
+  other,
+}
 
 /// One feature of an analysis. [original] is exactly what the engine said
 /// ("puM", "m.", "pra"), kept even when [value] is understood.
+///
+/// A closed kind (gender, case, ...) has a [FeatureValue]. An open kind
+/// (`FeatureKind.krtPratyaya`) has `FeatureValue.openClass` and the value as
+/// Sanskrit text in [text].
 class Feature {
   final FeatureKind kind;
   final FeatureValue value;
   final String original;
+  final SanskritText? text;
 
-  const Feature(this.kind, this.value, this.original);
+  const Feature(this.kind, this.value, this.original, {this.text});
 
   @override
   bool operator ==(Object other) =>
       other is Feature &&
       other.kind == kind &&
       other.value == value &&
-      other.original == original;
+      other.original == original &&
+      other.text == text;
 
   @override
-  int get hashCode => Object.hash(kind, value, original);
+  int get hashCode => Object.hash(kind, value, original, text);
 
   @override
-  String toString() => 'Feature(${kind.name}, ${value.name}, "$original")';
+  String toString() => 'Feature(${kind.name}, ${value.name}, "$original"'
+      '${text == null ? '' : ', text: ${text!.wx}'})';
 }
 
 class Analysis {

@@ -143,10 +143,32 @@ Analysis _analysis(Map<String, Object?> item, OnUnmapped? onUnmapped) {
   final ans = item['ANS'] as String;
   final features = <Feature>[];
   String? kritSuffix;
+  SanskritText? root;
   for (final m in _group.allMatches(ans)) {
     final key = m[1]!;
     final value = m[2]!;
-    if (key == 'kṛt_pratyayaḥ') kritSuffix = value;
+    if (key == 'kṛt_pratyayaḥ') {
+      // "śatṛ_laṭ": the suffix, and the lakāra it belongs to.
+      kritSuffix = value;
+      final cut = value.lastIndexOf('_');
+      final tail = cut < 0 ? null : _lakaras[value.substring(cut + 1)];
+      final suffix = tail == null ? value : value.substring(0, cut);
+      features.add(Feature(FeatureKind.krtPratyaya, FeatureValue.openClass,
+          suffix, text: SanskritText.from(suffix, Script.iast)));
+      if (tail != null) {
+        features.add(Feature(FeatureKind.lakara, tail, value.substring(cut + 1)));
+      }
+      continue;
+    }
+    if (key == 'dhātuḥ') {
+      // The root, not a feature of the word.
+      root = SanskritText.from(value, Script.iast);
+      continue;
+    }
+    if (key == 'vargaḥ' && value == 'avy') {
+      // Says "indeclinable", which APP already gives.
+      continue;
+    }
     final entry = _keys[key];
     if (entry == null) {
       // Unknown key: keep the whole pair, as the server wrote it.
@@ -182,12 +204,14 @@ Analysis _analysis(Map<String, Object?> item, OnUnmapped? onUnmapped) {
 
   SanskritText? base;
   if (wordClass == WordClass.participle && bare.isNotEmpty) {
-    base = lemma;
+    base = root ?? lemma;
     lemma = SanskritText.from(bare, Script.iast);
   } else if (bare.isNotEmpty) {
     features.add(Feature(FeatureKind.unknown, FeatureValue.unknown, bare));
     onUnmapped?.call('', bare);
   }
+
+  base ??= root;
 
   if (wordClass == WordClass.other) onUnmapped?.call('APP', app);
 

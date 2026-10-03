@@ -1,4 +1,5 @@
 import 'list_equality.dart';
+import 'outcome.dart';
 import 'sanskrit_text.dart';
 import 'word_analysis.dart';
 
@@ -25,8 +26,11 @@ class Segment {
 class Split {
   final List<Segment> segments;
 
-  /// One per word, when analyses were asked for and are available.
-  final List<Analysis>? analyses;
+  /// One per segment, in segment order, when analyses were asked for. A
+  /// segment with no reading is `NotFound` in its slot; the split itself
+  /// still succeeded. A non-final compound member is a `Found` with one
+  /// `WordClass.compoundMember` analysis.
+  final List<Outcome<WordAnalysis>>? analyses;
 
   const Split(this.segments, {this.analyses});
 

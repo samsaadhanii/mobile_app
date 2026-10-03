@@ -108,7 +108,14 @@ void main() {
             Segment(SanskritText('vanam'), Boundary.end),
           ]));
       expect(split == const Split([]), isFalse);
-      expect(Split(const [], analyses: [_rama()]) == const Split([]), isFalse);
+      final slot = Found(WordAnalysis(const SanskritText('x'), [_rama()]), _source);
+      expect(Split(const [], analyses: [slot]) == const Split([]), isFalse);
+      expect(Split(const [], analyses: [slot]),
+          Split(const [], analyses: [slot]));
+      expect(
+          Split(const [], analyses: [slot]) ==
+              Split(const [], analyses: const [NotFound<WordAnalysis>()]),
+          isFalse);
       expect(const Segmentation(SanskritText('x'), [split]),
           const Segmentation(SanskritText('x'), [split]));
     });
@@ -130,6 +137,15 @@ void main() {
           'Analysis(gam#1, verb, [])');
     });
 
+    test('an open-class feature carries its value as text', () {
+      final f = Feature(FeatureKind.krtPratyaya, FeatureValue.openClass, 'śatṛ',
+          text: SanskritText.from('śatṛ', Script.iast));
+      expect(f.text, const SanskritText('Sawq'));
+      expect(f, isNot(const Feature(FeatureKind.krtPratyaya, FeatureValue.openClass, 'śatṛ')));
+      expect(f.toString(), 'Feature(krtPratyaya, openClass, "śatṛ", text: Sawq)');
+      expect(WordClass.values, contains(WordClass.compoundMember));
+    });
+
     test('an unmapped label keeps its original text', () {
       const f = Feature(FeatureKind.vibhakti, FeatureValue.unknown, 'xyz');
       expect(f.original, 'xyz');
@@ -141,7 +157,9 @@ void main() {
     test('every value has an IAST and an English name, except unknown', () {
       for (final v in FeatureValue.values) {
         expect(v.english, isNotEmpty);
-        if (v != FeatureValue.unknown) expect(v.iast, isNotEmpty);
+        if (v != FeatureValue.unknown && v != FeatureValue.openClass) {
+          expect(v.iast, isNotEmpty);
+        }
       }
     });
 

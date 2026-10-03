@@ -50,18 +50,13 @@ class SamsaadhaniiEngine implements Engine {
   }
 
   /// Splits [text] with the server's sentence mode, which also handles a
-  /// single word or compound.
-  ///
-  /// [analyse] is not honoured yet: `Split.analyses` is a flat
-  /// `List<Analysis>`, which cannot hold "one outcome per word, some of them
-  /// NotFound" (U6 step 4). The splits come back with `analyses: null` until
-  /// the domain type is decided; see the U6 report. [analyseWords] does the
-  /// per-word calls.
+  /// single word or compound. With [analyse], each candidate's segments are
+  /// analysed (see [analyseWords]); a failed word does not fail the split.
   @override
   Future<Outcome<Segmentation>> segment(SanskritText text,
-      {bool analyse = false}) {
+      {bool analyse = false}) async {
     final cleaned = cleanForServer(text);
-    return _run(
+    final outcome = await _run(
       splitterProgram,
       {
         'word': cleaned,
@@ -72,12 +67,44 @@ class SamsaadhaniiEngine implements Engine {
       },
       (body, source) => parseSplit(body, SanskritText(cleaned), source),
     );
+    if (!analyse || outcome is! Found<Segmentation>) return outcome;
+
+    final seg = outcome.value;
+    return Found(
+      Segmentation(seg.input, [
+        for (final split in seg.candidates)
+          Split(split.segments, analyses: await analyseWords(split, outcome.source)),
+      ]),
+      outcome.source,
+    );
   }
 
-  /// Analyses each segment of [split] separately; a word the server does not
-  /// know is a `NotFound` entry, it does not fail the others.
-  Future<List<Outcome<WordAnalysis>>> analyseWords(Split split) =>
-      Future.wait([for (final s in split.segments) analyseWord(s.text)]);
+  /// One outcome per segment of [split], in order. A segment followed by a
+  /// compound boundary is not sent to the server (a bare stem would come back
+  /// with misleading readings); it is a `compoundMember`. Every other segment
+  /// is analysed, and a word the server does not know is `NotFound` in its
+  /// slot only.
+  Future<List<Outcome<WordAnalysis>>> analyseWords(Split split,
+      [ResultSource? splitSource]) {
+    final source = splitSource ??
+        ResultSource(
+          engine: EngineId.samsaadhanii,
+          program: splitterProgram.split('/').last,
+          time: _now(),
+        );
+    return Future.wait([
+      for (final s in split.segments)
+        if (s.after == Boundary.compound)
+          Future.value(Found(
+            WordAnalysis(s.text, [
+              Analysis(lemma: s.text, wordClass: WordClass.compoundMember),
+            ]),
+            source,
+          ) as Outcome<WordAnalysis>)
+        else
+          analyseWord(s.text),
+    ]);
+  }
 
   Future<Outcome<T>> _run<T>(
     String program,

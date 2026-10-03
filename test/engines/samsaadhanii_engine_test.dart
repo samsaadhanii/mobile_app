@@ -122,22 +122,29 @@ void main() {
       expect(a.analyses.any((x) => x.wordClass == WordClass.participle), isTrue);
     });
 
-    test('gacCan: participle, stem gacCaw, base gam, ṁ is candrabindu',
+    test('gacCan: participle, stem gacCaw, pratyaya śatṛ, lakāra laṭ, base gamLz',
         () async {
       final a = _analysis(await engine.analyseWord(const SanskritText('gacCan')));
       expect(a.analyses.length, 2);
       final first = a.analyses.first;
       expect(first.wordClass, WordClass.participle);
       expect(first.lemma, const SanskritText('gacCaw'));
-      expect(first.base, const SanskritText('gam'));
+      expect(first.base, const SanskritText('gamLz')); // dhātuḥ:gamḷṁ
       expect(first.homonym, 1);
       expect(first.derivation, 'śatṛ_laṭ');
-      // dhātuḥ:gamḷṁ is kept whole, with its text readable as WX gamLz.
-      final dhatu = first.features.firstWhere((f) => f.original.startsWith('dhātuḥ'));
-      expect(dhatu.original, 'dhātuḥ:gamḷṁ');
-      expect(SanskritText.from('gamḷṁ', Script.iast).wx, 'gamLz');
-      expect(first.features.last,
-          _f(FeatureKind.number, FeatureValue.singular, 'eka'));
+      expect(first.features, [
+        Feature(FeatureKind.krtPratyaya, FeatureValue.openClass, 'śatṛ',
+            text: const SanskritText('Sawq')),
+        _f(FeatureKind.lakara, FeatureValue.lat, 'laṭ'),
+        // prayogaḥ:dh is not documented: it stays unknown, shown as given.
+        _f(FeatureKind.prayoga, FeatureValue.unknown, 'dh'),
+        _f(FeatureKind.gana, FeatureValue.bhvadi, 'bhvādiḥ'),
+        _f(FeatureKind.gender, FeatureValue.masculine, 'puṃ'),
+        _f(FeatureKind.vibhakti, FeatureValue.nominative, '1'),
+        _f(FeatureKind.number, FeatureValue.singular, 'eka'),
+      ]);
+      // dhātuḥ is the root, not a feature.
+      expect(first.features.any((f) => f.original.contains('gamḷṁ')), isFalse);
       // vibhaktiḥ 8 is the vocative.
       expect(a.analyses[1].features.any((f) => f.value == FeatureValue.vocative),
           isTrue);
@@ -147,7 +154,9 @@ void main() {
       final a = _analysis(await engine.analyseWord(const SanskritText('ca')));
       expect(a.analyses.single.wordClass, WordClass.indeclinable);
       expect(a.analyses.single.lemma, const SanskritText('ca'));
-      expect(a.analyses.single.features.single.original, 'vargaḥ:avy');
+      // vargaḥ:avy only says "indeclinable", which APP already gives.
+      expect(a.analyses.single.features, isEmpty);
+      expect(_fixture('morph_ca.txt'), contains('vargaḥ:avy'));
     });
 
     test('xyzq and the empty word are NotFound', () async {
@@ -177,9 +186,7 @@ void main() {
     });
 
     test('keys and values that mapped to unknown (for the report)', () {
-      // Filled by the tests above; printed so the report can list them.
-      // ignore: avoid_print
-      print('UNMAPPED: ${unmapped.toSet().toList()..sort()}');
+      expect(unmapped.toSet().toList()..sort(), ['prayogaḥ:dh']);
     });
   });
 
@@ -309,6 +316,74 @@ void main() {
       final out = await engine.analyseWords(split);
       expect(out[0], isA<Found<WordAnalysis>>());
       expect(out[1], isA<NotFound<WordAnalysis>>());
+    });
+
+    // Splitter answers in word mode for the compound; morph from fixtures.
+    FakeClient compoundClient() => FakeClient((program, query) {
+          if (program == splitterProgram) {
+            return ClientResponse(200, _fixture('split_word_rAmAlayaH.txt'));
+          }
+          return FakeClient.fixtures().respond(program, query);
+        });
+
+    test('segment(analyse: true): a compound gives a member slot and an '
+        'analysed last word', () async {
+      final client = compoundClient();
+      final s = seg(await _engine(client)
+          .segment(const SanskritText('rAmAlayaH'), analyse: true));
+      final split = s.candidates.single;
+      final slots = split.analyses!;
+      expect(slots.length, split.segments.length);
+      // rAma- : a member, one analysis, no features, not sent to morph.cgi
+      final member = _analysis(slots[0]);
+      expect(member.input, const SanskritText('rAma'));
+      expect(member.analyses, const [
+        Analysis(
+            lemma: SanskritText('rAma'), wordClass: WordClass.compoundMember),
+      ]);
+      // AlayaH: analysed normally
+      final last = _analysis(slots[1]);
+      expect(last.analyses.first.lemma, const SanskritText('Ali'));
+      expect(last.analyses.first.wordClass, WordClass.noun);
+      expect(client.queries.where((q) => q.containsKey('morfword')).single['morfword'],
+          'AlayaH');
+    });
+
+    test('segment(analyse: true): one unknown word is NotFound in its slot only',
+        () async {
+      final e = _engine(FakeClient((program, query) {
+        if (program == splitterProgram) {
+          return const ClientResponse(
+              200, '{"input":" vanam xyzq","segmentation":["vanam xyzq"]}');
+        }
+        return FakeClient.fixtures().respond(program, query);
+      }));
+      final s = seg(await e.segment(const SanskritText('vanam xyzq'), analyse: true));
+      final slots = s.candidates.single.analyses!;
+      expect(slots[0], isA<Found<WordAnalysis>>());
+      expect(slots[1], isA<NotFound<WordAnalysis>>());
+    });
+
+    test('segment(analyse: true): a word that cannot be reached does not fail '
+        'the split', () async {
+      final e = _engine(FakeClient((program, query) {
+        if (program == splitterProgram) {
+          return const ClientResponse(
+              200, '{"input":" vanam","segmentation":["vanam"]}');
+        }
+        throw const UnreachableException('timeout');
+      }));
+      final s = seg(await e.segment(const SanskritText('vanam'), analyse: true));
+      expect(s.candidates.single.analyses!.single,
+          const Unreachable<WordAnalysis>('timeout'));
+    });
+
+    test('without analyse the analyses stay null and morph is not called',
+        () async {
+      final client = compoundClient();
+      final s = seg(await _engine(client).segment(const SanskritText('rAmAlayaH')));
+      expect(s.candidates.single.analyses, isNull);
+      expect(client.queries.length, 1);
     });
   });
 
