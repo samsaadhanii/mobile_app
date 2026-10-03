@@ -93,7 +93,9 @@ void main() {
         expect(find.text(g), findsOneWidget);
       }
       expect(find.text('Heritage'), findsNWidgets(2)); // analyse and split
-      expect(find.text('धातुपाठः'), findsOneWidget);
+      // The Sanskrit names are in the display script (IAST by default).
+      expect(find.text('dhātupāṭhaḥ'), findsOneWidget);
+      expect(find.text('धातुपाठः'), findsNothing);
     });
 
     testWidgets('a Tools row without a screen opens a placeholder',
@@ -146,5 +148,15 @@ void main() {
       expect(find.text('One Sanskrit word'), findsOneWidget);
       expect(sam.calls, isEmpty);
     });
+  });
+
+  testWidgets('Tools shows the Sanskrit names in Devanagari when asked',
+      (tester) async {
+    await _pumpApp(tester, {'settings.displayScript': 'devanagari'});
+    await tester.tap(find.descendant(
+        of: find.byType(NavigationBar), matching: find.text('Tools')));
+    await tester.pumpAndSettle();
+    expect(find.text('धातुपाठः'), findsOneWidget);
+    expect(find.text('dhātupāṭhaḥ'), findsNothing);
   });
 }

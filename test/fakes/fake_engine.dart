@@ -16,6 +16,7 @@ class FakeEngine implements Engine {
     this.segmentation,
     this.segmentationPlain,
     this.latency = Duration.zero,
+    this.plainLatency,
   });
 
   @override
@@ -39,11 +40,16 @@ class FakeEngine implements Engine {
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
 
+  /// Delay for [segment] without `analyse`, if different from [latency].
+  final Duration? plainLatency;
+
   /// Every call made, for assertions: `analyseWord:rAmaH`, `segment:rAmaH`.
   final List<String> calls = [];
 
-  Future<T> _after<T>(T value) =>
-      latency == Duration.zero ? Future.value(value) : Future.delayed(latency, () => value);
+  Future<T> _after<T>(T value, [Duration? delay]) {
+    final d = delay ?? latency;
+    return d == Duration.zero ? Future.value(value) : Future.delayed(d, () => value);
+  }
 
   @override
   Future<Outcome<WordAnalysis>> analyseWord(SanskritText word) {
@@ -62,6 +68,7 @@ class FakeEngine implements Engine {
       return Future.value(Unsupported(id, Task.splitText));
     }
     final canned = analyse ? segmentation : (segmentationPlain ?? segmentation);
-    return _after(canned ?? const NotFound());
+    return _after(canned ?? const NotFound(),
+        analyse ? latency : (plainLatency ?? latency));
   }
 }

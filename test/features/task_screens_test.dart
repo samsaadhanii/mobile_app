@@ -33,6 +33,7 @@ FakeEngine _engine(EngineId id,
         Outcome<Segmentation>? segmentation,
         Outcome<Segmentation>? plain,
         Duration latency = Duration.zero,
+        Duration? plainLatency,
         Set<Task> tasks = const {Task.analyseWord, Task.splitText}}) =>
     FakeEngine(
       id: id,
@@ -41,6 +42,7 @@ FakeEngine _engine(EngineId id,
       segmentation: segmentation,
       segmentationPlain: plain,
       latency: latency,
+      plainLatency: plainLatency,
     );
 
 Future<void> _pump(
@@ -299,6 +301,53 @@ void main() {
       expect(_hasText('rāma'), isFalse);
     });
 
+    testWidgets('Sanskrit labels follow the display script, for a noun and a '
+        'verb card', (tester) async {
+      final verb = Analysis(
+        lemma: const SanskritText('gam'),
+        wordClass: WordClass.verb,
+        features: const [
+          Feature(FeatureKind.lakara, FeatureValue.vidhiling, 'opt.'),
+          Feature(FeatureKind.pada, FeatureValue.atmanepada, 'md.'),
+          Feature(FeatureKind.gana, FeatureValue.bhvadi, '[1]'),
+        ],
+      );
+      Future<void> show(Map<String, Object> prefs) => _pump(
+          tester,
+          const AnalyseWordScreen(initialInput: 'x'),
+          [_engine(EngineId.samsaadhanii,
+              analysis: _found(EngineId.samsaadhanii, [_rama(), verb]))],
+          prefs: prefs);
+
+      await show({'settings.displayScript': 'devanagari'});
+      await tester.pump();
+      for (final t in ['पुंलिङ्गम्', 'प्रथमा', 'एकवचनम्', 'विधिलिङ्', 'आत्मनेपदम्', 'भ्वादिः']) {
+        expect(find.text(t), findsOneWidget, reason: t);
+      }
+      expect(find.text('prathamā'), findsNothing);
+      expect(find.text('noun'), findsOneWidget); // tags are English
+
+      await show({'settings.displayScript': 'iast'});
+      await tester.pump();
+      for (final t in ['puṃliṅgam', 'prathamā', 'ekavacanam', 'vidhiliṅ', 'ātmanepadam', 'bhvādiḥ']) {
+        expect(find.text(t), findsOneWidget, reason: t);
+      }
+    });
+
+    testWidgets('English labels never convert, whatever the display script',
+        (tester) async {
+      await _pump(tester, const AnalyseWordScreen(initialInput: 'rAmaH'),
+          [_engine(EngineId.samsaadhanii, analysis: _found(EngineId.samsaadhanii))],
+          prefs: {
+            'settings.displayScript': 'devanagari',
+            'settings.labelLanguage': 'english',
+          });
+      await tester.pump();
+      for (final t in ['masculine', 'nominative', 'singular']) {
+        expect(find.text(t), findsOneWidget);
+      }
+    });
+
     testWidgets('an unmapped label is shown as the engine wrote it',
         (tester) async {
       final a = _rama(features: const [
@@ -419,6 +468,7 @@ void main() {
               _src(EngineId.heritage)));
       await _pump(tester, const SplitScreen(initialInput: 'rAmAlayaH'), [her]);
       await tester.pump();
+      await tester.pump();
       expect(her.calls, ['segment:rAmAlayaH:analyse', 'segment:rAmAlayaH']);
       expect(find.text('2 other ways to split'), findsOneWidget);
       expect(find.text('rāmā'), findsNothing); // folded
@@ -426,6 +476,66 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('rāmā'), findsOneWidget);
       expect(find.text('layaḥ'), findsOneWidget);
+    });
+
+    testWidgets('Heritage: both calls start together; the best split shows '
+        'first, "other ways" appears when the slower second answer arrives',
+        (tester) async {
+      const best = Split([rama, alaya]);
+      const other = Split([
+        Segment(SanskritText('rAmA'), Boundary.word),
+        Segment(SanskritText('layaH'), Boundary.end),
+      ]);
+      final her = _engine(EngineId.heritage,
+          latency: const Duration(milliseconds: 100),
+          plainLatency: const Duration(seconds: 2),
+          segmentation: Found(
+              const Segmentation(SanskritText('x'), [best]), _src(EngineId.heritage)),
+          plain: Found(const Segmentation(SanskritText('x'), [best, other]),
+              _src(EngineId.heritage)));
+      await _pump(tester, const SplitScreen(initialInput: 'rAmAlayaH'), [her]);
+      // Both requests are made at once, before either has answered.
+      expect(her.calls, ['segment:rAmAlayaH:analyse', 'segment:rAmAlayaH']);
+      expect(find.byKey(const Key('state-waiting')), findsOneWidget);
+
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(find.text('rāma'), findsOneWidget); // the best split is shown ...
+      expect(find.byKey(const Key('other-splits')), findsNothing); // ... alone
+
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pump();
+      expect(find.text('1 other ways to split'), findsOneWidget);
+    });
+
+    testWidgets('Heritage: if the second call fails, the best split stays and '
+        'no "other ways" appears', (tester) async {
+      const best = Split([rama, alaya]);
+      final her = _engine(EngineId.heritage,
+          plainLatency: const Duration(milliseconds: 300),
+          segmentation: Found(
+              const Segmentation(SanskritText('x'), [best]), _src(EngineId.heritage)),
+          plain: const Unreachable('timeout'));
+      await _pump(tester, const SplitScreen(initialInput: 'rAmAlayaH'), [her]);
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump();
+      expect(find.text('rāma'), findsOneWidget);
+      expect(find.byKey(const Key('other-splits')), findsNothing);
+      expect(find.byKey(const Key('state-unreachable')), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('Heritage: a second answer with nothing new adds nothing',
+        (tester) async {
+      const best = Split([rama, alaya]);
+      final her = _engine(EngineId.heritage,
+          segmentation: Found(
+              const Segmentation(SanskritText('x'), [best]), _src(EngineId.heritage)),
+          plain: Found(
+              const Segmentation(SanskritText('x'), [best]), _src(EngineId.heritage)));
+      await _pump(tester, const SplitScreen(initialInput: 'rAmAlayaH'), [her]);
+      await tester.pump();
+      await tester.pump();
+      expect(find.byKey(const Key('other-splits')), findsNothing);
     });
 
     testWidgets('Samsaadhanii has no "other ways" and makes one call',

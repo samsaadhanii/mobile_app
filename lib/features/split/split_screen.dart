@@ -17,15 +17,29 @@ import 'split_view.dart';
 /// and, where the engine gives them, other ways to split.
 class SplitResult {
   final Segmentation main;
-  final List<Split> others;
 
-  const SplitResult(this.main, this.others);
+  /// The other ways to split, when the engine gives them. It is still running
+  /// when the best split is shown and completes with an empty list if the call
+  /// fails or times out; null for an engine that has none.
+  final Future<List<Split>>? others;
+
+  const SplitResult(this.main, [this.others]);
 }
 
 /// Asks [engine] for the best split with analyses and, for Heritage, also for
-/// its other candidates (its analysing call returns only the best one).
+/// its other candidates (its analysing call returns only the best one, and one
+/// request cannot return both). Both requests start together: the best split
+/// is returned as soon as it arrives, and [SplitResult.others] completes later.
 Future<Outcome<SplitResult>> loadSplit(Engine engine, SanskritText text) async {
-  final main = await engine.segment(text, analyse: true);
+  final mainRequest = engine.segment(text, analyse: true);
+  final othersRequest =
+      engine.id == EngineId.heritage ? engine.segment(text) : null;
+  // Whatever happens to the second call must never be an unhandled error.
+  final guarded = othersRequest?.then<Outcome<Segmentation>?>((o) => o).catchError(
+        (Object _) => null,
+      );
+
+  final main = await mainRequest;
   if (main is! Found<Segmentation>) {
     return switch (main) {
       NotFound<Segmentation>() => const NotFound(),
@@ -37,17 +51,13 @@ Future<Outcome<SplitResult>> loadSplit(Engine engine, SanskritText text) async {
       Found<Segmentation>() => const NotFound(), // unreachable
     };
   }
-  var others = <Split>[];
-  if (engine.id == EngineId.heritage) {
-    final all = await engine.segment(text);
-    if (all is Found<Segmentation>) {
-      final best = main.value.candidates.first;
-      others = [
-        for (final c in all.value.candidates)
-          if (!_sameCut(c, best)) c,
-      ];
-    }
-  }
+  final best = main.value.candidates.first;
+  final others = guarded?.then<List<Split>>((all) => all is Found<Segmentation>
+      ? [
+          for (final c in all.value.candidates)
+            if (!_sameCut(c, best)) c,
+        ]
+      : const []);
   return Found(SplitResult(main.value, others), main.source);
 }
 
@@ -182,27 +192,36 @@ class _SplitScreenState extends State<SplitScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SplitView(split: best, settings: settings, onWordTap: tap),
-        if (result.others.isNotEmpty) ...[
-          const SizedBox(height: 12),
-          ExpansionTile(
-            key: const Key('other-splits'),
-            tilePadding: EdgeInsets.zero,
-            title: Text(
-                '${result.others.length} other ways to split'),
-            children: [
-              for (final other in result.others)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SplitView(
-                    split: other,
-                    settings: settings,
-                    onWordTap: tap,
-                    withAnalyses: false,
-                  ),
+        if (result.others != null)
+          FutureBuilder<List<Split>>(
+            future: result.others,
+            builder: (context, snapshot) {
+              // Hidden until the second answer arrives, and for good if it
+              // failed or had nothing to add.
+              final others = snapshot.data;
+              if (others == null || others.isEmpty) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: ExpansionTile(
+                  key: const Key('other-splits'),
+                  tilePadding: EdgeInsets.zero,
+                  title: Text('${others.length} other ways to split'),
+                  children: [
+                    for (final other in others)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SplitView(
+                          split: other,
+                          settings: settings,
+                          onWordTap: tap,
+                          withAnalyses: false,
+                        ),
+                      ),
+                  ],
                 ),
-            ],
+              );
+            },
           ),
-        ],
       ],
     );
   }

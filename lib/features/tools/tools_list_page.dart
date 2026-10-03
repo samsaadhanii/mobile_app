@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../app/settings.dart';
+import '../../domain/domain.dart';
+import '../../sanskrit/transliteration.dart' show convert;
 
 import 'engine_chips.dart';
 import 'tool_entries.dart';
@@ -16,6 +21,7 @@ class ToolsListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final display = context.watch<AppSettings>().displayScript.script;
     return Scaffold(
       appBar: AppBar(title: const Text('Tools')),
       body: ListView(
@@ -50,7 +56,8 @@ class ToolsListPage extends StatelessWidget {
                                   ?.copyWith(fontWeight: FontWeight.bold)),
                           const SizedBox(height: 2),
                           // Sanskrit text: never below 16 sp.
-                          Text(entry.nameSa,
+                          // The Sanskrit name is in the display script.
+                          Text(convert(entry.nameSa, Script.devanagari, display),
                               style: theme.textTheme.bodyLarge?.copyWith(
                                   fontSize: 16,
                                   color: theme.colorScheme.onSurfaceVariant)),
