@@ -13,7 +13,10 @@ import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/engines/heritage/client.dart';
 import 'package:mobile_app/engines/heritage/heritage_engine.dart';
 
-const analysisWords = ['rAmaH', 'vanam', 'gacCawi', 'xyzq', 'kqwam', 'agacCaw'];
+const analysisWords = [
+  'rAmaH', 'vanam', 'gacCawi', 'xyzq', 'kqwam', 'agacCaw', //
+  'aham', 'wvam', 'gamyawe', 'gamayawi',
+];
 const splitWords = ['rAmAlayaH', 'rAmovanafgacCawi', 'xyzq'];
 const analysedSplits = ['rAmAlayaH', 'rAmovanafgacCawi', 'rAmaH rAmaH', 'xyzq'];
 

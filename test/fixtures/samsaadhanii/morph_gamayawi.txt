@@ -1,0 +1,1 @@
+[{"COLOR":"pink","APP":"verb","encoding":"WX","outencoding":"IAST","rt":"gam1_gamLz_BvAxiH","prayogaH":"karwari","upasarga":"-","paxI":"parasmEpaxI","RT":"gam","ANS":"{sanādi_pratyayaḥ:ṇic}{prayogaḥ:kartari}{lakāraḥ:laṭ}{puruṣaḥ:pra}{vacanam:eka}{padī:parasmaipadī}{dhātuḥ:gamḷṁ}{gaṇaḥ:bhvādiḥ}"}]

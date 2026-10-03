@@ -8,28 +8,13 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import '../common/client_types.dart';
+
+export '../common/client_types.dart';
+
 const heritageUrl = 'https://sanskrit.inria.fr/cgi-bin/SKT/sktgraph2.cgi';
 
 const heritageTimeout = Duration(seconds: 20);
-
-/// A raw answer: the status and the body, decoded as UTF-8.
-class ClientResponse {
-  final int statusCode;
-  final String body;
-
-  const ClientResponse(this.statusCode, this.body);
-}
-
-/// Thrown when the server could not be reached in time: a timeout, a socket
-/// or TLS error, or a connection the client library gave up on.
-class UnreachableException implements Exception {
-  final String message;
-
-  const UnreachableException(this.message);
-
-  @override
-  String toString() => 'UnreachableException($message)';
-}
 
 /// What the engine needs from the network. Tests replace it with a fake that
 /// reads saved answers.

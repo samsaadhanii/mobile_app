@@ -11,6 +11,18 @@ const _genders = {
   'n.': FeatureValue.neuter,
 };
 
+/// `*` is the gender of the personal pronouns asmad and yuṣmad (live: `aham`
+/// → `asmax`, `* sg. nom.`).
+const _noGender = '*';
+
+/// The sanādi suffix: `ca.` causative (seen live), `des.` desiderative and
+/// `int.` intensive (from the documented abbreviations, not yet seen).
+const _sanadi = {
+  'ca.': FeatureValue.nic,
+  'des.': FeatureValue.san,
+  'int.': FeatureValue.yan,
+};
+
 const _numbers = {
   'sg.': FeatureValue.singular,
   'du.': FeatureValue.dual,
@@ -84,6 +96,11 @@ ParsedLabels parseLabels(String entry) {
     } else if (_genders.containsKey(token)) {
       features.add(Feature(FeatureKind.gender, _genders[token]!, token));
       hasGender = true;
+    } else if (token == _noGender) {
+      features.add(Feature(FeatureKind.gender, FeatureValue.noGender, token));
+      hasGender = true;
+    } else if (_sanadi.containsKey(token)) {
+      features.add(Feature(FeatureKind.sanadi, _sanadi[token]!, token));
     } else if (_numbers.containsKey(token)) {
       features.add(Feature(FeatureKind.number, _numbers[token]!, token));
     } else if (_cases.containsKey(token)) {

@@ -1,6 +1,7 @@
 import '../../domain/domain.dart';
+import '../common/input.dart';
+import '../common/run_request.dart';
 import 'client.dart';
-import 'input.dart';
 import 'morph_adapter.dart';
 import 'splitter_adapter.dart';
 
@@ -110,29 +111,12 @@ class SamsaadhaniiEngine implements Engine {
     String program,
     Map<String, String> query,
     Outcome<T> Function(String body, ResultSource source) parse,
-  ) async {
-    final ClientResponse response;
-    try {
-      response = await _client.get(program, query);
-    } on UnreachableException catch (e) {
-      return Unreachable(e.message);
-    } catch (e) {
-      return ServerFault('unexpected error from the client: $e');
-    }
-    if (response.statusCode != 200) {
-      return ServerFault('HTTP ${response.statusCode} from $program');
-    }
-    try {
-      return parse(
-        response.body,
-        ResultSource(
-          engine: EngineId.samsaadhanii,
-          program: program.split('/').last,
-          time: _now(),
-        ),
+  ) =>
+      runRequest(
+        fetch: () => _client.get(program, query),
+        engine: EngineId.samsaadhanii,
+        program: program.split('/').last,
+        now: _now,
+        parse: parse,
       );
-    } catch (e) {
-      return ServerFault('could not read the answer of $program: $e');
-    }
-  }
 }

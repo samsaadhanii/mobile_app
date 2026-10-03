@@ -14,6 +14,8 @@ const _genders = {
   'strī': FeatureValue.feminine,
   'napuṃ': FeatureValue.neuter,
   'napuṃsakam': FeatureValue.neuter,
+  // `a` is the gender of asmad and yuṣmad ("for asmad, yuṣmad", version 1).
+  'a': FeatureValue.noGender,
 };
 
 const _cases = {
@@ -58,10 +60,25 @@ const _padas = {
   'ātmanepadī': FeatureValue.atmanepada,
 };
 
+/// `sanādi_pratyayaḥ` (IAST output, seen live on `gamayawi`: `ṇic`).
+const _sanadis = {
+  'ṇic': FeatureValue.nic,
+  'san': FeatureValue.san,
+  'yaṅ': FeatureValue.yan,
+};
+
 const _prayogas = {
   'kartari': FeatureValue.kartari,
   'karmaṇi': FeatureValue.karmani,
   'bhāve': FeatureValue.bhave,
+};
+
+/// The WX spellings of the same values, as in the server's API document
+/// (`Nickarwari`); only read after a `Nic` prefix.
+const _prayogasWx = {
+  'karwari': FeatureValue.kartari,
+  'karmaNi': FeatureValue.karmani,
+  'BAve': FeatureValue.bhave,
 };
 
 const _ganas = {
@@ -86,6 +103,7 @@ const _keys = <String, (FeatureKind, Map<String, FeatureValue>)>{
   'lakāraḥ': (FeatureKind.lakara, _lakaras),
   'padī': (FeatureKind.pada, _padas),
   'prayogaḥ': (FeatureKind.prayoga, _prayogas),
+  'sanādi_pratyayaḥ': (FeatureKind.sanadi, _sanadis),
   'gaṇaḥ': (FeatureKind.gana, _ganas),
 };
 
@@ -167,6 +185,15 @@ Analysis _analysis(Map<String, Object?> item, OnUnmapped? onUnmapped) {
     }
     if (key == 'vargaḥ' && value == 'avy') {
       // Says "indeclinable", which APP already gives.
+      continue;
+    }
+    if (key == 'prayogaḥ' && value.startsWith('Nic')) {
+      // "Nickarwari": the causative suffix, then the prayoga.
+      final rest = value.substring(3);
+      features.add(Feature(FeatureKind.sanadi, FeatureValue.nic, 'Nic'));
+      final mapped = _prayogas[rest] ?? _prayogasWx[rest];
+      features.add(Feature(FeatureKind.prayoga, mapped ?? FeatureValue.unknown, rest));
+      if (mapped == null) onUnmapped?.call(key, value);
       continue;
     }
     final entry = _keys[key];

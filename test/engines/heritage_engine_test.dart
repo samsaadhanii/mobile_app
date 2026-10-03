@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/engines/heritage/client.dart';
 import 'package:mobile_app/engines/heritage/heritage_engine.dart';
-import 'package:mobile_app/engines/heritage/input.dart';
+import 'package:mobile_app/engines/common/input.dart';
 
 const _dir = 'test/fixtures/heritage';
 
@@ -179,6 +179,57 @@ void main() {
     test('labels that were not mapped (for the report)', () {
       // Every label in the captured answers is mapped.
       expect(unmapped, isEmpty);
+    });
+  });
+
+  group('pronouns, passive, causative', () {
+    late HeritageEngine engine;
+
+    setUp(() => engine = _engine(FakeClient.fixtures()));
+
+    test('aham and wvam: * is noGender, asmax and yuRmax are nouns', () async {
+      for (final (word, stem) in [('aham', 'asmax'), ('wvam', 'yuRmax')]) {
+        final a = _analysis(await engine.analyseWord(SanskritText(word)));
+        final x = a.analyses.single;
+        expect(x.wordClass, WordClass.noun);
+        expect(x.lemma, SanskritText(stem));
+        expect(x.features.first,
+            _f(FeatureKind.gender, FeatureValue.noGender, '*'));
+      }
+    });
+
+    test('gamyawe: passive, causative passive, and noun readings', () async {
+      final a = _analysis(await engine.analyseWord(const SanskritText('gamyawe')));
+      expect(a.analyses.length, 6);
+      expect(a.analyses[0].features.first.value, FeatureValue.lat);
+      expect(a.analyses[0].features.any((f) => f.value == FeatureValue.karmani),
+          isTrue);
+      expect(a.analyses[0].features.any((f) => f.kind == FeatureKind.sanadi),
+          isFalse);
+      expect(a.analyses[1].features.first,
+          _f(FeatureKind.sanadi, FeatureValue.nic, 'ca.'));
+      expect(a.analyses[1].wordClass, WordClass.verb);
+      expect(a.analyses.skip(2).map((x) => x.lemma.wx), List.filled(4, 'gamyawA'));
+    });
+
+    test('gamayawi: the first reading is the causative present', () async {
+      final a = _analysis(await engine.analyseWord(const SanskritText('gamayawi')));
+      final x = a.analyses.first;
+      expect(x.lemma, const SanskritText('gam'));
+      expect(x.features.first, _f(FeatureKind.sanadi, FeatureValue.nic, 'ca.'));
+      expect(x.features[1].value, FeatureValue.lat);
+      // The causative participle keeps "ca. ppr. ac." as its derivation.
+      final ppr = a.analyses.firstWhere((y) => y.wordClass == WordClass.participle);
+      expect(ppr.derivation, 'ca. ppr. ac.');
+      expect(ppr.base, const SanskritText('gam'));
+    });
+
+    test('des. and int. are the desiderative and the intensive', () async {
+      final e = _engine(FakeClient((_) => const ClientResponse(200,
+          '{"input":"x","segmentation":["x"],"morph":[{"word":"x","derived_stem":"gam","base":"","derivational_morph":"","inflectional_morphs":["des. pr. ac. sg. 3","int. pr. ac. sg. 3"]}]}')));
+      final a = _analysis(await e.analyseWord(const SanskritText('x')));
+      expect(a.analyses.map((x) => x.features.first.value),
+          [FeatureValue.san, FeatureValue.yan]);
     });
   });
 

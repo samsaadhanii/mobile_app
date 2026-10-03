@@ -1,0 +1,1 @@
+[{"COLOR":"skyblue","APP":"noun","encoding":"WX","rt":"asmax","linga":"","cat":"sarva","outencoding":"IAST","RT":"asmad","ANS":"{vargaḥ:sarva}{liṅgam:a}{vibhaktiḥ:1}{vacanam:eka}"}]

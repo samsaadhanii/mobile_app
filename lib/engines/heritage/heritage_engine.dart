@@ -1,7 +1,8 @@
 import '../../domain/domain.dart';
 import 'analysis_adapter.dart';
+import '../common/input.dart';
+import '../common/run_request.dart';
 import 'client.dart';
-import 'input.dart';
 import 'split_adapter.dart';
 
 /// Heritage's `sktgraph2.cgi` behind the [Engine] interface: word analysis
@@ -65,29 +66,12 @@ class HeritageEngine implements Engine {
   Future<Outcome<T>> _run<T>(
     Map<String, String> query,
     Outcome<T> Function(String body, ResultSource source) parse,
-  ) async {
-    final ClientResponse response;
-    try {
-      response = await _client.get(query);
-    } on UnreachableException catch (e) {
-      return Unreachable(e.message);
-    } catch (e) {
-      return ServerFault('unexpected error from the client: $e');
-    }
-    if (response.statusCode != 200) {
-      return ServerFault('HTTP ${response.statusCode} from sktgraph2.cgi');
-    }
-    try {
-      return parse(
-        response.body,
-        ResultSource(
-          engine: EngineId.heritage,
-          program: 'sktgraph2.cgi',
-          time: _now(),
-        ),
+  ) =>
+      runRequest(
+        fetch: () => _client.get(query),
+        engine: EngineId.heritage,
+        program: 'sktgraph2.cgi',
+        now: _now,
+        parse: parse,
       );
-    } catch (e) {
-      return ServerFault('could not read the answer of sktgraph2.cgi: $e');
-    }
-  }
 }

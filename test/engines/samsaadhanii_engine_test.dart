@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/engines/samsaadhanii/client.dart';
-import 'package:mobile_app/engines/samsaadhanii/input.dart';
+import 'package:mobile_app/engines/common/input.dart';
 import 'package:mobile_app/engines/samsaadhanii/samsaadhanii_engine.dart';
 
 const _dir = 'test/fixtures/samsaadhanii';
@@ -187,6 +187,69 @@ void main() {
 
     test('keys and values that mapped to unknown (for the report)', () {
       expect(unmapped.toSet().toList()..sort(), ['prayogaḥ:dh']);
+    });
+  });
+
+  group('pronouns, passive, causative', () {
+    final unmapped = <String>[];
+    late SamsaadhaniiEngine engine;
+
+    setUp(() {
+      unmapped.clear();
+      engine = _engine(FakeClient.fixtures(), unmapped: unmapped);
+    });
+
+    test('aham: asmad has gender a = noGender, original kept', () async {
+      final a = _analysis(await engine.analyseWord(const SanskritText('aham')));
+      final x = a.analyses.single;
+      expect(x.wordClass, WordClass.noun);
+      expect(x.lemma, const SanskritText('asmax')); // asmad in WX
+      expect(x.features, [
+        _f(FeatureKind.unknown, FeatureValue.unknown, 'vargaḥ:sarva'),
+        _f(FeatureKind.gender, FeatureValue.noGender, 'a'),
+        _f(FeatureKind.vibhakti, FeatureValue.nominative, '1'),
+        _f(FeatureKind.number, FeatureValue.singular, 'eka'),
+      ]);
+      // vargaḥ:sarva (pronoun) is not documented here: reported, not guessed.
+      expect(unmapped, ['vargaḥ:sarva']);
+    });
+
+    test('gamyawe: one reading, passive', () async {
+      final a = _analysis(await engine.analyseWord(const SanskritText('gamyawe')));
+      expect(a.analyses.length, 1);
+      final f = a.analyses.single.features;
+      expect(f.first, _f(FeatureKind.prayoga, FeatureValue.karmani, 'karmaṇi'));
+      expect(f.any((x) => x.value == FeatureValue.atmanepada), isTrue);
+      expect(f.any((x) => x.kind == FeatureKind.sanadi), isFalse);
+    });
+
+    test('gamayawi: sanādi_pratyayaḥ ṇic is the causative, root in base',
+        () async {
+      final a = _analysis(await engine.analyseWord(const SanskritText('gamayawi')));
+      final x = a.analyses.single;
+      expect(x.features.first,
+          _f(FeatureKind.sanadi, FeatureValue.nic, 'ṇic'));
+      expect(x.features[1].value, FeatureValue.kartari);
+      expect(x.base, const SanskritText('gamLz'));
+      expect(unmapped, isEmpty);
+    });
+
+    test('a prayoga value starting with Nic is the causative plus the prayoga',
+        () async {
+      final e = _engine(FakeClient((_, __) => const ClientResponse(200,
+          '[{"APP":"verb","RT":"gam","rt":"gam1","ANS":"{prayogaḥ:Nickarwari}{prayogaḥ:Nickartari}{prayogaḥ:Nicxx}"}]')));
+      final f = _analysis(await e.analyseWord(const SanskritText('x')))
+          .analyses
+          .single
+          .features;
+      expect(f, [
+        _f(FeatureKind.sanadi, FeatureValue.nic, 'Nic'),
+        _f(FeatureKind.prayoga, FeatureValue.kartari, 'karwari'),
+        _f(FeatureKind.sanadi, FeatureValue.nic, 'Nic'),
+        _f(FeatureKind.prayoga, FeatureValue.kartari, 'kartari'),
+        _f(FeatureKind.sanadi, FeatureValue.nic, 'Nic'),
+        _f(FeatureKind.prayoga, FeatureValue.unknown, 'xx'),
+      ]);
     });
   });
 

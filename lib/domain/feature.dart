@@ -10,6 +10,10 @@ enum FeatureKind {
   prayoga,
   gana,
 
+  /// The sanādi suffix that derives a secondary root: causative, desiderative
+  /// or intensive.
+  sanadi,
+
   /// Open list: the value is free text in [Feature.text] (kṛt suffixes such
   /// as `śatṛ`, `kta`, `tavyat`; later taddhitas).
   krtPratyaya,
@@ -67,6 +71,11 @@ enum FeatureValue {
   kartari(FeatureKind.prayoga, 'kartari', 'active'),
   karmani(FeatureKind.prayoga, 'karmaṇi', 'passive'),
   bhave(FeatureKind.prayoga, 'bhāve', 'impersonal'),
+
+  // sanādi suffixes
+  nic(FeatureKind.sanadi, 'ṇic', 'causative (ṇijanta)'),
+  san(FeatureKind.sanadi, 'san', 'desiderative (sannanta)'),
+  yan(FeatureKind.sanadi, 'yaṅ', 'intensive (yaṅanta)'),
 
   // gaṇa
   bhvadi(FeatureKind.gana, 'bhvādiḥ', 'class 1 (bhvādi)'),
