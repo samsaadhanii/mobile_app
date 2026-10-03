@@ -1,0 +1,1 @@
+{"input": " rāmovanaṅgacchati", "segmentation": ["rāmaḥ vanam gacchati"]}

@@ -1,0 +1,1 @@
+[{"COLOR":"skyblue","APP":"noun","encoding":"WX","rt":"rAma","linga":"puM","cat":"nA","outencoding":"IAST","RT":"rāma","ANS":"{liṅgam:puṃ}{vibhaktiḥ:3}{vacanam:eka}"},{"COLOR":"skyblue","APP":"noun","encoding":"WX","rt":"rAma","linga":"napuM","cat":"nA","outencoding":"IAST","RT":"rāma","ANS":"{liṅgam:napuṃ}{vibhaktiḥ:3}{vacanam:eka}"}]

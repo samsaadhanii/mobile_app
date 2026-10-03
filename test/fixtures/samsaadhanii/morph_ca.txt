@@ -1,0 +1,1 @@
+[{"COLOR":"lavender","RT":"ca","APP":"dict_help","ANS":"{vargaḥ:avy}"}]
