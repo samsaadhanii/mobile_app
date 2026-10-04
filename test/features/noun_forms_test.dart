@@ -207,13 +207,15 @@ void main() {
         (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'rAma');
+      // The case names are short too; `dvi.` is both the accusative and the
+      // dual.
       for (final h in [
-        'prathamā', 'dvitīyā', 'tṛtīyā', 'caturthī', 'pañcamī', 'ṣaṣṭhī',
-        'saptamī', 'sambodhanam', //
-        'eka.', 'dvi.', 'bahu.',
+        'pra.', 'tṛ.', 'ca.', 'pa.', 'ṣa.', 'sa.', 'saṃ.', //
+        'eka.', 'bahu.',
       ]) {
         expect(find.text(h), findsOneWidget, reason: h);
       }
+      expect(find.text('dvi.'), findsNWidgets(2));
       final table = tester.widget<Table>(find.byType(Table));
       expect(table.children.length, 9); // heading row and eight cases
       expect(table.children.every((r) => r.children.length == 4), isTrue);
@@ -226,8 +228,7 @@ void main() {
                   matching: find.byType(Text)))
               .data,
       ];
-      expect(order.last, 'sambodhanam');
-      expect(order.first, 'prathamā');
+      expect(order, ['pra.', 'dvi.', 'tṛ.', 'ca.', 'pa.', 'ṣa.', 'sa.', 'saṃ.']);
     });
 
     testWidgets('headings in English when the labels are English',
@@ -235,23 +236,42 @@ void main() {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'rAma', prefs: {'settings.labelLanguage': 'english'});
       for (final h in [
-        'nominative', 'accusative', 'instrumental', 'dative', 'ablative',
-        'genitive', 'locative', 'vocative', 'sg.', 'du.', 'pl.',
+        'nom.', 'acc.', 'ins.', 'dat.', 'abl.', 'gen.', 'loc.', 'voc.', //
+        'sg.', 'du.', 'pl.',
       ]) {
         expect(find.text(h), findsOneWidget, reason: h);
       }
-      expect(find.text('prathamā'), findsNothing);
+      expect(find.text('pra.'), findsNothing);
+      expect(find.text('nominative'), findsNothing);
     });
 
     testWidgets('headings and forms follow the display script', (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'rAma', prefs: {'settings.displayScript': 'devanagari'});
-      expect(find.text('प्रथमा'), findsOneWidget);
+      for (final h in ['प्र.', 'तृ.', 'च.', 'प.', 'ष.', 'स.', 'सं.']) {
+        expect(find.text(h), findsOneWidget, reason: h);
+      }
+      expect(find.text('द्वि.'), findsNWidgets(2)); // accusative and dual
+      expect(find.text('प्रथमा'), findsNothing);
       expect(find.text(convert('eka.', Script.iast, Script.devanagari)),
           findsOneWidget);
       expect(find.text('एक.'), findsOneWidget);
       expect(find.text('रामः'), findsOneWidget);
       expect(find.text('rāmaḥ'), findsNothing);
+    });
+
+    testWidgets('a screen reader gets the full case and number names',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
+          input: 'rAma');
+      for (final full in [
+        'prathamā', 'dvitīyā', 'tṛtīyā', 'caturthī', 'pañcamī', 'ṣaṣṭhī',
+        'saptamī', 'sambodhanam', 'ekavacanam', 'dvivacanam', 'bahuvacanam',
+      ]) {
+        expect(find.bySemanticsLabel(full), findsOneWidget, reason: full);
+      }
+      handle.dispose();
     });
 
     testWidgets('forms in IAST by default', (tester) async {

@@ -127,7 +127,7 @@ class KrtGroupView extends StatelessWidget {
 /// The line under the result about the suffix names: when the app corrected
 /// them, "Suffix names corrected by the app." and, on tapping it, each suffix
 /// that was relabelled with the name the engine sent; when it could not check
-/// them, a plain warning.
+/// them, one visible line saying so.
 class KrtLabelsNote extends StatefulWidget {
   const KrtLabelsNote({super.key, required this.forms, required this.settings});
 
@@ -161,8 +161,7 @@ class _KrtLabelsNoteState extends State<KrtLabelsNote> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  "Suffix names could not be checked and may be wrong; they "
-                  "are shown as Samsaadhanii sent them.",
+                  "Suffix names could not be checked against the expected list.",
                   key: const Key('krt-unverified'),
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.error),

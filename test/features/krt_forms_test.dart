@@ -387,7 +387,13 @@ void main() {
       final unverified = KrtForms(k.query, k.groups, KrtLabels.unverified);
       await _pump(tester, _engine(krt: _found(unverified)), input: 'gam');
       expect(find.byKey(const Key('krt-unverified')), findsOneWidget);
-      expect(find.textContaining('could not be checked'), findsOneWidget);
+      expect(find.text('Suffix names could not be checked against the expected list.'),
+          findsOneWidget);
+      // One line, visible under the result, and not the "corrected" note.
+      expect(find.byKey(const Key('krt-corrected')), findsNothing);
+      expect(find.text('Suffix names corrected by the app.'), findsNothing);
+      // The list itself is still shown.
+      expect(_group('kta'), findsOneWidget);
       expect(find.byKey(const Key('krt-corrected')), findsNothing);
     });
   });

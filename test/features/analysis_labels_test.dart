@@ -37,9 +37,23 @@ void main() {
         'du.');
   });
 
-  test('a value with no short name shows its full name', () {
+  test('the cases have short names too', () {
     expect(label(FeatureValue.instrumental, LabelLanguage.sanskrit, Script.iast, short: true),
+        'tṛ.');
+    expect(label(FeatureValue.instrumental, LabelLanguage.sanskrit, Script.devanagari, short: true),
+        'तृ.');
+    expect(label(FeatureValue.vocative, LabelLanguage.sanskrit, Script.devanagari, short: true),
+        'सं.');
+    expect(label(FeatureValue.instrumental, LabelLanguage.english, Script.iast, short: true),
+        'ins.');
+    // The full name is untouched.
+    expect(label(FeatureValue.instrumental, LabelLanguage.sanskrit, Script.iast),
         'tṛtīyā');
+  });
+
+  test('a value with no short name shows its full name', () {
+    expect(label(FeatureValue.lat, LabelLanguage.sanskrit, Script.iast, short: true),
+        'laṭ');
     expect(label(FeatureValue.lat, LabelLanguage.english, Script.iast, short: true),
         'present');
   });

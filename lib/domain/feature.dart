@@ -38,14 +38,22 @@ enum FeatureValue {
   noGender(FeatureKind.gender, 'aliṅgam', 'no gender'),
 
   // case: the seven vibhaktis and sambodhana
-  nominative(FeatureKind.vibhakti, 'prathamā', 'nominative'),
-  accusative(FeatureKind.vibhakti, 'dvitīyā', 'accusative'),
-  instrumental(FeatureKind.vibhakti, 'tṛtīyā', 'instrumental'),
-  dative(FeatureKind.vibhakti, 'caturthī', 'dative'),
-  ablative(FeatureKind.vibhakti, 'pañcamī', 'ablative'),
-  genitive(FeatureKind.vibhakti, 'ṣaṣṭhī', 'genitive'),
-  locative(FeatureKind.vibhakti, 'saptamī', 'locative'),
-  vocative(FeatureKind.vibhakti, 'sambodhanam', 'vocative'),
+  nominative(FeatureKind.vibhakti, 'prathamā', 'nominative',
+      shortIast: 'pra.', shortEnglish: 'nom.'),
+  accusative(FeatureKind.vibhakti, 'dvitīyā', 'accusative',
+      shortIast: 'dvi.', shortEnglish: 'acc.'),
+  instrumental(FeatureKind.vibhakti, 'tṛtīyā', 'instrumental',
+      shortIast: 'tṛ.', shortEnglish: 'ins.'),
+  dative(FeatureKind.vibhakti, 'caturthī', 'dative',
+      shortIast: 'ca.', shortEnglish: 'dat.'),
+  ablative(FeatureKind.vibhakti, 'pañcamī', 'ablative',
+      shortIast: 'pa.', shortEnglish: 'abl.'),
+  genitive(FeatureKind.vibhakti, 'ṣaṣṭhī', 'genitive',
+      shortIast: 'ṣa.', shortEnglish: 'gen.'),
+  locative(FeatureKind.vibhakti, 'saptamī', 'locative',
+      shortIast: 'sa.', shortEnglish: 'loc.'),
+  vocative(FeatureKind.vibhakti, 'sambodhanam', 'vocative',
+      shortIast: 'saṃ.', shortEnglish: 'voc.'),
 
   // number
   singular(FeatureKind.number, 'ekavacanam', 'singular',
@@ -124,8 +132,8 @@ enum FeatureValue {
   final String english;
 
   /// A short name for table headings, in each label language (person and
-  /// number have one: `pra.` / `3rd`, `eka.` / `sg.`; so do the three genders:
-  /// `puṃ` / `m.`); null when the full name is already short. The full name is
+  /// number have one: `pra.` / `3rd`, `eka.` / `sg.`; so do the cases, `tṛ.` /
+  /// `ins.`, and the three genders, `puṃ` / `m.`); null when the full name is already short. The full name is
   /// used everywhere else.
   final String? shortIast;
   final String? shortEnglish;

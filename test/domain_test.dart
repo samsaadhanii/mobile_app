@@ -218,6 +218,13 @@ void main() {
           ['sg.', 'du.', 'pl.']);
     });
 
+    test('the eight cases have one', () {
+      expect([for (final v in vibhaktiOrder) v.shortIast],
+          ['pra.', 'dvi.', 'tṛ.', 'ca.', 'pa.', 'ṣa.', 'sa.', 'saṃ.']);
+      expect([for (final v in vibhaktiOrder) v.shortEnglish],
+          ['nom.', 'acc.', 'ins.', 'dat.', 'abl.', 'gen.', 'loc.', 'voc.']);
+    });
+
     test('the three genders have one, as the engine writes them', () {
       expect([for (final v in krtGenders) v.shortIast], ['puṃ', 'strī', 'napuṃ']);
       expect([for (final v in krtGenders) v.shortEnglish], ['m.', 'f.', 'n.']);
@@ -233,6 +240,7 @@ void main() {
       for (final v in FeatureValue.values) {
         final has = v.kind == FeatureKind.person ||
             v.kind == FeatureKind.number ||
+            v.kind == FeatureKind.vibhakti ||
             genders.contains(v);
         expect(v.shortIast != null, has, reason: v.name);
         expect(v.shortEnglish != null, has, reason: v.name);
