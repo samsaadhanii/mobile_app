@@ -15,6 +15,8 @@ class FakeEngine implements Engine {
     this.analysis,
     this.segmentation,
     this.segmentationPlain,
+    this.paradigm,
+    this.derivation,
     this.latency = Duration.zero,
     this.plainLatency,
   });
@@ -37,13 +39,20 @@ class FakeEngine implements Engine {
   /// What [segment] returns without `analyse`; defaults to [segmentation].
   final Outcome<Segmentation>? segmentationPlain;
 
+  /// What [declineNoun] returns; `null` means [NotFound].
+  final Outcome<NounParadigm>? paradigm;
+
+  /// What [derive] returns; `null` means [NotFound].
+  final Outcome<Derivation>? derivation;
+
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
 
   /// Delay for [segment] without `analyse`, if different from [latency].
   final Duration? plainLatency;
 
-  /// Every call made, for assertions: `analyseWord:rAmaH`, `segment:rAmaH`.
+  /// Every call made, for assertions: `analyseWord:rAmaH`, `segment:rAmaH`,
+  /// `declineNoun:rAma:masculine:plainNoun`, `derive:rAma:masculine:instrumental:singular`.
   final List<String> calls = [];
 
   Future<T> _after<T>(T value, [Duration? delay]) {
@@ -70,5 +79,25 @@ class FakeEngine implements Engine {
     final canned = analyse ? segmentation : (segmentationPlain ?? segmentation);
     return _after(canned ?? const NotFound(),
         analyse ? latency : (plainLatency ?? latency));
+  }
+
+  @override
+  Future<Outcome<NounParadigm>> declineNoun(NounQuery query) {
+    calls.add('declineNoun:${query.stem.wx}:${query.gender.name}:'
+        '${query.category.name}');
+    if (!tasks.contains(Task.nounForms)) {
+      return Future.value(Unsupported(id, Task.nounForms));
+    }
+    return _after(paradigm ?? const NotFound());
+  }
+
+  @override
+  Future<Outcome<Derivation>> derive(DerivationQuery query) {
+    calls.add('derive:${query.stem.wx}:${query.gender.name}:'
+        '${query.vibhakti.name}:${query.number.name}');
+    if (!tasks.contains(Task.derivation)) {
+      return Future.value(Unsupported(id, Task.derivation));
+    }
+    return _after(derivation ?? const NotFound());
   }
 }

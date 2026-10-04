@@ -82,6 +82,7 @@ enum FeatureValue {
   yan(FeatureKind.sanadi, 'yaṅ', 'intensive (yaṅanta)'),
 
   // nominal category
+  plainNoun(FeatureKind.nominalCategory, 'nāma', 'plain noun'),
   sarvanama(FeatureKind.nominalCategory, 'sarvanāma', 'pronoun'),
   sankhya(FeatureKind.nominalCategory, 'saṅkhyā', 'numeral'),
   sankhyeya(FeatureKind.nominalCategory, 'saṅkhyeya', 'cardinal'),

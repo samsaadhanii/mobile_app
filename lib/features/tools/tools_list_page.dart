@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../domain/domain.dart';
 import 'engine_marks.dart';
 import 'tool_entries.dart';
 
-/// Called when a row is tapped; a tool opens with an empty input.
-typedef OpenTool = void Function(ToolEntry entry, String input);
+/// Called when a row is tapped; a tool opens with an empty input. [gender] is
+/// passed when the caller knows it ("All forms" on an analysis), for the
+/// tools that take one.
+typedef OpenTool = void Function(ToolEntry entry, String input,
+    {FeatureValue? gender});
 
 /// The Tools tab (`SCREENS.md` section 3): three groups of compact rows with
 /// hairline dividers, so all eight tools fit on one phone screen. Each row is

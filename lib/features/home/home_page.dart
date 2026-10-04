@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../app/app_info.dart';
+import '../../app/app_wordmark.dart';
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
 import '../../sanskrit/transliteration.dart' show toWx;
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
     final showRecent = settings.keepRecentInputs && recent.items.isNotEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const _AppTitle()),
+      appBar: AppBar(title: const AppWordmark()),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -191,30 +191,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ],
       ),
-    );
-  }
-}
-
-/// The top bar title: version 1's logo at title height and the app name, or
-/// the name alone if the image cannot be loaded.
-class _AppTitle extends StatelessWidget {
-  const _AppTitle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Image.asset(
-            'assets/images/samsadhani3.jpg',
-            height: 32,
-            errorBuilder: (context, error, stack) => const SizedBox.shrink(),
-          ),
-        ),
-        const SizedBox(width: 12),
-        const Flexible(child: Text(appDisplayName, overflow: TextOverflow.ellipsis)),
-      ],
     );
   }
 }

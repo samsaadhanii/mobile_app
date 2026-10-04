@@ -479,7 +479,12 @@ void main() {
     test('tasks, id and credit', () {
       final e = SamsaadhaniiEngine(client: FakeClient.fixtures());
       expect(e.id, EngineId.samsaadhanii);
-      expect(e.tasks, {Task.analyseWord, Task.splitText});
+      expect(e.tasks, {
+        Task.analyseWord,
+        Task.splitText,
+        Task.nounForms,
+        Task.derivation,
+      });
       expect(e.credit.name, 'Samsaadhanii');
     });
   });

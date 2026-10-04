@@ -174,7 +174,7 @@ void main() {
       expect(FeatureValue.of(FeatureKind.gana).length, 10);
       expect(FeatureValue.of(FeatureKind.sanadi).length, 3);
       expect(FeatureValue.of(FeatureKind.nominalCategory).map((v) => v.english),
-          ['pronoun', 'numeral', 'cardinal', 'ordinal']);
+          ['plain noun', 'pronoun', 'numeral', 'cardinal', 'ordinal']);
     });
   });
 

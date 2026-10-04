@@ -2,7 +2,9 @@
 // the engine tests (which never call the network).
 //
 // Run from the repository root:
-//   dart run tool/capture_samsaadhanii_fixtures.dart
+//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation]
+// With no argument every section is captured; with names, only those, so a
+// new fixture does not rewrite the older ones.
 
 import 'dart:io';
 
@@ -32,11 +34,56 @@ const splits = {
   'sent_empty': ('sent', ''),
 };
 
-Future<void> main() async {
+/// file name -> (stem, gender, category) for the noun generator.
+const nouns = {
+  'rAma': ('rAma', 'puM', 'nA'),
+  'vana': ('vana', 'napuM', 'nA'),
+  'naxI': ('naxI', 'swrI', 'nA'),
+  'asmax': ('asmax', 'a', 'sarva'),
+  'xyzq': ('xyzq', 'puM', 'nA'),
+  'empty': ('', 'puM', 'nA'),
+};
+
+/// file name -> (stem, vibhakti, gender, vacana) for the simulator. The empty
+/// stem is the request that finds nothing.
+const derivations = {
+  'rAma': ('rAma', 'wqwIyA', 'puM', 'ekavacana'),
+  'empty': ('', 'wqwIyA', 'puM', 'ekavacana'),
+};
+
+Future<void> main(List<String> args) async {
   final client = HttpSamsaadhaniiClient();
   final dir = Directory('test/fixtures/samsaadhanii')..createSync(recursive: true);
+  bool wanted(String section) => args.isEmpty || args.contains(section);
 
+  for (final e in nouns.entries) {
+    if (!wanted('noun')) break;
+    final (stem, gen, jati) = e.value;
+    final r = await client.get(nounProgram, {
+      'rt': stem,
+      'gen': gen,
+      'jAwi': jati,
+      'level': '1',
+      'mode': 'json',
+      'encoding': 'WX',
+      'outencoding': 'IAST',
+    });
+    _save(dir, 'noun_${e.key}.json', r);
+  }
+  for (final e in derivations.entries) {
+    if (!wanted('derivation')) break;
+    final (stem, vibhakti, gen, vacana) = e.value;
+    final r = await client.get(derivationProgram, {
+      'encoding': 'WX',
+      'praatipadika': stem,
+      'vibhakti': vibhakti,
+      'linga': gen,
+      'vacana': vacana,
+    });
+    _save(dir, 'derivation_${e.key}.html', r);
+  }
   for (final e in morphWords.entries) {
+    if (!wanted('morph')) break;
     final r = await client.get(morphProgram, {
       'morfword': e.value,
       'encoding': 'WX',
@@ -46,6 +93,7 @@ Future<void> main() async {
     _save(dir, 'morph_${e.key}.txt', r);
   }
   for (final e in splits.entries) {
+    if (!wanted('split')) break;
     final (mode, text) = e.value;
     final r = await client.get(splitterProgram, {
       'word': text,

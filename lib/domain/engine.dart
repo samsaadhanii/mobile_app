@@ -1,3 +1,5 @@
+import 'derivation.dart';
+import 'noun_forms.dart';
 import 'outcome.dart';
 import 'sanskrit_text.dart';
 import 'segmentation.dart';
@@ -35,9 +37,9 @@ class EngineCredit {
 /// What the app asks of a Sanskrit engine (ARCHITECTURE.md 8.3).
 ///
 /// A method for a task that is not in [tasks] returns [Unsupported] at once,
-/// without a network call. Only the first two tasks exist so far; the
-/// methods for the others (noun, verb, kṛt, sandhi, dictionary) are added
-/// with their result models, in later units.
+/// without a network call. Only the first tasks exist so far (analysis,
+/// splitting, noun forms, derivation); the methods for the others (verb, kṛt,
+/// sandhi, dictionary) are added with their result models, in later units.
 abstract interface class Engine {
   EngineId get id;
 
@@ -50,4 +52,8 @@ abstract interface class Engine {
 
   Future<Outcome<Segmentation>> segment(SanskritText text,
       {bool analyse = false});
+
+  Future<Outcome<NounParadigm>> declineNoun(NounQuery query);
+
+  Future<Outcome<Derivation>> derive(DerivationQuery query);
 }

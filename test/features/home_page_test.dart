@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mobile_app/app/app_wordmark.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/features/home/dhatu_index.dart';
 import 'package:mobile_app/features/home/home_page.dart';
@@ -34,7 +35,7 @@ void main() {
           ChangeNotifierProvider.value(value: dhatus),
         ],
         child: MaterialApp(
-          home: HomePage(onOpen: (e, input) => opened.add('${e.nameEn}|$input')),
+          home: HomePage(onOpen: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
         ),
       ));
       await tester.pumpAndSettle();
@@ -206,9 +207,10 @@ void main() {
       expect(find.text('Try an example'), findsOneWidget);
     });
 
-    testWidgets('the top bar has the app name', (tester) async {
+    testWidgets('the top bar has the wordmark', (tester) async {
       await pumpHome(tester);
-      expect(find.text('Saṃsādhanī'), findsOneWidget);
+      expect(find.byType(AppWordmark), findsOneWidget);
+      expect(find.byType(Image), findsNothing);
     });
   });
 }

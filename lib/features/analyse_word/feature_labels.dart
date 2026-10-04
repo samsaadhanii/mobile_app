@@ -20,10 +20,20 @@ String featureLabel(
     return f.text?.display(display) ?? f.original;
   }
   if (f.value == FeatureValue.unknown) return f.original;
-  return language == LabelLanguage.sanskrit
-      ? convert(f.value.iast, Script.iast, display)
-      : f.value.english;
+  return featureValueLabel(f.value, language: language, display: display);
 }
+
+/// The name of one known value: Sanskrit (IAST, shown in the [display]
+/// script) or English, per [language]. For headings and menus, where there is
+/// no engine wording to keep.
+String featureValueLabel(
+  FeatureValue value, {
+  required LabelLanguage language,
+  required Script display,
+}) =>
+    language == LabelLanguage.sanskrit
+        ? convert(value.iast, Script.iast, display)
+        : value.english;
 
 /// The word-class tag.
 String wordClassLabel(WordClass c) => switch (c) {

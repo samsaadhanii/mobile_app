@@ -2,13 +2,18 @@ import '../../domain/domain.dart';
 import '../common/input.dart';
 import '../common/run_request.dart';
 import 'client.dart';
+import 'derivation_adapter.dart';
 import 'morph_adapter.dart';
+import 'noun_adapter.dart';
 import 'splitter_adapter.dart';
 
 const morphProgram = 'MT/prog/morph/morph.cgi';
 const splitterProgram = 'MT/prog/sandhi_splitter/sandhi_splitter.cgi';
+const nounProgram = 'skt_gen/noun/noun_gen.cgi';
+const derivationProgram = 'ashtadhyayi_simulator/simulation.cgi';
 
-/// Samsaadhanii behind the [Engine] interface: word analysis and splitting.
+/// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
+/// forms and the derivation of a noun form.
 class SamsaadhaniiEngine implements Engine {
   SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
       : _client = client ?? HttpSamsaadhaniiClient(),
@@ -28,7 +33,12 @@ class SamsaadhaniiEngine implements Engine {
       );
 
   @override
-  Set<Task> get tasks => const {Task.analyseWord, Task.splitText};
+  Set<Task> get tasks => const {
+        Task.analyseWord,
+        Task.splitText,
+        Task.nounForms,
+        Task.derivation,
+      };
 
   /// Reports every `{key:value}` the morph adapter could not map; for tests
   /// and fixture review.
@@ -77,6 +87,51 @@ class SamsaadhaniiEngine implements Engine {
           Split(split.segments, analyses: await analyseWords(split, outcome.source)),
       ]),
       outcome.source,
+    );
+  }
+
+  @override
+  Future<Outcome<NounParadigm>> declineNoun(NounQuery query) {
+    final gen = genderCode(query.gender);
+    final jati = categoryCode(query.category);
+    if (gen == null || jati == null) {
+      return Future.value(BadInput(
+          'no gender or category ${query.gender.english}/${query.category.english}'));
+    }
+    return _run(
+      nounProgram,
+      {
+        'rt': cleanForServer(query.stem),
+        'gen': gen,
+        'jAwi': jati,
+        'level': '1',
+        'mode': 'json',
+        'encoding': 'WX',
+        'outencoding': 'IAST',
+      },
+      (body, source) => parseNoun(body, query, source),
+    );
+  }
+
+  /// The derivation is requested with the stem, never the inflected form.
+  @override
+  Future<Outcome<Derivation>> derive(DerivationQuery query) {
+    final gen = genderCode(query.gender);
+    final vibhakti = vibhaktiName(query.vibhakti);
+    final vacana = vacanaName(query.number);
+    if (gen == null || vibhakti == null || vacana == null) {
+      return Future.value(const BadInput('not a case, number or gender'));
+    }
+    return _run(
+      derivationProgram,
+      {
+        'encoding': 'WX',
+        'praatipadika': cleanForServer(query.stem),
+        'vibhakti': vibhakti,
+        'linga': gen,
+        'vacana': vacana,
+      },
+      (body, source) => parseDerivation(body, source),
     );
   }
 

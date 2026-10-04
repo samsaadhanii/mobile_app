@@ -69,8 +69,8 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     _task?.request();
   }
 
-  void _open(Task task, String input) {
-    widget.onOpenTool?.call(entryFor(task), input);
+  void _open(Task task, String input, {FeatureValue? gender}) {
+    widget.onOpenTool?.call(entryFor(task), input, gender: gender);
   }
 
   @override
@@ -160,10 +160,15 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
       WordClass.participle => Task.krtForms,
       _ => null,
     };
+    final gender = [
+      for (final f in a.features)
+        if (f.kind == FeatureKind.gender && f.value != FeatureValue.unknown)
+          f.value,
+    ].firstOrNull;
     return [
       if (forms != null)
         TextButton(
-          onPressed: () => _open(forms, lemma),
+          onPressed: () => _open(forms, lemma, gender: gender),
           child: const Text('All forms'),
         ),
       TextButton(

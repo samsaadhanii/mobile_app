@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart' show CupertinoApp, CupertinoTabScaffold;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/app/app.dart';
-import 'package:mobile_app/app/app_info.dart';
+import 'package:mobile_app/app/app_wordmark.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/features/task_frame/engine_set.dart';
 import 'package:mobile_app/features/home/recent_inputs.dart';
+import 'package:mobile_app/features/noun_forms/noun_forms_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fakes/fake_engine.dart';
@@ -45,7 +46,9 @@ void main() {
             findsOneWidget);
       }
       // Home: the display name in the top bar, the input box and its hint.
-      expect(find.text(appDisplayName), findsOneWidget);
+      expect(find.byType(AppWordmark), findsOneWidget);
+      expect(find.text('Saṃsādhanī'), findsOneWidget);
+      expect(find.text('Heritage'), findsOneWidget);
       expect(find.text('Type or paste Sanskrit'), findsOneWidget);
     });
 
@@ -137,6 +140,37 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Split and analyse'));
       await tester.pumpAndSettle();
       expect(sam.calls, ['segment:rAmaH vanam:analyse']);
+    });
+
+    testWidgets('Home opens Noun forms with the typed stem, and looks it up',
+        (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.nounForms, Task.derivation});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'rAma');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Noun forms'));
+      await tester.pumpAndSettle();
+      expect(sam.calls, ['declineNoun:rAma:masculine:plainNoun']);
+      final field = tester.widget<TextField>(find.descendant(
+          of: find.byType(NounFormsScreen), matching: find.byType(TextField)));
+      expect(field.controller!.text, 'rAma');
+    });
+
+    testWidgets('the Tools row opens Noun forms, empty', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.nounForms, Task.derivation});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Tools')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Noun forms'));
+      await tester.pumpAndSettle();
+      expect(find.text('A noun stem'), findsOneWidget);
+      expect(find.text('Gender'), findsOneWidget);
+      expect(sam.calls, isEmpty);
     });
 
     testWidgets('the Tools rows open the new screens, empty', (tester) async {

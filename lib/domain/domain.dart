@@ -1,8 +1,10 @@
 /// The contract between screens and engines. Plain Dart, no Flutter.
 library;
 
+export 'derivation.dart';
 export 'engine.dart';
 export 'feature.dart';
+export 'noun_forms.dart';
 export 'outcome.dart';
 export 'sanskrit_text.dart';
 export 'segmentation.dart';

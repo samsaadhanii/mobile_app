@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../app/app_info.dart';
+import '../../app/app_wordmark.dart';
 
 /// About: both teams, versions and licences, as plain Flutter text.
 class AboutPage extends StatefulWidget {
@@ -40,7 +40,7 @@ class _AboutPageState extends State<AboutPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(appDisplayName, style: theme.textTheme.headlineSmall),
+          const AppWordmark(size: 28),
           if (_version != null) Text(_version!),
           heading('Saṃsādhanī'),
           const Text(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../core/models/tool_config.dart';
 import '../../core/models/tool_registry.dart';
 import 'screens/krt_generator_screen.dart';
-import 'screens/noun_generator_screen.dart';
 import 'screens/sandhi_joining_screen.dart';
 import 'screens/verb_generator_screen.dart';
 
@@ -13,9 +12,6 @@ void _navigateTo(BuildContext context, ToolConfig tool) {
     case 'sandhi_joining':
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const SandhiJoiningScreen()));
-    case 'noun_generator':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => const NounGeneratorScreen()));
     case 'verb_generator':
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const VerbGeneratorScreen()));

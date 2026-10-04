@@ -102,7 +102,7 @@ void main() {
           tester,
           AnalyseWordScreen(
               initialInput: 'xyzq',
-              onOpenTool: (e, input) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
           [_engine(EngineId.samsaadhanii)]);
       await tester.pump();
       await tester.tap(find.text('Split it as a phrase'));
@@ -371,12 +371,40 @@ void main() {
           tester,
           AnalyseWordScreen(
               initialInput: 'rAmaH',
-              onOpenTool: (e, input) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
           [_engine(EngineId.samsaadhanii, analysis: _found(EngineId.samsaadhanii))]);
       await tester.pump();
       await tester.tap(find.text('All forms'));
       await tester.tap(find.text('Dictionary'));
       expect(opened, ['Noun forms|राम', 'Dictionary|राम']);
+    });
+
+    testWidgets('All forms passes the analysis\'s gender; none when it has none',
+        (tester) async {
+      final genders = <FeatureValue?>[];
+      Widget screen() => AnalyseWordScreen(
+          initialInput: 'x',
+          onOpenTool: (e, input, {gender}) => genders.add(gender));
+      await _pump(tester, screen(), [
+        _engine(EngineId.samsaadhanii,
+            analysis: _found(EngineId.samsaadhanii, [
+              _rama(features: const [
+                Feature(FeatureKind.gender, FeatureValue.feminine, 'swrI'),
+              ]),
+            ]))
+      ]);
+      await tester.pump();
+      await tester.tap(find.text('All forms'));
+      expect(genders, [FeatureValue.feminine]);
+
+      genders.clear();
+      await _pump(tester, screen(), [
+        _engine(EngineId.samsaadhanii,
+            analysis: _found(EngineId.samsaadhanii, [_rama(features: const [])]))
+      ]);
+      await tester.pump();
+      await tester.tap(find.text('All forms'));
+      expect(genders, [null]);
     });
   });
 
@@ -442,7 +470,7 @@ void main() {
           tester,
           SplitScreen(
               initialInput: 'rAmAlayaH',
-              onOpenTool: (e, input) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
           [sam]);
       await tester.pump();
       await tester.tap(find.text('ālayaḥ'));

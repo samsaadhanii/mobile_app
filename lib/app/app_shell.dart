@@ -25,8 +25,12 @@ class _AppShellState extends State<AppShell> {
       body: IndexedStack(
         index: _index,
         children: [
-          HomePage(onOpen: (entry, input) => openTool(context, entry, input)),
-          ToolsListPage(onOpen: (entry, input) => openTool(context, entry, input)),
+          HomePage(
+              onOpen: (entry, input, {gender}) =>
+                  openTool(context, entry, input, gender: gender)),
+          ToolsListPage(
+              onOpen: (entry, input, {gender}) =>
+                  openTool(context, entry, input, gender: gender)),
           const SettingsPage(),
         ],
       ),
