@@ -86,6 +86,7 @@ Future<AppSettings> _pump(
   WidgetTester tester,
   FakeEngine engine, {
   String input = '',
+  String? initialPrefix,
   Map<String, Object> prefs = const {},
   void Function(String)? onOpen,
   DhatuList? dhatus,
@@ -107,9 +108,11 @@ Future<AppSettings> _pump(
     child: MaterialApp(
       home: VerbFormsScreen(
         initialInput: input,
+        initialPrefix: initialPrefix,
         onOpenTool: onOpen == null
             ? null
-            : (e, i, {gender}) => onOpen('${e.nameEn}|$i'),
+            : (e, i, {gender, prefix}) =>
+                onOpen('${e.nameEn}|$i${prefix == null ? '' : '|$prefix'}'),
       ),
     ),
   ));
@@ -195,6 +198,22 @@ void main() {
       expect(find.byType(Table), findsNWidgets(10));
     });
 
+    testWidgets('a prefix passed in is selected and used for the first lookup',
+        (tester) async {
+      final e = _engine(paradigm: Found(_paradigm(), _src()));
+      await _pump(tester, e, input: 'gam', initialPrefix: 'Af');
+      expect(_verbCalls(e), ['conjugateVerb:$_gam:Af:kartari']);
+      expect(find.text('āṅ'), findsOneWidget); // the prefix picker shows it
+      expect(find.text('No prefix'), findsNothing);
+    });
+
+    testWidgets('an exact dhātu key is taken as it is, spaces and all',
+        (tester) async {
+      final e = _engine(paradigm: Found(_paradigm(), _src()));
+      await _pump(tester, e, input: _paT);
+      expect(_verbCalls(e), ['conjugateVerb:$_paT:-:kartari']);
+    });
+
     testWidgets('a list that is still loading is waited for', (tester) async {
       final late = DhatuList();
       final e = _engine(paradigm: Found(_paradigm(), _src()));
@@ -270,10 +289,7 @@ void main() {
     testWidgets('headings in Sanskrit by default', (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'gam');
-      for (final h in [
-        'prathamapuruṣaḥ', 'madhyamapuruṣaḥ', 'uttamapuruṣaḥ', //
-        'ekavacanam', 'dvivacanam', 'bahuvacanam',
-      ]) {
+      for (final h in ['pra.', 'ma.', 'u.', 'eka.', 'dvi.', 'bahu.']) {
         expect(find.text(h), findsNWidgets(10), reason: h);
       }
       // A chip and a title for each lakāra.
@@ -282,14 +298,36 @@ void main() {
       expect(find.text('āśīrliṅ'), findsNWidgets(2));
     });
 
+    testWidgets('a screen reader gets the full name of each short heading',
+        (tester) async {
+      final handle = tester.ensureSemantics();
+      await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
+          input: 'gam');
+      for (final full in [
+        'prathamapuruṣaḥ', 'madhyamapuruṣaḥ', 'uttamapuruṣaḥ', //
+        'ekavacanam', 'dvivacanam', 'bahuvacanam',
+      ]) {
+        expect(find.bySemanticsLabel(full), findsNWidgets(10), reason: full);
+      }
+      handle.dispose();
+    });
+
+    testWidgets('the full names are announced in English too', (tester) async {
+      final handle = tester.ensureSemantics();
+      await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
+          input: 'gam', prefs: {'settings.labelLanguage': 'english'});
+      expect(find.bySemanticsLabel('third person'), findsNWidgets(10));
+      expect(find.bySemanticsLabel('singular'), findsNWidgets(10));
+      handle.dispose();
+    });
+
     testWidgets('headings in English when the labels are English',
         (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'gam', prefs: {'settings.labelLanguage': 'english'});
-      for (final h in ['third person', 'second person', 'first person']) {
+      for (final h in ['3rd', '2nd', '1st', 'sg.', 'du.', 'pl.']) {
         expect(find.text(h), findsNWidgets(10), reason: h);
       }
-      expect(find.text('singular'), findsNWidgets(10));
       expect(find.text('present'), findsNWidgets(2));
       expect(find.text('optative'), findsNWidgets(2));
       expect(find.text('laṭ'), findsNothing);
@@ -301,8 +339,9 @@ void main() {
       expect(find.text('गम्(भ्वादिः)'), findsOneWidget);
       expect(find.text('गच्छति'), findsOneWidget);
       expect(find.text('gacchati'), findsNothing);
-      expect(find.text(convert('prathamapuruṣaḥ', Script.iast, Script.devanagari)),
-          findsNWidgets(10));
+      for (final h in ['प्र.', 'म.', 'उ.', 'एक.', 'द्वि.', 'बहु.']) {
+        expect(find.text(h), findsNWidgets(10), reason: h);
+      }
     });
 
     testWidgets('the pada switch shows when two padas have forms and picks one',
@@ -460,7 +499,16 @@ void main() {
       expect(tester.getTopLeft(link).dy,
           greaterThan(tester.getBottomLeft(find.byType(Table).last).dy - 1));
       await tester.tap(link);
-      expect(opened, ['Kṛt forms|']);
+      // The root's key goes with it, so Kṛt forms starts on the same root.
+      expect(opened, ['Kṛt forms|$_gam']);
+    });
+
+    testWidgets('the link carries the chosen prefix too', (tester) async {
+      final opened = <String>[];
+      await open(tester, onOpen: opened.add);
+      await _pick(tester, 'Prefix', 'pra');
+      await tester.tap(find.text('Kṛt forms of this root'));
+      expect(opened, ['Kṛt forms|$_gam|pra']);
     });
   });
 

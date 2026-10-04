@@ -45,14 +45,20 @@ enum FeatureValue {
   vocative(FeatureKind.vibhakti, 'sambodhanam', 'vocative'),
 
   // number
-  singular(FeatureKind.number, 'ekavacanam', 'singular'),
-  dual(FeatureKind.number, 'dvivacanam', 'dual'),
-  plural(FeatureKind.number, 'bahuvacanam', 'plural'),
+  singular(FeatureKind.number, 'ekavacanam', 'singular',
+      shortIast: 'eka.', shortEnglish: 'sg.'),
+  dual(FeatureKind.number, 'dvivacanam', 'dual',
+      shortIast: 'dvi.', shortEnglish: 'du.'),
+  plural(FeatureKind.number, 'bahuvacanam', 'plural',
+      shortIast: 'bahu.', shortEnglish: 'pl.'),
 
   // person
-  third(FeatureKind.person, 'prathamapuruṣaḥ', 'third person'),
-  second(FeatureKind.person, 'madhyamapuruṣaḥ', 'second person'),
-  first(FeatureKind.person, 'uttamapuruṣaḥ', 'first person'),
+  third(FeatureKind.person, 'prathamapuruṣaḥ', 'third person',
+      shortIast: 'pra.', shortEnglish: '3rd'),
+  second(FeatureKind.person, 'madhyamapuruṣaḥ', 'second person',
+      shortIast: 'ma.', shortEnglish: '2nd'),
+  first(FeatureKind.person, 'uttamapuruṣaḥ', 'first person',
+      shortIast: 'u.', shortEnglish: '1st'),
 
   // lakāra
   lat(FeatureKind.lakara, 'laṭ', 'present'),
@@ -105,13 +111,20 @@ enum FeatureValue {
 
   unknown(FeatureKind.unknown, '', 'unknown');
 
-  const FeatureValue(this.kind, this.iast, this.english);
+  const FeatureValue(this.kind, this.iast, this.english,
+      {this.shortIast, this.shortEnglish});
 
   final FeatureKind kind;
 
   /// The Sanskrit name, in IAST.
   final String iast;
   final String english;
+
+  /// A short name for table headings, in each label language (person and
+  /// number have one: `pra.` / `3rd`, `eka.` / `sg.`); null when the full name
+  /// is already short. The full name is used everywhere else.
+  final String? shortIast;
+  final String? shortEnglish;
 
   /// The values that belong to [kind], without [unknown].
   static List<FeatureValue> of(FeatureKind kind) =>

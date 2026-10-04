@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../analyse_word/feature_heading.dart';
 import '../analyse_word/feature_labels.dart';
 
 /// Called when one form is tapped.
@@ -9,7 +10,8 @@ typedef OnTapVerbForm = void Function(
     FeatureValue lakara, FeatureValue person, FeatureValue number, SanskritText form);
 
 /// One lakāra as a titled table: three persons by three numbers, the headings
-/// from `FeatureValue` in the label language and display script. A cell with
+/// from `FeatureValue` in the label language and display script, as the short
+/// names (`pra.`, `eka.`) that let it fit a 360 dp phone. A cell with
 /// alternatives shows them one under the other, each tappable; an empty cell
 /// is a muted dash. The table is as wide as its forms need and scrolls
 /// sideways on a narrow phone, so no form is broken mid-word.
@@ -36,18 +38,13 @@ class LakaraTableView extends StatelessWidget {
     String label(FeatureValue v) =>
         featureValueLabel(v, language: language, display: script);
 
-    Widget heading(FeatureValue v) => Padding(
-          padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
-          child: Text(label(v),
-              style: sanskrit.copyWith(
-                  fontWeight: FontWeight.w600, color: theme.colorScheme.primary)),
-        );
+    Widget heading(FeatureValue v) => FeatureHeading(v, settings: settings);
 
     Widget cell(FeatureValue person, FeatureValue number) {
       final forms = table.forms(person, number);
       if (forms.isEmpty) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
+          padding: const EdgeInsets.fromLTRB(6, 10, 8, 10),
           child: Text('–', style: sanskrit.copyWith(color: muted)),
         );
       }
@@ -58,7 +55,7 @@ class LakaraTableView extends StatelessWidget {
             InkWell(
               onTap: () => onTapForm(table.lakara, person, number, form),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
+                padding: const EdgeInsets.fromLTRB(6, 10, 8, 10),
                 child: Text(form.display(script), style: sanskrit),
               ),
             ),

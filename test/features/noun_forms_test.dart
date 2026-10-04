@@ -4,6 +4,7 @@ import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/features/noun_forms/noun_forms_screen.dart';
 import 'package:mobile_app/features/task_frame/engine_set.dart';
+import 'package:mobile_app/sanskrit/transliteration.dart' show convert;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -101,7 +102,7 @@ Future<void> _pump(
         initialGender: gender,
         onOpenTool: onOpen == null
             ? null
-            : (e, i, {gender}) => onOpen('${e.nameEn}|$i'),
+            : (e, i, {gender, prefix}) => onOpen('${e.nameEn}|$i'),
       ),
     ),
   ));
@@ -209,7 +210,7 @@ void main() {
       for (final h in [
         'prathamā', 'dvitīyā', 'tṛtīyā', 'caturthī', 'pañcamī', 'ṣaṣṭhī',
         'saptamī', 'sambodhanam', //
-        'ekavacanam', 'dvivacanam', 'bahuvacanam',
+        'eka.', 'dvi.', 'bahu.',
       ]) {
         expect(find.text(h), findsOneWidget, reason: h);
       }
@@ -219,7 +220,11 @@ void main() {
       // The sambodhana row is last.
       final order = [
         for (final r in table.children.skip(1))
-          ((r.children.first as Padding).child as Text).data,
+          tester
+              .widget<Text>(find.descendant(
+                  of: find.byWidget(r.children.first),
+                  matching: find.byType(Text)))
+              .data,
       ];
       expect(order.last, 'sambodhanam');
       expect(order.first, 'prathamā');
@@ -231,7 +236,7 @@ void main() {
           input: 'rAma', prefs: {'settings.labelLanguage': 'english'});
       for (final h in [
         'nominative', 'accusative', 'instrumental', 'dative', 'ablative',
-        'genitive', 'locative', 'vocative', 'singular', 'dual', 'plural',
+        'genitive', 'locative', 'vocative', 'sg.', 'du.', 'pl.',
       ]) {
         expect(find.text(h), findsOneWidget, reason: h);
       }
@@ -242,7 +247,9 @@ void main() {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'rAma', prefs: {'settings.displayScript': 'devanagari'});
       expect(find.text('प्रथमा'), findsOneWidget);
-      expect(find.text('एकवचनम्'), findsOneWidget);
+      expect(find.text(convert('eka.', Script.iast, Script.devanagari)),
+          findsOneWidget);
+      expect(find.text('एक.'), findsOneWidget);
       expect(find.text('रामः'), findsOneWidget);
       expect(find.text('rāmaḥ'), findsNothing);
     });

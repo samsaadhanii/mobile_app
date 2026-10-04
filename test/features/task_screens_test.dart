@@ -102,7 +102,7 @@ void main() {
           tester,
           AnalyseWordScreen(
               initialInput: 'xyzq',
-              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender, prefix}) => opened.add('${e.nameEn}|$input')),
           [_engine(EngineId.samsaadhanii)]);
       await tester.pump();
       await tester.tap(find.text('Split it as a phrase'));
@@ -371,7 +371,7 @@ void main() {
           tester,
           AnalyseWordScreen(
               initialInput: 'rAmaH',
-              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender, prefix}) => opened.add('${e.nameEn}|$input')),
           [_engine(EngineId.samsaadhanii, analysis: _found(EngineId.samsaadhanii))]);
       await tester.pump();
       await tester.tap(find.text('All forms'));
@@ -379,12 +379,81 @@ void main() {
       expect(opened, ['Noun forms|राम', 'Dictionary|राम']);
     });
 
+    testWidgets('All forms on a prefixed verb passes the root and the prefix',
+        (tester) async {
+      final opened = <String>[];
+      await _pump(
+          tester,
+          AnalyseWordScreen(
+              initialInput: 'x',
+              onOpenTool: (e, input, {gender, prefix}) =>
+                  opened.add('${e.nameEn}|$input|$prefix')),
+          [
+            _engine(EngineId.samsaadhanii,
+                analysis: _found(EngineId.samsaadhanii, [
+                  const Analysis(
+                      lemma: SanskritText('Af_gam'),
+                      wordClass: WordClass.verb,
+                      prefix: SanskritText('Af')),
+                ]))
+          ]);
+      await tester.pump();
+      await tester.tap(find.text('All forms'));
+      // The lemma `Af_gam` is cut to its root, which the generator looks up.
+      expect(opened, ['Verb forms|गम्|Af']);
+    });
+
+    testWidgets('All forms on a participle passes its root, not the participle',
+        (tester) async {
+      final opened = <String>[];
+      await _pump(
+          tester,
+          AnalyseWordScreen(
+              initialInput: 'x',
+              onOpenTool: (e, input, {gender, prefix}) =>
+                  opened.add('${e.nameEn}|$input|$prefix')),
+          [
+            _engine(EngineId.samsaadhanii,
+                analysis: _found(EngineId.samsaadhanii, [
+                  const Analysis(
+                      lemma: SanskritText('AgacCaw'),
+                      wordClass: WordClass.participle,
+                      base: SanskritText('gam'),
+                      prefix: SanskritText('Af')),
+                ]))
+          ]);
+      await tester.pump();
+      await tester.tap(find.text('All forms'));
+      expect(opened, ['Kṛt forms|गम्|Af']);
+    });
+
+    testWidgets('All forms on a verb with no prefix passes none',
+        (tester) async {
+      final opened = <String>[];
+      await _pump(
+          tester,
+          AnalyseWordScreen(
+              initialInput: 'x',
+              onOpenTool: (e, input, {gender, prefix}) =>
+                  opened.add('${e.nameEn}|$input|$prefix')),
+          [
+            _engine(EngineId.samsaadhanii,
+                analysis: _found(EngineId.samsaadhanii, [
+                  const Analysis(
+                      lemma: SanskritText('gam'), wordClass: WordClass.verb),
+                ]))
+          ]);
+      await tester.pump();
+      await tester.tap(find.text('All forms'));
+      expect(opened, ['Verb forms|गम्|null']);
+    });
+
     testWidgets('All forms passes the analysis\'s gender; none when it has none',
         (tester) async {
       final genders = <FeatureValue?>[];
       Widget screen() => AnalyseWordScreen(
           initialInput: 'x',
-          onOpenTool: (e, input, {gender}) => genders.add(gender));
+          onOpenTool: (e, input, {gender, prefix}) => genders.add(gender));
       await _pump(tester, screen(), [
         _engine(EngineId.samsaadhanii,
             analysis: _found(EngineId.samsaadhanii, [
@@ -470,7 +539,7 @@ void main() {
           tester,
           SplitScreen(
               initialInput: 'rAmAlayaH',
-              onOpenTool: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
+              onOpenTool: (e, input, {gender, prefix}) => opened.add('${e.nameEn}|$input')),
           [sam]);
       await tester.pump();
       await tester.tap(find.text('ālayaḥ'));

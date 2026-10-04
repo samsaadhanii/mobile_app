@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
-import '../analyse_word/feature_labels.dart';
+import '../analyse_word/feature_heading.dart';
 
 /// Called when one form is tapped.
 typedef OnTapForm = void Function(
@@ -29,25 +29,19 @@ class ParadigmTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final script = settings.displayScript.script;
-    final language = settings.labelLanguage;
     final muted = theme.colorScheme.onSurfaceVariant;
     // Sanskrit text is never smaller than 16 sp.
     const sanskrit = TextStyle(fontSize: 16);
 
-    Widget heading(FeatureValue v) => Padding(
-          padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
-          child: Text(
-            featureValueLabel(v, language: language, display: script),
-            style: sanskrit.copyWith(
-                fontWeight: FontWeight.w600, color: theme.colorScheme.primary),
-          ),
-        );
+    // The case names stay in full (they are the row headings and have no
+    // short form); the numbers are short, so the table fits a narrow phone.
+    Widget heading(FeatureValue v) => FeatureHeading(v, settings: settings);
 
     Widget cell(FeatureValue vibhakti, FeatureValue number) {
       final forms = paradigm.forms(vibhakti, number);
       if (forms.isEmpty) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
+          padding: const EdgeInsets.fromLTRB(6, 10, 8, 10),
           child: Text('–', style: sanskrit.copyWith(color: muted)),
         );
       }
@@ -58,7 +52,7 @@ class ParadigmTable extends StatelessWidget {
             InkWell(
               onTap: () => onTapForm(vibhakti, number, form),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 10, 12, 10),
+                padding: const EdgeInsets.fromLTRB(6, 10, 8, 10),
                 child: Text(form.display(script), style: sanskrit),
               ),
             ),

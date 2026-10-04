@@ -22,7 +22,7 @@ void main() {
     await tester.pumpWidget(ChangeNotifierProvider.value(
       value: settings,
       child: MaterialApp(
-        home: ToolsListPage(onOpen: (e, input, {gender}) => opened.add('${e.nameEn}|$input')),
+        home: ToolsListPage(onOpen: (e, input, {gender, prefix}) => opened.add('${e.nameEn}|$input')),
       ),
     ));
     await tester.pumpAndSettle();

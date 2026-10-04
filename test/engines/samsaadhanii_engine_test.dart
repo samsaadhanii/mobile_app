@@ -511,4 +511,60 @@ void main() {
       expect(client.queries.single['morfword'], 'vanam');
     });
   });
+
+  group('the prefix of an analysis (upasarga)', () {
+    Future<List<Analysis>> analyses(String fixture) async {
+      final o = await _engine(
+              FakeClient((_, __) => ClientResponse(200, _fixture(fixture))))
+          .analyseWord(const SanskritText('x'));
+      return (o as Found<WordAnalysis>).value.analyses;
+    }
+
+    test('a prefixed verb and its participles carry the key', () async {
+      final list = await analyses('morph_AgacCawi.txt');
+      expect(list.length, 4);
+      for (final a in list) {
+        expect(a.prefix, const SanskritText('Af'), reason: a.toString());
+      }
+      // The lemma keeps the prefix, as the server writes it.
+      final verb = list.firstWhere((a) => a.wordClass == WordClass.verb);
+      expect(verb.lemma.display(Script.iast), 'āṅ_gam');
+      // A participle's root is its base, without the prefix.
+      final part = list.firstWhere((a) => a.wordClass == WordClass.participle);
+      expect(part.base!.wx, 'gamLz');
+    });
+
+    test('"-" is no prefix', () async {
+      for (final a in await analyses('morph_gacCawi.txt')) {
+        expect(a.prefix, isNull, reason: a.toString());
+      }
+    });
+
+    test('nouns, which the server sends with "-", have none', () async {
+      for (final a in await analyses('morph_rAmaH.txt')) {
+        expect(a.prefix, isNull);
+      }
+    });
+
+    test('an entry with no upasarga at all has none', () async {
+      final o = await _engine(FakeClient((_, __) => ClientResponse(
+              200,
+              '[{"APP":"noun","RT":"rāma","ANS":"{liṅgam:puṃ}{vibhaktiḥ:1}'
+              '{vacanam:eka}"}]')))
+          .analyseWord(const SanskritText('rAmaH'));
+      expect((o as Found<WordAnalysis>).value.analyses.single.prefix, isNull);
+    });
+
+    test('equality looks at the prefix', () {
+      const a = Analysis(
+          lemma: SanskritText('gam'), wordClass: WordClass.verb);
+      const b = Analysis(
+          lemma: SanskritText('gam'),
+          wordClass: WordClass.verb,
+          prefix: SanskritText('Af'));
+      expect(a, isNot(b));
+      expect(b, b);
+      expect(b.toString(), contains('prefix: Af'));
+    });
+  });
 }

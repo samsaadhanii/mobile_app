@@ -69,8 +69,10 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     _task?.request();
   }
 
-  void _open(Task task, String input, {FeatureValue? gender}) {
-    widget.onOpenTool?.call(entryFor(task), input, gender: gender);
+  void _open(Task task, String input,
+      {FeatureValue? gender, String? prefix}) {
+    widget.onOpenTool
+        ?.call(entryFor(task), input, gender: gender, prefix: prefix);
   }
 
   @override
@@ -151,6 +153,22 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     );
   }
 
+  /// The text "All forms" hands to the generator: the lemma for a noun; for
+  /// a verb or a participle the root without its prefix (a prefixed analysis
+  /// has the prefix in its lemma, `Af_gam`, and a participle's root is its
+  /// base), so the generator can look the root up.
+  String _formsInput(Analysis a) {
+    var wx = switch (a.wordClass) {
+      WordClass.participle => (a.base ?? a.lemma).wx,
+      _ => a.lemma.wx,
+    };
+    final prefix = a.prefix?.wx;
+    if (prefix != null && wx.startsWith('${prefix}_')) {
+      wx = wx.substring(prefix.length + 1);
+    }
+    return SanskritText(wx).display(Script.devanagari);
+  }
+
   List<Widget> _actions(Analysis a) {
     if (widget.onOpenTool == null) return const [];
     final lemma = a.lemma.display(Script.devanagari);
@@ -168,7 +186,8 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     return [
       if (forms != null)
         TextButton(
-          onPressed: () => _open(forms, lemma, gender: gender),
+          onPressed: () => _open(forms, forms == Task.nounForms ? lemma : _formsInput(a),
+              gender: gender, prefix: a.prefix?.wx),
           child: const Text('All forms'),
         ),
       TextButton(

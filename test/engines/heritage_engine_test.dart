@@ -501,4 +501,31 @@ void main() {
           isFalse);
     });
   });
+
+  group('no prefix is read from Heritage answers', () {
+    test('every analysis in the fixtures has a null prefix', () async {
+      // Heritage writes a preverb into `derived_stem` (`A-gam`, `pra-gam`,
+      // `anu-gam`, seen live 5 Oct 2026) and spells āṅ `A`, not `Af`. That is
+      // not read: the key would be a guess against the prefix list.
+      final engine = _engine(FakeClient.fixtures());
+      for (final word in ['gacCawi', 'agacCaw', 'gamayawi', 'rAmaH']) {
+        final o = await engine.analyseWord(SanskritText(word));
+        for (final a in (o as Found<WordAnalysis>).value.analyses) {
+          expect(a.prefix, isNull, reason: '$word: $a');
+        }
+      }
+    });
+
+    test('a prefixed word in the answer is kept as the stem it is', () async {
+      final engine = _engine(FakeClient((_) => ClientResponse(
+          200,
+          '{"input":"AgacCawi","segmentation":["AgacCawi"],"morph":['
+          '{"word":"AgacCawi","derived_stem":"A-gam","base":"",'
+          '"derivational_morph":"","inflectional_morphs":["pr. [1] ac. sg. 3"]}]}')));
+      final o = await engine.analyseWord(const SanskritText('AgacCawi'));
+      final a = (o as Found<WordAnalysis>).value.analyses.single;
+      expect(a.prefix, isNull);
+      expect(a.lemma.wx, 'A-gam');
+    });
+  });
 }

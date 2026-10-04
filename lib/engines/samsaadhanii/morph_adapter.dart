@@ -249,6 +249,13 @@ Analysis _analysis(Map<String, Object?> item, OnUnmapped? onUnmapped) {
 
   if (wordClass == WordClass.other) onUnmapped?.call('APP', app);
 
+  // `upasarga` is the prefix's key (WX, as in the prefix list) on verb and kṛt
+  // analyses, `-` for none.
+  final upasarga = item['upasarga'];
+  final prefix = upasarga is String && upasarga.isNotEmpty && upasarga != '-'
+      ? SanskritText(upasarga)
+      : null;
+
   return Analysis(
     lemma: lemma,
     homonym: homonym,
@@ -256,5 +263,6 @@ Analysis _analysis(Map<String, Object?> item, OnUnmapped? onUnmapped) {
     features: features,
     base: base,
     derivation: kritSuffix,
+    prefix: prefix,
   );
 }

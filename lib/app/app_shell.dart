@@ -26,11 +26,11 @@ class _AppShellState extends State<AppShell> {
         index: _index,
         children: [
           HomePage(
-              onOpen: (entry, input, {gender}) =>
-                  openTool(context, entry, input, gender: gender)),
+              onOpen: (entry, input, {gender, prefix}) =>
+                  openTool(context, entry, input, gender: gender, prefix: prefix)),
           ToolsListPage(
-              onOpen: (entry, input, {gender}) =>
-                  openTool(context, entry, input, gender: gender)),
+              onOpen: (entry, input, {gender, prefix}) =>
+                  openTool(context, entry, input, gender: gender, prefix: prefix)),
           const SettingsPage(),
         ],
       ),

@@ -26,14 +26,24 @@ String featureLabel(
 /// The name of one known value: Sanskrit (IAST, shown in the [display]
 /// script) or English, per [language]. For headings and menus, where there is
 /// no engine wording to keep.
+///
+/// With [short], the short name for table headings (`pra.`, `3rd`) when the
+/// value has one; otherwise the full name.
 String featureValueLabel(
   FeatureValue value, {
   required LabelLanguage language,
   required Script display,
-}) =>
-    language == LabelLanguage.sanskrit
-        ? convert(value.iast, Script.iast, display)
-        : value.english;
+  bool short = false,
+}) {
+  final sanskrit = language == LabelLanguage.sanskrit;
+  if (short) {
+    final shortName = sanskrit ? value.shortIast : value.shortEnglish;
+    if (shortName != null) {
+      return sanskrit ? convert(shortName, Script.iast, display) : shortName;
+    }
+  }
+  return sanskrit ? convert(value.iast, Script.iast, display) : value.english;
+}
 
 /// The word-class tag.
 String wordClassLabel(WordClass c) => switch (c) {

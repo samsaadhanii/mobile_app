@@ -203,4 +203,29 @@ void main() {
           const SanskritText('rAmaH'));
     });
   });
+
+  group('short names for table headings', () {
+    test('person and number have one in each label language', () {
+      expect([for (final v in FeatureValue.of(FeatureKind.person)) v.shortIast],
+          ['pra.', 'ma.', 'u.']);
+      expect(
+          [for (final v in FeatureValue.of(FeatureKind.person)) v.shortEnglish],
+          ['3rd', '2nd', '1st']);
+      expect([for (final v in FeatureValue.of(FeatureKind.number)) v.shortIast],
+          ['eka.', 'dvi.', 'bahu.']);
+      expect(
+          [for (final v in FeatureValue.of(FeatureKind.number)) v.shortEnglish],
+          ['sg.', 'du.', 'pl.']);
+    });
+
+    test('nothing else has one, and the full names are unchanged', () {
+      for (final v in FeatureValue.values) {
+        final has = v.kind == FeatureKind.person || v.kind == FeatureKind.number;
+        expect(v.shortIast != null, has, reason: v.name);
+        expect(v.shortEnglish != null, has, reason: v.name);
+      }
+      expect(FeatureValue.third.iast, 'prathamapuruṣaḥ');
+      expect(FeatureValue.singular.english, 'singular');
+    });
+  });
 }

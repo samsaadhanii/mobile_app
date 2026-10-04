@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../../shared/widgets/form_sheet.dart';
 import '../analyse_word/feature_labels.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
@@ -12,7 +13,6 @@ import '../task_frame/task_frame.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
 import 'derivation_screen.dart';
-import 'form_sheet.dart';
 import 'paradigm_table.dart';
 
 const _genders = [
@@ -110,28 +110,38 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
 
   void _showForm(FeatureValue vibhakti, FeatureValue number, SanskritText form) {
     final settings = context.read<AppSettings>();
+    final script = settings.displayScript.script;
     final onOpenTool = widget.onOpenTool;
+    String label(FeatureValue v) => featureValueLabel(v,
+        language: settings.labelLanguage, display: script);
     showFormSheet(
       context,
-      form: form,
-      vibhakti: vibhakti,
-      number: number,
-      settings: settings,
-      onDerive: () => Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (_) => DerivationScreen(
-          title: form.display(settings.displayScript.script),
-          query: DerivationQuery(
-            stem: _stem,
-            gender: _gender,
-            vibhakti: vibhakti,
-            number: number,
-          ),
+      form: form.display(script),
+      description: '${label(vibhakti)} · ${label(number)}',
+      actions: [
+        FormSheetAction(
+          Icons.format_list_numbered,
+          'Show derivation',
+          () => Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (_) => DerivationScreen(
+              title: form.display(script),
+              query: DerivationQuery(
+                stem: _stem,
+                gender: _gender,
+                vibhakti: vibhakti,
+                number: number,
+              ),
+            ),
+          )),
         ),
-      )),
-      onAnalyse: onOpenTool == null
-          ? null
-          : () => onOpenTool(entryFor(Task.analyseWord),
-              form.display(Script.devanagari)),
+        if (onOpenTool != null)
+          FormSheetAction(
+            Icons.search,
+            'Analyse this form',
+            () => onOpenTool(
+                entryFor(Task.analyseWord), form.display(Script.devanagari)),
+          ),
+      ],
     );
   }
 

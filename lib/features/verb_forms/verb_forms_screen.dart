@@ -6,7 +6,9 @@ import '../../domain/domain.dart';
 import '../../sanskrit/transliteration.dart' show convert;
 import '../../shared/data/word_lists.dart';
 import '../../shared/widgets/dhatu_picker.dart';
+import '../../shared/widgets/form_sheet.dart';
 import '../../shared/widgets/prefix_picker.dart';
+import '../analyse_word/feature_labels.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
@@ -14,18 +16,26 @@ import '../task_frame/task_controller.dart';
 import '../task_frame/task_frame.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
-import 'verb_form_sheet.dart';
 import 'verb_paradigm_view.dart';
 
 /// Verb forms (`SCREENS.md` 5.4): a root and a prefix from their pickers, a
 /// voice, and the tables of the root's forms. Reads only domain types from the
 /// engine interface.
 class VerbFormsScreen extends StatefulWidget {
-  const VerbFormsScreen({super.key, this.initialInput = '', this.onOpenTool});
+  const VerbFormsScreen({
+    super.key,
+    this.initialInput = '',
+    this.initialPrefix,
+    this.onOpenTool,
+  });
 
   /// A root typed on Home or passed by "All forms", as text; it is turned into
   /// a dhātu of the list and looked up at once.
   final String initialInput;
+
+  /// The prefix key when the caller knows it ("All forms" on a prefixed
+  /// analysis).
+  final String? initialPrefix;
 
   /// Opens another tool ("Analyse this form", "Kṛt forms of this root").
   final OpenTool? onOpenTool;
@@ -41,7 +51,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
 
   /// The dhātu key, the prefix key (null for none) and the voice.
   String? _root;
-  String? _prefix;
+  late String? _prefix = widget.initialPrefix;
   VerbPrayoga _prayoga = VerbPrayoga.kartari;
 
   /// What the user passed in when it is not a dhātu of the list.
@@ -61,7 +71,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
             VerbQuery(root: _root!, prefix: _prefix, prayoga: _prayoga)),
       );
     }
-    if (firstWord(widget.initialInput).isNotEmpty) {
+    if (widget.initialInput.trim().isNotEmpty) {
       if (_dhatus.loaded) {
         _resolveInitial();
       } else {
@@ -80,11 +90,10 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
   /// A typed root becomes the first matching dhātu of the list; one that is
   /// not in the list is reported, not guessed.
   void _resolveInitial() {
-    final typed = firstWord(widget.initialInput);
-    final wx = parseSanskrit(typed, context.read<AppSettings>()).wx;
-    final keys = _dhatus.keysFor(wx);
+    final keys =
+        rootKeysFor(widget.initialInput, _dhatus, context.read<AppSettings>());
     if (keys.isEmpty) {
-      _unknownRoot = typed;
+      _unknownRoot = firstWord(widget.initialInput);
     } else {
       _root = keys.first;
       _task?.request();
@@ -107,19 +116,24 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
   void _showForm(FeatureValue pada, FeatureValue lakara, FeatureValue person,
       FeatureValue number, SanskritText form) {
     final settings = context.read<AppSettings>();
+    final script = settings.displayScript.script;
     final onOpenTool = widget.onOpenTool;
-    showVerbFormSheet(
+    String label(FeatureValue v) => featureValueLabel(v,
+        language: settings.labelLanguage, display: script);
+    showFormSheet(
       context,
-      form: form,
-      pada: pada,
-      lakara: lakara,
-      person: person,
-      number: number,
-      settings: settings,
-      onAnalyse: onOpenTool == null
-          ? null
-          : () => onOpenTool(
-              entryFor(Task.analyseWord), form.display(Script.devanagari)),
+      form: form.display(script),
+      description: '${label(pada)} · ${label(lakara)} · ${label(person)} · '
+          '${label(number)}',
+      actions: [
+        if (onOpenTool != null)
+          FormSheetAction(
+            Icons.search,
+            'Analyse this form',
+            () => onOpenTool(
+                entryFor(Task.analyseWord), form.display(Script.devanagari)),
+          ),
+      ],
     );
   }
 
@@ -178,7 +192,8 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
               onTapForm: _showForm,
               onKrt: onOpenTool == null
                   ? null
-                  : () => onOpenTool(entryFor(Task.krtForms), ''),
+                  : () => onOpenTool(entryFor(Task.krtForms), _root ?? '',
+                      prefix: _prefix),
             ),
           );
         }

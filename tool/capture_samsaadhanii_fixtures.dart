@@ -2,7 +2,7 @@
 // the engine tests (which never call the network).
 //
 // Run from the repository root:
-//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb]
+//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb] [prefixed] [krt]
 // With no argument every section is captured; with names, only those, so a
 // new fixture does not rewrite the older ones.
 
@@ -25,6 +25,9 @@ const morphWords = {
   'xyzq': 'xyzq',
   'empty': '',
 };
+
+/// A prefixed verb and kṛt form, for the `upasarga` the analyses carry.
+const prefixedMorph = {'AgacCawi': 'AgacCawi'};
 
 /// name -> (mode, text)
 const splits = {
@@ -69,6 +72,16 @@ Future<void> main(List<String> args) async {
   final dir = Directory('test/fixtures/samsaadhanii')..createSync(recursive: true);
   bool wanted(String section) => args.isEmpty || args.contains(section);
 
+  for (final e in prefixedMorph.entries) {
+    if (!wanted('prefixed')) break;
+    final r = await client.get(morphProgram, {
+      'morfword': e.value,
+      'encoding': 'WX',
+      'outencoding': 'IAST',
+      'mode': 'json',
+    });
+    _save(dir, 'morph_${e.key}.txt', r);
+  }
   for (final e in verbs.entries) {
     if (!wanted('verb')) break;
     final (root, prayoga, upasarga) = e.value;

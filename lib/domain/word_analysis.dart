@@ -57,6 +57,11 @@ class Analysis {
   /// The engine's derivation note, as given.
   final String? derivation;
 
+  /// The prefix (upasarga) of a verb or kṛt analysis, as the engine's key
+  /// (`Af`, `pra`, `aXi_ava`, the keys of `assets/prefix_list.json`); null for
+  /// none or when the engine does not say.
+  final SanskritText? prefix;
+
   const Analysis({
     required this.lemma,
     this.homonym,
@@ -64,6 +69,7 @@ class Analysis {
     this.features = const [],
     this.base,
     this.derivation,
+    this.prefix,
   });
 
   @override
@@ -74,17 +80,19 @@ class Analysis {
       other.wordClass == wordClass &&
       listEq(other.features, features) &&
       other.base == base &&
-      other.derivation == derivation;
+      other.derivation == derivation &&
+      other.prefix == prefix;
 
   @override
   int get hashCode => Object.hash(
-      lemma, homonym, wordClass, listHash(features), base, derivation);
+      lemma, homonym, wordClass, listHash(features), base, derivation, prefix);
 
   @override
   String toString() => 'Analysis(${lemma.wx}'
       '${homonym == null ? '' : '#$homonym'}, ${wordClass.name}, $features'
       '${base == null ? '' : ', base: ${base!.wx}'}'
-      '${derivation == null ? '' : ', derivation: $derivation'})';
+      '${derivation == null ? '' : ', derivation: $derivation'}'
+      '${prefix == null ? '' : ', prefix: ${prefix!.wx}'})';
 }
 
 class WordAnalysis {
