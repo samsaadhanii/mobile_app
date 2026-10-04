@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/features/analyse_word/analyse_word_screen.dart';
+import 'package:mobile_app/features/analyse_word/analysis_card.dart';
 import 'package:mobile_app/features/split/split_screen.dart';
 import 'package:mobile_app/features/task_frame/engine_set.dart';
 import 'package:mobile_app/features/task_frame/outcome_view.dart';
@@ -364,6 +365,19 @@ void main() {
       expect(find.text('śatṛ'), findsOneWidget);
     });
 
+    testWidgets('every analysis gets a card, not only the first two (BUGS #9)',
+        (tester) async {
+      Analysis a(String lemma) =>
+          Analysis(lemma: SanskritText(lemma), wordClass: WordClass.noun);
+      await _pump(tester, const AnalyseWordScreen(initialInput: 'x'), [
+        _engine(EngineId.samsaadhanii,
+            analysis: _found(EngineId.samsaadhanii,
+                [a('rAma'), a('rA'), a('rAm'), a('rAmA'), a('ram')]))
+      ]);
+      await tester.pump();
+      expect(find.byType(AnalysisCard), findsNWidgets(5));
+    });
+
     testWidgets('actions: All forms and Dictionary open other tools',
         (tester) async {
       final opened = <String>[];
@@ -655,6 +669,22 @@ void main() {
       await _pump(tester, const SplitScreen(initialInput: 'xyzq'), [nf]);
       await tester.pump();
       expect(find.text('No split for xyzq'), findsOneWidget);
+    });
+
+    testWidgets('a failed request never shows the word "null" (BUGS #13)',
+        (tester) async {
+      for (final outcome in <Outcome<Segmentation>>[
+        const Unreachable('timeout'),
+        const ServerFault('bad'),
+        const NotFound(),
+        const BadInput('no'),
+      ]) {
+        final sam = _engine(EngineId.samsaadhanii, segmentation: outcome);
+        await _pump(tester, const SplitScreen(initialInput: 'rAmaH'), [sam]);
+        await tester.pump();
+        expect(find.textContaining('null', findRichText: true), findsNothing,
+            reason: '$outcome');
+      }
     });
   });
 }

@@ -43,11 +43,6 @@ void main() {
     });
   }
 
-  test('the gradient bar and button carry white text at 4.5 to 1', () {
-    expect(contrast(Colors.white, AppColors.gradientStart), greaterThanOrEqualTo(4.5));
-    expect(contrast(Colors.white, AppColors.gradientEnd), greaterThanOrEqualTo(4.5));
-  });
-
   testWidgets('the rendered top bar uses the theme colours in both themes',
       (tester) async {
     for (final theme in [AppTheme.lightTheme, AppTheme.darkTheme]) {

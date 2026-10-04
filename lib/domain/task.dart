@@ -1,5 +1,5 @@
 /// Something the user wants done, whoever does it (ARCHITECTURE.md 8.4).
-/// It does not replace `ToolRegistry` yet; screens move over in later units.
+/// The Tools tab lists these (plus Dhātupāṭha, which is not a task yet).
 enum Task {
   analyseWord(
     'Analyse a word',

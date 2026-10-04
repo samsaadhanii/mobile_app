@@ -8,7 +8,6 @@ import '../engines/samsaadhanii/samsaadhanii_engine.dart';
 import '../features/task_frame/engine_set.dart';
 import '../features/home/dhatu_index.dart';
 import '../features/home/recent_inputs.dart';
-import '../model/data_provider.dart';
 import '../shared/data/word_lists.dart';
 import 'app_info.dart';
 import 'app_shell.dart';
@@ -65,9 +64,6 @@ class SamApp extends StatelessWidget {
             ? ChangeNotifierProvider<PrefixList>.value(value: prefixes!)
             : ChangeNotifierProvider(
                 lazy: false, create: (_) => PrefixList()..load()),
-        // Still read by the version 2 tool screens for the dhātu and prefix
-        // lists.
-        ChangeNotifierProvider(create: (_) => DataProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

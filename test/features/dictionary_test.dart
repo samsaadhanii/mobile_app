@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/domain/domain.dart';
@@ -227,6 +229,87 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.widget<SelectableText>(_body('Apte')).maxLines, dictionaryCollapsedLines);
       expect(tester.getSize(_body('Apte')).height, folded);
+    });
+
+    testWidgets('the folded body fades at its bottom edge; expanded it does not',
+        (tester) async {
+      await _pump(tester, _engine(dictionary: _entries([_entry(0, _long)])),
+          input: 'vana');
+      final fade = find.byKey(const Key('dict-fade-Apte'));
+      expect(fade, findsOneWidget);
+      expect(tester.widget<ShaderMask>(fade).blendMode, BlendMode.dstIn);
+      // The text under it is the same selectable text, with its six lines.
+      expect(find.descendant(of: fade, matching: find.byType(SelectableText)),
+          findsOneWidget);
+      expect(tester.widget<SelectableText>(_body('Apte')).maxLines,
+          dictionaryCollapsedLines);
+      await tester.tap(_toggle('Apte'));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('dict-fade-Apte')), findsNothing);
+      expect(_body('Apte'), findsOneWidget);
+      await tester.tap(_toggle('Apte'));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('dict-fade-Apte')), findsOneWidget);
+    });
+
+    testWidgets('a short entry has no fade either', (tester) async {
+      await _pump(tester, _engine(dictionary: _entries([_entry(1, 'a forest')])),
+          input: 'vana');
+      expect(find.byKey(const Key('dict-fade-Monier-Williams')), findsNothing);
+    });
+
+    testWidgets('the last visible line is faded to the background, the first is not',
+        (tester) async {
+      tester.view.physicalSize = const Size(1000, 6000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final key = GlobalKey();
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          body: RepaintBoundary(
+            key: key,
+            child: Container(
+              color: Colors.white,
+              width: 400,
+              child: DictionarySection(entry: _entry(0, _long)),
+            ),
+          ),
+        ),
+      ));
+      await tester.pumpAndSettle();
+      // Where the text is, in the picture.
+      final body = tester.getRect(_body('Apte'));
+      final box = tester.getRect(find.byKey(key));
+      final image = await tester.runAsync(() async {
+        final boundary = key.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+        return boundary.toImage();
+      });
+      final bytes = (await tester.runAsync(
+              () => image!.toByteData(format: ui.ImageByteFormat.rawRgba)))!;
+      int luminance(double x, double y) {
+        final i = ((y.round()) * image!.width + x.round()) * 4;
+        return (bytes.getUint8(i) + bytes.getUint8(i + 1) + bytes.getUint8(i + 2)) ~/ 3;
+      }
+
+      // The test font draws solid squares, so a line is as dark as can be.
+      // Darkest pixel across a line's height, to be sure to hit the glyphs.
+      int darkest(double top, double bottom) {
+        var d = 255;
+        for (var y = top; y < bottom; y += 1) {
+          for (var x = body.left - box.left + 1; x < body.left - box.left + 200; x += 2) {
+            d = d < luminance(x, y) ? d : luminance(x, y);
+          }
+        }
+        return d;
+      }
+
+      final line = body.height / dictionaryCollapsedLines;
+      final top = body.top - box.top;
+      final first = darkest(top + 2, top + line - 2);
+      final last = darkest(top + body.height - 4, top + body.height - 1);
+      expect(first, lessThan(60), reason: 'the first line is solid');
+      expect(last, greaterThan(200), reason: 'the bottom edge has faded to white');
     });
 
     testWidgets('a short entry has no toggle and no limit', (tester) async {
