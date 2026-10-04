@@ -9,6 +9,7 @@ import '../features/task_frame/engine_set.dart';
 import '../features/home/dhatu_index.dart';
 import '../features/home/recent_inputs.dart';
 import '../model/data_provider.dart';
+import '../shared/data/word_lists.dart';
 import 'app_info.dart';
 import 'app_shell.dart';
 import 'settings.dart';
@@ -20,6 +21,9 @@ class SamApp extends StatelessWidget {
     required this.settings,
     required this.recent,
     this.engines,
+    this.dhatuIndex,
+    this.dhatus,
+    this.prefixes,
   });
 
   final AppSettings settings;
@@ -27,6 +31,12 @@ class SamApp extends StatelessWidget {
 
   /// The engines screens use; the two real ones unless a test passes others.
   final EngineSet? engines;
+
+  /// The bundled lists screens read; the ones read from the assets unless a
+  /// test passes others.
+  final DhatuIndex? dhatuIndex;
+  final DhatuList? dhatus;
+  final PrefixList? prefixes;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +52,19 @@ class SamApp extends StatelessWidget {
                 EngineId.heritage: HeritageEngine(),
               }),
         ),
-        ChangeNotifierProvider(create: (_) => DhatuIndex()..load()),
+        dhatuIndex != null
+            ? ChangeNotifierProvider.value(value: dhatuIndex!)
+            : ChangeNotifierProvider(create: (_) => DhatuIndex()..load()),
+        // The root and prefix pickers and the Verb forms screen. Read from
+        // the assets at start, so the pickers are ready when a screen opens.
+        dhatus != null
+            ? ChangeNotifierProvider<DhatuList>.value(value: dhatus!)
+            : ChangeNotifierProvider(
+                lazy: false, create: (_) => DhatuList()..load()),
+        prefixes != null
+            ? ChangeNotifierProvider<PrefixList>.value(value: prefixes!)
+            : ChangeNotifierProvider(
+                lazy: false, create: (_) => PrefixList()..load()),
         // Still read by the version 2 tool screens for the dhātu and prefix
         // lists.
         ChangeNotifierProvider(create: (_) => DataProvider()),

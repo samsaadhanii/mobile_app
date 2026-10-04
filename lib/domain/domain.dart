@@ -9,5 +9,6 @@ export 'outcome.dart';
 export 'sanskrit_text.dart';
 export 'segmentation.dart';
 export 'task.dart';
+export 'verb_forms.dart';
 export 'word_analysis.dart';
 export '../sanskrit/script.dart' show Script;

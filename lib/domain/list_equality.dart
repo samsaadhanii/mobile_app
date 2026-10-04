@@ -9,3 +9,16 @@ bool listEq<T>(List<T>? a, List<T>? b) {
 }
 
 int listHash<T>(List<T>? list) => list == null ? 0 : Object.hashAll(list);
+
+/// Equality of two maps whose values are lists.
+bool mapOfListsEq<K, V>(Map<K, List<V>> a, Map<K, List<V>> b) {
+  if (identical(a, b)) return true;
+  if (a.length != b.length) return false;
+  for (final e in a.entries) {
+    if (!b.containsKey(e.key) || !listEq(b[e.key], e.value)) return false;
+  }
+  return true;
+}
+
+int mapOfListsHash<K, V>(Map<K, List<V>> m) => Object.hashAllUnordered(
+    [for (final e in m.entries) Object.hash(e.key, listHash(e.value))]);

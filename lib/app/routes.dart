@@ -7,11 +7,11 @@ import '../features/analyse_word/analyse_word_screen.dart';
 import '../features/noun_forms/noun_forms_screen.dart';
 import '../features/split/split_screen.dart';
 import '../features/tools/screens/sandhi_joining_screen.dart';
-import '../features/tools/screens/verb_generator_screen.dart';
+import '../features/verb_forms/verb_forms_screen.dart';
 import '../features/tools/tool_entries.dart';
 
-/// Opens the screen for [entry], with [input] filled in for the three new task
-/// screens (Analyse a word, Split and analyse, Noun forms); Noun forms also
+/// Opens the screen for [entry], with [input] filled in for the four new task
+/// screens (Analyse a word, Split and analyse, Noun forms, Verb forms); Noun forms also
 /// takes the [gender] when the caller has one. The other tasks still open
 /// their existing v2 screen, empty, until their replacements come; Dictionary
 /// and Dhātupāṭha have no screen and open a placeholder (D5 forbids the web
@@ -32,7 +32,10 @@ void openTool(BuildContext context, ToolEntry entry, String input,
         initialGender: gender,
         onOpenTool: (e, i, {gender}) => openTool(context, e, i, gender: gender),
       ),
-    Task.verbForms => const VerbGeneratorScreen(),
+    Task.verbForms => VerbFormsScreen(
+        initialInput: input,
+        onOpenTool: (e, i, {gender}) => openTool(context, e, i, gender: gender),
+      ),
     Task.krtForms => const KrtGeneratorScreen(),
     Task.joinWords => const SandhiJoiningScreen(),
     _ => ComingSoonPage(title: entry.nameEn),

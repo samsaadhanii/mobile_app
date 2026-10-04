@@ -4,6 +4,7 @@ import 'outcome.dart';
 import 'sanskrit_text.dart';
 import 'segmentation.dart';
 import 'task.dart';
+import 'verb_forms.dart';
 import 'word_analysis.dart';
 
 enum EngineId { samsaadhanii, heritage }
@@ -38,8 +39,8 @@ class EngineCredit {
 ///
 /// A method for a task that is not in [tasks] returns [Unsupported] at once,
 /// without a network call. Only the first tasks exist so far (analysis,
-/// splitting, noun forms, derivation); the methods for the others (verb, kṛt,
-/// sandhi, dictionary) are added with their result models, in later units.
+/// splitting, noun forms, derivation, verb forms); the methods for the others
+/// (kṛt, sandhi, dictionary) are added with their result models, in later units.
 abstract interface class Engine {
   EngineId get id;
 
@@ -56,4 +57,6 @@ abstract interface class Engine {
   Future<Outcome<NounParadigm>> declineNoun(NounQuery query);
 
   Future<Outcome<Derivation>> derive(DerivationQuery query);
+
+  Future<Outcome<VerbParadigm>> conjugateVerb(VerbQuery query);
 }

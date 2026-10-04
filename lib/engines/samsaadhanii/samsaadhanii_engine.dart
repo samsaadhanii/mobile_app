@@ -6,14 +6,16 @@ import 'derivation_adapter.dart';
 import 'morph_adapter.dart';
 import 'noun_adapter.dart';
 import 'splitter_adapter.dart';
+import 'verb_adapter.dart';
 
 const morphProgram = 'MT/prog/morph/morph.cgi';
 const splitterProgram = 'MT/prog/sandhi_splitter/sandhi_splitter.cgi';
 const nounProgram = 'skt_gen/noun/noun_gen.cgi';
 const derivationProgram = 'ashtadhyayi_simulator/simulation.cgi';
+const verbProgram = 'skt_gen/verb/verb_gen.cgi';
 
 /// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
-/// forms and the derivation of a noun form.
+/// forms, the derivation of a noun form, and verb forms.
 class SamsaadhaniiEngine implements Engine {
   SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
       : _client = client ?? HttpSamsaadhaniiClient(),
@@ -38,6 +40,7 @@ class SamsaadhaniiEngine implements Engine {
         Task.splitText,
         Task.nounForms,
         Task.derivation,
+        Task.verbForms,
       };
 
   /// Reports every `{key:value}` the morph adapter could not map; for tests
@@ -133,6 +136,28 @@ class SamsaadhaniiEngine implements Engine {
       },
       (body, source) => parseDerivation(body, source),
     );
+  }
+
+  /// Active and passive are one call. ṇijanta is two (the server answers one
+  /// pada per call), made together and merged.
+  @override
+  Future<Outcome<VerbParadigm>> conjugateVerb(VerbQuery query) async {
+    Future<Outcome<VerbParadigm>> call(String code) => _run(
+          verbProgram,
+          verbQueryParams(query, code),
+          (body, source) => parseVerb(body, query, source),
+        );
+    return switch (query.prayoga) {
+      VerbPrayoga.kartari => call(activeCode),
+      VerbPrayoga.karmani => call(passiveCode),
+      VerbPrayoga.nijanta => () async {
+          final results = await Future.wait([
+            call(causativeParasmaipadaCode),
+            call(causativeAtmanepadaCode),
+          ]);
+          return mergeVerb(results[0], results[1]);
+        }(),
+    };
   }
 
   /// One outcome per segment of [split], in order. A segment followed by a

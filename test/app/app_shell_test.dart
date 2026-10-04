@@ -6,7 +6,9 @@ import 'package:mobile_app/app/app_wordmark.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/domain/domain.dart';
 import 'package:mobile_app/features/task_frame/engine_set.dart';
+import 'package:mobile_app/features/home/dhatu_index.dart';
 import 'package:mobile_app/features/home/recent_inputs.dart';
+import 'package:mobile_app/shared/data/word_lists.dart';
 import 'package:mobile_app/features/noun_forms/noun_forms_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,16 +21,26 @@ void _tall(WidgetTester tester) {
   addTearDown(tester.view.reset);
 }
 
+const _gam = 'gam1_gamLz_BvAxiH_gawO';
+
 Future<void> _pumpApp(WidgetTester tester,
     [Map<String, Object> prefs = const {}, EngineSet? engines]) async {
   _tall(tester);
   SharedPreferences.setMockInitialValues(prefs);
   final settings = await AppSettings.load();
   final recent = await RecentInputs.load();
-  await tester.pumpWidget(SamApp(settings: settings, recent: recent, engines: engines));
-  // The app reads its asset lists at start; that is real I/O, so give it real
-  // time to finish before the test ends.
-  await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+  // Small lists instead of the assets: reading the real files is I/O that
+  // does not mix with the widget clock (pickers_test.dart loads them once).
+  await tester.pumpWidget(SamApp(
+    settings: settings,
+    recent: recent,
+    engines: engines,
+    dhatuIndex: DhatuIndex.fromKeys([_gam, 'paT1_paT_BvAxiH_vyakwAyAM vAci']),
+    dhatus: DhatuList.fromEntries([
+      ListEntry(_gam, 'गम् (गम्) गतौ भ्वादिः', 'gam (gam) gatau bhvādiḥ'),
+    ]),
+    prefixes: PrefixList.fromEntries([ListEntry('Af', 'आङ्', 'āṅ')]),
+  ));
   await tester.pumpAndSettle();
 }
 
@@ -156,6 +168,36 @@ void main() {
       final field = tester.widget<TextField>(find.descendant(
           of: find.byType(NounFormsScreen), matching: find.byType(TextField)));
       expect(field.controller!.text, 'rAma');
+    });
+
+    testWidgets('Home opens Verb forms with the typed root',
+        (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.verbForms});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'gam');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Verb forms'));
+      await tester.pumpAndSettle();
+      expect(sam.calls, ['conjugateVerb:$_gam:-:kartari']);
+      expect(find.text('Dhātu'), findsOneWidget);
+      expect(find.text('No prefix'), findsOneWidget);
+    });
+
+    testWidgets('the Tools row opens Verb forms, empty', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.verbForms});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Tools')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Verb forms'));
+      await tester.pump();
+      await tester.pumpAndSettle();
+      expect(find.text('Select a dhātu…'), findsOneWidget);
+      expect(sam.calls, isEmpty);
     });
 
     testWidgets('the Tools row opens Noun forms, empty', (tester) async {

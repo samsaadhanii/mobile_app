@@ -4,7 +4,6 @@ import '../../core/models/tool_config.dart';
 import '../../core/models/tool_registry.dart';
 import 'screens/krt_generator_screen.dart';
 import 'screens/sandhi_joining_screen.dart';
-import 'screens/verb_generator_screen.dart';
 
 // Dispatches to the correct v2 screen for a given tool id.
 void _navigateTo(BuildContext context, ToolConfig tool) {
@@ -12,9 +11,6 @@ void _navigateTo(BuildContext context, ToolConfig tool) {
     case 'sandhi_joining':
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const SandhiJoiningScreen()));
-    case 'verb_generator':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => const VerbGeneratorScreen()));
     case 'krt_generator':
       Navigator.push(context,
           MaterialPageRoute(builder: (_) => const KrtGeneratorScreen()));
