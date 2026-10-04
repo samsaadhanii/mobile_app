@@ -521,7 +521,11 @@ void main() {
         (tester) async {
       await openDerivation(tester, derivation: const NotFound());
       expect(find.byKey(const Key('state-notFound')), findsOneWidget);
-      expect(find.text('No derivation for rāmeṇa'), findsOneWidget);
+      expect(find.text('Samsaadhanii has no derivation for this form.'),
+          findsOneWidget);
+      // No spelling hint: the form came from a table that was found.
+      expect(find.textContaining('Check the spelling'), findsNothing);
+      expect(find.textContaining('No derivation for'), findsNothing);
     });
 
     testWidgets('unreachable, with Retry', (tester) async {

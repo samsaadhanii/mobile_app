@@ -6,6 +6,7 @@ import '../../domain/domain.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/outcome_view.dart';
 import '../task_frame/task_controller.dart';
+import '../tools/tool_entries.dart' show engineNames;
 
 /// How a form is derived (`SCREENS.md` 5.4): the form as the title, then the
 /// rules in order. The engine's text is shown exactly as sent, in Devanagari,
@@ -74,7 +75,12 @@ class _DerivationScreenState extends State<DerivationScreen> {
                     OutcomeView<Derivation>(
                       outcome: outcome,
                       engine: task.engine,
-                      notFoundTitle: 'No derivation for ${widget.title}',
+                      // The form came from a found table, so the spelling hint
+                      // does not apply: the engine just has nothing for it.
+                      notFoundTitle:
+                          '${engineNames[task.engine]} has no derivation for '
+                          'this form.',
+                      notFoundBody: '',
                       onRetry: task.request,
                       builder: (derivation, source) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

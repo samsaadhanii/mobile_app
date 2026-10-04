@@ -39,6 +39,7 @@ class OutcomeView<T> extends StatelessWidget {
     required this.onRetry,
     this.other,
     this.onTryOther,
+    this.notFoundBody,
     this.notFoundActions = const [],
   });
 
@@ -57,6 +58,11 @@ class OutcomeView<T> extends StatelessWidget {
   /// The other engine, if one can answer this task, and the action to switch.
   final EngineId? other;
   final VoidCallback? onTryOther;
+
+  /// The line under the title; the spelling and script hint when null. A task
+  /// whose input is not typed text (a derivation) gives its own, or `''` for
+  /// none.
+  final String? notFoundBody;
 
   /// Extra actions for "nothing found" (for example "Split it as a phrase").
   final List<Widget> notFoundActions;
@@ -79,8 +85,9 @@ class OutcomeView<T> extends StatelessWidget {
       NotFound<T>() => _Message(
           key: const Key('state-notFound'),
           title: notFoundTitle,
-          body: 'Check the spelling and the input script (Settings, Input '
-              'script).',
+          body: notFoundBody ??
+              'Check the spelling and the input script (Settings, Input '
+                  'script).',
           actions: [if (tryOther != null) tryOther, ...notFoundActions],
         ),
       BadInput<T>() => _Message(
@@ -139,7 +146,7 @@ class _Message extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: theme.textTheme.titleMedium),
-          if (body != null) ...[
+          if (body != null && body!.isNotEmpty) ...[
             const SizedBox(height: 8),
             Text(body!),
           ],
