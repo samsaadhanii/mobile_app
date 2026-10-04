@@ -3,6 +3,7 @@ import '../common/input.dart';
 import '../common/run_request.dart';
 import 'client.dart';
 import 'derivation_adapter.dart';
+import 'dictionary_adapter.dart';
 import 'krt_adapter.dart';
 import 'morph_adapter.dart';
 import 'sandhi_adapter.dart';
@@ -17,9 +18,10 @@ const derivationProgram = 'ashtadhyayi_simulator/simulation.cgi';
 const verbProgram = 'skt_gen/verb/verb_gen.cgi';
 const krtProgram = 'skt_gen/kqw/kqw_gen.cgi';
 const sandhiProgram = 'sandhi/sandhi_json.cgi';
+const dictionaryProgram = 'MT/dict_help_json.cgi';
 
 /// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
-/// forms, the derivation of a noun form, verb and kṛt forms, and sandhi.
+/// forms, the derivation of a noun form, verb and kṛt forms, sandhi, and the dictionary.
 class SamsaadhaniiEngine implements Engine {
   SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
       : _client = client ?? HttpSamsaadhaniiClient(),
@@ -47,6 +49,7 @@ class SamsaadhaniiEngine implements Engine {
         Task.verbForms,
         Task.krtForms,
         Task.joinWords,
+        Task.dictionary,
       };
 
   /// Reports every `{key:value}` the morph adapter could not map; for tests
@@ -190,6 +193,20 @@ class SamsaadhaniiEngine implements Engine {
       sandhiQueryParams(l, r),
       (body, source) =>
           parseSandhi(body, SanskritText(l), SanskritText(r), source),
+    );
+  }
+
+  /// The entries for [headword]. It is always sent in Devanagari, whatever the
+  /// script it came in (WEBSITE-TOOLS F5); an empty headword is `BadInput` and
+  /// no request is made.
+  @override
+  Future<Outcome<List<DictionaryEntry>>> lookUp(SanskritText headword) {
+    final cleaned = cleanForServer(headword);
+    if (cleaned.isEmpty) return Future.value(const BadInput('Enter a word'));
+    return _run(
+      dictionaryProgram,
+      dictionaryQueryParams(SanskritText(cleaned)),
+      (body, source) => parseDictionary(body, source),
     );
   }
 

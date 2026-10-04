@@ -1,4 +1,5 @@
 import 'derivation.dart';
+import 'dictionary.dart';
 import 'krt_forms.dart';
 import 'noun_forms.dart';
 import 'outcome.dart';
@@ -40,9 +41,7 @@ class EngineCredit {
 /// What the app asks of a Sanskrit engine (ARCHITECTURE.md 8.3).
 ///
 /// A method for a task that is not in [tasks] returns [Unsupported] at once,
-/// without a network call. Only the first tasks exist so far (analysis,
-/// splitting, noun forms, derivation, verb and kṛt forms, sandhi); the method for
-/// the other (dictionary) are added with their result models, in later units.
+/// without a network call. Every task of the first release has its method.
 abstract interface class Engine {
   EngineId get id;
 
@@ -68,4 +67,8 @@ abstract interface class Engine {
   /// The ways to join two words. An empty word is `BadInput`, before any
   /// request.
   Future<Outcome<SandhiResult>> joinSandhi(SanskritText left, SanskritText right);
+
+  /// The entries for a headword, one per dictionary that has one, in the
+  /// engine's order. An empty headword is `BadInput`, before any request.
+  Future<Outcome<List<DictionaryEntry>>> lookUp(SanskritText headword);
 }

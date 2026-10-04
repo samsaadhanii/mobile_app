@@ -169,6 +169,17 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     return SanskritText(wx).display(Script.devanagari);
   }
 
+  /// The headword for the dictionary: the lemma, without the prefix of a
+  /// prefixed verb (`Af_gam` is looked up as `gam`).
+  String _dictionaryInput(Analysis a) {
+    var wx = a.lemma.wx;
+    final prefix = a.prefix?.wx;
+    if (prefix != null && wx.startsWith('${prefix}_')) {
+      wx = wx.substring(prefix.length + 1);
+    }
+    return SanskritText(wx).display(Script.devanagari);
+  }
+
   List<Widget> _actions(Analysis a) {
     if (widget.onOpenTool == null) return const [];
     final lemma = a.lemma.display(Script.devanagari);
@@ -191,7 +202,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
           child: const Text('All forms'),
         ),
       TextButton(
-        onPressed: () => _open(Task.dictionary, lemma),
+        onPressed: () => _open(Task.dictionary, _dictionaryInput(a)),
         child: const Text('Dictionary'),
       ),
     ];

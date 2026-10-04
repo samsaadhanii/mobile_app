@@ -31,9 +31,23 @@ String _string(Map item, String key) {
   return v;
 }
 
+/// The server sometimes fills `sUwram` with a copy of `sanXiH` (WEBSITE-TOOLS
+/// F15): no number on any entry and the same names as the steps. That is not a
+/// list of sūtras, and showing it as one would put step names where rules
+/// belong. Where the counts differ, or any entry has a number, the lists are
+/// kept as given and not paired.
+bool _copyOfSteps(List<SandhiSutra> sutras, List<SanskritText> steps) {
+  if (sutras.isEmpty || sutras.length != steps.length) return false;
+  for (var i = 0; i < sutras.length; i++) {
+    if (sutras[i].number != null || sutras[i].text != steps[i]) return false;
+  }
+  return true;
+}
+
 /// Reads the options. `sanXiH` and `sUwram` are lists joined by `->` (the
 /// spaces around it vary); the sūtra's number is the bracket at its end; the
-/// spelt-out words are split on spaces. An option whose joined form is empty is
+/// spelt-out words are split on spaces. A sūtra list that only repeats the steps
+/// is empty (see [_copyOfSteps]). An option whose joined form is empty is
 /// dropped, and an answer with none left is `NotFound`. The program applies
 /// its letter rules to whatever it is given, so a nonsense word still gets an
 /// answer: that is not detected here.
@@ -61,6 +75,15 @@ Outcome<SandhiResult> parseSandhi(
             if (l.isNotEmpty) _iast(l),
         ];
 
+    final steps = [for (final s in parts('sanXiH')) _iast(s)];
+    final sutras = [
+      for (final s in parts('sUwram'))
+        switch (_number.firstMatch(s)) {
+          final m? => SandhiSutra(_iast(m.group(1)!), m.group(2)!.trim()),
+          null => SandhiSutra(_iast(s)),
+        },
+    ];
+
     options.add(SandhiOption(
       joined: _iast(joined),
       lastLetter: _iast(_string(item, 'last_letter')),
@@ -68,14 +91,8 @@ Outcome<SandhiResult> parseSandhi(
       modifiedLetter: _iast(_string(item, 'modified_letter')),
       leftLetters: letters('spelling_word1'),
       rightLetters: letters('spelling_word2'),
-      steps: [for (final s in parts('sanXiH')) _iast(s)],
-      sutras: [
-        for (final s in parts('sUwram'))
-          switch (_number.firstMatch(s)) {
-            final m? => SandhiSutra(_iast(m.group(1)!), m.group(2)!.trim()),
-            null => SandhiSutra(_iast(s)),
-          },
-      ],
+      steps: steps,
+      sutras: _copyOfSteps(sutras, steps) ? const [] : sutras,
     ));
   }
   if (options.isEmpty) return const NotFound();

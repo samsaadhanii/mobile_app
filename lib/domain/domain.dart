@@ -2,6 +2,7 @@
 library;
 
 export 'derivation.dart';
+export 'dictionary.dart';
 export 'engine.dart';
 export 'feature.dart';
 export 'krt_forms.dart';

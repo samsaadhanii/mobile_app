@@ -242,10 +242,27 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
                   onTryOther: task.other == null
                       ? null
                       : () => task.switchTo(task.other!),
-                  builder: (paradigm, source) => ParadigmTable(
-                    paradigm: paradigm,
-                    settings: settings,
-                    onTapForm: _showForm,
+                  builder: (paradigm, source) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ParadigmTable(
+                        paradigm: paradigm,
+                        settings: settings,
+                        onTapForm: _showForm,
+                      ),
+                      // The headword's dictionary entries.
+                      if (widget.onOpenTool != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: TextButton.icon(
+                            onPressed: () => widget.onOpenTool!(
+                                entryFor(Task.dictionary),
+                                _stem.display(Script.devanagari)),
+                            icon: const Icon(Icons.menu_book_outlined),
+                            label: const Text('Dictionary'),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
         );

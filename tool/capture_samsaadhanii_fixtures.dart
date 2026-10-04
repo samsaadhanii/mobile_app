@@ -2,7 +2,7 @@
 // the engine tests (which never call the network).
 //
 // Run from the repository root:
-//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb] [prefixed] [krt] [sandhi]
+//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb] [prefixed] [krt] [sandhi] [dictionary]
 // With no argument every section is captured; with names, only those, so a
 // new fixture does not rewrite the older ones.
 
@@ -45,6 +45,17 @@ const sandhis = {
   'lakRmIvAn_SuBalakRaNaH': ('lakRmIvAn', 'SuBalakRaNaH'),
   'wax_tIkA': ('wax', 'tIkA'),
   'empty': ('rAmaH', ''),
+};
+
+/// file name -> the headword sent to the dictionary. The app always sends
+/// Devanagari; `broken` is the WX headword that the server cannot find, saved as
+/// text (it is not JSON) to test the `ServerFault`; `nonsense` has four empty
+/// meanings.
+const dictionaries = {
+  'vana': 'वन',
+  'rama': 'राम',
+  'nonsense': 'ज़ञ्ज़',
+  'broken': 'rAma',
 };
 
 /// A prefixed verb and kṛt form, for the `upasarga` the analyses carry.
@@ -93,6 +104,11 @@ Future<void> main(List<String> args) async {
   final dir = Directory('test/fixtures/samsaadhanii')..createSync(recursive: true);
   bool wanted(String section) => args.isEmpty || args.contains(section);
 
+  for (final e in dictionaries.entries) {
+    if (!wanted('dictionary')) break;
+    final r = await client.get(dictionaryProgram, {'word': e.value});
+    _save(dir, 'dictionary_${e.key}.${e.key == 'broken' ? 'txt' : 'json'}', r);
+  }
   for (final e in sandhis.entries) {
     if (!wanted('sandhi')) break;
     final (w1, w2) = e.value;

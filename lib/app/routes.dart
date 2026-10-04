@@ -6,15 +6,16 @@ import '../features/krt_forms/krt_forms_screen.dart';
 import '../features/analyse_word/analyse_word_screen.dart';
 import '../features/noun_forms/noun_forms_screen.dart';
 import '../features/split/split_screen.dart';
+import '../features/dictionary/dictionary_screen.dart';
 import '../features/join_words/join_words_screen.dart';
 import '../features/verb_forms/verb_forms_screen.dart';
 import '../features/tools/tool_entries.dart';
 
 /// Opens the screen for [entry], with [input] filled in for the task screens
 /// (Analyse a word, Split and analyse, Noun forms, Verb forms, Kṛt forms, Join
-/// words). Noun forms also takes the [gender] and Verb and Kṛt forms the
-/// [prefix] when the caller has them. Dictionary and Dhātupāṭha have no screen
-/// and open a placeholder (D5 forbids the web page).
+/// words, Dictionary). Noun forms also takes the [gender] and Verb and Kṛt forms
+/// the [prefix] when the caller has them. Dhātupāṭha has no screen yet and
+/// opens a placeholder (D5 forbids the web page).
 void openTool(BuildContext context, ToolEntry entry, String input,
     {FeatureValue? gender, String? prefix}) {
   final Widget page = switch (entry.task) {
@@ -47,6 +48,7 @@ void openTool(BuildContext context, ToolEntry entry, String input,
         onOpenTool: (e, i, {gender, prefix}) =>
             openTool(context, e, i, gender: gender, prefix: prefix),
       ),
+    Task.dictionary => DictionaryScreen(initialInput: input),
     _ => ComingSoonPage(title: entry.nameEn),
   };
   Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));

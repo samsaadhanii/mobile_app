@@ -1,0 +1,4 @@
+[
+{"Word":"rAma",
+"DICT":"Apte's Skt-Hnd Dict",
+/var/www/html/scl/MT/data/hi/Apte_dict/@h.xml does not exist

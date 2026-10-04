@@ -253,17 +253,43 @@ void main() {
       expect(_within(0, const Key('sandhi-letters')), findsOneWidget);
     });
 
-    testWidgets('a sūtra with no number is shown by its text alone',
+    testWidgets('a way whose sūtras only copy its steps says it has none',
         (tester) async {
       await _pump(tester, _engine(sandhi: _laksmi()),
           input: 'lakRmIvAn SuBalakRaNaH', prefs: {'settings.learnerLevel': 'advanced'});
-      // The second option's sūtras are names with no brackets.
-      final second = find.descendant(of: _option(1), matching: find.byKey(const Key('sandhi-sutra')));
-      expect(second, findsNWidgets(5));
-      final plain = [
-        for (final t in tester.widgetList<Text>(second)) t.textSpan!.toPlainText(),
-      ];
-      expect(plain, ['tugāgama', 'ścutva', 'cartva', 'chatva', 'lopābhāvaḥ']);
+      // The second option: no sūtra entries, and the message in their place.
+      expect(find.descendant(of: _option(1), matching: find.byKey(const Key('sandhi-sutra'))),
+          findsNothing);
+      expect(_text(tester, _within(1, const Key('sandhi-no-sutra'))),
+          'Samsaadhanii gives no sūtra for this way.');
+      // The step names are not shown a second time as if they were rules.
+      expect(_text(tester, _within(1, const Key('sandhi-steps'))),
+          'tugāgama  →  ścutva  →  cartva  →  chatva  →  lopābhāvaḥ');
+      // The other three have their sūtras and no message.
+      for (final i in [0, 2, 3]) {
+        expect(_within(i, const Key('sandhi-no-sutra')), findsNothing, reason: '$i');
+        expect(find.descendant(of: _option(i), matching: find.byKey(const Key('sandhi-sutra'))),
+            findsWidgets, reason: '$i');
+      }
+    });
+
+    testWidgets('where steps and sūtras differ in count both lists are shown, unpaired',
+        (tester) async {
+      await _pump(tester, _engine(sandhi: _laksmi()),
+          input: 'lakRmIvAn SuBalakRaNaH', prefs: {'settings.learnerLevel': 'advanced'});
+      // The third option: three steps, four sūtras.
+      expect(_text(tester, _within(2, const Key('sandhi-steps'))),
+          'tugāgama  →  ścutva  →  ścutva');
+      expect(find.descendant(of: _option(2), matching: find.byKey(const Key('sandhi-sutra'))),
+          findsNWidgets(4));
+    });
+
+    testWidgets('the message is for the Advanced level only', (tester) async {
+      for (final level in ['basic', 'intermediate']) {
+        await _pump(tester, _engine(sandhi: _laksmi()),
+            input: 'lakRmIvAn SuBalakRaNaH', prefs: {'settings.learnerLevel': level});
+        expect(find.byKey(const Key('sandhi-no-sutra')), findsNothing, reason: level);
+      }
     });
 
     testWidgets('changing the level changes the screen and is remembered',

@@ -20,6 +20,7 @@ class FakeEngine implements Engine {
     this.verbParadigm,
     this.krt,
     this.sandhi,
+    this.dictionary,
     this.latency = Duration.zero,
     this.plainLatency,
   });
@@ -57,6 +58,9 @@ class FakeEngine implements Engine {
   /// What [joinSandhi] returns; `null` means [NotFound].
   final Outcome<SandhiResult>? sandhi;
 
+  /// What [lookUp] returns; `null` means [NotFound].
+  final Outcome<List<DictionaryEntry>>? dictionary;
+
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
 
@@ -67,7 +71,7 @@ class FakeEngine implements Engine {
   /// `declineNoun:rAma:masculine:plainNoun`, `derive:rAma:masculine:instrumental:singular`,
   /// `conjugateVerb:gam1_gamLz_BvAxiH_gawO:Af:kartari` (`-` for no prefix),
   /// `krtForms:gam1_gamLz_BvAxiH_gawO:Af`,
-  /// `joinSandhi:rAmaH:AlayaH`.
+  /// `joinSandhi:rAmaH:AlayaH`, `lookUp:vana`.
   final List<String> calls = [];
 
   Future<T> _after<T>(T value, [Duration? delay]) {
@@ -146,5 +150,15 @@ class FakeEngine implements Engine {
       return Future.value(const BadInput('Enter two words'));
     }
     return _after(sandhi ?? const NotFound());
+  }
+
+  @override
+  Future<Outcome<List<DictionaryEntry>>> lookUp(SanskritText headword) {
+    calls.add('lookUp:${headword.wx}');
+    if (!tasks.contains(Task.dictionary)) {
+      return Future.value(Unsupported(id, Task.dictionary));
+    }
+    if (headword.isEmpty) return Future.value(const BadInput('Enter a word'));
+    return _after(dictionary ?? const NotFound());
   }
 }

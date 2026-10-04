@@ -304,6 +304,117 @@ void main() {
       expect(sam.calls, isEmpty);
     });
 
+    testWidgets('Home opens the Dictionary with the typed word', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.dictionary});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'rAma');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Dictionary'));
+      await tester.pumpAndSettle();
+      expect(sam.calls, ['lookUp:rAma']);
+      // Not the "being rebuilt" placeholder.
+      expect(find.textContaining('is being rebuilt'), findsNothing);
+      expect(find.text('One Sanskrit word'), findsOneWidget);
+    });
+
+    testWidgets('the Tools row opens the Dictionary, empty', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.dictionary});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Tools')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Dictionary'));
+      await tester.pumpAndSettle();
+      expect(find.textContaining('is being rebuilt'), findsNothing);
+      expect(find.text('One Sanskrit word'), findsOneWidget);
+      expect(sam.calls, isEmpty);
+    });
+
+    testWidgets('"Dictionary" on an analysis card looks the lemma up',
+        (tester) async {
+      final sam = FakeEngine(
+        id: EngineId.samsaadhanii,
+        tasks: const {Task.analyseWord, Task.dictionary},
+        analysis: Found(
+          const WordAnalysis(SanskritText('rAmaH'), [
+            Analysis(lemma: SanskritText('rAma'), wordClass: WordClass.noun),
+          ]),
+          ResultSource(
+              engine: EngineId.samsaadhanii,
+              program: 'morph.cgi',
+              time: DateTime.utc(2026, 10, 5)),
+        ),
+      );
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'rAmaH');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Analyse a word'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
+      await tester.pumpAndSettle();
+      expect(sam.calls.last, 'lookUp:rAma');
+    });
+
+    testWidgets('a prefixed verb is looked up by its root, without the prefix',
+        (tester) async {
+      final sam = FakeEngine(
+        id: EngineId.samsaadhanii,
+        tasks: const {Task.analyseWord, Task.dictionary},
+        analysis: Found(
+          const WordAnalysis(SanskritText('AgacCawi'), [
+            Analysis(
+                lemma: SanskritText('Af_gam'),
+                wordClass: WordClass.verb,
+                prefix: SanskritText('Af')),
+          ]),
+          ResultSource(
+              engine: EngineId.samsaadhanii,
+              program: 'morph.cgi',
+              time: DateTime.utc(2026, 10, 5)),
+        ),
+      );
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'AgacCawi');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Analyse a word'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
+      await tester.pumpAndSettle();
+      expect(sam.calls.last, 'lookUp:gam');
+    });
+
+    testWidgets('the Dictionary link under the noun table looks the stem up',
+        (tester) async {
+      final table = NounParadigm(
+        const NounQuery(stem: SanskritText('rAma'), gender: FeatureValue.masculine),
+        {
+          (FeatureValue.nominative, FeatureValue.singular): [const SanskritText('rAmaH')],
+        },
+      );
+      final sam = FakeEngine(
+        id: EngineId.samsaadhanii,
+        tasks: const {Task.analyseWord, Task.nounForms, Task.dictionary},
+        paradigm: Found(
+            table,
+            ResultSource(
+                engine: EngineId.samsaadhanii,
+                program: 'noun_gen.cgi',
+                time: DateTime.utc(2026, 10, 5))),
+      );
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'rAma');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Noun forms'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
+      await tester.pumpAndSettle();
+      expect(sam.calls.last, 'lookUp:rAma');
+    });
+
     testWidgets('the Tools row opens Verb forms, empty', (tester) async {
       final sam = FakeEngine(
           id: EngineId.samsaadhanii,

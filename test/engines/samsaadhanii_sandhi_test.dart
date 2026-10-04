@@ -141,17 +141,28 @@ void main() {
           ['tugāgama', 'ścutva', 'cartva', 'chatva', 'lopaḥ']);
     });
 
-    test('a sūtra with no bracket has no number: its text is as given',
+    test('a sūtra list that only copies the steps is no sūtra list (F15)',
         () async {
       final r = _found(await _join(_Client(), 'lakRmIvAn', 'SuBalakRaNaH'));
-      // The second option's `sUwram` repeats the names, with no brackets.
-      final second = r.options[1];
-      expect(second.sutras.every((s) => s.number == null), isTrue);
-      expect(_all([for (final s in second.sutras) s.text]),
+      // The second option's `sUwram` is its `sanXiH` again, with no brackets.
+      final raw = jsonDecode(_fixture('lakRmIvAn_SuBalakRaNaH')) as List;
+      expect((raw[1] as Map)['sUwram'], (raw[1] as Map)['sanXiH']);
+      expect(_all(r.options[1].steps),
           ['tugāgama', 'ścutva', 'cartva', 'chatva', 'lopābhāvaḥ']);
-      // The first has numbers on all five.
+      expect(r.options[1].sutras, isEmpty);
+      // The first has numbers on all five and keeps them.
       expect(r.options.first.sutras.map((s) => s.number),
           ['8.3.31', '8.4.40', '8.4.55', '8.4.63', '8.4.65']);
+    });
+
+    test('where steps and sūtras differ in count both are kept as given',
+        () async {
+      final r = _found(await _join(_Client(), 'lakRmIvAn', 'SuBalakRaNaH'));
+      // The third option: three steps, four sūtras. Not paired.
+      final third = r.options[2];
+      expect(third.steps.length, 3);
+      expect(third.sutras.length, 4);
+      expect(third.sutras.every((s) => s.number != null), isTrue);
     });
 
     test('tad + ṭīkā: the WX that stands for tad', () async {
@@ -200,9 +211,39 @@ void main() {
       expect(_iast(s.text), 'a (b) c');
     });
 
-    test('an empty list of sūtras and of steps', () async {
+    test('an empty list of sūtras', () async {
       final o = (await one('')).options.single;
       expect(o.sutras, isEmpty);
+    });
+
+    test('names with no numbers that differ from the steps are kept', () async {
+      // `sanXiH` is `x`; these are other names, so they are sūtras as given.
+      final o = (await one('p->s')).options.single;
+      expect(o.sutras.map((s) => s.number), [null, null]);
+      expect(_all([for (final s in o.sutras) s.text]), ['p', 's']);
+    });
+
+    test('the same names as the steps, one with a number, are kept', () async {
+      Future<SandhiOption> with_(String steps, String sutras) async =>
+          (_found(await _join(
+                  _Client(
+                      canned: jsonEncode([
+                    {
+                      'word1': 'a', 'word2': 'b', 'spelling_word1': 'a ',
+                      'spelling_word2': 'b ', 'last_letter': 'a',
+                      'first_letter': 'b', 'modified_letter': 'b',
+                      'saMhiwapaxam': 'ab', 'sanXiH': steps, 'sUwram': sutras,
+                    }
+                  ])),
+                  'a',
+                  'b')))
+              .options
+              .single;
+      expect((await with_('x->y', 'x->y')).sutras, isEmpty);
+      expect((await with_('x -> y', 'x->y')).sutras, isEmpty);
+      expect((await with_('x->y', 'x (1.1)->y')).sutras.length, 2);
+      expect((await with_('x->y', 'x->y->z')).sutras.length, 3);
+      expect((await with_('x->y', 'y->x')).sutras.length, 2);
     });
   });
 

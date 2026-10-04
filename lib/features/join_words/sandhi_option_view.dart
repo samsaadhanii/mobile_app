@@ -9,7 +9,8 @@ import '../../domain/domain.dart';
 ///   (`ḥ + ā → ā`), and the joined form; "Show spelling" adds the two words
 ///   spelt out letter by letter.
 /// - **Intermediate:** adds the name of the sandhi, its steps joined by arrows.
-/// - **Advanced:** adds each sūtra with its number.
+/// - **Advanced:** adds each sūtra with its number, or says that the engine
+///   gives none for this way.
 ///
 /// Every Sanskrit text is in the display script and never below 16 sp.
 class SandhiOptionView extends StatelessWidget {
@@ -121,6 +122,12 @@ class SandhiOptionView extends StatelessWidget {
               heading('Sandhi'),
               Text(option.steps.map(d).join('  →  '),
                   key: const Key('sandhi-steps'), style: sanskrit),
+            ],
+            if (level == LearnerLevel.advanced && option.sutras.isEmpty) ...[
+              heading('Sūtras'),
+              Text('Samsaadhanii gives no sūtra for this way.',
+                  key: const Key('sandhi-no-sutra'),
+                  style: theme.textTheme.bodyMedium?.copyWith(color: muted)),
             ],
             if (level == LearnerLevel.advanced && option.sutras.isNotEmpty) ...[
               heading('Sūtras'),
