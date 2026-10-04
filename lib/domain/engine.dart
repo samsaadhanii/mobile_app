@@ -1,4 +1,5 @@
 import 'derivation.dart';
+import 'krt_forms.dart';
 import 'noun_forms.dart';
 import 'outcome.dart';
 import 'sanskrit_text.dart';
@@ -39,8 +40,8 @@ class EngineCredit {
 ///
 /// A method for a task that is not in [tasks] returns [Unsupported] at once,
 /// without a network call. Only the first tasks exist so far (analysis,
-/// splitting, noun forms, derivation, verb forms); the methods for the others
-/// (kṛt, sandhi, dictionary) are added with their result models, in later units.
+/// splitting, noun forms, derivation, verb and kṛt forms); the methods for the
+/// others (sandhi, dictionary) are added with their result models, in later units.
 abstract interface class Engine {
   EngineId get id;
 
@@ -59,4 +60,7 @@ abstract interface class Engine {
   Future<Outcome<Derivation>> derive(DerivationQuery query);
 
   Future<Outcome<VerbParadigm>> conjugateVerb(VerbQuery query);
+
+  /// The kṛt forms of a root; the voice of [query] is ignored.
+  Future<Outcome<KrtForms>> krtForms(VerbQuery query);
 }

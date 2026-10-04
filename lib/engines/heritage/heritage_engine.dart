@@ -45,6 +45,10 @@ class HeritageEngine implements Engine {
   Future<Outcome<VerbParadigm>> conjugateVerb(VerbQuery query) =>
       Future.value(Unsupported(id, Task.verbForms));
 
+  @override
+  Future<Outcome<KrtForms>> krtForms(VerbQuery query) =>
+      Future.value(Unsupported(id, Task.krtForms));
+
   /// Always WX, always the Monier-Williams lexicon (D4; single words accept
   /// only WX).
   Map<String, String> _query(String text, Map<String, String> extra) =>

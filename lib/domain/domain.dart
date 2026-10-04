@@ -4,6 +4,7 @@ library;
 export 'derivation.dart';
 export 'engine.dart';
 export 'feature.dart';
+export 'krt_forms.dart';
 export 'noun_forms.dart';
 export 'outcome.dart';
 export 'sanskrit_text.dart';

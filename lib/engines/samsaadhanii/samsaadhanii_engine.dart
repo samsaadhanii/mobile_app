@@ -3,6 +3,7 @@ import '../common/input.dart';
 import '../common/run_request.dart';
 import 'client.dart';
 import 'derivation_adapter.dart';
+import 'krt_adapter.dart';
 import 'morph_adapter.dart';
 import 'noun_adapter.dart';
 import 'splitter_adapter.dart';
@@ -13,9 +14,10 @@ const splitterProgram = 'MT/prog/sandhi_splitter/sandhi_splitter.cgi';
 const nounProgram = 'skt_gen/noun/noun_gen.cgi';
 const derivationProgram = 'ashtadhyayi_simulator/simulation.cgi';
 const verbProgram = 'skt_gen/verb/verb_gen.cgi';
+const krtProgram = 'skt_gen/kqw/kqw_gen.cgi';
 
 /// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
-/// forms, the derivation of a noun form, and verb forms.
+/// forms, the derivation of a noun form, and verb and kṛt forms.
 class SamsaadhaniiEngine implements Engine {
   SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
       : _client = client ?? HttpSamsaadhaniiClient(),
@@ -41,6 +43,7 @@ class SamsaadhaniiEngine implements Engine {
         Task.nounForms,
         Task.derivation,
         Task.verbForms,
+        Task.krtForms,
       };
 
   /// Reports every `{key:value}` the morph adapter could not map; for tests
@@ -159,6 +162,15 @@ class SamsaadhaniiEngine implements Engine {
         }(),
     };
   }
+
+  /// The kṛt forms of a root; the voice of [query] does not matter. The labels
+  /// are corrected by [parseKrt] (WEBSITE-TOOLS F12).
+  @override
+  Future<Outcome<KrtForms>> krtForms(VerbQuery query) => _run(
+        krtProgram,
+        krtQueryParams(query),
+        (body, source) => parseKrt(body, query, source),
+      );
 
   /// One outcome per segment of [split], in order. A segment followed by a
   /// compound boundary is not sent to the server (a bare stem would come back

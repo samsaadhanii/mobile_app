@@ -26,6 +26,16 @@ const morphWords = {
   'empty': '',
 };
 
+/// file name -> (root key, upasarga) for the kṛt generator. `gam_pra` has
+/// `lyap` where the others have `ktvā`; `xyzq` is all dashes.
+const krts = {
+  'gam': ('gam1_gamLz_BvAxiH_gawO', '-'),
+  'paT': ('paT1_paTaz_BvAxiH_vyakwAyAM_vAci', '-'),
+  'kq': ('kq3_dukqF_wanAxiH_karaNe', '-'),
+  'gam_pra': ('gam1_gamLz_BvAxiH_gawO', 'pra'),
+  'xyzq': ('xyzq', '-'),
+};
+
 /// A prefixed verb and kṛt form, for the `upasarga` the analyses carry.
 const prefixedMorph = {'AgacCawi': 'AgacCawi'};
 
@@ -72,6 +82,18 @@ Future<void> main(List<String> args) async {
   final dir = Directory('test/fixtures/samsaadhanii')..createSync(recursive: true);
   bool wanted(String section) => args.isEmpty || args.contains(section);
 
+  for (final e in krts.entries) {
+    if (!wanted('krt')) break;
+    final (root, upasarga) = e.value;
+    final r = await client.get(krtProgram, {
+      'vb': root,
+      'upasarga': upasarga,
+      'encoding': 'WX',
+      'outencoding': 'IAST',
+      'mode': 'json',
+    });
+    _save(dir, 'krt_${e.key}.json', r);
+  }
   for (final e in prefixedMorph.entries) {
     if (!wanted('prefixed')) break;
     final r = await client.get(morphProgram, {

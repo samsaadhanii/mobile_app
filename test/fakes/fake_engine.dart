@@ -18,6 +18,7 @@ class FakeEngine implements Engine {
     this.paradigm,
     this.derivation,
     this.verbParadigm,
+    this.krt,
     this.latency = Duration.zero,
     this.plainLatency,
   });
@@ -49,6 +50,9 @@ class FakeEngine implements Engine {
   /// What [conjugateVerb] returns; `null` means [NotFound].
   final Outcome<VerbParadigm>? verbParadigm;
 
+  /// What [krtForms] returns; `null` means [NotFound].
+  final Outcome<KrtForms>? krt;
+
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
 
@@ -57,7 +61,8 @@ class FakeEngine implements Engine {
 
   /// Every call made, for assertions: `analyseWord:rAmaH`, `segment:rAmaH`,
   /// `declineNoun:rAma:masculine:plainNoun`, `derive:rAma:masculine:instrumental:singular`,
-  /// `conjugateVerb:gam1_gamLz_BvAxiH_gawO:Af:kartari` (`-` for no prefix).
+  /// `conjugateVerb:gam1_gamLz_BvAxiH_gawO:Af:kartari` (`-` for no prefix),
+  /// `krtForms:gam1_gamLz_BvAxiH_gawO:Af`.
   final List<String> calls = [];
 
   Future<T> _after<T>(T value, [Duration? delay]) {
@@ -114,5 +119,14 @@ class FakeEngine implements Engine {
       return Future.value(Unsupported(id, Task.verbForms));
     }
     return _after(verbParadigm ?? const NotFound());
+  }
+
+  @override
+  Future<Outcome<KrtForms>> krtForms(VerbQuery query) {
+    calls.add('krtForms:${query.root}:${query.prefix ?? '-'}');
+    if (!tasks.contains(Task.krtForms)) {
+      return Future.value(Unsupported(id, Task.krtForms));
+    }
+    return _after(krt ?? const NotFound());
   }
 }

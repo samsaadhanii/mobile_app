@@ -218,9 +218,22 @@ void main() {
           ['sg.', 'du.', 'pl.']);
     });
 
+    test('the three genders have one, as the engine writes them', () {
+      expect([for (final v in krtGenders) v.shortIast], ['puṃ', 'strī', 'napuṃ']);
+      expect([for (final v in krtGenders) v.shortEnglish], ['m.', 'f.', 'n.']);
+      expect(FeatureValue.noGender.shortIast, isNull);
+    });
+
     test('nothing else has one, and the full names are unchanged', () {
+      const genders = {
+        FeatureValue.masculine,
+        FeatureValue.feminine,
+        FeatureValue.neuter
+      };
       for (final v in FeatureValue.values) {
-        final has = v.kind == FeatureKind.person || v.kind == FeatureKind.number;
+        final has = v.kind == FeatureKind.person ||
+            v.kind == FeatureKind.number ||
+            genders.contains(v);
         expect(v.shortIast != null, has, reason: v.name);
         expect(v.shortEnglish != null, has, reason: v.name);
       }

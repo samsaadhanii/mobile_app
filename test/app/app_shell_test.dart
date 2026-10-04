@@ -185,6 +185,95 @@ void main() {
       expect(find.text('No prefix'), findsOneWidget);
     });
 
+    testWidgets('Home opens Kṛt forms with the typed root', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.krtForms});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'gam');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Kṛt forms'));
+      await tester.pumpAndSettle();
+      expect(sam.calls, ['krtForms:$_gam:-']);
+      expect(find.text('Dhātu'), findsOneWidget);
+    });
+
+    testWidgets('the Tools row opens Kṛt forms, empty', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.krtForms});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Tools')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kṛt forms'));
+      await tester.pumpAndSettle();
+      expect(find.text('Select a dhātu…'), findsOneWidget);
+      expect(find.text('Prefix'), findsOneWidget);
+      expect(sam.calls, isEmpty);
+    });
+
+    testWidgets('"All forms" on a prefixed verb opens Verb forms on that root and prefix',
+        (tester) async {
+      final sam = FakeEngine(
+        id: EngineId.samsaadhanii,
+        tasks: const {Task.analyseWord, Task.verbForms},
+        analysis: Found(
+          const WordAnalysis(SanskritText('AgacCawi'), [
+            Analysis(
+                lemma: SanskritText('Af_gam'),
+                wordClass: WordClass.verb,
+                prefix: SanskritText('Af')),
+          ]),
+          ResultSource(
+              engine: EngineId.samsaadhanii,
+              program: 'morph.cgi',
+              time: DateTime.utc(2026, 10, 5)),
+        ),
+      );
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'AgacCawi');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Analyse a word'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('All forms'));
+      await tester.pumpAndSettle();
+      // The root without its prefix is found in the list; the prefix is Af.
+      expect(sam.calls.last, 'conjugateVerb:$_gam:Af:kartari');
+      expect(find.text('āṅ'), findsOneWidget); // in the prefix picker
+    });
+
+    testWidgets('the link on Verb forms opens Kṛt forms on the same root and prefix',
+        (tester) async {
+      final table = LakaraTable(FeatureValue.lat, {
+        (FeatureValue.third, FeatureValue.singular): [const SanskritText('gacCawi')],
+      });
+      final sam = FakeEngine(
+        id: EngineId.samsaadhanii,
+        tasks: const {Task.analyseWord, Task.verbForms, Task.krtForms},
+        verbParadigm: Found(
+          VerbParadigm(const VerbQuery(root: _gam, prefix: 'Af'),
+              const SanskritText('gam(BvAxiH)'),
+              [PadaTables(FeatureValue.parasmaipada, [table])]),
+          ResultSource(
+              engine: EngineId.samsaadhanii,
+              program: 'verb_gen.cgi',
+              time: DateTime.utc(2026, 10, 5)),
+        ),
+      );
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'gam');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Verb forms'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Kṛt forms of this root'));
+      await tester.pumpAndSettle();
+      expect(sam.calls.last, 'krtForms:$_gam:-');
+      expect(find.text('Suffix names corrected by the app.'), findsNothing);
+      expect(find.byType(AppBar), findsOneWidget);
+      expect(find.text('Kṛt forms'), findsWidgets);
+    });
+
     testWidgets('the Tools row opens Verb forms, empty', (tester) async {
       final sam = FakeEngine(
           id: EngineId.samsaadhanii,

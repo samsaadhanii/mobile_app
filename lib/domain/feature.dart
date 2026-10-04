@@ -29,9 +29,12 @@ enum FeatureKind {
 /// `Feature(kind, unknown, original)`, never dropped.
 enum FeatureValue {
   // gender
-  masculine(FeatureKind.gender, 'puṃliṅgam', 'masculine'),
-  feminine(FeatureKind.gender, 'strīliṅgam', 'feminine'),
-  neuter(FeatureKind.gender, 'napuṃsakaliṅgam', 'neuter'),
+  masculine(FeatureKind.gender, 'puṃliṅgam', 'masculine',
+      shortIast: 'puṃ', shortEnglish: 'm.'),
+  feminine(FeatureKind.gender, 'strīliṅgam', 'feminine',
+      shortIast: 'strī', shortEnglish: 'f.'),
+  neuter(FeatureKind.gender, 'napuṃsakaliṅgam', 'neuter',
+      shortIast: 'napuṃ', shortEnglish: 'n.'),
   noGender(FeatureKind.gender, 'aliṅgam', 'no gender'),
 
   // case: the seven vibhaktis and sambodhana
@@ -121,8 +124,9 @@ enum FeatureValue {
   final String english;
 
   /// A short name for table headings, in each label language (person and
-  /// number have one: `pra.` / `3rd`, `eka.` / `sg.`); null when the full name
-  /// is already short. The full name is used everywhere else.
+  /// number have one: `pra.` / `3rd`, `eka.` / `sg.`; so do the three genders:
+  /// `puṃ` / `m.`); null when the full name is already short. The full name is
+  /// used everywhere else.
   final String? shortIast;
   final String? shortEnglish;
 
