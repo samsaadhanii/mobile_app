@@ -5,7 +5,7 @@ import '../../app/app_info.dart';
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
 import '../../sanskrit/transliteration.dart' show toWx;
-import '../tools/engine_chips.dart';
+import '../tools/engine_marks.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
 import 'dhatu_index.dart';
@@ -14,7 +14,15 @@ import 'script_detection.dart';
 import 'suggestions.dart';
 
 /// Home (`SCREENS.md` section 2): one input box, the detected script, rows
-/// for what can be done with the text, recent inputs, and the tools as chips.
+/// for what can be done with the text, and recent inputs or, when there are
+/// none, three examples to try.
+/// What to try when the box is empty and there are no recent inputs.
+const _examples = [
+  ('रामः', 'a word'),
+  ('रामो वनं गच्छति', 'a sentence'),
+  ('रामालयः', 'a compound'),
+];
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.onOpen});
 
@@ -85,9 +93,10 @@ class _HomePageState extends State<HomePage> {
           toWx(w, detected.script),
     ];
     final suggestions = suggestionsFor(words, dhatus: dhatus);
+    final showRecent = settings.keepRecentInputs && recent.items.isNotEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(appDisplayName)),
+      appBar: AppBar(title: const _AppTitle()),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -128,13 +137,14 @@ class _HomePageState extends State<HomePage> {
                 title: Text(entryFor(s.task).nameEn),
                 subtitle: Padding(
                   padding: const EdgeInsets.only(top: 6),
-                  child: EngineChips(entryFor(s.task).engines),
+                  child: EngineMarks(entryFor(s.task).engines,
+                      textAlign: TextAlign.start),
                 ),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => _open(entryFor(s.task), settings),
               ),
             ),
-          if (settings.keepRecentInputs && recent.items.isNotEmpty) ...[
+          if (showRecent) ...[
             const SizedBox(height: 16),
             Row(
               children: [
@@ -162,22 +172,49 @@ class _HomePageState extends State<HomePage> {
                 }),
               ),
           ],
-          const SizedBox(height: 16),
-          Text('Tools', style: theme.textTheme.titleSmall),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 4,
-            children: [
-              for (final entry in toolEntries)
-                ActionChip(
-                  label: Text(entry.nameEn),
-                  onPressed: () => _open(entry, settings),
-                ),
-            ],
-          ),
+          if (text.isEmpty && !showRecent) ...[
+            const SizedBox(height: 16),
+            Text('Try an example', style: theme.textTheme.titleSmall),
+            for (final (example, what) in _examples)
+              ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                title: Text(example, style: const TextStyle(fontSize: 18)),
+                subtitle: Text(what),
+                onTap: () => setState(() {
+                  _controller.text = example;
+                  _controller.selection =
+                      TextSelection.collapsed(offset: example.length);
+                  _override = null;
+                }),
+              ),
+          ],
         ],
       ),
+    );
+  }
+}
+
+/// The top bar title: version 1's logo at title height and the app name, or
+/// the name alone if the image cannot be loaded.
+class _AppTitle extends StatelessWidget {
+  const _AppTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: Image.asset(
+            'assets/images/samsadhani3.jpg',
+            height: 32,
+            errorBuilder: (context, error, stack) => const SizedBox.shrink(),
+          ),
+        ),
+        const SizedBox(width: 12),
+        const Flexible(child: Text(appDisplayName, overflow: TextOverflow.ellipsis)),
+      ],
     );
   }
 }

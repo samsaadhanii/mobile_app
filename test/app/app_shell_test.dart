@@ -59,7 +59,7 @@ void main() {
       await tester.tap(find.descendant(
           of: find.byType(NavigationBar), matching: find.text('Tools')));
       await tester.pumpAndSettle();
-      expect(find.text('ANALYSIS'), findsOneWidget);
+      expect(find.text('Analysis'), findsOneWidget);
 
       await tester.tap(find.descendant(
           of: find.byType(NavigationBar), matching: find.text('Settings')));
@@ -83,19 +83,21 @@ void main() {
           isTrue);
     });
 
-    testWidgets('Tools lists the three groups and the engine chips',
+    testWidgets('Tools lists the three groups and the engines as quiet text',
         (tester) async {
       await _pumpApp(tester);
       await tester.tap(find.descendant(
           of: find.byType(NavigationBar), matching: find.text('Tools')));
       await tester.pumpAndSettle();
-      for (final g in ['ANALYSIS', 'GENERATION', 'REFERENCE']) {
+      for (final g in ['Analysis', 'Generation', 'Reference']) {
         expect(find.text(g), findsOneWidget);
       }
-      expect(find.text('Heritage'), findsNWidgets(2)); // analyse and split
-      // The Sanskrit names are in the display script (IAST by default).
-      expect(find.text('dhātupāṭhaḥ'), findsOneWidget);
-      expect(find.text('धातुपाठः'), findsNothing);
+      expect(find.text('Samsaadhanii · Heritage'), findsNWidgets(2)); // analyse and split
+      expect(find.byType(Chip), findsNothing);
+      // The Sanskrit names are titles, in Devanagari even with the default
+      // IAST display script.
+      expect(find.text('धातुपाठः'), findsOneWidget);
+      expect(find.text('dhātupāṭhaḥ'), findsNothing);
     });
 
     testWidgets('a Tools row without a screen opens a placeholder',

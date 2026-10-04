@@ -51,13 +51,7 @@ class SamApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: appDisplayName,
         theme: AppTheme.lightTheme,
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF4DB6AC),
-            brightness: Brightness.dark,
-          ),
-        ),
+        darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
         home: const AppShell(),
       ),

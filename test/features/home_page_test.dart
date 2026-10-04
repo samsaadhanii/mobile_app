@@ -4,7 +4,6 @@ import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/features/home/dhatu_index.dart';
 import 'package:mobile_app/features/home/home_page.dart';
 import 'package:mobile_app/features/home/recent_inputs.dart';
-import 'package:mobile_app/features/tools/tool_entries.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -163,12 +162,53 @@ void main() {
       expect(recent.items, ['old']);
     });
 
-    testWidgets('the tools as chips, the same list as the Tools tab',
+    testWidgets('no tool chips: the Tools tab lists the tools', (tester) async {
+      await pumpHome(tester);
+      expect(find.byType(ActionChip), findsNothing);
+      expect(find.text('Tools'), findsNothing);
+    });
+
+    testWidgets('an empty box with no recent inputs offers three examples',
         (tester) async {
       await pumpHome(tester);
-      for (final e in toolEntries) {
-        expect(find.widgetWithText(ActionChip, e.nameEn), findsOneWidget);
+      expect(find.text('Try an example'), findsOneWidget);
+      for (final e in ['रामः', 'रामो वनं गच्छति', 'रामालयः']) {
+        expect(find.text(e), findsOneWidget);
       }
+      expect(find.text('a word'), findsOneWidget);
+      expect(find.text('a sentence'), findsOneWidget);
+      expect(find.text('a compound'), findsOneWidget);
+    });
+
+    testWidgets('tapping an example fills the box and offers suggestions',
+        (tester) async {
+      await pumpHome(tester);
+      await tester.tap(find.text('रामो वनं गच्छति'));
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(TextField, 'रामो वनं गच्छति'), findsOneWidget);
+      expect(find.text('Devanagari, 3 words'), findsOneWidget);
+      expect(rows(tester), ['Split and analyse', 'Analyse a word']);
+      // The examples go once the box has text.
+      expect(find.text('Try an example'), findsNothing);
+    });
+
+    testWidgets('recent inputs replace the examples', (tester) async {
+      await pumpHome(tester, prefs: {'recent.inputs': ['vanam']});
+      expect(find.text('Recent'), findsOneWidget);
+      expect(find.text('Try an example'), findsNothing);
+    });
+
+    testWidgets('with Keep recent inputs off the examples show', (tester) async {
+      await pumpHome(tester, prefs: {
+        'settings.keepRecentInputs': false,
+        'recent.inputs': ['old'],
+      });
+      expect(find.text('Try an example'), findsOneWidget);
+    });
+
+    testWidgets('the top bar has the app name', (tester) async {
+      await pumpHome(tester);
+      expect(find.text('Saṃsādhanī'), findsOneWidget);
     });
   });
 }

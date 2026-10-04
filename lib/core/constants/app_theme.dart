@@ -4,59 +4,76 @@ import 'package:flutter/services.dart';
 // ── Brand colors ───────────────────────────────────────────────────────────
 
 abstract final class AppColors {
+  /// The one seed every colour of the theme is derived from.
+  static const seed = Color(0xFF4DB6AC); // teal 300
+
+  // Still read by the version 1 style tool screens.
   static const primary = Color(0xFF80CBC4); // teal 200
   static const secondary = Color(0xFF4DB6AC); // teal 300
-  static const gradientStart = Color(0xFF80CBC4);
-  static const gradientEnd = Color(0xFF4DB6AC);
   static const scaffoldBg = Color(0xFFF5F5F5);
+
+  // The gradient carries white text and icons, so both ends are dark enough
+  // for 4.5 to 1 (teal 700 and teal 800).
+  static const gradientStart = Color(0xFF00796B);
+  static const gradientEnd = Color(0xFF00695C);
 }
 
 // ── Theme ──────────────────────────────────────────────────────────────────
 
 abstract final class AppTheme {
-  /// Light teal gradient — left to right.
+  /// Teal gradient, left to right, for white text.
   static LinearGradient get tealGradient => const LinearGradient(
         colors: [AppColors.gradientStart, AppColors.gradientEnd],
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
       );
 
-  static ThemeData get lightTheme => ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Color(0xFF4DB6AC),
-          brightness: Brightness.light,
+  static ThemeData get lightTheme => _build(Brightness.light);
+  static ThemeData get darkTheme => _build(Brightness.dark);
+
+  /// Everything is derived from [AppColors.seed] by Material 3, so no colour
+  /// pair is picked by hand. The top bar is the surface colour with the
+  /// scheme's own text colour on it; the status-bar icons follow its
+  /// brightness.
+  static ThemeData _build(Brightness brightness) {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: AppColors.seed,
+      brightness: brightness,
+    );
+    const radius = BorderRadius.all(Radius.circular(12));
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      appBarTheme: AppBarTheme(
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.onSurface,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        iconTheme: IconThemeData(color: scheme.onSurface),
+        titleTextStyle: TextStyle(
+          color: scheme.onSurface,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
         ),
-        scaffoldBackgroundColor: AppColors.scaffoldBg,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.primary,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+        systemOverlayStyle: brightness == Brightness.light
+            ? SystemUiOverlayStyle.dark
+            : SystemUiOverlayStyle.light,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: const OutlineInputBorder(borderRadius: radius),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: radius,
+          borderSide: BorderSide(color: scheme.outline),
         ),
-        inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-            borderSide: BorderSide(color: AppColors.secondary, width: 2),
-          ),
-          floatingLabelStyle: TextStyle(color: AppColors.secondary),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: radius,
+          borderSide: BorderSide(color: scheme.primary, width: 2),
         ),
-      );
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
+    );
+  }
 }
 
 // ── GradientAppBar ─────────────────────────────────────────────────────────
