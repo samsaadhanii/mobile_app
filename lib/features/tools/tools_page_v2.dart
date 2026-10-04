@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../core/models/tool_config.dart';
 import '../../core/models/tool_registry.dart';
-import 'screens/sandhi_joining_screen.dart';
 
 // Dispatches to the correct v2 screen for a given tool id.
 void _navigateTo(BuildContext context, ToolConfig tool) {
   switch (tool.id) {
-    case 'sandhi_joining':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => const SandhiJoiningScreen()));
     default:
       debugPrint('navigate to ${tool.id} — screen not yet built');
   }

@@ -486,6 +486,7 @@ void main() {
         Task.derivation,
         Task.verbForms,
         Task.krtForms,
+        Task.joinWords,
       });
       expect(e.credit.name, 'Samsaadhanii');
     });

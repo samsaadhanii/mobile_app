@@ -5,6 +5,7 @@ import 'client.dart';
 import 'derivation_adapter.dart';
 import 'krt_adapter.dart';
 import 'morph_adapter.dart';
+import 'sandhi_adapter.dart';
 import 'noun_adapter.dart';
 import 'splitter_adapter.dart';
 import 'verb_adapter.dart';
@@ -15,9 +16,10 @@ const nounProgram = 'skt_gen/noun/noun_gen.cgi';
 const derivationProgram = 'ashtadhyayi_simulator/simulation.cgi';
 const verbProgram = 'skt_gen/verb/verb_gen.cgi';
 const krtProgram = 'skt_gen/kqw/kqw_gen.cgi';
+const sandhiProgram = 'sandhi/sandhi_json.cgi';
 
 /// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
-/// forms, the derivation of a noun form, and verb and kṛt forms.
+/// forms, the derivation of a noun form, verb and kṛt forms, and sandhi.
 class SamsaadhaniiEngine implements Engine {
   SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
       : _client = client ?? HttpSamsaadhaniiClient(),
@@ -44,6 +46,7 @@ class SamsaadhaniiEngine implements Engine {
         Task.derivation,
         Task.verbForms,
         Task.krtForms,
+        Task.joinWords,
       };
 
   /// Reports every `{key:value}` the morph adapter could not map; for tests
@@ -171,6 +174,24 @@ class SamsaadhaniiEngine implements Engine {
         krtQueryParams(query),
         (body, source) => parseKrt(body, query, source),
       );
+
+  /// The ways to join [left] and [right]. An empty word is `BadInput` and no
+  /// request is made (the server would answer the first word unchanged).
+  @override
+  Future<Outcome<SandhiResult>> joinSandhi(
+      SanskritText left, SanskritText right) {
+    final l = cleanForServer(left);
+    final r = cleanForServer(right);
+    if (l.isEmpty || r.isEmpty) {
+      return Future.value(const BadInput('Enter two words'));
+    }
+    return _run(
+      sandhiProgram,
+      sandhiQueryParams(l, r),
+      (body, source) =>
+          parseSandhi(body, SanskritText(l), SanskritText(r), source),
+    );
+  }
 
   /// One outcome per segment of [split], in order. A segment followed by a
   /// compound boundary is not sent to the server (a bare stem would come back

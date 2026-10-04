@@ -274,6 +274,36 @@ void main() {
       expect(find.text('Kṛt forms'), findsWidgets);
     });
 
+    testWidgets('Home opens Join words with exactly two words, and joins them',
+        (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.joinWords});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.enterText(find.byType(TextField), 'rAma AlayaH');
+      await tester.pump();
+      await tester.tap(find.widgetWithText(ListTile, 'Join two words'));
+      await tester.pumpAndSettle();
+      expect(sam.calls, ['joinSandhi:rAma:AlayaH']);
+      expect(find.text('First word'), findsOneWidget);
+      expect(find.text('Learner level'), findsOneWidget);
+    });
+
+    testWidgets('the Tools row opens Join words, empty', (tester) async {
+      final sam = FakeEngine(
+          id: EngineId.samsaadhanii,
+          tasks: const {Task.analyseWord, Task.joinWords});
+      await _pumpApp(tester, const {}, EngineSet({EngineId.samsaadhanii: sam}));
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Tools')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Join two words'));
+      await tester.pumpAndSettle();
+      expect(find.text('First word'), findsOneWidget);
+      expect(find.text('Second word'), findsOneWidget);
+      expect(sam.calls, isEmpty);
+    });
+
     testWidgets('the Tools row opens Verb forms, empty', (tester) async {
       final sam = FakeEngine(
           id: EngineId.samsaadhanii,

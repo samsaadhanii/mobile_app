@@ -7,6 +7,7 @@ export 'feature.dart';
 export 'krt_forms.dart';
 export 'noun_forms.dart';
 export 'outcome.dart';
+export 'sandhi.dart';
 export 'sanskrit_text.dart';
 export 'segmentation.dart';
 export 'task.dart';

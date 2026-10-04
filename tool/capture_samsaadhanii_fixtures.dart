@@ -2,7 +2,7 @@
 // the engine tests (which never call the network).
 //
 // Run from the repository root:
-//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb] [prefixed] [krt]
+//   dart run tool/capture_samsaadhanii_fixtures.dart [morph] [split] [noun] [derivation] [verb] [prefixed] [krt] [sandhi]
 // With no argument every section is captured; with names, only those, so a
 // new fixture does not rewrite the older ones.
 
@@ -34,6 +34,17 @@ const krts = {
   'kq': ('kq3_dukqF_wanAxiH_karaNe', '-'),
   'gam_pra': ('gam1_gamLz_BvAxiH_gawO', 'pra'),
   'xyzq': ('xyzq', '-'),
+};
+
+/// file name -> (word1, word2) for the sandhi joiner. The last has an empty
+/// second word: the server answers the first word unchanged, which the engine
+/// never asks for (it answers `BadInput` first).
+const sandhis = {
+  'rAmaH_AlayaH': ('rAmaH', 'AlayaH'),
+  'rAma_ayam': ('rAma', 'ayam'),
+  'lakRmIvAn_SuBalakRaNaH': ('lakRmIvAn', 'SuBalakRaNaH'),
+  'wax_tIkA': ('wax', 'tIkA'),
+  'empty': ('rAmaH', ''),
 };
 
 /// A prefixed verb and kṛt form, for the `upasarga` the analyses carry.
@@ -82,6 +93,17 @@ Future<void> main(List<String> args) async {
   final dir = Directory('test/fixtures/samsaadhanii')..createSync(recursive: true);
   bool wanted(String section) => args.isEmpty || args.contains(section);
 
+  for (final e in sandhis.entries) {
+    if (!wanted('sandhi')) break;
+    final (w1, w2) = e.value;
+    final r = await client.get(sandhiProgram, {
+      'word1': w1,
+      'word2': w2,
+      'encoding': 'WX',
+      'outencoding': 'IAST',
+    });
+    _save(dir, 'sandhi_${e.key}.json', r);
+  }
   for (final e in krts.entries) {
     if (!wanted('krt')) break;
     final (root, upasarga) = e.value;

@@ -42,6 +42,20 @@ enum LabelLanguage {
   final String label;
 }
 
+/// How much of a sandhi the Join words screen shows (`SCREENS.md` 5.4):
+/// the words and the letters that meet; then the name of the sandhi; then each
+/// sūtra. Kept with the settings so it is remembered, but not a Settings page
+/// row: it is chosen on that screen (the level is Sandhi-only for now).
+enum LearnerLevel {
+  basic('Basic'),
+  intermediate('Intermediate'),
+  advanced('Advanced');
+
+  const LearnerLevel(this.label);
+
+  final String label;
+}
+
 /// The settings model, exposed with `provider`. Every change is written to
 /// the phone before listeners hear about it, and read back at the next start.
 class AppSettings extends ChangeNotifier {
@@ -55,6 +69,8 @@ class AppSettings extends ChangeNotifier {
     preferredEngine =
         _read(EngineId.values, _kEngine, EngineId.samsaadhanii);
     keepRecentInputs = _prefs.getBool(_kKeepRecent) ?? true;
+    learnerLevel =
+        _read(LearnerLevel.values, _kLearnerLevel, LearnerLevel.basic);
   }
 
   static const _kInputScript = 'settings.inputScript';
@@ -62,6 +78,7 @@ class AppSettings extends ChangeNotifier {
   static const _kLabels = 'settings.labelLanguage';
   static const _kEngine = 'settings.preferredEngine';
   static const _kKeepRecent = 'settings.keepRecentInputs';
+  static const _kLearnerLevel = 'settings.learnerLevel';
 
   final SharedPreferences _prefs;
 
@@ -70,6 +87,7 @@ class AppSettings extends ChangeNotifier {
   late LabelLanguage labelLanguage;
   late EngineId preferredEngine;
   late bool keepRecentInputs;
+  late LearnerLevel learnerLevel;
 
   static Future<AppSettings> load([SharedPreferences? prefs]) async =>
       AppSettings._(prefs ?? await SharedPreferences.getInstance());
@@ -94,6 +112,9 @@ class AppSettings extends ChangeNotifier {
 
   Future<void> setPreferredEngine(EngineId v) =>
       _setName(_kEngine, v, () => preferredEngine = v);
+
+  Future<void> setLearnerLevel(LearnerLevel v) =>
+      _setName(_kLearnerLevel, v, () => learnerLevel = v);
 
   Future<void> setKeepRecentInputs(bool v) async {
     keepRecentInputs = v;

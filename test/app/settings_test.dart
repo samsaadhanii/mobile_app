@@ -21,6 +21,8 @@ void main() {
       expect(s.labelLanguage, LabelLanguage.sanskrit);
       expect(s.preferredEngine, EngineId.samsaadhanii);
       expect(s.keepRecentInputs, isTrue);
+      // Chosen on the Join words screen, not a row of the Settings page.
+      expect(s.learnerLevel, LearnerLevel.basic);
     });
 
     test('all five settings survive a restart', () async {
@@ -38,6 +40,30 @@ void main() {
       expect(again.labelLanguage, LabelLanguage.english);
       expect(again.preferredEngine, EngineId.heritage);
       expect(again.keepRecentInputs, isFalse);
+    });
+
+    test('the learner level is remembered, and notifies', () async {
+      final prefs = await _prefs();
+      final s = await AppSettings.load(prefs);
+      var calls = 0;
+      s.addListener(() => calls++);
+      await s.setLearnerLevel(LearnerLevel.advanced);
+      expect(calls, 1);
+      expect(prefs.getString('settings.learnerLevel'), 'advanced');
+      expect((await AppSettings.load(prefs)).learnerLevel, LearnerLevel.advanced);
+      await s.setLearnerLevel(LearnerLevel.intermediate);
+      expect((await AppSettings.load(prefs)).learnerLevel, LearnerLevel.intermediate);
+    });
+
+    test('a stored level that no longer exists is Basic', () async {
+      final s = await AppSettings.load(
+          await _prefs({'settings.learnerLevel': 'expert'}));
+      expect(s.learnerLevel, LearnerLevel.basic);
+    });
+
+    test('the three levels, in order', () {
+      expect(LearnerLevel.values.map((l) => l.label),
+          ['Basic', 'Intermediate', 'Advanced']);
     });
 
     test('a change notifies listeners after it is written', () async {

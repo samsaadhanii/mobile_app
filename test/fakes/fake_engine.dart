@@ -19,6 +19,7 @@ class FakeEngine implements Engine {
     this.derivation,
     this.verbParadigm,
     this.krt,
+    this.sandhi,
     this.latency = Duration.zero,
     this.plainLatency,
   });
@@ -53,6 +54,9 @@ class FakeEngine implements Engine {
   /// What [krtForms] returns; `null` means [NotFound].
   final Outcome<KrtForms>? krt;
 
+  /// What [joinSandhi] returns; `null` means [NotFound].
+  final Outcome<SandhiResult>? sandhi;
+
   /// Delay before a supported task answers (Unsupported never waits).
   final Duration latency;
 
@@ -62,7 +66,8 @@ class FakeEngine implements Engine {
   /// Every call made, for assertions: `analyseWord:rAmaH`, `segment:rAmaH`,
   /// `declineNoun:rAma:masculine:plainNoun`, `derive:rAma:masculine:instrumental:singular`,
   /// `conjugateVerb:gam1_gamLz_BvAxiH_gawO:Af:kartari` (`-` for no prefix),
-  /// `krtForms:gam1_gamLz_BvAxiH_gawO:Af`.
+  /// `krtForms:gam1_gamLz_BvAxiH_gawO:Af`,
+  /// `joinSandhi:rAmaH:AlayaH`.
   final List<String> calls = [];
 
   Future<T> _after<T>(T value, [Duration? delay]) {
@@ -128,5 +133,18 @@ class FakeEngine implements Engine {
       return Future.value(Unsupported(id, Task.krtForms));
     }
     return _after(krt ?? const NotFound());
+  }
+
+  @override
+  Future<Outcome<SandhiResult>> joinSandhi(
+      SanskritText left, SanskritText right) {
+    calls.add('joinSandhi:${left.wx}:${right.wx}');
+    if (!tasks.contains(Task.joinWords)) {
+      return Future.value(Unsupported(id, Task.joinWords));
+    }
+    if (left.isEmpty || right.isEmpty) {
+      return Future.value(const BadInput('Enter two words'));
+    }
+    return _after(sandhi ?? const NotFound());
   }
 }

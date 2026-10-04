@@ -32,7 +32,7 @@ class HeritageEngine implements Engine {
   /// Reports every label the adapter could not map; for tests and review.
   OnUnmapped? onUnmapped;
 
-  /// Heritage answers neither yet; they wait on its team (questions 14 to 17).
+  /// Heritage answers neither yet; they wait on its team (questions 14 to 19).
   @override
   Future<Outcome<NounParadigm>> declineNoun(NounQuery query) =>
       Future.value(Unsupported(id, Task.nounForms));
@@ -48,6 +48,11 @@ class HeritageEngine implements Engine {
   @override
   Future<Outcome<KrtForms>> krtForms(VerbQuery query) =>
       Future.value(Unsupported(id, Task.krtForms));
+
+  @override
+  Future<Outcome<SandhiResult>> joinSandhi(
+          SanskritText left, SanskritText right) =>
+      Future.value(Unsupported(id, Task.joinWords));
 
   /// Always WX, always the Monier-Williams lexicon (D4; single words accept
   /// only WX).

@@ -3,6 +3,7 @@ import 'krt_forms.dart';
 import 'noun_forms.dart';
 import 'outcome.dart';
 import 'sanskrit_text.dart';
+import 'sandhi.dart';
 import 'segmentation.dart';
 import 'task.dart';
 import 'verb_forms.dart';
@@ -40,8 +41,8 @@ class EngineCredit {
 ///
 /// A method for a task that is not in [tasks] returns [Unsupported] at once,
 /// without a network call. Only the first tasks exist so far (analysis,
-/// splitting, noun forms, derivation, verb and kṛt forms); the methods for the
-/// others (sandhi, dictionary) are added with their result models, in later units.
+/// splitting, noun forms, derivation, verb and kṛt forms, sandhi); the method for
+/// the other (dictionary) are added with their result models, in later units.
 abstract interface class Engine {
   EngineId get id;
 
@@ -63,4 +64,8 @@ abstract interface class Engine {
 
   /// The kṛt forms of a root; the voice of [query] is ignored.
   Future<Outcome<KrtForms>> krtForms(VerbQuery query);
+
+  /// The ways to join two words. An empty word is `BadInput`, before any
+  /// request.
+  Future<Outcome<SandhiResult>> joinSandhi(SanskritText left, SanskritText right);
 }
