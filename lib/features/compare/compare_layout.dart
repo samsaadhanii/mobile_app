@@ -8,23 +8,29 @@ class CompareLayout extends StatelessWidget {
     required this.title,
     required this.banner,
     required this.bannerKey,
-    required this.leftTitle,
-    required this.rightTitle,
-    required this.left,
-    required this.right,
+    this.leftTitle,
+    this.rightTitle,
+    this.left,
+    this.right,
+    this.body,
     required this.ownLabels,
     required this.onOwnLabels,
-  });
+  }) : assert((body != null) != (left != null && right != null),
+            'two columns or one body');
 
   final String title;
   final String banner;
 
   /// `agree`, `differ` or `partial`, for tests and styling.
   final String bannerKey;
-  final String leftTitle;
-  final String rightTitle;
-  final Widget left;
-  final Widget right;
+  final String? leftTitle;
+  final String? rightTitle;
+  final Widget? left;
+  final Widget? right;
+
+  /// Instead of two columns: one body under the toggle (Compare an analysis,
+  /// which sets the engines side by side in a table).
+  final Widget? body;
   final bool ownLabels;
   final ValueChanged<bool> onOwnLabels;
 
@@ -58,14 +64,17 @@ class CompareLayout extends StatelessWidget {
             value: ownLabels,
             onChanged: onOwnLabels,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _column(theme, leftTitle, left)),
-              const SizedBox(width: 8),
-              Expanded(child: _column(theme, rightTitle, right)),
-            ],
-          ),
+          if (body != null)
+            body!
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: _column(theme, leftTitle!, left!)),
+                const SizedBox(width: 8),
+                Expanded(child: _column(theme, rightTitle!, right!)),
+              ],
+            ),
         ],
       ),
     );

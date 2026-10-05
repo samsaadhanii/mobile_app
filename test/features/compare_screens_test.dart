@@ -53,6 +53,12 @@ Future<(FakeEngine, FakeEngine)> _pump(
   return (s, h);
 }
 
+/// The row of the Compare table for [kind], by its key.
+TableRow _row(WidgetTester tester, String kind) => tester
+    .widget<Table>(find.byType(Table))
+    .children
+    .singleWhere((r) => r.key == ValueKey('row-$kind'));
+
 void main() {
   group('Compare an analysis', () {
     testWidgets('both engines are called, and agree', (tester) async {
@@ -73,8 +79,8 @@ void main() {
       expect(find.text('From the Sanskrit Heritage Platform, Inria'), findsOneWidget);
     });
 
-    testWidgets('they differ: the banner, and the unmatched card is marked',
-        (tester) async {
+    testWidgets('they differ: the banner, a block for the shared reading, '
+        'the rest under "Only in Heritage"', (tester) async {
       await _pump(
         tester,
         const CompareAnalysisScreen(word: SanskritText('gamyawe')),
@@ -86,10 +92,15 @@ void main() {
       );
       expect(find.byKey(const Key('banner-differ')), findsOneWidget);
       expect(find.text('The engines differ'), findsOneWidget);
-      expect(find.text('No match in the other engine'), findsOneWidget);
+      expect(find.byType(Table), findsOneWidget);
+      expect(find.text('Only in Heritage'), findsOneWidget);
+      expect(find.text('Only in Samsaadhanii'), findsNothing);
+      expect(find.text('gamyawA'), findsNothing);
+      expect(find.text('gamyatā'), findsOneWidget);
     });
 
-    testWidgets('the same lemma with a different value differs', (tester) async {
+    testWidgets('the same lemma with a different value is one block with the '
+        'row marked', (tester) async {
       await _pump(
         tester,
         const CompareAnalysisScreen(word: SanskritText('x')),
@@ -97,7 +108,9 @@ void main() {
         her: _found(EngineId.heritage, [_a('a', FeatureValue.neuter, 'n.')]),
       );
       expect(find.text('The engines differ'), findsOneWidget);
-      expect(find.text('No match in the other engine'), findsNWidgets(2));
+      expect(find.byType(Table), findsOneWidget);
+      expect(find.textContaining('Only in'), findsNothing);
+      expect(_row(tester, 'gender').decoration, isNotNull);
     });
 
     testWidgets("the toggle shows each engine's own labels", (tester) async {

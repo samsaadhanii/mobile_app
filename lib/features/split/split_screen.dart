@@ -149,7 +149,16 @@ class _SplitScreenState extends State<SplitScreen> {
                   minLines: 1,
                   maxLines: 4,
                   style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(hintText: 'Type or paste Sanskrit'),
+                  decoration: InputDecoration(
+                    hintText: 'Type or paste Sanskrit',
+                    suffixIcon: _text.text.isEmpty
+                        ? null
+                        : IconButton(
+                            tooltip: 'Clear',
+                            icon: const Icon(Icons.close),
+                            onPressed: _text.clear,
+                          ),
+                  ),
                   textInputAction: TextInputAction.search,
                   onSubmitted: (_) => _submit(),
                 ),

@@ -5,6 +5,7 @@ export 'derivation.dart';
 export 'dictionary.dart';
 export 'engine.dart';
 export 'feature.dart';
+export 'feature_order.dart';
 export 'krt_forms.dart';
 export 'noun_forms.dart';
 export 'outcome.dart';

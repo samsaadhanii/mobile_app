@@ -45,12 +45,51 @@ String featureValueLabel(
   return sanskrit ? convert(value.iast, Script.iast, display) : value.english;
 }
 
-/// The word-class tag.
-String wordClassLabel(WordClass c) => switch (c) {
-      WordClass.noun => 'noun',
-      WordClass.verb => 'verb',
-      WordClass.participle => 'participle',
-      WordClass.indeclinable => 'indeclinable',
-      WordClass.compoundMember => 'compound member',
-      WordClass.other => 'other',
-    };
+/// The word-class tag, by the same rule as the feature labels: Sanskrit
+/// (shown in the [display] script) or English, per [language]. A class with
+/// no Sanskrit name reads the same in both.
+String wordClassLabel(
+  WordClass c, {
+  required LabelLanguage language,
+  required Script display,
+}) {
+  final iast = c.iast;
+  if (language == LabelLanguage.sanskrit && iast != null) {
+    return convert(iast, Script.iast, display);
+  }
+  return c.english;
+}
+
+/// The name of a feature kind, for the row headings of Compare. Provisional
+/// wording like the rest.
+String featureKindLabel(
+  FeatureKind kind, {
+  required LabelLanguage language,
+  required Script display,
+}) {
+  final (iast, english) = switch (kind) {
+    FeatureKind.gender => ('liṅgam', 'gender'),
+    FeatureKind.vibhakti => ('vibhaktiḥ', 'case'),
+    FeatureKind.number => ('vacanam', 'number'),
+    FeatureKind.person => ('puruṣaḥ', 'person'),
+    FeatureKind.lakara => ('lakāraḥ', 'tense or mood'),
+    FeatureKind.pada => ('padam', 'pada'),
+    FeatureKind.prayoga => ('prayogaḥ', 'voice'),
+    FeatureKind.gana => ('gaṇaḥ', 'class'),
+    FeatureKind.sanadi => ('sanādiḥ', 'derived root'),
+    FeatureKind.nominalCategory => ('prakāraḥ', 'category'),
+    FeatureKind.krtPratyaya => ('kṛtpratyayaḥ', 'kṛt suffix'),
+    FeatureKind.unknown => (null, 'other'),
+  };
+  if (language == LabelLanguage.sanskrit && iast != null) {
+    return convert(iast, Script.iast, display);
+  }
+  return english;
+}
+
+/// Whether a feature's label is Sanskrit text, which is never set below 16 sp.
+bool featureIsSanskrit(Feature f, {required LabelLanguage language, bool ownLabels = false}) =>
+    ownLabels ||
+    language == LabelLanguage.sanskrit ||
+    f.value == FeatureValue.openClass ||
+    f.value == FeatureValue.unknown;

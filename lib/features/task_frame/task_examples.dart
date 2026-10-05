@@ -22,9 +22,11 @@ String exampleLabel(String dev, String? note, AppSettings settings) {
 
 /// The "Try" line under a task screen's inputs (`SCREENS.md` section 4).
 class ExamplesRow extends StatelessWidget {
-  const ExamplesRow({super.key, required this.examples});
+  const ExamplesRow(
+      {super.key, required this.examples, this.title = 'Try'});
 
   final List<TaskExample> examples;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class ExamplesRow extends StatelessWidget {
         key: const Key('examples'),
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Try', style: theme.textTheme.titleSmall),
+          Text(title, style: theme.textTheme.titleSmall),
           const SizedBox(height: 4),
           Wrap(
             spacing: 8,

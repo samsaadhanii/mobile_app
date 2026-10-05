@@ -83,8 +83,9 @@ class SplitView extends StatelessWidget {
         if (list.isEmpty) return 'no analysis';
         final first = list.first;
         final parts = [
-          wordClassLabel(first.wordClass),
-          for (final f in first.features)
+          wordClassLabel(first.wordClass,
+              language: settings.labelLanguage, display: script),
+          for (final f in orderedFeatures(first))
             featureLabel(f,
                 language: settings.labelLanguage,
                 display: script,

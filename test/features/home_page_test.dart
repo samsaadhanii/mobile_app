@@ -165,7 +165,8 @@ void main() {
 
     testWidgets('no tool chips: the Tools tab lists the tools', (tester) async {
       await pumpHome(tester);
-      expect(find.byType(ActionChip), findsNothing);
+      // The only chips are the three examples.
+      expect(find.byType(ActionChip), findsNWidgets(3));
       expect(find.text('Tools'), findsNothing);
     });
 
@@ -173,18 +174,21 @@ void main() {
         (tester) async {
       await pumpHome(tester);
       expect(find.text('Try an example'), findsOneWidget);
-      for (final e in ['रामः', 'रामो वनं गच्छति', 'रामालयः']) {
+      // The same chips as the tool screens' "Try" row, in the display script.
+      expect(find.byType(ActionChip), findsNWidgets(3));
+      for (final e in [
+        'rāmaḥ (word)',
+        'rāmo vanaṃ gacchati (sentence)',
+        'rāmālayaḥ (compound)',
+      ]) {
         expect(find.text(e), findsOneWidget);
       }
-      expect(find.text('a word'), findsOneWidget);
-      expect(find.text('a sentence'), findsOneWidget);
-      expect(find.text('a compound'), findsOneWidget);
     });
 
     testWidgets('tapping an example fills the box and offers suggestions',
         (tester) async {
       await pumpHome(tester);
-      await tester.tap(find.text('रामो वनं गच्छति'));
+      await tester.tap(find.byType(ActionChip).at(1));
       await tester.pumpAndSettle();
       expect(find.widgetWithText(TextField, 'रामो वनं गच्छति'), findsOneWidget);
       expect(find.text('Devanagari, 3 words'), findsOneWidget);

@@ -82,6 +82,13 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
     _task?.reset();
   }
 
+  /// Empties both fields, which clears the result and brings the examples
+  /// back.
+  void _clear() {
+    _first.clear();
+    _second.clear();
+  }
+
   /// An empty word is sent too: the engine answers `BadInput` ("Enter two
   /// words") without a request, and the screen says so.
   void _submit() {
@@ -163,6 +170,15 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
                   ),
                 ],
               ),
+              if (_first.text.isNotEmpty || _second.text.isNotEmpty)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    key: const Key('clear-input'),
+                    onPressed: _clear,
+                    child: const Text('Clear'),
+                  ),
+                ),
               const SizedBox(height: 12),
               Text('Learner level',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(

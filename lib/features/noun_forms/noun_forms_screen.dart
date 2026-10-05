@@ -111,6 +111,16 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
     _task?.request();
   }
 
+  /// The x in the field: empties the stem and puts the menus back, which
+  /// clears the result and brings the examples back.
+  void _clear() {
+    setState(() {
+      _gender = FeatureValue.masculine;
+      _category = FeatureValue.plainNoun;
+    });
+    _text.clear();
+  }
+
   /// A new gender or category looks the stem up again, if there is one.
   void _changed() {
     setState(() {});
@@ -203,8 +213,16 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
                     child: TextField(
                       controller: _text,
                       style: const TextStyle(fontSize: 18),
-                      decoration:
-                          const InputDecoration(hintText: 'A noun stem'),
+                      decoration: InputDecoration(
+                    hintText: 'A noun stem',
+                    suffixIcon: _text.text.isEmpty
+                        ? null
+                        : IconButton(
+                            tooltip: 'Clear',
+                            icon: const Icon(Icons.close),
+                            onPressed: _clear,
+                          ),
+                  ),
                       textInputAction: TextInputAction.search,
                       onSubmitted: (_) => _submit(),
                     ),

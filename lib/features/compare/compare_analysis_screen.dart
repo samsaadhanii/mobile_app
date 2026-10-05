@@ -9,6 +9,7 @@ import '../task_frame/outcome_view.dart';
 import '../tools/tool_entries.dart';
 import 'agreement.dart';
 import 'compare_layout.dart';
+import 'reading_table.dart';
 
 /// Compare for Analyse a word: both engines are asked at once and shown side
 /// by side, with a banner saying whether they agree.
@@ -59,15 +60,14 @@ class _CompareAnalysisScreenState extends State<CompareAnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<AppSettings>();
-    final left = _ids.isNotEmpty ? _ids[0] : EngineId.samsaadhanii;
-    final right = _ids.length > 1 ? _ids[1] : EngineId.heritage;
-    final lo = _outcomes[left], ro = _outcomes[right];
+    final leftId = _ids.isNotEmpty ? _ids[0] : EngineId.samsaadhanii;
+    final rightId = _ids.length > 1 ? _ids[1] : EngineId.heritage;
+    final lo = _outcomes[leftId], ro = _outcomes[rightId];
 
-    AnalysisComparison? comparison;
     String banner;
     String key;
     if (lo is Found<WordAnalysis> && ro is Found<WordAnalysis>) {
-      comparison = compareAnalyses(lo.value.analyses, ro.value.analyses);
+      final comparison = compareAnalyses(lo.value.analyses, ro.value.analyses);
       key = comparison.agree ? 'agree' : 'differ';
       banner = comparison.agree ? 'Both engines agree' : 'The engines differ';
     } else if (lo is NotFound<WordAnalysis> && ro is NotFound<WordAnalysis>) {
@@ -81,7 +81,10 @@ class _CompareAnalysisScreenState extends State<CompareAnalysisScreen> {
       banner = "Can't compare: not both engines gave an analysis";
     }
 
-    Widget column(EngineId id, Set<int> mismatched) => OutcomeView<WordAnalysis>(
+    /// One engine's readings as ordinary cards, with its state when it has no
+    /// readings (waiting, not found, unreachable, with Retry).
+    Widget section(EngineId id, {List<int>? only, String? title}) =>
+        OutcomeView<WordAnalysis>(
           outcome: _outcomes[id],
           engine: id,
           notFoundTitle: 'No analysis from ${engineNames[id]}',
@@ -90,26 +93,77 @@ class _CompareAnalysisScreenState extends State<CompareAnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               for (var i = 0; i < analysis.analyses.length; i++)
-                AnalysisCard(
-                  analysis: analysis.analyses[i],
-                  settings: settings,
-                  compact: true,
-                  ownLabels: _ownLabels,
-                  mismatch: mismatched.contains(i),
-                ),
-              CreditLine(source),
+                if (only == null || only.contains(i))
+                  AnalysisCard(
+                    analysis: analysis.analyses[i],
+                    settings: settings,
+                    ownLabels: _ownLabels,
+                  ),
+              if (only == null) CreditLine(source),
             ],
           ),
         );
+
+    final theme = Theme.of(context);
+    Widget heading(String text) => Padding(
+          padding: const EdgeInsets.only(top: 12, bottom: 4),
+          child: Text(text, style: theme.textTheme.titleSmall),
+        );
+
+    final Widget body;
+    if (lo is Found<WordAnalysis> && ro is Found<WordAnalysis>) {
+      final left = lo.value.analyses, right = ro.value.analyses;
+      final pairing = pairReadings(left, right);
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final (i, j) in pairing.pairs)
+            ReadingTable(
+              left: left[i],
+              right: right[j],
+              leftEngine: leftId,
+              rightEngine: rightId,
+              settings: settings,
+              ownLabels: _ownLabels,
+            ),
+          if (pairing.leftOnly.isNotEmpty) ...[
+            heading('Only in ${engineNames[leftId]}'),
+            for (final i in pairing.leftOnly)
+              AnalysisCard(
+                  analysis: left[i], settings: settings, ownLabels: _ownLabels),
+          ],
+          if (pairing.rightOnly.isNotEmpty) ...[
+            heading('Only in ${engineNames[rightId]}'),
+            for (final j in pairing.rightOnly)
+              AnalysisCard(
+                  analysis: right[j],
+                  settings: settings,
+                  ownLabels: _ownLabels),
+          ],
+          const SizedBox(height: 4),
+          CreditLine(lo.source),
+          const SizedBox(height: 4),
+          CreditLine(ro.source),
+        ],
+      );
+    } else {
+      // No table without both answers: each engine's own state, as before.
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          heading(engineNames[leftId]!),
+          section(leftId),
+          heading(engineNames[rightId]!),
+          section(rightId),
+        ],
+      );
+    }
 
     return CompareLayout(
       title: 'Compare: ${widget.word.display(settings.displayScript.script)}',
       banner: banner,
       bannerKey: key,
-      leftTitle: engineNames[left]!,
-      rightTitle: engineNames[right]!,
-      left: column(left, comparison?.leftUnmatched ?? const {}),
-      right: column(right, comparison?.rightUnmatched ?? const {}),
+      body: body,
       ownLabels: _ownLabels,
       onOwnLabels: (v) => setState(() => _ownLabels = v),
     );

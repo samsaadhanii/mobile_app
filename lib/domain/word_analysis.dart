@@ -3,15 +3,24 @@ import 'list_equality.dart';
 import 'sanskrit_text.dart';
 
 enum WordClass {
-  noun,
-  verb,
-  participle,
-  indeclinable,
+  noun('nāma', 'noun'),
+  verb('kriyā', 'verb'),
+  participle('kṛdantam', 'participle'),
+  indeclinable('avyayam', 'indeclinable'),
 
   /// A non-final member of a compound, not analysed on its own
   /// (in initio compositi).
-  compoundMember,
-  other,
+  compoundMember('samāsapadam', 'compound member'),
+
+  /// Has no Sanskrit name; shown as "other" in either language.
+  other(null, 'other');
+
+  const WordClass(this.iast, this.english);
+
+  /// The Sanskrit name, in IAST; null when there is none. Provisional
+  /// wording, like the other labels.
+  final String? iast;
+  final String english;
 }
 
 /// One feature of an analysis. [original] is exactly what the engine said

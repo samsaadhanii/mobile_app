@@ -5,6 +5,7 @@ import '../../app/app_wordmark.dart';
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
 import '../../sanskrit/transliteration.dart' show toWx;
+import '../task_frame/task_examples.dart';
 import '../tools/engine_marks.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
@@ -18,9 +19,9 @@ import 'suggestions.dart';
 /// none, three examples to try.
 /// What to try when the box is empty and there are no recent inputs.
 const _examples = [
-  ('रामः', 'a word'),
-  ('रामो वनं गच्छति', 'a sentence'),
-  ('रामालयः', 'a compound'),
+  ('रामः', 'word'),
+  ('रामो वनं गच्छति', 'sentence'),
+  ('रामालयः', 'compound'),
 ];
 
 class HomePage extends StatefulWidget {
@@ -173,21 +174,20 @@ class _HomePageState extends State<HomePage> {
               ),
           ],
           if (text.isEmpty && !showRecent) ...[
-            const SizedBox(height: 16),
-            Text('Try an example', style: theme.textTheme.titleSmall),
-            for (final (example, what) in _examples)
-              ListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                title: Text(example, style: const TextStyle(fontSize: 18)),
-                subtitle: Text(what),
-                onTap: () => setState(() {
-                  _controller.text = example;
-                  _controller.selection =
-                      TextSelection.collapsed(offset: example.length);
-                  _override = null;
-                }),
-              ),
+            ExamplesRow(
+              title: 'Try an example',
+              examples: [
+                for (final (example, what) in _examples)
+                  TaskExample(exampleLabel(example, what, settings), () {
+                    setState(() {
+                      _controller.text = example;
+                      _controller.selection =
+                          TextSelection.collapsed(offset: example.length);
+                      _override = null;
+                    });
+                  }),
+              ],
+            ),
           ],
         ],
       ),

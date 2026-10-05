@@ -32,6 +32,17 @@ Map<FeatureKind, Set<String>> _byKind(Analysis a) {
   return out;
 }
 
+/// The kinds both analyses report whose values differ: the rows Compare marks.
+/// The same rule as [analysesAgree], so an agreeing pair has none.
+Set<FeatureKind> differingKinds(Analysis a, Analysis b) {
+  final left = _byKind(a);
+  final right = _byKind(b);
+  return {
+    for (final kind in left.keys)
+      if (right[kind] != null && !_sameValues(left[kind]!, right[kind]!)) kind,
+  };
+}
+
 bool _sameValues(Set<String> a, Set<String> b) =>
     a.length == b.length && a.containsAll(b);
 
@@ -57,6 +68,49 @@ AnalysisComparison compareAnalyses(List<Analysis> left, List<Analysis> right) {
       if (!left.any((x) => analysesAgree(x, right[j]))) j,
   };
   return AnalysisComparison(l.isEmpty && r.isEmpty, l, r);
+}
+
+/// Readings of the two engines set side by side: [pairs] are `(left, right)`
+/// indexes of readings shown in one block, the rest have no partner.
+class ReadingPairs {
+  final List<(int, int)> pairs;
+  final List<int> leftOnly;
+  final List<int> rightOnly;
+
+  const ReadingPairs(this.pairs, this.leftOnly, this.rightOnly);
+}
+
+/// Pairs each reading with at most one on the other side: first the ones that
+/// agree ([analysesAgree]), then, among what is left, the ones with the same
+/// lemma (a block whose table then shows the difference). Pairs come in the
+/// left engine's order.
+ReadingPairs pairReadings(List<Analysis> left, List<Analysis> right) {
+  final pairs = <(int, int)>[];
+  final usedLeft = <int>{};
+  final usedRight = <int>{};
+  void pass(bool Function(Analysis, Analysis) match) {
+    for (var i = 0; i < left.length; i++) {
+      if (usedLeft.contains(i)) continue;
+      for (var j = 0; j < right.length; j++) {
+        if (usedRight.contains(j) || !match(left[i], right[j])) continue;
+        pairs.add((i, j));
+        usedLeft.add(i);
+        usedRight.add(j);
+        break;
+      }
+    }
+  }
+
+  pass(analysesAgree);
+  pass((a, b) => a.lemma == b.lemma);
+  pairs.sort((a, b) => a.$1.compareTo(b.$1));
+  return ReadingPairs(pairs, [
+    for (var i = 0; i < left.length; i++)
+      if (!usedLeft.contains(i)) i,
+  ], [
+    for (var j = 0; j < right.length; j++)
+      if (!usedRight.contains(j)) j,
+  ]);
 }
 
 /// Two best splits agree when they cut the text the same way and, if both

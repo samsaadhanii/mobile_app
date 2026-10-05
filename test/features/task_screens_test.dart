@@ -268,7 +268,7 @@ void main() {
           [_engine(EngineId.samsaadhanii, analysis: _found(EngineId.samsaadhanii, [a]))]);
       await tester.pump();
       expect(_hasText('rā 1'), isTrue);
-      expect(find.text('participle'), findsOneWidget);
+      expect(find.text('kṛdantam'), findsOneWidget);
       expect(find.text('from gam'), findsOneWidget);
       expect(find.text('ekavacanam'), findsNothing);
       expect(find.text('bahuvacanam'), findsOneWidget);
@@ -326,7 +326,8 @@ void main() {
         expect(find.text(t), findsOneWidget, reason: t);
       }
       expect(find.text('prathamā'), findsNothing);
-      expect(find.text('noun'), findsOneWidget); // tags are English
+      expect(find.text('नाम'), findsOneWidget);
+      expect(find.text('क्रिया'), findsOneWidget);
 
       await show({'settings.displayScript': 'iast'});
       await tester.pump();
@@ -524,8 +525,8 @@ void main() {
       expect(find.text('rāma'), findsOneWidget);
       expect(find.text('ālayaḥ'), findsOneWidget);
       expect(find.text('‐'), findsOneWidget);
-      expect(_hasText('compound member'), isTrue);
-      expect(_hasText('noun · puṃliṅgam · prathamā · ekavacanam (+1 more)'), isTrue);
+      expect(_hasText('samāsapadam'), isTrue);
+      expect(_hasText('nāma · puṃliṅgam · prathamā · ekavacanam (+1 more)'), isTrue);
       expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
     });
 
@@ -542,7 +543,7 @@ void main() {
       await _pump(tester, const SplitScreen(initialInput: 'vanam xyzq'), [sam]);
       await tester.pump();
       expect(_hasText('no analysis'), isTrue);
-      expect(_hasText('noun'), isTrue);
+      expect(_hasText('nāma'), isTrue);
     });
 
     testWidgets('tapping a word opens Analyse a word for it', (tester) async {

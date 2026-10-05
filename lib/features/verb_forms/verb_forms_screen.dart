@@ -108,6 +108,17 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
     super.dispose();
   }
 
+  /// Puts the pickers back and clears the result, so the examples return.
+  void _clear() {
+    setState(() {
+      _root = null;
+      _prefix = null;
+      _unknownRoot = null;
+      _prayoga = VerbPrayoga.kartari;
+    });
+    _task?.reset();
+  }
+
   /// A new root, prefix or voice looks the root up again.
   void _changed() {
     setState(() {});
@@ -137,6 +148,21 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
       ],
     );
   }
+
+  /// "Clear" under the pickers, while anything is chosen.
+  Widget get _clearButton => _root == null &&
+          _prefix == null &&
+          _unknownRoot == null &&
+          _prayoga == VerbPrayoga.kartari
+      ? const SizedBox.shrink()
+      : Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            key: const Key('clear-input'),
+            onPressed: _clear,
+            child: const Text('Clear'),
+          ),
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +259,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
                   _changed();
                 },
               ),
+              _clearButton,
             ],
           ),
           examples: [

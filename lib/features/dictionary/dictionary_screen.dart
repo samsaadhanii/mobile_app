@@ -104,7 +104,16 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                 child: TextField(
                   controller: _text,
                   style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(hintText: 'One Sanskrit word'),
+                  decoration: InputDecoration(
+                    hintText: 'One Sanskrit word',
+                    suffixIcon: _text.text.isEmpty
+                        ? null
+                        : IconButton(
+                            tooltip: 'Clear',
+                            icon: const Icon(Icons.close),
+                            onPressed: _text.clear,
+                          ),
+                  ),
                   textInputAction: TextInputAction.search,
                   onSubmitted: (_) => _submit(),
                 ),

@@ -104,6 +104,16 @@ class _KrtFormsScreenState extends State<KrtFormsScreen> {
     super.dispose();
   }
 
+  /// Puts the pickers back and clears the result, so the examples return.
+  void _clear() {
+    setState(() {
+      _root = null;
+      _prefix = null;
+      _unknownRoot = null;
+    });
+    _task?.reset();
+  }
+
   void _changed() {
     setState(() {});
     if (_root != null) _task?.request();
@@ -143,6 +153,20 @@ class _KrtFormsScreenState extends State<KrtFormsScreen> {
       ],
     );
   }
+
+  /// "Clear" under the pickers, while anything is chosen.
+  Widget get _clearButton => _root == null &&
+          _prefix == null &&
+          _unknownRoot == null
+      ? const SizedBox.shrink()
+      : Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            key: const Key('clear-input'),
+            onPressed: _clear,
+            child: const Text('Clear'),
+          ),
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +246,7 @@ class _KrtFormsScreenState extends State<KrtFormsScreen> {
                   _changed();
                 },
               ),
+              _clearButton,
             ],
           ),
           examples: [
