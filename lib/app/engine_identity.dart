@@ -28,10 +28,19 @@ Color readableOn(Color tint, Color background, Color toward,
 }
 
 /// The two engine colours as tints for the teal top bar, where the plain
-/// colours (the bar's own `primary`, and `tertiary`) would vanish: the
-/// scheme's two container tints, moved toward the bar's text colour if
-/// needed, each at 4.5 to 1 on [bar]. Still two different colours.
-(Color, Color) engineTintsOnBar(ColorScheme scheme, Color bar) => (
-      readableOn(scheme.primaryContainer, bar, scheme.onPrimary),
-      readableOn(scheme.tertiaryContainer, bar, scheme.onPrimary),
-    );
+/// colours would vanish on it. On the light theme's bar (`primary`) they start
+/// from the scheme's two container tints; on the dark theme's bar (a dark
+/// `primaryContainer`) from `primary` and `tertiary`. Either way each is moved
+/// toward the bar's text colour [onBar] if needed to reach 4.5 to 1 on [bar].
+/// Still two different colours.
+(Color, Color) engineTintsOnBar(
+        ColorScheme scheme, Color bar, Color onBar) =>
+    scheme.brightness == Brightness.light
+        ? (
+            readableOn(scheme.primaryContainer, bar, onBar),
+            readableOn(scheme.tertiaryContainer, bar, onBar),
+          )
+        : (
+            readableOn(scheme.primary, bar, onBar),
+            readableOn(scheme.tertiary, bar, onBar),
+          );

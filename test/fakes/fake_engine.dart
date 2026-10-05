@@ -39,7 +39,7 @@ class FakeEngine implements Engine {
   final Outcome<WordAnalysis>? analysis;
 
   /// What [likeliestReading] returns; `null` means [NotFound].
-  final Outcome<Analysis>? likeliest;
+  final Outcome<List<Analysis>>? likeliest;
 
   /// What [segment] returns with `analyse: true`; `null` means [NotFound].
   final Outcome<Segmentation>? segmentation;
@@ -93,7 +93,7 @@ class FakeEngine implements Engine {
   }
 
   @override
-  Future<Outcome<Analysis>> likeliestReading(SanskritText word) {
+  Future<Outcome<List<Analysis>>> likeliestReading(SanskritText word) {
     calls.add('likeliestReading:${word.wx}');
     if (!tasks.contains(Task.likeliestReading)) {
       return Future.value(Unsupported(id, Task.likeliestReading));

@@ -77,9 +77,12 @@ void main() {
       for (final (word, c) in [('Saṃsādhanī', sam), ('Heritage', her), ('·', dot)]) {
         expect(contrast(c, background), greaterThanOrEqualTo(4.5), reason: word);
       }
-      // Not the plain engine colours: those would vanish on the bar.
-      expect(contrast(samsaadhaniiColor(theme.colorScheme), background),
-          lessThan(4.5));
+      // On the light theme's teal bar the plain engine colours would vanish.
+      // The dark bar is a dark container, where they already read.
+      if (theme.brightness == Brightness.light) {
+        expect(contrast(samsaadhaniiColor(theme.colorScheme), background),
+            lessThan(4.5));
+      }
     });
   }
 

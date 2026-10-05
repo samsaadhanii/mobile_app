@@ -74,7 +74,7 @@ class SamsaadhaniiEngine implements Engine {
 
   /// Samsaadhanii has no frequency data to say which reading is likeliest.
   @override
-  Future<Outcome<Analysis>> likeliestReading(SanskritText word) =>
+  Future<Outcome<List<Analysis>>> likeliestReading(SanskritText word) =>
       Future.value(Unsupported(id, Task.likeliestReading));
 
   /// Splits [text] with the server's sentence mode, which also handles a

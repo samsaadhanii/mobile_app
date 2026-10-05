@@ -23,10 +23,11 @@ class AppWordmark extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final bar = theme.appBarTheme.backgroundColor ?? scheme.primary;
+    final barText = theme.appBarTheme.foregroundColor ?? scheme.onPrimary;
     final (samColor, herColor) = onBar
-        ? engineTintsOnBar(scheme, bar)
+        ? engineTintsOnBar(scheme, bar, barText)
         : (samsaadhaniiColor(scheme), heritageColor(scheme));
-    final dotColor = onBar ? scheme.onPrimary : scheme.onSurfaceVariant;
+    final dotColor = onBar ? barText : scheme.onSurfaceVariant;
     final base = TextStyle(
       fontSize: size,
       fontWeight: FontWeight.w500,

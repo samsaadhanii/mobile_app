@@ -33,10 +33,13 @@ void main() {
       expect(contrast(bar.iconTheme!.color!, background), greaterThanOrEqualTo(4.5));
     });
 
-    test('$name top bar is teal, the scheme primary', () {
+    test('$name top bar is a teal of the scheme', () {
       final bar = theme.appBarTheme;
-      expect(bar.backgroundColor, theme.colorScheme.primary);
-      expect(bar.foregroundColor, theme.colorScheme.onPrimary);
+      final scheme = theme.colorScheme;
+      final light = theme.brightness == Brightness.light;
+      expect(bar.backgroundColor, light ? scheme.primary : scheme.primaryContainer);
+      expect(bar.foregroundColor,
+          light ? scheme.onPrimary : scheme.onPrimaryContainer);
       // The status bar takes the same colour.
       expect(bar.systemOverlayStyle!.statusBarColor, bar.backgroundColor);
     });
@@ -50,6 +53,19 @@ void main() {
           darkBar ? Brightness.light : Brightness.dark);
     });
   }
+
+  test('the dark theme\'s bar is dark, with light text and light status icons', () {
+    final bar = AppTheme.darkTheme.appBarTheme;
+    expect(ThemeData.estimateBrightnessForColor(bar.backgroundColor!),
+        Brightness.dark);
+    expect(bar.backgroundColor!.computeLuminance(), lessThan(0.1));
+    expect(bar.foregroundColor!.computeLuminance(), greaterThan(0.5));
+    expect(bar.systemOverlayStyle!.statusBarIconBrightness, Brightness.light);
+    // The light theme is unchanged: a darker teal with white-ish text.
+    expect(ThemeData.estimateBrightnessForColor(
+            AppTheme.lightTheme.appBarTheme.backgroundColor!),
+        Brightness.dark);
+  });
 
   testWidgets('the rendered top bar uses the theme colours in both themes',
       (tester) async {

@@ -37,10 +37,10 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
   late final EngineSet _engines;
   SanskritText _word = const SanskritText('');
 
-  /// Heritage's likeliest reading of the current word, once it has answered;
+  /// Heritage's likeliest readings of the current word, once it has answered;
   /// null until then and when it has none. [_likelyFor] numbers the request so
   /// a late answer for an earlier word is dropped.
-  Analysis? _likeliest;
+  List<Analysis>? _likeliest;
   int _likelyFor = 0;
 
   /// The word as the user typed it, for messages (not converted).
@@ -98,7 +98,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     if (heritage == null || !heritage.tasks.contains(Task.likeliestReading)) {
       return;
     }
-    Outcome<Analysis> result;
+    Outcome<List<Analysis>> result;
     try {
       result = await heritage.likeliestReading(word);
     } catch (_) {
@@ -106,7 +106,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     }
     if (!mounted || mine != _likelyFor) return;
     final found = result;
-    if (found is Found<Analysis>) setState(() => _likeliest = found.value);
+    if (found is Found<List<Analysis>>) setState(() => _likeliest = found.value);
   }
 
   void _open(Task task, String input,
@@ -195,35 +195,38 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                       ),
                   ],
                   builder: (analysis, source) {
-                    // The card that agrees with Heritage's likeliest reading
-                    // (the Compare rule) goes first and is tagged; the others
-                    // keep the engine's order.
+                    // The cards that agree with any of Heritage's likeliest
+                    // readings (the Compare rule) go first, in the engine's
+                    // order, and are tagged; the others follow in the
+                    // engine's order. Marking all of them, or the only card,
+                    // tells the user nothing, so then none is marked.
                     final list = analysis.analyses;
-                    final likely = _likeliest;
-                    final top = likely == null
-                        ? -1
-                        : list.indexWhere((a) => analysesAgree(a, likely));
-                    final ordered = [
-                      if (top >= 0) list[top],
+                    final likely = _likeliest ?? const <Analysis>[];
+                    final marked = {
                       for (var i = 0; i < list.length; i++)
-                        if (i != top) list[i],
+                        if (likely.any((l) => analysesAgree(list[i], l))) i,
+                    };
+                    if (marked.length == list.length) marked.clear();
+                    final order = [
+                      ...marked,
+                      for (var i = 0; i < list.length; i++)
+                        if (!marked.contains(i)) i,
                     ];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        for (final a in ordered)
+                        for (final i in order)
                           AnalysisCard(
-                            analysis: a,
+                            analysis: list[i],
                             settings: settings,
-                            mostLikely: top >= 0 && identical(a, list[top]),
-                            actions: _actions(a),
+                            mostLikely: marked.contains(i),
+                            actions: _actions(list[i]),
                           ),
-                        if (top >= 0)
+                        if (marked.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
-                              "Most likely reading according to Heritage's "
-                              'frequency data.',
+                              "Most likely according to Heritage's frequency data.",
                               key: const Key('likeliest-note'),
                               style: Theme.of(context)
                                   .textTheme

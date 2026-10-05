@@ -15,34 +15,38 @@ abstract final class AppTheme {
   static ThemeData get darkTheme => _build(Brightness.dark);
 
   /// Everything is derived from [AppColors.seed] by Material 3, so no colour
-  /// pair is picked by hand. The top bar is the scheme's teal (`primary`) with
-  /// its own text colour (`onPrimary`) on it, in light and in dark; the
-  /// status bar takes the bar's colour and its icons follow the bar's
-  /// brightness.
+  /// pair is picked by hand. The top bar is teal with the scheme's own text
+  /// colour on it: `primary` with `onPrimary` in light, and in dark the dark
+  /// teal `primaryContainer` with `onPrimaryContainer`, so a dark screen does
+  /// not get a light bar across the top. The status bar takes the bar's colour
+  /// and its icons follow the bar's brightness.
   static ThemeData _build(Brightness brightness) {
     final scheme = ColorScheme.fromSeed(
       seedColor: AppColors.seed,
       brightness: brightness,
     );
     const radius = BorderRadius.all(Radius.circular(12));
+    final light = brightness == Brightness.light;
+    final barColor = light ? scheme.primary : scheme.primaryContainer;
+    final barText = light ? scheme.onPrimary : scheme.onPrimaryContainer;
     final darkBar =
-        ThemeData.estimateBrightnessForColor(scheme.primary) == Brightness.dark;
+        ThemeData.estimateBrightnessForColor(barColor) == Brightness.dark;
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.primary,
-        foregroundColor: scheme.onPrimary,
+        backgroundColor: barColor,
+        foregroundColor: barText,
         elevation: 0,
         scrolledUnderElevation: 0,
-        iconTheme: IconThemeData(color: scheme.onPrimary),
+        iconTheme: IconThemeData(color: barText),
         titleTextStyle: TextStyle(
-          color: scheme.onPrimary,
+          color: barText,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
         systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: scheme.primary,
+          statusBarColor: barColor,
           // Android: the icons' colour. iOS: the brightness of what is
           // behind them.
           statusBarIconBrightness: darkBar ? Brightness.light : Brightness.dark,

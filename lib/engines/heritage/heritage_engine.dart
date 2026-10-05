@@ -74,11 +74,11 @@ class HeritageEngine implements Engine {
     );
   }
 
-  /// The most frequent analysis (`mode=f&fmode=n`): the same call as
-  /// [analyseWord] with the server's frequency filter, which answers with the
-  /// likeliest reading only.
+  /// The most frequent analyses (`mode=f&fmode=n`): the same call as
+  /// [analyseWord] with the server's frequency filter, which keeps the likeliest
+  /// stem or stems; every analysis of those is returned, in the server's order.
   @override
-  Future<Outcome<Analysis>> likeliestReading(SanskritText word) {
+  Future<Outcome<List<Analysis>>> likeliestReading(SanskritText word) {
     final cleaned = cleanForServer(word);
     return _run(
       _query(cleaned, {'st': 'f', 'stemmer': 't', 'mode': 'f', 'fmode': 'n'}),
@@ -88,7 +88,7 @@ class HeritageEngine implements Engine {
         return switch (all) {
           Found<WordAnalysis>(:final value) => value.analyses.isEmpty
               ? const NotFound()
-              : Found(value.analyses.first, source),
+              : Found(value.analyses, source),
           NotFound<WordAnalysis>() => const NotFound(),
           BadInput<WordAnalysis>(:final message) => BadInput(message),
           ServerFault<WordAnalysis>(:final detail) => ServerFault(detail),

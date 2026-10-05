@@ -21,6 +21,7 @@ const morphWords = {
   'AlayaH': 'AlayaH',
   'aham': 'aham',
   'gamyawe': 'gamyawe',
+  'ucyawe': 'ucyawe',
   'gamayawi': 'gamayawi',
   'xyzq': 'xyzq',
   'empty': '',
