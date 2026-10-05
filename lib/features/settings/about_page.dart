@@ -6,7 +6,14 @@ import '../../app/app_wordmark.dart';
 
 /// About: both teams, versions and licences, as plain Flutter text.
 class AboutPage extends StatefulWidget {
-  const AboutPage({super.key});
+  const AboutPage({
+    super.key,
+    this.buildCommit = const String.fromEnvironment('BUILD_COMMIT'),
+  });
+
+  /// The commit a tester build was made from (`--dart-define=BUILD_COMMIT`,
+  /// set by `tool/build-tester.sh`); empty when not given.
+  final String buildCommit;
 
   @override
   State<AboutPage> createState() => _AboutPageState();
@@ -49,7 +56,12 @@ class _AboutPageState extends State<AboutPage> {
         children: [
           const AppWordmark(size: 28),
           if (_version != null) Text(_version!),
-          if (_testBuild) const Text('Test build', key: Key('test-build')),
+          if (_testBuild)
+            Text(
+                widget.buildCommit.isEmpty
+                    ? 'Test build'
+                    : 'Test build ${widget.buildCommit}',
+                key: const Key('test-build')),
           heading('Saṃsādhanī'),
           const Text(
             'Saṃsādhanī is a computational platform developed at the '

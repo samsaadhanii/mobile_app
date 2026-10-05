@@ -2,6 +2,10 @@
 # Builds the tester APK: the release build, debug-signed, with the application id
 # `com.SanskritStudies.mobile_app.test` and the launcher label
 # "Saṃsādhanī Heritage (test)", so it installs beside the app from Google Play.
+# The build number is the number of commits, so it rises with every commit and
+# a tester's report says which APK it is about; the About page shows the
+# commit as well. pubspec.yaml is not changed. Only the arm and arm64 native
+# code is included (no phone uses x86_64): still one file for every tester.
 # Copies it to build/tester/ and prints the path, size and commit.
 #
 # Run from anywhere:  tool/build-tester.sh
@@ -25,13 +29,15 @@ if [ -z "$full" ]; then
   exit 1
 fi
 version="${full%%+*}"
-build="${full#*+}"
-if [ "$build" = "$full" ]; then build="0"; fi
+build="$(git rev-list --count HEAD)"
 
 commit="$(git rev-parse --short HEAD)"
 out="build/tester/samsaadhanii-heritage-test-${version}-${build}-$(date +%Y%m%d).apk"
 
-TESTER_BUILD=1 flutter build apk --release
+TESTER_BUILD=1 flutter build apk --release \
+  --build-number="$build" \
+  --dart-define=BUILD_COMMIT="$commit" \
+  --target-platform android-arm,android-arm64
 
 mkdir -p build/tester
 cp build/app/outputs/flutter-apk/app-release.apk "$out"
