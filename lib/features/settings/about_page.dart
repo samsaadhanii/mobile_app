@@ -15,12 +15,19 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   String? _version;
 
+  /// Set when this is the tester build, which installs beside the released
+  /// app under an application id ending in `.test`.
+  bool _testBuild = false;
+
   @override
   void initState() {
     super.initState();
     PackageInfo.fromPlatform().then((info) {
       if (mounted) {
-        setState(() => _version = 'Version ${info.version} (build ${info.buildNumber})');
+        setState(() {
+          _version = 'Version ${info.version} (build ${info.buildNumber})';
+          _testBuild = info.packageName.endsWith('.test');
+        });
       }
     }).catchError((_) {
       // No version to show; the rest of the page does not depend on it.
@@ -42,6 +49,7 @@ class _AboutPageState extends State<AboutPage> {
         children: [
           const AppWordmark(size: 28),
           if (_version != null) Text(_version!),
+          if (_testBuild) const Text('Test build', key: Key('test-build')),
           heading('Saṃsādhanī'),
           const Text(
             'Saṃsādhanī is a computational platform developed at the '

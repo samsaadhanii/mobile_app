@@ -14,6 +14,11 @@ val keystoreProps = Properties().apply {
     }
 }
 
+// A tester build (tool/build-tester.sh sets TESTER_BUILD=1) installs beside the
+// released app: its application id gets the suffix `.test` and its launcher
+// label says "(test)". Without the variable nothing here changes.
+val testerBuild = System.getenv("TESTER_BUILD") == "1"
+
 android {
     namespace = "com.SanskritStudies.mobile_app"
     compileSdk = flutter.compileSdkVersion
@@ -31,7 +36,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.SanskritStudies.mobile_app"
+        applicationId = "com.SanskritStudies.mobile_app" + if (testerBuild) ".test" else ""
+        manifestPlaceholders["appLabel"] =
+            if (testerBuild) "Saṃsādhanī Heritage (test)" else "Samsaadhanii"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -56,7 +63,9 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
         getByName("release") {
-            signingConfig = if (keystorePropsFile.exists())
+            // A tester build is always debug-signed, so it never uses the
+            // release key; the ordinary release build is unchanged.
+            signingConfig = if (keystorePropsFile.exists() && !testerBuild)
                 signingConfigs.getByName("release")
             else
                 signingConfigs.getByName("debug")
