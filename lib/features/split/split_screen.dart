@@ -8,6 +8,7 @@ import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
 import '../task_frame/task_controller.dart';
+import '../task_frame/task_examples.dart';
 import '../task_frame/task_frame.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
@@ -99,6 +100,7 @@ class _SplitScreenState extends State<SplitScreen> {
       preferred: settings.preferredEngine,
       run: (id) => loadSplit(_engines[id]!, _input),
     );
+    _text.addListener(_onText);
     if (_text.text.isNotEmpty) _submit();
   }
 
@@ -107,6 +109,13 @@ class _SplitScreenState extends State<SplitScreen> {
     _task?.dispose();
     _text.dispose();
     super.dispose();
+  }
+
+  /// Clearing the input clears the result, and the examples come back.
+  void _onText() {
+    if (_text.text.trim().isNotEmpty) return;
+    _input = const SanskritText('');
+    _task?.reset();
   }
 
   void _submit() {
@@ -127,7 +136,7 @@ class _SplitScreenState extends State<SplitScreen> {
       );
     }
     return ListenableBuilder(
-      listenable: task,
+      listenable: Listenable.merge([task, _text]),
       builder: (context, _) {
         final outcome = task.outcome;
         return TaskFrame(
@@ -152,6 +161,15 @@ class _SplitScreenState extends State<SplitScreen> {
               ),
             ],
           ),
+          examples: [
+            for (final e in splitExamples)
+              TaskExample(exampleLabel(e.labelDev, e.note, settings), () {
+                _text.text = e.words.first;
+                _submit();
+              }),
+          ],
+          showExamples:
+              _text.text.trim().isEmpty && outcome == null && !task.waiting,
           engines: task.available,
           selected: task.engine,
           onEngineChanged: task.switchTo,

@@ -12,6 +12,7 @@ import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
 import '../task_frame/task_controller.dart';
+import '../task_frame/task_examples.dart';
 import '../task_frame/task_frame.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
@@ -223,6 +224,19 @@ class _KrtFormsScreenState extends State<KrtFormsScreen> {
               ),
             ],
           ),
+          examples: [
+            for (final e in krtExamples)
+              TaskExample(exampleLabel(e.labelDev, e.note, settings), () {
+                _unknownRoot = null;
+                _root = e.root;
+                _prefix = e.prefix;
+                _changed();
+              }),
+          ],
+          showExamples: _root == null &&
+              _unknownRoot == null &&
+              outcome == null &&
+              !task.waiting,
           engines: task.available,
           selected: task.engine,
           onEngineChanged: task.switchTo,

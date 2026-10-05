@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../domain/domain.dart';
 import '../tools/tool_entries.dart';
 import 'outcome_view.dart';
+import 'task_examples.dart';
 
 /// The frame every task screen shares (`SCREENS.md` section 4): top bar with
 /// the task name, the input, the engine switch (only when more than one
@@ -19,6 +20,8 @@ class TaskFrame extends StatelessWidget {
     required this.result,
     this.source,
     this.onCompare,
+    this.examples = const [],
+    this.showExamples = false,
   });
 
   final String title;
@@ -42,6 +45,11 @@ class TaskFrame extends StatelessWidget {
   /// Opens Compare; the button shows only if another engine can answer.
   final VoidCallback? onCompare;
 
+  /// What to try, and whether to show it: the screen shows them while it has
+  /// no result and nothing typed.
+  final List<TaskExample> examples;
+  final bool showExamples;
+
   @override
   Widget build(BuildContext context) {
     final others = engines.where((e) => e != selected).toList();
@@ -51,6 +59,8 @@ class TaskFrame extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           input,
+          if (showExamples && examples.isNotEmpty)
+            ExamplesRow(examples: examples),
           if (engines.length > 1) ...[
             const SizedBox(height: 12),
             SegmentedButton<EngineId>(

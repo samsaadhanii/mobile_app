@@ -49,6 +49,16 @@ class TaskController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Back to the state before any request, for when the input is cleared.
+  /// A late answer to the request in flight is dropped.
+  void reset() {
+    if (!waiting && outcome == null) return;
+    _generation++;
+    waiting = false;
+    outcome = null;
+    notifyListeners();
+  }
+
   Future<void> switchTo(EngineId id) {
     if (id == engine) return Future.value();
     engine = id;

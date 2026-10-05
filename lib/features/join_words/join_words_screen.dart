@@ -8,6 +8,7 @@ import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
 import '../task_frame/task_controller.dart';
+import '../task_frame/task_examples.dart';
 import '../task_frame/task_frame.dart';
 import '../tools/tool_entries.dart';
 import '../tools/tools_list_page.dart';
@@ -61,6 +62,8 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
         run: (id) => _engines[id]!.joinSandhi(_left, _right),
       );
     }
+    _first.addListener(_onText);
+    _second.addListener(_onText);
     if (words.length == 2) _submit();
   }
 
@@ -70,6 +73,13 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
     _first.dispose();
     _second.dispose();
     super.dispose();
+  }
+
+  /// Clearing both fields clears the result, and the examples come back.
+  void _onText() {
+    if (_first.text.trim().isNotEmpty || _second.text.trim().isNotEmpty) return;
+    _submitted = false;
+    _task?.reset();
   }
 
   /// An empty word is sent too: the engine answers `BadInput` ("Enter two
@@ -119,7 +129,7 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
     }
 
     return ListenableBuilder(
-      listenable: task,
+      listenable: Listenable.merge([task, _first, _second]),
       builder: (context, _) {
         final outcome = task.outcome;
         return TaskFrame(
@@ -169,6 +179,19 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
               ),
             ],
           ),
+          examples: [
+            for (final e in joinExamples)
+              TaskExample(exampleLabel(e.labelDev, e.note, settings), () {
+                _first.text = e.words[0];
+                _second.text = e.words[1];
+                _submit();
+              }),
+          ],
+          showExamples: _first.text.trim().isEmpty &&
+              _second.text.trim().isEmpty &&
+              !_submitted &&
+              outcome == null &&
+              !task.waiting,
           engines: task.available,
           selected: task.engine,
           onEngineChanged: task.switchTo,
