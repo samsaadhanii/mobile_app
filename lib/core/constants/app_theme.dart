@@ -15,8 +15,9 @@ abstract final class AppTheme {
   static ThemeData get darkTheme => _build(Brightness.dark);
 
   /// Everything is derived from [AppColors.seed] by Material 3, so no colour
-  /// pair is picked by hand. The top bar is the surface colour with the
-  /// scheme's own text colour on it; the status-bar icons follow its
+  /// pair is picked by hand. The top bar is the scheme's teal (`primary`) with
+  /// its own text colour (`onPrimary`) on it, in light and in dark; the
+  /// status bar takes the bar's colour and its icons follow the bar's
   /// brightness.
   static ThemeData _build(Brightness brightness) {
     final scheme = ColorScheme.fromSeed(
@@ -24,23 +25,29 @@ abstract final class AppTheme {
       brightness: brightness,
     );
     const radius = BorderRadius.all(Radius.circular(12));
+    final darkBar =
+        ThemeData.estimateBrightnessForColor(scheme.primary) == Brightness.dark;
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface,
-        foregroundColor: scheme.onSurface,
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
         elevation: 0,
         scrolledUnderElevation: 0,
-        iconTheme: IconThemeData(color: scheme.onSurface),
+        iconTheme: IconThemeData(color: scheme.onPrimary),
         titleTextStyle: TextStyle(
-          color: scheme.onSurface,
+          color: scheme.onPrimary,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
-        systemOverlayStyle: brightness == Brightness.light
-            ? SystemUiOverlayStyle.dark
-            : SystemUiOverlayStyle.light,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: scheme.primary,
+          // Android: the icons' colour. iOS: the brightness of what is
+          // behind them.
+          statusBarIconBrightness: darkBar ? Brightness.light : Brightness.dark,
+          statusBarBrightness: darkBar ? Brightness.dark : Brightness.light,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(borderRadius: radius),

@@ -14,8 +14,8 @@ void main() {
         home: Scaffold(
           appBar: AppBar(
             title: width == null
-                ? const AppWordmark()
-                : SizedBox(width: width, child: const AppWordmark()),
+                ? const AppWordmark(onBar: true)
+                : SizedBox(width: width, child: const AppWordmark(onBar: true)),
           ),
           body: const AppWordmark(size: 28),
         ),
@@ -37,25 +37,49 @@ void main() {
     ('light', AppTheme.lightTheme),
     ('dark', AppTheme.darkTheme),
   ]) {
-    testWidgets('$name: each word is its engine colour and reads at 4.5 to 1',
+    Color colourOf(WidgetTester tester, Finder where, String word) => tester
+        .widget<Text>(
+            find.descendant(of: where, matching: find.text(word)).first)
+        .style!
+        .color!;
+
+    testWidgets('$name: on the page each word is its engine colour at 4.5 to 1',
         (tester) async {
       await pump(tester, theme);
       final scheme = theme.colorScheme;
-      Color colourOf(String word) =>
-          tester.widget<Text>(find.text(word).first).style!.color!;
-
-      expect(colourOf('Saṃsādhanī'), samsaadhaniiColor(scheme));
-      expect(colourOf('Heritage'), heritageColor(scheme));
+      final inBody = find
+          .byWidgetPredicate((w) => w is AppWordmark && !w.onBar);
+      expect(inBody, findsOneWidget);
+      Color page(String word) => tester
+          .widget<Text>(
+              find.descendant(of: inBody, matching: find.text(word)))
+          .style!
+          .color!;
+      expect(page('Saṃsādhanī'), samsaadhaniiColor(scheme));
+      expect(page('Heritage'), heritageColor(scheme));
       expect(samsaadhaniiColor(scheme), scheme.primary);
       expect(heritageColor(scheme), scheme.tertiary);
-
-      // On the top bar's surface and on the page's.
-      final bar = theme.appBarTheme.backgroundColor!;
-      for (final bg in [bar, scheme.surface]) {
-        expect(contrast(colourOf('Saṃsādhanī'), bg), greaterThanOrEqualTo(4.5));
-        expect(contrast(colourOf('Heritage'), bg), greaterThanOrEqualTo(4.5));
-        expect(contrast(colourOf('·'), bg), greaterThanOrEqualTo(4.5));
+      for (final w in ['Saṃsādhanī', 'Heritage', '·']) {
+        expect(contrast(page(w), scheme.surface), greaterThanOrEqualTo(4.5),
+            reason: w);
       }
+    });
+
+    testWidgets('$name: on the teal bar the words are two tints that read at '
+        '4.5 to 1', (tester) async {
+      await pump(tester, theme);
+      final bar = find.byType(AppBar);
+      final background = theme.appBarTheme.backgroundColor!;
+      final sam = colourOf(tester, bar, 'Saṃsādhanī');
+      final her = colourOf(tester, bar, 'Heritage');
+      final dot = colourOf(tester, bar, '·');
+      expect(sam, isNot(her), reason: 'two different tints');
+      for (final (word, c) in [('Saṃsādhanī', sam), ('Heritage', her), ('·', dot)]) {
+        expect(contrast(c, background), greaterThanOrEqualTo(4.5), reason: word);
+      }
+      // Not the plain engine colours: those would vanish on the bar.
+      expect(contrast(samsaadhaniiColor(theme.colorScheme), background),
+          lessThan(4.5));
     });
   }
 

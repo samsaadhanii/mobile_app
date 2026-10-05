@@ -13,6 +13,7 @@ class FakeEngine implements Engine {
     ),
     this.tasks = const {Task.analyseWord, Task.splitText},
     this.analysis,
+    this.likeliest,
     this.segmentation,
     this.segmentationPlain,
     this.paradigm,
@@ -36,6 +37,9 @@ class FakeEngine implements Engine {
 
   /// What [analyseWord] returns; `null` means [NotFound].
   final Outcome<WordAnalysis>? analysis;
+
+  /// What [likeliestReading] returns; `null` means [NotFound].
+  final Outcome<Analysis>? likeliest;
 
   /// What [segment] returns with `analyse: true`; `null` means [NotFound].
   final Outcome<Segmentation>? segmentation;
@@ -71,7 +75,7 @@ class FakeEngine implements Engine {
   /// `declineNoun:rAma:masculine:plainNoun`, `derive:rAma:masculine:instrumental:singular`,
   /// `conjugateVerb:gam1_gamLz_BvAxiH_gawO:Af:kartari` (`-` for no prefix),
   /// `krtForms:gam1_gamLz_BvAxiH_gawO:Af`,
-  /// `joinSandhi:rAmaH:AlayaH`, `lookUp:vana`.
+  /// `joinSandhi:rAmaH:AlayaH`, `lookUp:vana`, `likeliestReading:rAmaH`.
   final List<String> calls = [];
 
   Future<T> _after<T>(T value, [Duration? delay]) {
@@ -86,6 +90,15 @@ class FakeEngine implements Engine {
       return Future.value(Unsupported(id, Task.analyseWord));
     }
     return _after(analysis ?? const NotFound());
+  }
+
+  @override
+  Future<Outcome<Analysis>> likeliestReading(SanskritText word) {
+    calls.add('likeliestReading:${word.wx}');
+    if (!tasks.contains(Task.likeliestReading)) {
+      return Future.value(Unsupported(id, Task.likeliestReading));
+    }
+    return _after(likeliest ?? const NotFound());
   }
 
   @override

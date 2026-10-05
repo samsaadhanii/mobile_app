@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../compare/agreement.dart';
 import '../compare/compare_analysis_screen.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
@@ -36,6 +37,12 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
   late final EngineSet _engines;
   SanskritText _word = const SanskritText('');
 
+  /// Heritage's likeliest reading of the current word, once it has answered;
+  /// null until then and when it has none. [_likelyFor] numbers the request so
+  /// a late answer for an earlier word is dropped.
+  Analysis? _likeliest;
+  int _likelyFor = 0;
+
   /// The word as the user typed it, for messages (not converted).
   String _typed = '';
 
@@ -67,6 +74,8 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
   void _onText() {
     if (_text.text.trim().isNotEmpty) return;
     _word = const SanskritText('');
+    _likelyFor++;
+    _likeliest = null;
     _task?.reset();
   }
 
@@ -76,6 +85,28 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
     _typed = typed;
     _word = parseSanskrit(typed, context.read<AppSettings>());
     _task?.request();
+    _loadLikeliest(_word);
+  }
+
+  /// Asks Heritage, whichever engine is selected, for the likeliest reading.
+  /// It runs beside the main request and never holds it up; if Heritage does
+  /// not answer, nothing is marked.
+  Future<void> _loadLikeliest(SanskritText word) async {
+    final mine = ++_likelyFor;
+    _likeliest = null;
+    final heritage = _engines[EngineId.heritage];
+    if (heritage == null || !heritage.tasks.contains(Task.likeliestReading)) {
+      return;
+    }
+    Outcome<Analysis> result;
+    try {
+      result = await heritage.likeliestReading(word);
+    } catch (_) {
+      return;
+    }
+    if (!mounted || mine != _likelyFor) return;
+    final found = result;
+    if (found is Found<Analysis>) setState(() => _likeliest = found.value);
   }
 
   void _open(Task task, String input,
@@ -163,17 +194,49 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                         child: const Text('Split it as a phrase'),
                       ),
                   ],
-                  builder: (analysis, source) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      for (final a in analysis.analyses)
-                        AnalysisCard(
-                          analysis: a,
-                          settings: settings,
-                          actions: _actions(a),
-                        ),
-                    ],
-                  ),
+                  builder: (analysis, source) {
+                    // The card that agrees with Heritage's likeliest reading
+                    // (the Compare rule) goes first and is tagged; the others
+                    // keep the engine's order.
+                    final list = analysis.analyses;
+                    final likely = _likeliest;
+                    final top = likely == null
+                        ? -1
+                        : list.indexWhere((a) => analysesAgree(a, likely));
+                    final ordered = [
+                      if (top >= 0) list[top],
+                      for (var i = 0; i < list.length; i++)
+                        if (i != top) list[i],
+                    ];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (final a in ordered)
+                          AnalysisCard(
+                            analysis: a,
+                            settings: settings,
+                            mostLikely: top >= 0 && identical(a, list[top]),
+                            actions: _actions(a),
+                          ),
+                        if (top >= 0)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(
+                              "Most likely reading according to Heritage's "
+                              'frequency data.',
+                              key: const Key('likeliest-note'),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
         );
       },

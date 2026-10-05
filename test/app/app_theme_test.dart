@@ -33,6 +33,14 @@ void main() {
       expect(contrast(bar.iconTheme!.color!, background), greaterThanOrEqualTo(4.5));
     });
 
+    test('$name top bar is teal, the scheme primary', () {
+      final bar = theme.appBarTheme;
+      expect(bar.backgroundColor, theme.colorScheme.primary);
+      expect(bar.foregroundColor, theme.colorScheme.onPrimary);
+      // The status bar takes the same colour.
+      expect(bar.systemOverlayStyle!.statusBarColor, bar.backgroundColor);
+    });
+
     test('$name status-bar icons contrast with the top bar', () {
       final bar = theme.appBarTheme;
       final darkBar = ThemeData.estimateBrightnessForColor(bar.backgroundColor!) ==

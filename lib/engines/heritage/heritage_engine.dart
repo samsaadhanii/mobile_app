@@ -27,7 +27,8 @@ class HeritageEngine implements Engine {
       );
 
   @override
-  Set<Task> get tasks => const {Task.analyseWord, Task.splitText};
+  Set<Task> get tasks =>
+      const {Task.analyseWord, Task.splitText, Task.likeliestReading};
 
   /// Reports every label the adapter could not map; for tests and review.
   OnUnmapped? onUnmapped;
@@ -70,6 +71,32 @@ class HeritageEngine implements Engine {
       _query(cleaned, {'st': 'f', 'stemmer': 't', 'mode': 'b', 'fmode': 'w'}),
       (body, source) => parseWordAnalysis(body, SanskritText(cleaned), source,
           onUnmapped: onUnmapped),
+    );
+  }
+
+  /// The most frequent analysis (`mode=f&fmode=n`): the same call as
+  /// [analyseWord] with the server's frequency filter, which answers with the
+  /// likeliest reading only.
+  @override
+  Future<Outcome<Analysis>> likeliestReading(SanskritText word) {
+    final cleaned = cleanForServer(word);
+    return _run(
+      _query(cleaned, {'st': 'f', 'stemmer': 't', 'mode': 'f', 'fmode': 'n'}),
+      (body, source) {
+        final all = parseWordAnalysis(body, SanskritText(cleaned), source,
+            onUnmapped: onUnmapped);
+        return switch (all) {
+          Found<WordAnalysis>(:final value) => value.analyses.isEmpty
+              ? const NotFound()
+              : Found(value.analyses.first, source),
+          NotFound<WordAnalysis>() => const NotFound(),
+          BadInput<WordAnalysis>(:final message) => BadInput(message),
+          ServerFault<WordAnalysis>(:final detail) => ServerFault(detail),
+          Unreachable<WordAnalysis>(:final detail) => Unreachable(detail),
+          Unsupported<WordAnalysis>(:final engine, :final task) =>
+            Unsupported(engine, task),
+        };
+      },
     );
   }
 

@@ -20,6 +20,9 @@ const analysisWords = [
 const splitWords = ['rAmAlayaH', 'rAmovanafgacCawi', 'xyzq'];
 const analysedSplits = ['rAmAlayaH', 'rAmovanafgacCawi', 'rAmaH rAmaH', 'xyzq'];
 
+/// Words for the likeliest reading (`mode=f&fmode=n`).
+const likeliestWords = ['rAmaH'];
+
 final dir = Directory('test/fixtures/heritage');
 
 /// Writes each answer under the name set before the call.
@@ -61,6 +64,10 @@ Future<void> main() async {
   for (final w in analysedSplits) {
     recorder.name = 'split_analyse_${_slug(w)}';
     await engine.segment(SanskritText(w), analyse: true);
+  }
+  for (final w in likeliestWords) {
+    recorder.name = 'likeliest_${_slug(w)}';
+    await engine.likeliestReading(SanskritText(w));
   }
   recorder.name = 'analysis_empty';
   await engine.analyseWord(const SanskritText(''));

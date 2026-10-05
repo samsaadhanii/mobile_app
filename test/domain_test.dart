@@ -179,8 +179,8 @@ void main() {
   });
 
   group('Task', () {
-    test('eight tasks, each with names and a description', () {
-      expect(Task.values.length, 8);
+    test('nine tasks, each with names and a description', () {
+      expect(Task.values.length, 9);
       for (final t in Task.values) {
         expect(t.nameEn, isNotEmpty);
         expect(t.nameSa, isNotEmpty);

@@ -14,12 +14,16 @@ class AnalysisCard extends StatelessWidget {
     required this.analysis,
     required this.settings,
     this.ownLabels = false,
+    this.mostLikely = false,
     this.actions = const [],
   });
 
   final Analysis analysis;
   final AppSettings settings;
   final bool ownLabels;
+
+  /// Marks the card with a "Most likely" tag.
+  final bool mostLikely;
   final List<Widget> actions;
 
   @override
@@ -55,6 +59,13 @@ class AnalysisCard extends StatelessWidget {
                     fontSize: settings.labelLanguage == LabelLanguage.sanskrit
                         ? 16
                         : null)),
+            if (mostLikely) ...[
+              const SizedBox(height: 6),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: FeatureTag('Most likely', sanskrit: false, emphasis: true),
+              ),
+            ],
             if (analysis.base != null) ...[
               const SizedBox(height: 2),
               Text('from ${analysis.base!.display(script)}',

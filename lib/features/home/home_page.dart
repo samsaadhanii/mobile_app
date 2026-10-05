@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     final showRecent = settings.keepRecentInputs && recent.items.isNotEmpty;
 
     return Scaffold(
-      appBar: AppBar(title: const AppWordmark()),
+      appBar: AppBar(title: const AppWordmark(onBar: true)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

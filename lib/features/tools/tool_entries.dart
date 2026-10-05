@@ -44,6 +44,7 @@ const engineSupport = <Task, Set<EngineId>>{
   Task.joinWords: {EngineId.samsaadhanii},
   Task.dictionary: {EngineId.samsaadhanii},
   Task.derivation: {EngineId.samsaadhanii},
+  Task.likeliestReading: {EngineId.heritage},
 };
 
 const engineNames = {

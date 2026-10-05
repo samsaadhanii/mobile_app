@@ -52,6 +52,10 @@ abstract interface class Engine {
 
   Future<Outcome<WordAnalysis>> analyseWord(SanskritText word);
 
+  /// The single analysis of [word] that the engine's frequency data says is
+  /// the most likely. [NotFound] when it has none.
+  Future<Outcome<Analysis>> likeliestReading(SanskritText word);
+
   Future<Outcome<Segmentation>> segment(SanskritText text,
       {bool analyse = false});
 

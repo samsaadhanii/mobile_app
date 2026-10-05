@@ -482,7 +482,8 @@ void main() {
     test('tasks, id and credit', () {
       final e = HeritageEngine(client: FakeClient.fixtures());
       expect(e.id, EngineId.heritage);
-      expect(e.tasks, {Task.analyseWord, Task.splitText});
+      expect(e.tasks,
+          {Task.analyseWord, Task.splitText, Task.likeliestReading});
       expect(e.credit.name, 'Sanskrit Heritage Platform');
     });
 

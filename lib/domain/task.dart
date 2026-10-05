@@ -41,6 +41,11 @@ enum Task {
     'Derivation',
     'प्रक्रिया',
     'How a form is derived, step by step, by the Aṣṭādhyāyī rules.',
+  ),
+  likeliestReading(
+    'Likeliest reading',
+    'सम्भाव्यतमविश्लेषणम्',
+    'The most frequent analysis of one Sanskrit word, by frequency data.',
   );
 
   const Task(this.nameEn, this.nameSa, this.description);
