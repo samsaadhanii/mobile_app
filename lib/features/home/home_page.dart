@@ -99,11 +99,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(title: const AppWordmark(onBar: true)),
       body: ListView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.all(16),
         children: [
           TextField(
             controller: _controller,
-            autofocus: true,
             minLines: 1,
             maxLines: 4,
             style: const TextStyle(fontSize: 18),

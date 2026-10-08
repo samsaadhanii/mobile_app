@@ -11,6 +11,7 @@ import '../features/home/recent_inputs.dart';
 import '../shared/data/word_lists.dart';
 import 'app_info.dart';
 import 'app_shell.dart';
+import 'keyboard_dismiss.dart';
 import 'settings.dart';
 
 /// The app: one Material 3 interface on every platform (D3).
@@ -71,6 +72,7 @@ class SamApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
+        builder: (context, child) => KeyboardDismiss(child: child!),
         home: const AppShell(),
       ),
     );

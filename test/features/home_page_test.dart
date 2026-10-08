@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_app/app/app_wordmark.dart';
+import 'package:mobile_app/app/keyboard_dismiss.dart';
 import 'package:mobile_app/app/settings.dart';
 import 'package:mobile_app/features/home/dhatu_index.dart';
 import 'package:mobile_app/features/home/home_page.dart';
@@ -14,6 +15,11 @@ void _tall(WidgetTester tester) {
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
 }
+
+bool boxFocused() =>
+    FocusManager.instance.primaryFocus?.context
+        ?.findAncestorStateOfType<EditableTextState>() !=
+    null;
 
 void main() {
   group('Home', () {
@@ -35,6 +41,7 @@ void main() {
           ChangeNotifierProvider.value(value: dhatus),
         ],
         child: MaterialApp(
+          builder: (context, child) => KeyboardDismiss(child: child!),
           home: HomePage(onOpen: (e, input, {gender, prefix}) => opened.add('${e.nameEn}|$input')),
         ),
       ));
@@ -48,11 +55,51 @@ void main() {
             (w.title as Text).data!,
         ];
 
-    testWidgets('the input box has focus and the hint', (tester) async {
+    testWidgets('the hint shows and the box is not focused on opening',
+        (tester) async {
       await pumpHome(tester);
       expect(find.text('Type or paste Sanskrit'), findsOneWidget);
-      expect(tester.widget<TextField>(find.byType(TextField)).autofocus, isTrue);
+      expect(tester.widget<TextField>(find.byType(TextField)).autofocus, isFalse);
+      expect(boxFocused(), isFalse);
       expect(rows(tester), isEmpty);
+    });
+
+    testWidgets('tapping the box focuses it; empty space unfocuses it',
+        (tester) async {
+      await pumpHome(tester);
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(boxFocused(), isTrue);
+      await tester.tapAt(const Offset(700, 2900));
+      await tester.pump();
+      expect(boxFocused(), isFalse);
+    });
+
+    testWidgets('a tap on a suggestion row with the keyboard up opens the tool',
+        (tester) async {
+      final (opened, _, _) = await pumpHome(tester);
+      await tester.enterText(find.byType(TextField), 'rAmaH');
+      await tester.pump();
+      expect(boxFocused(), isTrue);
+      await tester.tap(find
+          .descendant(of: find.byType(Card), matching: find.byType(ListTile))
+          .first);
+      await tester.pump();
+      expect(opened, hasLength(1));
+      expect(boxFocused(), isFalse);
+    });
+
+    testWidgets('dragging Home unfocuses the box', (tester) async {
+      await pumpHome(tester);
+      await tester.enterText(find.byType(TextField), 'rAmaH');
+      await tester.pump();
+      expect(boxFocused(), isTrue);
+      // A short screen, so the page scrolls.
+      tester.view.physicalSize = const Size(800, 400);
+      await tester.pump();
+      await tester.drag(find.byType(ListView), const Offset(0, -100));
+      await tester.pump();
+      expect(boxFocused(), isFalse);
     });
 
     testWidgets('one word: Analyse, Dictionary, Noun forms', (tester) async {

@@ -141,6 +141,16 @@ void main() {
       expect((tile.subtitle as Text).data, 'āṅ');
     });
 
+    testWidgets('the search box is focused on opening', (tester) async {
+      await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));
+      await tester.tap(find.text('Prefix'));
+      await tester.pumpAndSettle();
+      expect(
+          FocusManager.instance.primaryFocus?.context
+              ?.findAncestorStateOfType<EditableTextState>(),
+          isNotNull);
+    });
+
     testWidgets('search narrows the list; "No prefix" stays first only when it matches',
         (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));

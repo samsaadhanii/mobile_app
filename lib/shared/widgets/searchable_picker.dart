@@ -225,6 +225,8 @@ class _PickerSheetState extends State<_PickerSheet> {
           ),
           Expanded(
             child: ListView.builder(
+              keyboardDismissBehavior:
+                  ScrollViewKeyboardDismissBehavior.onDrag,
               controller: scrollController,
               itemCount: _filtered.length + none,
               itemBuilder: (context, i) {
