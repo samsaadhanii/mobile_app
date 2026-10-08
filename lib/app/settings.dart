@@ -63,7 +63,9 @@ class AppSettings extends ChangeNotifier {
     inputScript = _read(InputScriptSetting.values, _kInputScript,
         InputScriptSetting.automatic);
     displayScript = _read(
-        DisplayScriptSetting.values, _kDisplayScript, DisplayScriptSetting.iast);
+        DisplayScriptSetting.values,
+        _kDisplayScript,
+        DisplayScriptSetting.devanagari);
     labelLanguage =
         _read(LabelLanguage.values, _kLabels, LabelLanguage.sanskrit);
     preferredEngine =

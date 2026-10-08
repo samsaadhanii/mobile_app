@@ -64,9 +64,8 @@ class _AboutPageState extends State<AboutPage> {
                 key: const Key('test-build')),
           heading('Saṃsādhanī'),
           const Text(
-            'Saṃsādhanī is a computational platform developed at the '
-            'Department of Sanskrit Studies, University of Hyderabad, for '
-            'Sanskrit language processing. It hosts several computational '
+            'Saṃsādhanī is a computational platform for Sanskrit language '
+            'processing. It hosts several computational '
             'tools such as a morphological analyser, a morphological '
             'generator, sandhi analysis and generation modules, and a '
             'dependency parser and Sanskrit-Hindi machine translation '

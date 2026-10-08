@@ -96,7 +96,7 @@ Future<AppSettings> _pump(
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [
@@ -273,7 +273,7 @@ void main() {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'gam');
       expect(find.text('gam(bhvādiḥ)'), findsOneWidget);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'),
+      expect(find.text('From Samsaadhanii'),
           findsOneWidget);
       final tables = tester.widgetList<Table>(find.byType(Table)).toList();
       expect(tables.length, 10);

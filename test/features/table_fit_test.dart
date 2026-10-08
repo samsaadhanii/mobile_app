@@ -47,7 +47,7 @@ const _grid = Key('forms-grid');
 const _lines = Key('forms-lines');
 
 Future<AppSettings> _settings(Map<String, Object> prefs) async {
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   return AppSettings.load();
 }
 

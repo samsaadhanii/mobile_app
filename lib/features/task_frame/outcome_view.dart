@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../../domain/domain.dart';
 import '../tools/tool_entries.dart';
 
-/// "From Samsaadhanii, University of Hyderabad" (wording to be confirmed by
-/// both teams, Heritage Q28; `SCREENS.md` section 4).
+/// "From Samsaadhanii" (wording to be confirmed by both teams, Heritage Q28;
+/// `SCREENS.md` section 4). The university is named on the Contributors page
+/// only.
 const creditLines = {
-  EngineId.samsaadhanii: 'From Samsaadhanii, University of Hyderabad',
-  EngineId.heritage: 'From the Sanskrit Heritage Platform, Inria',
+  EngineId.samsaadhanii: 'From Samsaadhanii',
+  EngineId.heritage: 'From the Sanskrit Heritage Platform',
 };
 
 class CreditLine extends StatelessWidget {

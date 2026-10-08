@@ -26,7 +26,7 @@ const _gam = 'gam1_gamLz_BvAxiH_gawO';
 Future<void> _pumpApp(WidgetTester tester,
     [Map<String, Object> prefs = const {}, EngineSet? engines]) async {
   _tall(tester);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   final recent = await RecentInputs.load();
   // Small lists instead of the assets: reading the real files is I/O that

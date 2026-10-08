@@ -45,4 +45,14 @@ void main() {
     expect(find.textContaining('Test build'), findsNothing);
     expect(find.text('Version 1.0.12 (build 7)'), findsOneWidget);
   });
+
+  testWidgets('the About page does not name the university', (tester) async {
+    await pump(tester, 'com.SanskritStudies.mobile_app');
+    expect(
+        find.textContaining(
+            'Saṃsādhanī is a computational platform for Sanskrit language '
+            'processing. It hosts'),
+        findsOneWidget);
+    expect(find.textContaining('Hyderabad'), findsNothing);
+  });
 }

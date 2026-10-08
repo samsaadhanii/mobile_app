@@ -89,7 +89,7 @@ Future<void> _pump(
   tester.view.physicalSize = const Size(1000, 3000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [
@@ -304,7 +304,7 @@ void main() {
     testWidgets('the credit line is under the table', (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'rAma');
-      expect(find.text('From Samsaadhanii, University of Hyderabad'),
+      expect(find.text('From Samsaadhanii'),
           findsOneWidget);
     });
 
@@ -540,7 +540,7 @@ void main() {
 
     testWidgets('the credit line is under the steps', (tester) async {
       await openDerivation(tester);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'),
+      expect(find.text('From Samsaadhanii'),
           findsOneWidget);
     });
 

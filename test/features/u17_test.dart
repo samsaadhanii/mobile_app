@@ -39,7 +39,7 @@ Future<void> _pump(
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [
@@ -270,9 +270,9 @@ void main() {
         'row-pada',
         'row-gana',
       ]);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'),
+      expect(find.text('From Samsaadhanii'),
           findsOneWidget);
-      expect(find.text('From the Sanskrit Heritage Platform, Inria'),
+      expect(find.text('From the Sanskrit Heritage Platform'),
           findsOneWidget);
     });
 

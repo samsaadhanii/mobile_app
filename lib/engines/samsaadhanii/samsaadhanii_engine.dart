@@ -36,7 +36,7 @@ class SamsaadhaniiEngine implements Engine {
   @override
   EngineCredit get credit => const EngineCredit(
         name: 'Samsaadhanii',
-        team: 'Sanskrit Computational Linguistics, University of Hyderabad',
+        team: 'The Saṃsādhanī team',
         url: 'https://sanskrit.uohyd.ac.in/scl/',
       );
 

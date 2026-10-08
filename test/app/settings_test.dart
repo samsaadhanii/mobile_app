@@ -17,7 +17,7 @@ void main() {
     test('defaults, SCREENS.md section 6', () async {
       final s = await AppSettings.load(await _prefs());
       expect(s.inputScript, InputScriptSetting.automatic);
-      expect(s.displayScript, DisplayScriptSetting.iast);
+      expect(s.displayScript, DisplayScriptSetting.devanagari);
       expect(s.labelLanguage, LabelLanguage.sanskrit);
       expect(s.preferredEngine, EngineId.samsaadhanii);
       expect(s.keepRecentInputs, isTrue);
@@ -25,18 +25,24 @@ void main() {
       expect(s.learnerLevel, LearnerLevel.basic);
     });
 
+    test('a saved IAST choice stays IAST', () async {
+      final s = await AppSettings.load(
+          await _prefs({'settings.displayScript': 'iast'}));
+      expect(s.displayScript, DisplayScriptSetting.iast);
+    });
+
     test('all five settings survive a restart', () async {
       final prefs = await _prefs();
       final s = await AppSettings.load(prefs);
       await s.setInputScript(InputScriptSetting.slp1);
-      await s.setDisplayScript(DisplayScriptSetting.devanagari);
+      await s.setDisplayScript(DisplayScriptSetting.iast);
       await s.setLabelLanguage(LabelLanguage.english);
       await s.setPreferredEngine(EngineId.heritage);
       await s.setKeepRecentInputs(false);
 
       final again = await AppSettings.load(prefs);
       expect(again.inputScript, InputScriptSetting.slp1);
-      expect(again.displayScript, DisplayScriptSetting.devanagari);
+      expect(again.displayScript, DisplayScriptSetting.iast);
       expect(again.labelLanguage, LabelLanguage.english);
       expect(again.preferredEngine, EngineId.heritage);
       expect(again.keepRecentInputs, isFalse);
@@ -145,7 +151,7 @@ void main() {
         expect(find.text(t), findsOneWidget);
       }
       expect(find.text('Automatic'), findsOneWidget);
-      expect(find.text('IAST'), findsOneWidget);
+      expect(find.text('Devanagari'), findsOneWidget);
       expect(find.text('Sanskrit'), findsOneWidget);
       expect(find.text('Samsaadhanii'), findsOneWidget);
       expect(find.text('About'), findsOneWidget);

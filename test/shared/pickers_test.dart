@@ -37,7 +37,7 @@ Future<void> _pump(
   tester.view.physicalSize = const Size(800, 1600);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [

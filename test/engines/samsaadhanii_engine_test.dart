@@ -490,6 +490,7 @@ void main() {
         Task.dictionary,
       });
       expect(e.credit.name, 'Samsaadhanii');
+      expect(e.credit.team, 'The Saṃsādhanī team');
     });
   });
 

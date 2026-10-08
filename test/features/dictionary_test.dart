@@ -52,7 +52,7 @@ Future<void> _pump(
   tester.view.physicalSize = const Size(1000, 6000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [
@@ -202,7 +202,7 @@ void main() {
 
     testWidgets('the credit line', (tester) async {
       await _pump(tester, _engine(dictionary: _answer('vana')), input: 'vana');
-      expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
+      expect(find.text('From Samsaadhanii'), findsOneWidget);
     });
   });
 

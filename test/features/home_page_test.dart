@@ -27,7 +27,7 @@ void main() {
         WidgetTester tester,
         {Map<String, Object> prefs = const {}}) async {
       _tall(tester);
-      SharedPreferences.setMockInitialValues(prefs);
+      SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
       final settings = await AppSettings.load();
       final recent = await RecentInputs.load();
       final opened = <String>[];

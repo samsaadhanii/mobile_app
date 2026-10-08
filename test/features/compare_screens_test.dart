@@ -34,7 +34,7 @@ Future<(FakeEngine, FakeEngine)> _pump(
   tester.view.physicalSize = const Size(1000, 3000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   final s = FakeEngine(
       id: EngineId.samsaadhanii, analysis: sam, segmentation: samSeg);
@@ -75,8 +75,8 @@ void main() {
       expect(find.text('Both engines agree'), findsOneWidget);
       expect(find.text('Samsaadhanii'), findsOneWidget);
       expect(find.text('Heritage'), findsOneWidget);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
-      expect(find.text('From the Sanskrit Heritage Platform, Inria'), findsOneWidget);
+      expect(find.text('From Samsaadhanii'), findsOneWidget);
+      expect(find.text('From the Sanskrit Heritage Platform'), findsOneWidget);
     });
 
     testWidgets('they differ: the banner, a block for the shared reading, '

@@ -55,7 +55,7 @@ Future<void> _pump(
   tester.view.physicalSize = const Size(800, 3000);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  SharedPreferences.setMockInitialValues(prefs);
+  SharedPreferences.setMockInitialValues({'settings.displayScript': 'iast', ...prefs});
   final settings = await AppSettings.load();
   await tester.pumpWidget(MultiProvider(
     providers: [
@@ -80,7 +80,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 1100));
       expect(find.byKey(const Key('state-waiting')), findsNothing);
       expect(_hasText('rāma'), isTrue);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
+      expect(find.text('From Samsaadhanii'), findsOneWidget);
     });
 
     testWidgets('not found: the wording, a hint, and the way on', (tester) async {
@@ -151,7 +151,7 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(find.byKey(const Key('state-unreachable')), findsNothing);
-      expect(find.text('From the Sanskrit Heritage Platform, Inria'), findsOneWidget);
+      expect(find.text('From the Sanskrit Heritage Platform'), findsOneWidget);
     });
 
     testWidgets('unsupported is worded, never blank', (tester) async {
@@ -206,7 +206,7 @@ void main() {
       expect(find.byKey(const Key('engine-switch')), findsOneWidget);
       expect(her.calls, ['analyseWord:rAmaH']);
       expect(sam.calls, isEmpty);
-      expect(find.text('From the Sanskrit Heritage Platform, Inria'), findsOneWidget);
+      expect(find.text('From the Sanskrit Heritage Platform'), findsOneWidget);
 
       await tester.tap(find.descendant(
           of: find.byKey(const Key('engine-switch')),
@@ -214,7 +214,7 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(sam.calls, ['analyseWord:rAmaH']);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
+      expect(find.text('From Samsaadhanii'), findsOneWidget);
     });
 
     testWidgets('the Compare button names the other engine', (tester) async {
@@ -527,7 +527,7 @@ void main() {
       expect(find.text('‐'), findsOneWidget);
       expect(_hasText('samāsapadam'), isTrue);
       expect(_hasText('nāma · puṃliṅgam · prathamā · ekavacanam (+1 more)'), isTrue);
-      expect(find.text('From Samsaadhanii, University of Hyderabad'), findsOneWidget);
+      expect(find.text('From Samsaadhanii'), findsOneWidget);
     });
 
     testWidgets('a word with no analysis says so, the rest are unaffected',
