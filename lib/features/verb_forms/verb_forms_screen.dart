@@ -193,7 +193,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
             engine: task.engine,
             notFoundTitle: 'No forms for $_unknownRoot',
             notFoundBody: 'Pick the root from the list.',
-            onRetry: task.request,
+            onRetry: task.retry,
             builder: (_, __) => const SizedBox.shrink(),
           );
         } else if (_root == null) {
@@ -209,7 +209,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
                 : '${engineNames[task.engine]} has no forms for this root '
                     'with this prefix.',
             notFoundBody: '',
-            onRetry: task.request,
+            onRetry: task.retry,
             other: task.other,
             onTryOther:
                 task.other == null ? null : () => task.switchTo(task.other!),

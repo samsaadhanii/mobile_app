@@ -144,7 +144,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No entry for $_typed',
-                  onRetry: task.request,
+                  onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
                       ? null

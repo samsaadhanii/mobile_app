@@ -99,10 +99,10 @@ void main() {
   });
 
   group('the prefix picker', () {
-    testWidgets('closed: "No prefix" when none is chosen', (tester) async {
+    testWidgets('closed: "None" when none is chosen', (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));
-      expect(find.text('Prefix'), findsOneWidget);
-      expect(find.text('No prefix'), findsOneWidget);
+      expect(find.text('upasargaḥ'), findsOneWidget);
+      expect(find.text('None'), findsOneWidget);
     });
 
     testWidgets('closed: the chosen prefix in the display script',
@@ -114,16 +114,16 @@ void main() {
       expect(find.text('आङ्'), findsOneWidget);
     });
 
-    testWidgets('open: "No prefix" first, then each row in both scripts',
+    testWidgets('open: "None" first, then each row in both scripts',
         (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       final titles = [
         for (final t in tester.widgetList<ListTile>(find.byType(ListTile)))
           (t.title as Text).data,
       ];
-      expect(titles.first, 'No prefix');
+      expect(titles.first, 'None');
       expect(titles.skip(1), ['āṅ', 'pra', 'adhi_ava']);
       // Each row shows the other script under it.
       expect(find.text('आङ्'), findsOneWidget);
@@ -134,7 +134,7 @@ void main() {
         (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}),
           prefs: {'settings.displayScript': 'devanagari'});
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('उपसर्गः'));
       await tester.pumpAndSettle();
       final tile = tester.widget<ListTile>(
           find.widgetWithText(ListTile, 'आङ्'));
@@ -143,7 +143,7 @@ void main() {
 
     testWidgets('the search box is focused on opening', (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       expect(
           FocusManager.instance.primaryFocus?.context
@@ -151,16 +151,16 @@ void main() {
           isNotNull);
     });
 
-    testWidgets('search narrows the list; "No prefix" stays first only when it matches',
+    testWidgets('search narrows the list; "None" stays first only when it matches',
         (tester) async {
       await _pump(tester, PrefixPicker(selected: null, onChanged: (_) {}));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField), 'pra');
       await tester.pumpAndSettle();
       expect(find.widgetWithText(ListTile, 'pra'), findsOneWidget);
       expect(find.widgetWithText(ListTile, 'āṅ'), findsNothing);
-      expect(find.widgetWithText(ListTile, 'No prefix'), findsNothing);
+      expect(find.widgetWithText(ListTile, 'None'), findsNothing);
       // Devanagari and WX are searched too.
       await tester.enterText(find.byType(TextField), 'आङ्');
       await tester.pumpAndSettle();
@@ -170,28 +170,28 @@ void main() {
       expect(find.widgetWithText(ListTile, 'adhi_ava'), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'no');
       await tester.pumpAndSettle();
-      expect(find.widgetWithText(ListTile, 'No prefix'), findsOneWidget);
+      expect(find.widgetWithText(ListTile, 'None'), findsOneWidget);
     });
 
-    testWidgets('picking a prefix gives its key; "No prefix" gives null',
+    testWidgets('picking a prefix gives its key; "None" gives null',
         (tester) async {
       final picked = <String?>[];
       await _pump(tester, PrefixPicker(selected: 'Af', onChanged: picked.add));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(ListTile, 'pra'));
       await tester.pumpAndSettle();
       expect(picked, ['pra']);
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
-      await tester.tap(find.widgetWithText(ListTile, 'No prefix'));
+      await tester.tap(find.widgetWithText(ListTile, 'None'));
       await tester.pumpAndSettle();
       expect(picked, ['pra', null]);
     });
 
     testWidgets('the current choice is marked in the list', (tester) async {
       await _pump(tester, PrefixPicker(selected: 'pra', onChanged: (_) {}));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       final marked = tester
           .widgetList<ListTile>(find.byType(ListTile))
@@ -204,7 +204,7 @@ void main() {
   group('the dhātu picker', () {
     testWidgets('closed: a prompt, then the chosen root', (tester) async {
       await _pump(tester, DhatuPicker(selectedWx: '', onChanged: (_) {}));
-      expect(find.text('Select a dhātu…'), findsOneWidget);
+      expect(find.text('Select…'), findsOneWidget);
       await _pump(tester, DhatuPicker(selectedWx: _gamKey, onChanged: (_) {}));
       expect(find.text('gam (gam) gatau bhvādiḥ'), findsOneWidget);
     });
@@ -212,7 +212,7 @@ void main() {
     testWidgets('open: rows in both scripts, search, pick', (tester) async {
       final picked = <String>[];
       await _pump(tester, DhatuPicker(selectedWx: '', onChanged: picked.add));
-      await tester.tap(find.text('Dhātu'));
+      await tester.tap(find.text('dhātuḥ'));
       await tester.pumpAndSettle();
       expect(find.byType(ListTile), findsNWidgets(3));
       expect(find.text('पठ् (पठ्) व्यक्तायां वाचि भ्वादिः'), findsOneWidget);
@@ -224,11 +224,11 @@ void main() {
       expect(picked, ['gam2_gamLz_curAxiH_gawO']);
     });
 
-    testWidgets('no "No prefix" row in the dhātu list', (tester) async {
+    testWidgets('no "None" row in the dhātu list', (tester) async {
       await _pump(tester, DhatuPicker(selectedWx: '', onChanged: (_) {}));
-      await tester.tap(find.text('Dhātu'));
+      await tester.tap(find.text('dhātuḥ'));
       await tester.pumpAndSettle();
-      expect(find.text('No prefix'), findsNothing);
+      expect(find.text('None'), findsNothing);
     });
 
     testWidgets('while the list is loading it says so and does not open',
@@ -236,7 +236,7 @@ void main() {
       await _pump(tester, DhatuPicker(selectedWx: '', onChanged: (_) {}),
           dhatus: DhatuList(), settle: false);
       expect(find.text('Loading…'), findsOneWidget);
-      await tester.tap(find.text('Dhātu'));
+      await tester.tap(find.text('dhātuḥ'));
       await tester.pump(const Duration(milliseconds: 500));
       expect(find.byType(TextField), findsNothing);
     });
@@ -256,7 +256,7 @@ void main() {
             .first);
         expect((box.decoration as BoxDecoration).border!.top.color, scheme.outline);
 
-        await tester.tap(find.text('Dhātu'));
+        await tester.tap(find.text('dhātuḥ'));
         await tester.pumpAndSettle();
         final tile = tester.widget<ListTile>(find.byType(ListTile).first);
         expect((tile.subtitle as Text).style!.color, scheme.onSurfaceVariant);
@@ -271,7 +271,7 @@ void main() {
 
     testWidgets('row text is at least 16 sp', (tester) async {
       await _pump(tester, PrefixPicker(selected: 'Af', onChanged: (_) {}));
-      await tester.tap(find.text('Prefix'));
+      await tester.tap(find.text('upasargaḥ'));
       await tester.pumpAndSettle();
       for (final t in tester.widgetList<ListTile>(find.byType(ListTile))) {
         expect((t.title as Text).style!.fontSize, greaterThanOrEqualTo(16));

@@ -87,6 +87,28 @@ String featureKindLabel(
   return english;
 }
 
+/// The input fields of the tool screens that are named by a grammatical term.
+enum ToolField { dhatu, upasarga, linga, prakara }
+
+/// The name of an input field, by the same rule as the feature labels:
+/// Sanskrit (shown in the [display] script) or English, per [language].
+/// Placeholders and hints are interface text and are not set here.
+String toolFieldLabel(
+  ToolField field, {
+  required LabelLanguage language,
+  required Script display,
+}) {
+  final (iast, english) = switch (field) {
+    ToolField.dhatu => ('dhātuḥ', 'Root'),
+    ToolField.upasarga => ('upasargaḥ', 'Prefix'),
+    ToolField.linga => ('liṅgam', 'Gender'),
+    ToolField.prakara => ('prakāraḥ', 'Category'),
+  };
+  return language == LabelLanguage.sanskrit
+      ? convert(iast, Script.iast, display)
+      : english;
+}
+
 /// Whether a feature's label is Sanskrit text, which is never set below 16 sp.
 bool featureIsSanskrit(Feature f, {required LabelLanguage language, bool ownLabels = false}) =>
     ownLabels ||

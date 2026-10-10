@@ -44,11 +44,13 @@ class _CompareSplitScreenState extends State<CompareSplitScreen> {
     super.dispose();
   }
 
-  Future<void> _load(EngineId id) async {
+  Future<void> _load(EngineId id, {bool fresh = false}) async {
     setState(() => _outcomes[id] = null);
     Outcome<SplitResult> result;
     try {
-      result = await loadSplit(_engines[id]!, widget.text);
+      result = await (fresh
+          ? runFresh(() => loadSplit(_engines[id]!, widget.text))
+          : loadSplit(_engines[id]!, widget.text));
     } catch (e) {
       result = ServerFault('unexpected error: $e');
     }
@@ -85,7 +87,7 @@ class _CompareSplitScreenState extends State<CompareSplitScreen> {
           outcome: _outcomes[id],
           engine: id,
           notFoundTitle: 'No split from ${engineNames[id]}',
-          onRetry: () => _load(id),
+          onRetry: () => _load(id, fresh: true),
           builder: (result, source) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -95,7 +95,7 @@ Outcome<VerbParadigm> parseVerb(
   }
   if (padas.isEmpty) return const NotFound();
   return Found(
-      VerbParadigm(query, SanskritText.from(rt.trim(), Script.iast), padas),
+      VerbParadigm(query, SanskritText.from(_spaced(rt.trim()), Script.iast), padas),
       source);
 }
 
@@ -158,3 +158,8 @@ Outcome<VerbParadigm> mergeVerb(
   if (b is Found<VerbParadigm>) return b;
   return const NotFound();
 }
+
+/// The server writes the heading as `gam(bhvādiḥ)`; a space before the
+/// bracket reads better in every script.
+String _spaced(String heading) =>
+    heading.replaceAllMapped(RegExp(r'\s*\('), (_) => ' (');

@@ -194,7 +194,7 @@ class _SplitScreenState extends State<SplitScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No split for $_typed',
-                  onRetry: task.request,
+                  onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
                       ? null

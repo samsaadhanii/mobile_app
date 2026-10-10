@@ -1,5 +1,6 @@
 import '../../domain/domain.dart';
 import '../common/input.dart';
+import '../common/response_cache.dart';
 import '../common/run_request.dart';
 import 'client.dart';
 import 'derivation_adapter.dart';
@@ -23,11 +24,16 @@ const dictionaryProgram = 'MT/dict_help_json.cgi';
 /// Samsaadhanii behind the [Engine] interface: word analysis, splitting, noun
 /// forms, the derivation of a noun form, verb and kṛt forms, sandhi, and the dictionary.
 class SamsaadhaniiEngine implements Engine {
-  SamsaadhaniiEngine({SamsaadhaniiClient? client, DateTime Function()? now})
+  SamsaadhaniiEngine(
+      {SamsaadhaniiClient? client,
+      DateTime Function()? now,
+      ResponseCache? cache})
       : _client = client ?? HttpSamsaadhaniiClient(),
-        _now = now ?? DateTime.now;
+        _now = now ?? DateTime.now,
+        _cache = cache ?? ResponseCache();
 
   final SamsaadhaniiClient _client;
+  final ResponseCache _cache;
   final DateTime Function() _now;
 
   @override
@@ -253,5 +259,7 @@ class SamsaadhaniiEngine implements Engine {
         program: program.split('/').last,
         now: _now,
         parse: parse,
+        cache: _cache,
+        query: query,
       );
 }

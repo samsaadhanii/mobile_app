@@ -77,7 +77,7 @@ void main() {
       final lakaras = p.padas.single.lakaras;
       expect(lakaras.map((t) => t.lakara), lakaraOrder);
       expect(lakaras.length, 10);
-      expect(p.heading.display(Script.iast), 'gam(bhvādiḥ)');
+      expect(p.heading.display(Script.iast), 'gam (bhvādiḥ)');
       expect(p.query, _kartari);
     });
 
@@ -149,7 +149,7 @@ void main() {
       final client = _Client();
       final p = _paradigm(await _engine(client).conjugateVerb(withAf));
       expect(client.asked.single['upasarga'], 'Af');
-      expect(p.heading.display(Script.iast), 'āṅ_gam(bhvādiḥ)');
+      expect(p.heading.display(Script.iast), 'āṅ_gam (bhvādiḥ)');
       expect(p.heading.wx, isNot(contains('\n')));
       expect(p.padas.map((x) => x.pada), [FeatureValue.parasmaipada]);
       expect(_wx(p.padas.single.lakaras.first, third, sg), ['AgacCawi']);

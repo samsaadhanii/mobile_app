@@ -32,14 +32,20 @@ class TaskController<T> extends ChangeNotifier {
     return null;
   }
 
-  Future<void> request() async {
+  Future<void> request() => _request(fresh: false);
+
+  /// Asks again because the user said so: always goes to the server, never to
+  /// what the app kept from an earlier answer.
+  Future<void> retry() => _request(fresh: true);
+
+  Future<void> _request({required bool fresh}) async {
     final mine = ++_generation;
     waiting = true;
     outcome = null;
     notifyListeners();
     Outcome<T> result;
     try {
-      result = await run(engine);
+      result = await (fresh ? runFresh(() => run(engine)) : run(engine));
     } catch (e) {
       result = ServerFault('unexpected error: $e');
     }

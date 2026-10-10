@@ -182,7 +182,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No analysis for $_typed',
-                  onRetry: task.request,
+                  onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
                       ? null

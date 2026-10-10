@@ -350,7 +350,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('examples')), findsOneWidget);
       expect(find.byKey(const Key('clear-input')), findsNothing);
-      expect(find.text('Select a dhātu…'), findsOneWidget);
+      expect(find.text('Select…'), findsOneWidget);
     });
 
     testWidgets('Kṛt forms: Clear does the same', (tester) async {

@@ -115,8 +115,8 @@ void main() {
         (tester) async {
       final e = _engine(krt: _found(_answer('gam')));
       await _pump(tester, e);
-      expect(find.text('Dhātu'), findsOneWidget);
-      expect(find.text('Prefix'), findsOneWidget);
+      expect(find.text('dhātuḥ'), findsOneWidget);
+      expect(find.text('upasargaḥ'), findsOneWidget);
       expect(find.byKey(const Key('prayoga-switch')), findsNothing);
       expect(e.calls, isEmpty);
       expect(find.textContaining('Suffix names'), findsNothing);
@@ -152,13 +152,13 @@ void main() {
       expect(find.text('Pick the root from the list.'), findsOneWidget);
     });
 
-    testWidgets('picking a root, a prefix and "No prefix" looks it up each time',
+    testWidgets('picking a root, a prefix and "None" looks it up each time',
         (tester) async {
       final e = _engine(krt: _found(_answer('gam')));
       await _pump(tester, e);
-      await _pick(tester, 'Dhātu', 'gam (gam) gatau bhvādiḥ');
-      await _pick(tester, 'Prefix', 'pra');
-      await _pick(tester, 'Prefix', 'No prefix');
+      await _pick(tester, 'dhātuḥ', 'gam (gam) gatau bhvādiḥ');
+      await _pick(tester, 'upasargaḥ', 'pra');
+      await _pick(tester, 'upasargaḥ', 'None');
       expect(_calls(e), [
         'krtForms:$_gam:-',
         'krtForms:$_gam:pra',
@@ -169,7 +169,7 @@ void main() {
     testWidgets('a prefix without a root looks nothing up', (tester) async {
       final e = _engine(krt: _found(_answer('gam')));
       await _pump(tester, e);
-      await _pick(tester, 'Prefix', 'pra');
+      await _pick(tester, 'upasargaḥ', 'pra');
       expect(e.calls, isEmpty);
     });
 

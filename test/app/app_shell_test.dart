@@ -181,8 +181,8 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Verb forms'));
       await tester.pumpAndSettle();
       expect(sam.calls, ['conjugateVerb:$_gam:-:kartari']);
-      expect(find.text('Dhātu'), findsOneWidget);
-      expect(find.text('No prefix'), findsOneWidget);
+      expect(find.text('dhātuḥ'), findsOneWidget);
+      expect(find.text('None'), findsOneWidget);
     });
 
     testWidgets('Home opens Kṛt forms with the typed root', (tester) async {
@@ -195,7 +195,7 @@ void main() {
       await tester.tap(find.widgetWithText(ListTile, 'Kṛt forms'));
       await tester.pumpAndSettle();
       expect(sam.calls, ['krtForms:$_gam:-']);
-      expect(find.text('Dhātu'), findsOneWidget);
+      expect(find.text('dhātuḥ'), findsOneWidget);
     });
 
     testWidgets('the Tools row opens Kṛt forms, empty', (tester) async {
@@ -208,8 +208,8 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Kṛt forms'));
       await tester.pumpAndSettle();
-      expect(find.text('Select a dhātu…'), findsOneWidget);
-      expect(find.text('Prefix'), findsOneWidget);
+      expect(find.text('Select…'), findsOneWidget);
+      expect(find.text('upasargaḥ'), findsOneWidget);
       expect(sam.calls, isEmpty);
     });
 
@@ -426,7 +426,7 @@ void main() {
       await tester.tap(find.text('Verb forms'));
       await tester.pump();
       await tester.pumpAndSettle();
-      expect(find.text('Select a dhātu…'), findsOneWidget);
+      expect(find.text('Select…'), findsOneWidget);
       expect(sam.calls, isEmpty);
     });
 
@@ -441,7 +441,7 @@ void main() {
       await tester.tap(find.text('Noun forms'));
       await tester.pumpAndSettle();
       expect(find.text('A noun stem'), findsOneWidget);
-      expect(find.text('Gender'), findsOneWidget);
+      expect(find.text('liṅgam'), findsOneWidget);
       expect(sam.calls, isEmpty);
     });
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
+import '../../features/analyse_word/feature_labels.dart';
 import '../data/word_lists.dart';
 import 'searchable_picker.dart';
 
@@ -25,12 +26,14 @@ class PrefixPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final list = context.watch<PrefixList>();
-    final script = context.watch<AppSettings>().displayScript.script;
+    final settings = context.watch<AppSettings>();
+    final script = settings.displayScript.script;
     return SearchablePicker(
-      label: 'Prefix',
-      placeholder: 'Select a prefix…',
+      label: toolFieldLabel(ToolField.upasarga,
+          language: settings.labelLanguage, display: script),
+      placeholder: 'Select…',
       searchHint: 'Search prefix…',
-      noneLabel: 'No prefix',
+      noneLabel: 'None',
       entries: list.entries,
       loading: !list.loaded,
       selected: selected,

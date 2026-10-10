@@ -45,11 +45,13 @@ class _CompareAnalysisScreenState extends State<CompareAnalysisScreen> {
     super.dispose();
   }
 
-  Future<void> _load(EngineId id) async {
+  Future<void> _load(EngineId id, {bool fresh = false}) async {
     setState(() => _outcomes[id] = null);
     Outcome<WordAnalysis> result;
     try {
-      result = await _engines[id]!.analyseWord(widget.word);
+      result = await (fresh
+          ? runFresh(() => _engines[id]!.analyseWord(widget.word))
+          : _engines[id]!.analyseWord(widget.word));
     } catch (e) {
       result = ServerFault('unexpected error: $e');
     }
@@ -88,7 +90,7 @@ class _CompareAnalysisScreenState extends State<CompareAnalysisScreen> {
           outcome: _outcomes[id],
           engine: id,
           notFoundTitle: 'No analysis from ${engineNames[id]}',
-          onRetry: () => _load(id),
+          onRetry: () => _load(id, fresh: true),
           builder: (analysis, source) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

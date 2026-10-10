@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
+import '../../features/analyse_word/feature_labels.dart';
 import '../data/word_lists.dart';
 import 'searchable_picker.dart';
 
@@ -24,10 +25,12 @@ class DhatuPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final list = context.watch<DhatuList>();
-    final script = context.watch<AppSettings>().displayScript.script;
+    final settings = context.watch<AppSettings>();
+    final script = settings.displayScript.script;
     return SearchablePicker(
-      label: 'Dhātu',
-      placeholder: 'Select a dhātu…',
+      label: toolFieldLabel(ToolField.dhatu,
+          language: settings.labelLanguage, display: script),
+      placeholder: 'Select…',
       searchHint: 'Search dhātu…',
       entries: list.entries,
       loading: !list.loaded,

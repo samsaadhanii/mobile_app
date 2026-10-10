@@ -128,8 +128,8 @@ class PadaTables {
 class VerbParadigm {
   final VerbQuery query;
 
-  /// The heading the server gives: `gam(bhvādiḥ)`, or `āṅ_gam(bhvādiḥ)` with
-  /// a prefix.
+  /// The heading the server gives, with a space before the bracket:
+  /// `gam (bhvādiḥ)`, or `āṅ_gam (bhvādiḥ)` with a prefix.
   final SanskritText heading;
   final List<PadaTables> padas;
 

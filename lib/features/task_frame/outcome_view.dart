@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/domain.dart';
@@ -42,6 +44,7 @@ class OutcomeView<T> extends StatelessWidget {
     this.onTryOther,
     this.notFoundBody,
     this.notFoundActions = const [],
+    this.slowAfter = slowAnswerAfter,
   });
 
   final Outcome<T>? outcome;
@@ -68,11 +71,14 @@ class OutcomeView<T> extends StatelessWidget {
   /// Extra actions for "nothing found" (for example "Split it as a phrase").
   final List<Widget> notFoundActions;
 
+  /// How long the waiting state lasts before it says the server is slow.
+  final Duration slowAfter;
+
   @override
   Widget build(BuildContext context) {
     final o = outcome;
-    if (o == null) return const _Waiting();
     final name = engineNames[engine]!;
+    if (o == null) return _Waiting(name: name, slowAfter: slowAfter);
     final tryOther = other == null || onTryOther == null
         ? null
         : FilledButton.tonal(
@@ -120,15 +126,80 @@ class OutcomeView<T> extends StatelessWidget {
   }
 }
 
-class _Waiting extends StatelessWidget {
-  const _Waiting();
+/// How long the app waits before saying the server is taking its time. The
+/// servers' own time for one request runs from under a second to nine
+/// (`WEBSITE-TOOLS.md` F16).
+const slowAnswerAfter = Duration(seconds: 4);
+
+/// The progress indicator, and under it, once [slowAfter] has passed, a line
+/// saying the engine is slow. It goes with the widget, when the answer or a
+/// failure arrives.
+class _Waiting extends StatefulWidget {
+  const _Waiting({required this.name, required this.slowAfter});
+
+  final String name;
+  final Duration slowAfter;
 
   @override
-  Widget build(BuildContext context) => const Padding(
-        key: Key('state-waiting'),
-        padding: EdgeInsets.symmetric(vertical: 32),
-        child: Center(child: CircularProgressIndicator()),
-      );
+  State<_Waiting> createState() => _WaitingState();
+}
+
+class _WaitingState extends State<_Waiting> {
+  Timer? _timer;
+  bool _slow = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _start();
+  }
+
+  void _start() {
+    _timer?.cancel();
+    _timer = Timer(widget.slowAfter, () {
+      if (mounted) setState(() => _slow = true);
+    });
+  }
+
+  /// Another engine is being asked: its wait starts from zero.
+  @override
+  void didUpdateWidget(_Waiting old) {
+    super.didUpdateWidget(old);
+    if (old.name != widget.name) {
+      _slow = false;
+      _start();
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      key: const Key('state-waiting'),
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      child: Column(
+        children: [
+          const Center(child: CircularProgressIndicator()),
+          if (_slow) ...[
+            const SizedBox(height: 16),
+            Text(
+              '${widget.name} is taking longer than usual.',
+              key: const Key('waiting-slow'),
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class _Message extends StatelessWidget {

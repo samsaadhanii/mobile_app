@@ -218,7 +218,7 @@ class _JoinWordsScreenState extends State<JoinWordsScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No sandhi forms for $_typedLeft + $_typedRight',
-                  onRetry: task.request,
+                  onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
                       ? null

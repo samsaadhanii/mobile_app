@@ -139,10 +139,10 @@ void main() {
         (tester) async {
       final e = _engine(paradigm: Found(_paradigm(), _src()));
       await _pump(tester, e);
-      expect(find.text('Dhātu'), findsOneWidget);
-      expect(find.text('Select a dhātu…'), findsOneWidget);
-      expect(find.text('Prefix'), findsOneWidget);
-      expect(find.text('No prefix'), findsOneWidget);
+      expect(find.text('dhātuḥ'), findsOneWidget);
+      expect(find.text('Select…'), findsOneWidget);
+      expect(find.text('upasargaḥ'), findsOneWidget);
+      expect(find.text('None'), findsOneWidget);
       expect(find.byKey(const Key('prayoga-switch')), findsOneWidget);
       for (final p in ['kartari', 'karmaṇi', 'ṇijanta']) {
         expect(find.text(p), findsOneWidget, reason: p);
@@ -192,7 +192,7 @@ void main() {
         (tester) async {
       final e = _engine(paradigm: Found(_paradigm(), _src()));
       await _pump(tester, e, input: 'xyzq');
-      await _pick(tester, 'Dhātu', 'paṭh (paṭh) vyaktāyāṃ vāci bhvādiḥ');
+      await _pick(tester, 'dhātuḥ', 'paṭh (paṭh) vyaktāyāṃ vāci bhvādiḥ');
       expect(_verbCalls(e), ['conjugateVerb:$_paT:-:kartari']);
       expect(find.text('No forms for xyzq'), findsNothing);
       expect(find.byType(Table), findsNWidgets(10));
@@ -204,7 +204,7 @@ void main() {
       await _pump(tester, e, input: 'gam', initialPrefix: 'Af');
       expect(_verbCalls(e), ['conjugateVerb:$_gam:Af:kartari']);
       expect(find.text('āṅ'), findsOneWidget); // the prefix picker shows it
-      expect(find.text('No prefix'), findsNothing);
+      expect(find.text('None'), findsNothing);
     });
 
     testWidgets('an exact dhātu key is taken as it is, spaces and all',
@@ -225,13 +225,13 @@ void main() {
       expect(find.byType(Table), findsNWidgets(10));
     });
 
-    testWidgets('picking a root, a prefix, "No prefix" and a voice each look it up',
+    testWidgets('picking a root, a prefix, "None" and a voice each look it up',
         (tester) async {
       final e = _engine(paradigm: Found(_paradigm(), _src()));
       await _pump(tester, e);
-      await _pick(tester, 'Dhātu', 'gam (gam) gatau bhvādiḥ');
-      await _pick(tester, 'Prefix', 'āṅ');
-      await _pick(tester, 'Prefix', 'No prefix');
+      await _pick(tester, 'dhātuḥ', 'gam (gam) gatau bhvādiḥ');
+      await _pick(tester, 'upasargaḥ', 'āṅ');
+      await _pick(tester, 'upasargaḥ', 'None');
       await tester.tap(find.text('karmaṇi'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('ṇijanta'));
@@ -249,12 +249,12 @@ void main() {
         (tester) async {
       final e = _engine(paradigm: Found(_paradigm(), _src()));
       await _pump(tester, e);
-      await _pick(tester, 'Prefix', 'pra');
+      await _pick(tester, 'upasargaḥ', 'pra');
       await tester.tap(find.text('karmaṇi'));
       await tester.pumpAndSettle();
       expect(e.calls, isEmpty);
       // The choices are kept for when the root comes.
-      await _pick(tester, 'Dhātu', 'gam (gam) gatau bhvādiḥ');
+      await _pick(tester, 'dhātuḥ', 'gam (gam) gatau bhvādiḥ');
       expect(_verbCalls(e), ['conjugateVerb:$_gam:pra:karmani']);
     });
 
@@ -506,7 +506,7 @@ void main() {
     testWidgets('the link carries the chosen prefix too', (tester) async {
       final opened = <String>[];
       await open(tester, onOpen: opened.add);
-      await _pick(tester, 'Prefix', 'pra');
+      await _pick(tester, 'upasargaḥ', 'pra');
       await tester.tap(find.text('Kṛt forms of this root'));
       expect(opened, ['Kṛt forms|$_gam|pra']);
     });
@@ -528,8 +528,8 @@ void main() {
         (tester) async {
       final e = _engine(paradigm: const NotFound());
       await _pump(tester, e);
-      await _pick(tester, 'Dhātu', 'gam (gam) gatau bhvādiḥ');
-      await _pick(tester, 'Prefix', 'pra');
+      await _pick(tester, 'dhātuḥ', 'gam (gam) gatau bhvādiḥ');
+      await _pick(tester, 'upasargaḥ', 'pra');
       expect(find.byKey(const Key('state-notFound')), findsOneWidget);
       expect(find.text('Samsaadhanii has no forms for this root with this prefix.'),
           findsOneWidget);

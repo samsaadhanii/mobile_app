@@ -6,6 +6,7 @@ export 'dictionary.dart';
 export 'engine.dart';
 export 'feature.dart';
 export 'feature_order.dart';
+export 'fresh_request.dart';
 export 'krt_forms.dart';
 export 'noun_forms.dart';
 export 'outcome.dart';

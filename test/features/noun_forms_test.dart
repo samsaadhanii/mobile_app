@@ -118,8 +118,8 @@ void main() {
       final e = _engine(paradigm: Found(_paradigm(), _src()));
       await _pump(tester, e);
       expect(find.text('A noun stem'), findsOneWidget);
-      expect(find.text('Gender'), findsOneWidget);
-      expect(find.text('Category'), findsOneWidget);
+      expect(find.text('liṅgam'), findsOneWidget);
+      expect(find.text('prakāraḥ'), findsOneWidget);
       expect(e.calls, isEmpty);
       expect(find.byType(Table), findsNothing);
     });

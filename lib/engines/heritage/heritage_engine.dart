@@ -1,6 +1,7 @@
 import '../../domain/domain.dart';
 import 'analysis_adapter.dart';
 import '../common/input.dart';
+import '../common/response_cache.dart';
 import '../common/run_request.dart';
 import 'client.dart';
 import 'split_adapter.dart';
@@ -8,11 +9,14 @@ import 'split_adapter.dart';
 /// Heritage's `sktgraph2.cgi` behind the [Engine] interface: word analysis
 /// and splitting.
 class HeritageEngine implements Engine {
-  HeritageEngine({HeritageClient? client, DateTime Function()? now})
+  HeritageEngine(
+      {HeritageClient? client, DateTime Function()? now, ResponseCache? cache})
       : _client = client ?? HttpHeritageClient(),
-        _now = now ?? DateTime.now;
+        _now = now ?? DateTime.now,
+        _cache = cache ?? ResponseCache();
 
   final HeritageClient _client;
+  final ResponseCache _cache;
   final DateTime Function() _now;
 
   @override
@@ -126,5 +130,7 @@ class HeritageEngine implements Engine {
         program: 'sktgraph2.cgi',
         now: _now,
         parse: parse,
+        cache: _cache,
+        query: query,
       );
 }

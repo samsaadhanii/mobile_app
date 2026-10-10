@@ -81,7 +81,7 @@ class _DerivationScreenState extends State<DerivationScreen> {
                           '${engineNames[task.engine]} has no derivation for '
                           'this form.',
                       notFoundBody: '',
-                      onRetry: task.request,
+                      onRetry: task.retry,
                       builder: (derivation, source) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

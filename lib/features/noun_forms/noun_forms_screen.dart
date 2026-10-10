@@ -238,14 +238,22 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: menu('Gender', _genders, _gender, (v) {
+                    child: menu(
+                        toolFieldLabel(ToolField.linga,
+                            language: settings.labelLanguage,
+                            display: settings.displayScript.script),
+                        _genders, _gender, (v) {
                       _gender = v;
                       _changed();
                     }),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: menu('Category', _categories, _category, (v) {
+                    child: menu(
+                        toolFieldLabel(ToolField.prakara,
+                            language: settings.labelLanguage,
+                            display: settings.displayScript.script),
+                        _categories, _category, (v) {
                       _category = v;
                       _changed();
                     }),
@@ -275,7 +283,7 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No forms for $_typed',
-                  onRetry: task.request,
+                  onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
                       ? null
