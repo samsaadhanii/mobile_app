@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
-import '../../features/analyse_word/feature_labels.dart';
+import '../field_labels.dart';
 import '../data/word_lists.dart';
 import 'searchable_picker.dart';
 

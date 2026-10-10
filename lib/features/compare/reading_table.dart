@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/engine_identity.dart';
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../../shared/field_labels.dart';
 import '../analyse_word/feature_labels.dart';
 import '../tools/tool_entries.dart';
 import 'agreement.dart';

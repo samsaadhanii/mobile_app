@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
 import '../../shared/widgets/form_sheet.dart';
+import '../../shared/field_labels.dart';
 import '../analyse_word/feature_labels.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
