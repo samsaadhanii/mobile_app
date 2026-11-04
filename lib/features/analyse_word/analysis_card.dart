@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/settings.dart';
+import '../../app/word_class_colours.dart';
 import '../../domain/domain.dart';
 import 'feature_labels.dart';
 import 'feature_tag.dart';
@@ -32,8 +33,8 @@ class AnalysisCard extends StatelessWidget {
     final script = settings.displayScript.script;
     final features = orderedFeatures(analysis);
 
-    return Card(
-      child: Padding(
+    final mark = wordClassColour(analysis.wordClass, theme.colorScheme);
+    final body = Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +99,21 @@ class AnalysisCard extends StatelessWidget {
             ],
           ],
         ),
-      ),
+      );
+
+    // The word class's colour is a 4 dp mark on the left edge; nothing else on
+    // the card changes colour.
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: mark == null
+          ? body
+          : DecoratedBox(
+              key: const Key('class-border'),
+              decoration: BoxDecoration(
+                border: Border(left: BorderSide(color: mark, width: 4)),
+              ),
+              child: body,
+            ),
     );
   }
 }

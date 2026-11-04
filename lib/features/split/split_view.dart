@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide Split;
 
 import '../../app/settings.dart';
+import '../../app/word_class_colours.dart';
 import '../../domain/domain.dart';
 import '../analyse_word/feature_labels.dart';
 
@@ -61,6 +62,7 @@ class SplitView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 6),
               child: Text.rich(TextSpan(children: [
+                ..._square(context, analyses[i]),
                 TextSpan(
                   text: split.segments[i].text.display(script),
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
@@ -74,6 +76,30 @@ class SplitView extends StatelessWidget {
             ),
       ],
     );
+  }
+
+  /// A small square in the colour of the word's class (its first reading, the
+  /// one the line summarises) before the word; nothing for a class without one.
+  List<InlineSpan> _square(BuildContext context, Outcome<WordAnalysis> slot) {
+    if (slot is! Found<WordAnalysis> || slot.value.analyses.isEmpty) {
+      return const [];
+    }
+    final mark = wordClassColour(
+        slot.value.analyses.first.wordClass, Theme.of(context).colorScheme);
+    if (mark == null) return const [];
+    return [
+      WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 6),
+          child: SizedBox(
+            width: 10,
+            height: 10,
+            child: ColoredBox(key: const Key('class-square'), color: mark),
+          ),
+        ),
+      ),
+    ];
   }
 
   String _summary(Outcome<WordAnalysis> slot, Script script) {

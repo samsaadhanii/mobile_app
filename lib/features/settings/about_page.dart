@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../app/app_wordmark.dart';
+import '../../app/word_class_colours.dart';
 
 /// About: both teams, versions and licences, as plain Flutter text.
 class AboutPage extends StatefulWidget {
@@ -77,6 +78,29 @@ class _AboutPageState extends State<AboutPage> {
           heading('Sanskrit Heritage Platform'),
           // Placeholder: the Heritage team words its own credit (Heritage Q28).
           const Text('[Text to come from the Sanskrit Heritage team.]'),
+          heading('Colours'),
+          const Text('A coloured mark beside an analysis shows its word class, '
+              'as on the Sanskrit Heritage Platform. The words say the same.'),
+          const SizedBox(height: 8),
+          for (final c in colouredWordClasses)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: ColoredBox(
+                      key: Key('colour-${c.name}'),
+                      color: wordClassColour(c, theme.colorScheme)!,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text('${c.english[0].toUpperCase()}${c.english.substring(1)}'
+                      '${c.iast == null ? '' : ' (${c.iast})'}'),
+                ],
+              ),
+            ),
           heading('Data'),
           const Text('The Dhātupāṭha concordance data is by N. Shailaja and '
               'Amba Kulkarni, under the Creative Commons '
