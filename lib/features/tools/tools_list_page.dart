@@ -10,10 +10,12 @@ import 'tool_entries.dart';
 typedef OpenTool = void Function(ToolEntry entry, String input,
     {FeatureValue? gender, String? prefix});
 
-/// The Tools tab (`SCREENS.md` section 3): three groups of compact rows with
-/// hairline dividers, so all eight tools fit on one phone screen. Each row is
-/// the English name, the Sanskrit name under it, and the engines that can
-/// answer it as quiet text at the right.
+/// The Tools tab (`SCREENS.md` section 3): three groups under their headings,
+/// each a grid of two columns of compact cards, so all eight tools fit on one
+/// phone screen at the default text size. A card is the English name, the
+/// Sanskrit name under it and, at the bottom, the engines that can answer it as
+/// quiet text; the whole card is the tap target. The page scrolls only when the
+/// text is larger.
 class ToolsListPage extends StatelessWidget {
   const ToolsListPage({super.key, required this.onOpen});
 
@@ -25,30 +27,47 @@ class ToolsListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Tools')),
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
         children: [
           for (final group in ToolGroup.values) ...[
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 2),
+              padding: const EdgeInsets.fromLTRB(4, 10, 4, 2),
               child: Text(
                 group.label,
                 style: theme.textTheme.titleSmall
                     ?.copyWith(color: theme.colorScheme.primary),
               ),
             ),
-            for (final entry in toolEntries.where((e) => e.group == group)) ...[
-              const Divider(height: 1, thickness: 0.5),
-              _ToolRow(entry: entry, onTap: () => onOpen(entry, '')),
-            ],
-            const Divider(height: 1, thickness: 0.5),
+            ..._rows([
+              for (final entry in toolEntries.where((e) => e.group == group))
+                _ToolCard(entry: entry, onTap: () => onOpen(entry, '')),
+            ]),
           ],
         ],
       ),
     );
   }
+
+  /// Two cards to a row, as tall as the taller of the two.
+  List<Widget> _rows(List<Widget> cards) => [
+        for (var i = 0; i < cards.length; i += 2)
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: cards[i]),
+                Expanded(
+                    child: i + 1 < cards.length
+                        ? cards[i + 1]
+                        : const SizedBox.shrink()),
+              ],
+            ),
+          ),
+      ];
 }
 
-class _ToolRow extends StatelessWidget {
-  const _ToolRow({required this.entry, required this.onTap});
+class _ToolCard extends StatelessWidget {
+  const _ToolCard({required this.entry, required this.onTap});
 
   final ToolEntry entry;
   final VoidCallback onTap;
@@ -56,35 +75,34 @@ class _ToolRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(entry.nameEn,
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500, height: 1.2)),
-                  // The Sanskrit name is a title: always Devanagari, whatever
-                  // the display script. Sanskrit text is never below 16 sp.
-                  Text(entry.nameSa,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                          fontSize: 16,
-                          height: 1.25,
-                          color: theme.colorScheme.onSurfaceVariant)),
-                ],
-              ),
-            ),
-            if (entry.engines.isNotEmpty) ...[
-              const SizedBox(width: 12),
-              // Flexible: at the largest text size the marks wrap, not overflow.
-              Flexible(child: EngineMarks(entry.engines)),
+    return Card(
+      margin: const EdgeInsets.all(4),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(entry.nameEn,
+                  style: theme.textTheme.bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w500, height: 1.2)),
+              // The Sanskrit name is a title: always Devanagari, whatever the
+              // display script. Sanskrit text is never below 16 sp.
+              Text(entry.nameSa,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                      fontSize: 16,
+                      height: 1.25,
+                      color: theme.colorScheme.onSurfaceVariant)),
+              const Spacer(),
+              if (entry.engines.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: EngineMarks(entry.engines, textAlign: TextAlign.start),
+                ),
             ],
-          ],
+          ),
         ),
       ),
     );
