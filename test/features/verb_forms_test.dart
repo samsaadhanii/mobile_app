@@ -92,6 +92,7 @@ Future<AppSettings> _pump(
   DhatuList? dhatus,
   bool settle = true,
   Size size = const Size(1000, 3000),
+  double textScale = 1,
 }) async {
   tester.view.physicalSize = size;
   tester.view.devicePixelRatio = 1;
@@ -106,6 +107,10 @@ Future<AppSettings> _pump(
       ChangeNotifierProvider<PrefixList>.value(value: _prefixes),
     ],
     child: MaterialApp(
+      builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!),
       home: VerbFormsScreen(
         initialInput: input,
         initialPrefix: initialPrefix,
@@ -435,6 +440,109 @@ void main() {
       final heading = tester.getTopLeft(find.byKey(const Key('lakara-lat'))).dy;
       expect(heading, greaterThanOrEqualTo(row - 1));
       expect(heading, lessThan(row + 60));
+    });
+
+    group('how much is pinned on a 360 x 640 dp phone (a quarter at most)', () {
+      /// Opens the result at [textScale] on a 360 x 640 dp screen and returns
+      /// the natural heights of the pada switch (with its 8 dp gap) and of the
+      /// chip row (with its 4 dp gap), read before anything scrolls.
+      Future<(double, double)> open(WidgetTester tester, double textScale) async {
+        await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
+            input: 'gam', size: const Size(360, 640), textScale: textScale);
+        return (
+          tester.getSize(find.byKey(const Key('pada-switch'))).height + 8,
+          tester.getSize(find.byKey(const Key('lakara-chips'))).height + 4,
+        );
+      }
+
+      Future<void> scrollAway(WidgetTester tester) async {
+        await tester.drag(find.byType(CustomScrollView), const Offset(0, -2500));
+        await tester.pumpAndSettle();
+      }
+
+      /// Held at the top of the screen, under the top bar.
+      bool pinned(WidgetTester tester, Key k) {
+        final f = find.byKey(k);
+        return f.hitTestable().evaluate().isNotEmpty &&
+            tester.getTopLeft(f).dy < 56 + 120;
+      }
+
+      Future<void> jumpLeavesHeading(WidgetTester tester) async {
+        await tester.tap(find.widgetWithText(ActionChip, 'laṭ'));
+        await tester.pumpAndSettle();
+        final heading = find.byKey(const Key('lakara-lat'));
+        expect(heading.hitTestable(), findsOneWidget);
+        // Not under what is pinned: at or below the chips.
+        final chips = find.byKey(const Key('lakara-chips'));
+        if (pinned(tester, const Key('lakara-chips'))) {
+          expect(tester.getTopLeft(heading).dy,
+              greaterThanOrEqualTo(tester.getBottomLeft(chips).dy + 4 - 1));
+        }
+      }
+
+      testWidgets('Default: both are pinned', (tester) async {
+        final (sw, ch) = await open(tester, 1);
+        debugPrint('MEASURED Default 360x640: switch+gap $sw, chips+gap $ch, '
+            'both ${sw + ch}, quarter ${(640 - 56) / 4}');
+        await scrollAway(tester);
+        expect(pinned(tester, const Key('pada-switch')), isTrue);
+        expect(pinned(tester, const Key('lakara-chips')), isTrue);
+        await jumpLeavesHeading(tester);
+      });
+
+      testWidgets('Larger (x1.3): measured; pinned as the quarter allows',
+          (tester) async {
+        final (sw, ch) = await open(tester, 1.3);
+        final quarter = (640 - 56) / 4;
+        debugPrint('MEASURED Larger 360x640: switch+gap $sw, chips+gap $ch, '
+            'both ${sw + ch}, quarter $quarter');
+        await scrollAway(tester);
+        expect(pinned(tester, const Key('lakara-chips')), ch <= quarter);
+        expect(pinned(tester, const Key('pada-switch')), sw + ch <= quarter);
+        if (ch <= quarter) await jumpLeavesHeading(tester);
+      });
+
+      testWidgets('where the two together are too tall, only the chips are '
+          'pinned and the pada switch scrolls away', (tester) async {
+        final (sw, ch) = await open(tester, 1.3);
+        // A screen whose quarter holds the chips but not the switch as well.
+        final quarter = ch + (sw / 2);
+        tester.view.physicalSize = Size(360, 56 + 4 * quarter);
+        await tester.pumpAndSettle();
+        await scrollAway(tester);
+        expect(pinned(tester, const Key('lakara-chips')), isTrue);
+        expect(find.byKey(const Key('pada-switch')).hitTestable(), findsNothing);
+        await jumpLeavesHeading(tester);
+      });
+
+      testWidgets('where even the chips are too tall, nothing is pinned',
+          (tester) async {
+        final (_, ch) = await open(tester, 1.3);
+        tester.view.physicalSize = Size(360, 56 + 4 * (ch - 6));
+        await tester.pumpAndSettle();
+        await scrollAway(tester);
+        expect(find.byKey(const Key('lakara-chips')).hitTestable(), findsNothing);
+        expect(find.byKey(const Key('pada-switch')).hitTestable(), findsNothing);
+        // The chips are still on the page, at the top, for a jump.
+        await tester.scrollUntilVisible(
+            find.widgetWithText(ActionChip, 'laṭ'), -100,
+            scrollable: find.byType(Scrollable).first);
+        await tester.pumpAndSettle();
+        await tester.tap(find.widgetWithText(ActionChip, 'laṭ'));
+        await tester.pumpAndSettle();
+        expect(find.byKey(const Key('lakara-lat')).hitTestable(), findsOneWidget);
+      });
+
+      testWidgets('a change of screen size is measured again', (tester) async {
+        final (sw, ch) = await open(tester, 1);
+        await scrollAway(tester);
+        expect(pinned(tester, const Key('pada-switch')), isTrue);
+        tester.view.physicalSize = Size(360, 56 + 4 * (sw + ch - 10));
+        await tester.pumpAndSettle();
+        await scrollAway(tester);
+        expect(find.byKey(const Key('pada-switch')).hitTestable(), findsNothing);
+        expect(pinned(tester, const Key('lakara-chips')), isTrue);
+      });
     });
 
     testWidgets('with one pada only the chips are pinned', (tester) async {
