@@ -150,6 +150,9 @@ void main() {
       expect(sam.calls, ['analyseWord:gacCawi']);
       expect(find.text('Did you mean:'), findsOneWidget);
       expect(find.text('गच्छति → गम् (गम्) गतौ भ्वादिः'), findsOneWidget);
+      // The analysis says {gaṇaḥ:bhvādiḥ}: one गम्, not the curādi row too.
+      expect(find.textContaining('→ गम्'), findsOneWidget);
+      expect(find.textContaining('चुरादिः'), findsNothing);
       await tester.tap(find.text('गच्छति → गम् (गम्) गतौ भ्वादिः'));
       await tester.pumpAndSettle();
       expect(sam.calls.last, 'conjugateVerb:$_gam:-:kartari');
@@ -161,11 +164,53 @@ void main() {
       await _pump(tester, EngineSet({EngineId.samsaadhanii: sam}),
           const VerbFormsScreen());
       await search(tester, 'आगच्छति');
-      // One row for each gaṇa of the root in the list, both with the prefix.
-      expect(find.text('with prefix आङ्'), findsNWidgets(2));
+      // The analysis says bhvādi, so one row (not the curādi one too).
+      expect(find.text('with prefix आङ्'), findsOneWidget);
+      expect(find.textContaining('चुरादिः'), findsNothing);
       await tester.tap(find.text('आगच्छति → गम् (गम्) गतौ भ्वादिः'));
       await tester.pumpAndSettle();
       expect(sam.calls.last, 'conjugateVerb:$_gam:Af:kartari');
+    });
+
+    testWidgets('an analysis without a gaṇa still offers every row',
+        (tester) async {
+      const noGana = Analysis(
+          lemma: SanskritText('gam'),
+          wordClass: WordClass.verb,
+          features: [Feature(FeatureKind.lakara, FeatureValue.lat, 'laṭ')]);
+      final sam = FakeEngine(
+          tasks: const {Task.analyseWord, Task.verbForms},
+          analysis: Found(
+              WordAnalysis(const SanskritText('gacCawi'), const [noGana]),
+              ResultSource(
+                  engine: EngineId.samsaadhanii,
+                  program: 'p',
+                  time: DateTime.utc(2026, 11, 4))));
+      await _pump(tester, EngineSet({EngineId.samsaadhanii: sam}),
+          const VerbFormsScreen());
+      await search(tester, 'गच्छति');
+      expect(find.text('गच्छति → गम् (गम्) गतौ भ्वादिः'), findsOneWidget);
+      expect(find.text('गच्छति → गम् (गम्) गतौ चुरादिः'), findsOneWidget);
+    });
+
+    testWidgets('a gaṇa that no row has offers every row', (tester) async {
+      // tudādi is given, but the list has only bhvādi and curādi gam.
+      const odd = Analysis(
+          lemma: SanskritText('gam'),
+          wordClass: WordClass.verb,
+          features: [Feature(FeatureKind.gana, FeatureValue.tudadi, 'tudādiḥ')]);
+      final sam = FakeEngine(
+          tasks: const {Task.analyseWord, Task.verbForms},
+          analysis: Found(
+              WordAnalysis(const SanskritText('gacCawi'), const [odd]),
+              ResultSource(
+                  engine: EngineId.samsaadhanii,
+                  program: 'p',
+                  time: DateTime.utc(2026, 11, 4))));
+      await _pump(tester, EngineSet({EngineId.samsaadhanii: sam}),
+          const VerbFormsScreen());
+      await search(tester, 'गच्छति');
+      expect(find.textContaining('→ गम्'), findsNWidgets(2));
     });
 
     testWidgets('the same offer in Kṛt forms', (tester) async {

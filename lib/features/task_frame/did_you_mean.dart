@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../../sanskrit/transliteration.dart' show toWx;
 import '../../shared/data/word_lists.dart';
 import '../../shared/widgets/searchable_picker.dart' show PickerSuggestion;
 import '../analyse_word/feature_labels.dart';
@@ -65,9 +66,27 @@ List<LemmaSuggestion> lemmaSuggestions(List<Analysis> analyses,
   return out;
 }
 
+/// The gaṇa an analysis gives, as the list writes it in a key
+/// (`gam1_gamLz_BvAxiH_gawO`: the third part), or null when it gives none.
+String? _ganaOf(Analysis a) {
+  for (final f in a.features) {
+    if (f.kind == FeatureKind.gana && f.value.iast.isNotEmpty) {
+      return toWx(f.value.iast, Script.iast);
+    }
+  }
+  return null;
+}
+
+String? _ganaOfKey(String key) {
+  final parts = key.split('_');
+  return parts.length > 2 ? parts[2] : null;
+}
+
 /// The dhātus of [dhatus] that [analyses] come from, with the prefix when the
 /// analysis has one that is in [prefixes]; an analysis names a root by its
-/// lemma (verb) or its base (participle).
+/// lemma (verb) or its base (participle). When the analysis gives a gaṇa only
+/// the rows of that gaṇa are offered; with none, or one that no row has, all
+/// the rows of the root are.
 List<PickerSuggestion> rootSuggestions(
   List<Analysis> analyses, {
   required String typed,
@@ -87,7 +106,13 @@ List<PickerSuggestion> rootSuggestions(
     if (root == null) continue;
     final prefixKey = a.prefix?.wx;
     final prefix = prefixKey == null ? null : prefixes.entryFor(prefixKey);
-    for (final key in dhatus.keysFor(root.wx)) {
+    var keys = dhatus.keysFor(root.wx);
+    final gana = _ganaOf(a);
+    if (gana != null) {
+      final narrowed = [for (final k in keys) if (_ganaOfKey(k) == gana) k];
+      if (narrowed.isNotEmpty) keys = narrowed;
+    }
+    for (final key in keys) {
       if (!seen.add('$key|${prefix?.wx}')) continue;
       final entry = dhatus.entryFor(key)!;
       out.add(PickerSuggestion(
