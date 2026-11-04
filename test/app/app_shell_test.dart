@@ -164,7 +164,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.widgetWithText(ListTile, 'Noun forms'));
       await tester.pumpAndSettle();
-      expect(sam.calls, ['declineNoun:rAma:masculine:plainNoun']);
+      expect(sam.toolCalls, ['declineNoun:rAma:masculine:plainNoun']);
       final field = tester.widget<TextField>(find.descendant(
           of: find.byType(NounFormsScreen), matching: find.byType(TextField)));
       expect(field.controller!.text, 'rAma');
@@ -313,7 +313,7 @@ void main() {
       await tester.pump();
       await tester.tap(find.widgetWithText(ListTile, 'Dictionary'));
       await tester.pumpAndSettle();
-      expect(sam.calls, ['lookUp:rAma']);
+      expect(sam.toolCalls, ['lookUp:rAma']);
       // Not the "being rebuilt" placeholder.
       expect(find.textContaining('is being rebuilt'), findsNothing);
       expect(find.text('One Sanskrit word'), findsOneWidget);
@@ -356,7 +356,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
       await tester.pumpAndSettle();
-      expect(sam.calls.last, 'lookUp:rAma');
+      expect(sam.toolCalls.last, 'lookUp:rAma');
     });
 
     testWidgets('a prefixed verb is looked up by its root, without the prefix',
@@ -384,7 +384,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
       await tester.pumpAndSettle();
-      expect(sam.calls.last, 'lookUp:gam');
+      expect(sam.toolCalls.last, 'lookUp:gam');
     });
 
     testWidgets('the Dictionary link under the noun table looks the stem up',
@@ -412,7 +412,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(TextButton, 'Dictionary'));
       await tester.pumpAndSettle();
-      expect(sam.calls.last, 'lookUp:rAma');
+      expect(sam.toolCalls.last, 'lookUp:rAma');
     });
 
     testWidgets('the Tools row opens Verb forms, empty', (tester) async {

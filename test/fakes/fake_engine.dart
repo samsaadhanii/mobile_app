@@ -78,6 +78,11 @@ class FakeEngine implements Engine {
   /// `joinSandhi:rAmaH:AlayaH`, `lookUp:vana`, `likeliestReading:rAmaH`.
   final List<String> calls = [];
 
+  /// [calls] without the Analyse a word requests that a not-found Dictionary,
+  /// Noun forms or dhātu search makes to offer "Did you mean:" (U28).
+  List<String> get toolCalls =>
+      [for (final c in calls) if (!c.startsWith('analyseWord:')) c];
+
   Future<T> _after<T>(T value, [Duration? delay]) {
     final d = delay ?? latency;
     return d == Duration.zero ? Future.value(value) : Future.delayed(d, () => value);

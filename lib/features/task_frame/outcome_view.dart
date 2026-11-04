@@ -44,6 +44,7 @@ class OutcomeView<T> extends StatelessWidget {
     this.onTryOther,
     this.notFoundBody,
     this.notFoundActions = const [],
+    this.notFoundExtra,
     this.slowAfter = slowAnswerAfter,
   });
 
@@ -71,6 +72,10 @@ class OutcomeView<T> extends StatelessWidget {
   /// Extra actions for "nothing found" (for example "Split it as a phrase").
   final List<Widget> notFoundActions;
 
+  /// Under the "nothing found" message and its actions, full width (the
+  /// "Did you mean:" rows).
+  final Widget? notFoundExtra;
+
   /// How long the waiting state lasts before it says the server is slow.
   final Duration slowAfter;
 
@@ -96,6 +101,7 @@ class OutcomeView<T> extends StatelessWidget {
               'Check the spelling and the input script (Settings, Input '
                   'script).',
           actions: [if (tryOther != null) tryOther, ...notFoundActions],
+          extra: notFoundExtra,
         ),
       BadInput<T>() => _Message(
           key: const Key('state-badInput'),
@@ -203,11 +209,17 @@ class _WaitingState extends State<_Waiting> {
 }
 
 class _Message extends StatelessWidget {
-  const _Message({super.key, required this.title, this.body, this.actions = const []});
+  const _Message(
+      {super.key,
+      required this.title,
+      this.body,
+      this.actions = const [],
+      this.extra});
 
   final String title;
   final String? body;
   final List<Widget> actions;
+  final Widget? extra;
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +238,7 @@ class _Message extends StatelessWidget {
             const SizedBox(height: 12),
             Wrap(spacing: 8, runSpacing: 8, children: actions),
           ],
+          if (extra != null) ...[const SizedBox(height: 12), extra!],
         ],
       ),
     );

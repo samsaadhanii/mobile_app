@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
+import 'dart:async';
+
 import '../../sanskrit/script.dart' show Script;
 import '../data/word_lists.dart';
+
+/// A row offered when a search matches nothing: [key] is the entry it stands
+/// for, [prefix] a second thing it selects with it (a prefix key), if any.
+class PickerSuggestion {
+  const PickerSuggestion(
+      {required this.key, required this.title, this.subtitle, this.prefix});
+
+  final String key;
+  final String title;
+  final String? subtitle;
+  final String? prefix;
+}
 
 /// A tappable outlined field that opens a searchable bottom sheet of
 /// [ListEntry] rows. Each row shows the entry in the display [script]
@@ -22,6 +36,8 @@ class SearchablePicker extends StatelessWidget {
     this.loading = false,
     this.noneLabel,
     this.searchHint = 'Search…',
+    this.suggest,
+    this.onSuggested,
   });
 
   final String label;
@@ -35,6 +51,11 @@ class SearchablePicker extends StatelessWidget {
   final bool loading;
   final String? noneLabel;
   final String searchHint;
+
+  /// Asked, once the user stops typing, when the search text matches no entry:
+  /// what else it might mean. With [onSuggested] for the tapped row.
+  final Future<List<PickerSuggestion>> Function(String text)? suggest;
+  final ValueChanged<PickerSuggestion>? onSuggested;
 
   bool get _noneSelected => selected == null || selected!.isEmpty;
 
@@ -61,6 +82,11 @@ class SearchablePicker extends StatelessWidget {
         selected: selected,
         noneLabel: noneLabel,
         searchHint: searchHint,
+        suggest: onSuggested == null ? null : suggest,
+        onSuggested: (s) {
+          Navigator.pop(sheetContext);
+          onSuggested?.call(s);
+        },
         primary: _primary,
         secondary: _secondary,
         onSelected: (key) {
@@ -141,6 +167,8 @@ class _PickerSheet extends StatefulWidget {
     required this.selected,
     required this.noneLabel,
     required this.searchHint,
+    this.suggest,
+    this.onSuggested,
     required this.primary,
     required this.secondary,
     required this.onSelected,
@@ -150,6 +178,8 @@ class _PickerSheet extends StatefulWidget {
   final String? selected;
   final String? noneLabel;
   final String searchHint;
+  final Future<List<PickerSuggestion>> Function(String text)? suggest;
+  final ValueChanged<PickerSuggestion>? onSuggested;
   final String Function(ListEntry) primary;
   final String Function(ListEntry) secondary;
   final ValueChanged<String> onSelected;
@@ -162,8 +192,16 @@ class _PickerSheetState extends State<_PickerSheet> {
   final _search = TextEditingController();
   late List<ListEntry> _filtered = widget.entries;
 
+  /// What the search might mean when it matches nothing: asked for after a
+  /// short pause, never before.
+  List<PickerSuggestion>? _suggestions;
+  bool _asking = false;
+  Timer? _pause;
+  int _asked = 0;
+
   @override
   void dispose() {
+    _pause?.cancel();
     _search.dispose();
     super.dispose();
   }
@@ -178,6 +216,26 @@ class _PickerSheetState extends State<_PickerSheet> {
                 if (e.searchKey.contains(q)) e,
             ];
     });
+    _pause?.cancel();
+    final mine = ++_asked;
+    _suggestions = null;
+    _asking = false;
+    if (widget.suggest == null || q.isEmpty || _filtered.isNotEmpty) return;
+    _pause = Timer(const Duration(milliseconds: 400), () async {
+      if (!mounted || mine != _asked) return;
+      setState(() => _asking = true);
+      List<PickerSuggestion> found;
+      try {
+        found = await widget.suggest!(text.trim());
+      } catch (_) {
+        found = const [];
+      }
+      if (!mounted || mine != _asked) return;
+      setState(() {
+        _suggestions = found;
+        _asking = false;
+      });
+    });
   }
 
   bool get _showNone {
@@ -185,6 +243,39 @@ class _PickerSheetState extends State<_PickerSheet> {
     if (none == null) return false;
     final q = _search.text.trim().toLowerCase();
     return q.isEmpty || none.toLowerCase().contains(q);
+  }
+
+  Widget _suggestionList(ThemeData theme, Color muted) {
+    final rows = _suggestions ?? const <PickerSuggestion>[];
+    if (_asking) {
+      return const Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: EdgeInsets.all(24),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    if (rows.isEmpty) return const SizedBox.shrink();
+    return ListView(
+      key: const Key('picker-suggestions'),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+          child: Text('Did you mean:', style: theme.textTheme.titleSmall),
+        ),
+        for (final s in rows)
+          ListTile(
+            title: Text(s.title, style: const TextStyle(fontSize: 16)),
+            subtitle: s.subtitle == null
+                ? null
+                : Text(s.subtitle!,
+                    style: TextStyle(fontSize: 16, color: muted)),
+            onTap: () => widget.onSuggested!(s),
+          ),
+      ],
+    );
   }
 
   @override
@@ -223,6 +314,9 @@ class _PickerSheetState extends State<_PickerSheet> {
               ),
             ),
           ),
+          if (_filtered.isEmpty && (_asking || _suggestions != null))
+            Expanded(child: _suggestionList(theme, muted))
+          else
           Expanded(
             child: ListView.builder(
               keyboardDismissBehavior:

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../task_frame/did_you_mean.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
@@ -144,6 +145,15 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No entry for $_typed',
+                  notFoundExtra: DidYouMean(
+                    word: _word,
+                    engines: _engines,
+                    nominal: false,
+                    onChosen: (s) {
+                      _text.text = s.lemma.display(Script.devanagari);
+                      _submit();
+                    },
+                  ),
                   onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null

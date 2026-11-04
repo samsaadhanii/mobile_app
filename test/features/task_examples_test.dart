@@ -102,7 +102,8 @@ void main() {
         final engine = await _pump(tester, c.screen);
         await tester.tap(_chips.first);
         await tester.pumpAndSettle();
-        expect(engine.calls, [c.firstCall]);
+        expect(c.firstCall.startsWith('analyseWord:') ? engine.calls : engine.toolCalls,
+            [c.firstCall]);
         final filled = [
           for (final f in tester.widgetList<TextField>(find.byType(TextField)))
             f.controller!.text,
@@ -154,14 +155,14 @@ void main() {
       final engine = await _pump(tester, const NounFormsScreen());
       await tester.tap(_chips.at(3));
       await tester.pumpAndSettle();
-      expect(engine.calls, ['declineNoun:asmax:noGender:sarvanama']);
+      expect(engine.toolCalls, ['declineNoun:asmax:noGender:sarvanama']);
     });
 
     testWidgets('a feminine stem', (tester) async {
       final engine = await _pump(tester, const NounFormsScreen());
       await tester.tap(_chips.at(1));
       await tester.pumpAndSettle();
-      expect(engine.calls, ['declineNoun:naxI:feminine:plainNoun']);
+      expect(engine.toolCalls, ['declineNoun:naxI:feminine:plainNoun']);
     });
   });
 
@@ -183,7 +184,7 @@ void main() {
         final engine = await _pump(tester, const VerbFormsScreen());
         await tester.tap(_chips.at(i));
         await tester.pumpAndSettle();
-        expect(engine.calls, [expected[i]]);
+        expect(engine.toolCalls, [expected[i]]);
         expect(_examples, findsNothing);
       }
     });
@@ -202,7 +203,7 @@ void main() {
         expect(_chips, findsNWidgets(4));
         await tester.tap(_chips.at(i));
         await tester.pumpAndSettle();
-        expect(engine.calls, [expected[i]]);
+        expect(engine.toolCalls, [expected[i]]);
         expect(_examples, findsNothing);
       }
     });

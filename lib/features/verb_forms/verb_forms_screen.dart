@@ -9,6 +9,7 @@ import '../../shared/widgets/dhatu_picker.dart';
 import '../../shared/widgets/form_sheet.dart';
 import '../../shared/widgets/prefix_picker.dart';
 import '../analyse_word/feature_labels.dart';
+import '../task_frame/did_you_mean.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
@@ -240,6 +241,19 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
                 onChanged: (key) {
                   _unknownRoot = null;
                   _root = key;
+                  _changed();
+                },
+                suggest: (text) => suggestRoots(
+                  text: text,
+                  engines: _engines,
+                  dhatus: _dhatus,
+                  prefixes: context.read<PrefixList>(),
+                  settings: settings,
+                ),
+                onSuggested: (s) {
+                  _unknownRoot = null;
+                  _root = s.key;
+                  if (s.prefix != null) _prefix = s.prefix;
                   _changed();
                 },
               ),

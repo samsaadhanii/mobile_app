@@ -17,10 +17,17 @@ class DhatuPicker extends StatelessWidget {
     super.key,
     required this.selectedWx,
     required this.onChanged,
+    this.suggest,
+    this.onSuggested,
   });
 
   final String selectedWx;
   final ValueChanged<String> onChanged;
+
+  /// When the search matches no root: what the text might mean, and the
+  /// action for a tapped suggestion (a root, and a prefix with it).
+  final Future<List<PickerSuggestion>> Function(String text)? suggest;
+  final ValueChanged<PickerSuggestion>? onSuggested;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +44,8 @@ class DhatuPicker extends StatelessWidget {
       selected: selectedWx,
       script: script,
       onChanged: onChanged,
+      suggest: suggest,
+      onSuggested: onSuggested,
     );
   }
 }

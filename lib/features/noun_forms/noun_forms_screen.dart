@@ -6,6 +6,7 @@ import '../../domain/domain.dart';
 import '../../shared/widgets/form_sheet.dart';
 import '../../shared/field_labels.dart';
 import '../analyse_word/feature_labels.dart';
+import '../task_frame/did_you_mean.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
@@ -284,6 +285,17 @@ class _NounFormsScreenState extends State<NounFormsScreen> {
                   outcome: outcome,
                   engine: task.engine,
                   notFoundTitle: 'No forms for $_typed',
+                  notFoundExtra: DidYouMean(
+                    word: _stem,
+                    engines: _engines,
+                    nominal: true,
+                    onChosen: (s) {
+                      // The gender the analysis gave is preselected.
+                      if (_genders.contains(s.gender)) _gender = s.gender!;
+                      _text.text = s.lemma.display(Script.devanagari);
+                      _submit();
+                    },
+                  ),
                   onRetry: task.retry,
                   other: task.other,
                   onTryOther: task.other == null
