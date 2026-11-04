@@ -199,6 +199,46 @@ void main() {
     }
   });
 
+  group('at Larger text size (x1.3), 360 dp', () {
+    for (final (name, prefs) in [
+      ('Sanskrit labels', <String, Object>{}),
+      ('English labels', {'settings.labelLanguage': 'english'}),
+      ('Devanagari', {'settings.displayScript': 'devanagari'}),
+    ]) {
+      testWidgets('$name: every verb and noun table fits or falls back to lines',
+          (tester) async {
+        final settings = await _settings(prefs);
+        var lines = 0;
+        // Roboto has no Devanagari, so there the check is only that it lays out.
+        final measure = !prefs.containsKey('settings.displayScript');
+        for (final fixture in _verbFixtures) {
+          for (final pada in _verb(fixture).padas) {
+            for (final t in pada.lakaras) {
+              await _page(tester, 360, _lakara(t, settings), textScale: 1.3);
+              if (measure) {
+                if (!_checkOne(tester, reason: '$fixture ${t.lakara.name}')) {
+                  lines++;
+                }
+              } else {
+                expect(tester.takeException(), isNull);
+              }
+            }
+          }
+        }
+        for (final fixture in _nounFixtures) {
+          await _page(tester, 360, _nounTable(_noun(fixture), settings),
+              textScale: 1.3);
+          if (measure) {
+            _checkOne(tester, reason: 'noun $fixture');
+          } else {
+            expect(tester.takeException(), isNull);
+          }
+        }
+        if (measure) expect(lines, greaterThan(0));
+      });
+    }
+  });
+
   group('which layout', () {
     testWidgets('a table whose forms all fit in a third of the width is a grid',
         (tester) async {

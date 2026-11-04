@@ -244,9 +244,16 @@ void main() {
       expect(find.text('Try an example'), findsNothing);
     });
 
-    testWidgets('recent inputs replace the examples', (tester) async {
+    testWidgets('recent inputs and the examples show together', (tester) async {
       await pumpHome(tester, prefs: {'recent.inputs': ['vanam']});
       expect(find.text('Recent'), findsOneWidget);
+      expect(find.text('Try an example'), findsOneWidget);
+      // Recent first, the examples under it.
+      expect(tester.getTopLeft(find.text('Recent')).dy,
+          lessThan(tester.getTopLeft(find.text('Try an example')).dy));
+      // The examples go when something is typed.
+      await tester.enterText(find.byType(TextField), 'ram');
+      await tester.pump();
       expect(find.text('Try an example'), findsNothing);
     });
 

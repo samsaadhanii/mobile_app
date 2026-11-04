@@ -226,7 +226,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Text(
-                              "Most likely according to Heritage's frequency data.",
+                              "Most frequent according to Heritage's data.",
                               key: const Key('likeliest-note'),
                               style: Theme.of(context)
                                   .textTheme

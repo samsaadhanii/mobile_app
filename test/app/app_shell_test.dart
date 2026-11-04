@@ -467,4 +467,65 @@ void main() {
     expect(find.text('धातुपाठः'), findsOneWidget);
     expect(find.text('dhātupāṭhaḥ'), findsNothing);
   });
+
+  group('text size', () {
+    double scaleOf(WidgetTester tester) => MediaQuery.textScalerOf(
+            tester.element(find.byType(NavigationBar))).scale(100) /
+        100;
+
+    testWidgets('Default leaves the phone\'s own size alone', (tester) async {
+      await _pumpApp(tester);
+      expect(scaleOf(tester), 1.0);
+    });
+
+    testWidgets('Large and Larger multiply it, from the saved setting',
+        (tester) async {
+      await _pumpApp(tester, {'settings.textSize': 'large'});
+      expect(scaleOf(tester), closeTo(1.15, 1e-9));
+      await _pumpApp(tester, {'settings.textSize': 'larger'});
+      expect(scaleOf(tester), closeTo(1.3, 1e-9));
+    });
+
+    testWidgets('choosing it in Settings changes the scale at once and saves it',
+        (tester) async {
+      await _pumpApp(tester);
+      await tester.tap(find.descendant(
+          of: find.byType(NavigationBar), matching: find.text('Settings')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Text size'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Larger'));
+      await tester.pumpAndSettle();
+      expect(scaleOf(tester), closeTo(1.3, 1e-9));
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString('settings.textSize'), 'larger');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('the bars and Home do not overflow at Larger on 360 dp',
+        (tester) async {
+      tester.view.physicalSize = const Size(360, 740);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      SharedPreferences.setMockInitialValues(
+          {'settings.textSize': 'larger', 'settings.displayScript': 'iast'});
+      final settings = await AppSettings.load();
+      final recent = await RecentInputs.load();
+      await tester.pumpWidget(SamApp(
+        settings: settings,
+        recent: recent,
+        dhatuIndex: DhatuIndex.fromKeys([_gam]),
+        dhatus: DhatuList.fromEntries(
+            [ListEntry(_gam, 'गम् (गम्) गतौ भ्वादिः', 'gam (gam) gatau bhvādiḥ')]),
+        prefixes: PrefixList.fromEntries([ListEntry('Af', 'आङ्', 'āṅ')]),
+      ));
+      await tester.pumpAndSettle();
+      for (final tab in ['Tools', 'Settings', 'Home']) {
+        await tester.tap(find.descendant(
+            of: find.byType(NavigationBar), matching: find.text(tab)));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: tab);
+      }
+    });
+  });
 }

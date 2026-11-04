@@ -22,7 +22,7 @@ class AnalysisCard extends StatelessWidget {
   final AppSettings settings;
   final bool ownLabels;
 
-  /// Marks the card with a "Most likely" tag.
+  /// Marks the card with a "Most frequent" tag.
   final bool mostLikely;
   final List<Widget> actions;
 
@@ -63,7 +63,7 @@ class AnalysisCard extends StatelessWidget {
               const SizedBox(height: 6),
               const Align(
                 alignment: Alignment.centerLeft,
-                child: FeatureTag('Most likely', sanskrit: false, emphasis: true),
+                child: FeatureTag('Most frequent', sanskrit: false, emphasis: true),
               ),
             ],
             if (analysis.base != null) ...[

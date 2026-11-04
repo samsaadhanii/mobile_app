@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/domain.dart';
 
-/// `SCREENS.md` section 6: the five settings, saved on the phone.
+/// `SCREENS.md` section 6: the settings, saved on the phone.
 
 enum InputScriptSetting {
   automatic('Automatic', null),
@@ -42,6 +42,18 @@ enum LabelLanguage {
   final String label;
 }
 
+/// How much larger than the phone's own text size the app's text is.
+enum TextSizeSetting {
+  normal('Default', 1.0),
+  large('Large', 1.15),
+  larger('Larger', 1.3);
+
+  const TextSizeSetting(this.label, this.factor);
+
+  final String label;
+  final double factor;
+}
+
 /// How much of a sandhi the Join words screen shows (`SCREENS.md` 5.4):
 /// the words and the letters that meet; then the name of the sandhi; then each
 /// sūtra. Kept with the settings so it is remembered, but not a Settings page
@@ -73,6 +85,8 @@ class AppSettings extends ChangeNotifier {
     keepRecentInputs = _prefs.getBool(_kKeepRecent) ?? true;
     learnerLevel =
         _read(LearnerLevel.values, _kLearnerLevel, LearnerLevel.basic);
+    textSize =
+        _read(TextSizeSetting.values, _kTextSize, TextSizeSetting.normal);
   }
 
   static const _kInputScript = 'settings.inputScript';
@@ -80,6 +94,7 @@ class AppSettings extends ChangeNotifier {
   static const _kLabels = 'settings.labelLanguage';
   static const _kEngine = 'settings.preferredEngine';
   static const _kKeepRecent = 'settings.keepRecentInputs';
+  static const _kTextSize = 'settings.textSize';
   static const _kLearnerLevel = 'settings.learnerLevel';
 
   final SharedPreferences _prefs;
@@ -90,6 +105,7 @@ class AppSettings extends ChangeNotifier {
   late EngineId preferredEngine;
   late bool keepRecentInputs;
   late LearnerLevel learnerLevel;
+  late TextSizeSetting textSize;
 
   static Future<AppSettings> load([SharedPreferences? prefs]) async =>
       AppSettings._(prefs ?? await SharedPreferences.getInstance());
@@ -114,6 +130,9 @@ class AppSettings extends ChangeNotifier {
 
   Future<void> setPreferredEngine(EngineId v) =>
       _setName(_kEngine, v, () => preferredEngine = v);
+
+  Future<void> setTextSize(TextSizeSetting v) =>
+      _setName(_kTextSize, v, () => textSize = v);
 
   Future<void> setLearnerLevel(LearnerLevel v) =>
       _setName(_kLearnerLevel, v, () => learnerLevel = v);

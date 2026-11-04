@@ -31,7 +31,7 @@ void main() {
       expect(s.displayScript, DisplayScriptSetting.iast);
     });
 
-    test('all five settings survive a restart', () async {
+    test('all the settings survive a restart', () async {
       final prefs = await _prefs();
       final s = await AppSettings.load(prefs);
       await s.setInputScript(InputScriptSetting.slp1);
@@ -39,6 +39,7 @@ void main() {
       await s.setLabelLanguage(LabelLanguage.english);
       await s.setPreferredEngine(EngineId.heritage);
       await s.setKeepRecentInputs(false);
+      await s.setTextSize(TextSizeSetting.larger);
 
       final again = await AppSettings.load(prefs);
       expect(again.inputScript, InputScriptSetting.slp1);
@@ -46,6 +47,7 @@ void main() {
       expect(again.labelLanguage, LabelLanguage.english);
       expect(again.preferredEngine, EngineId.heritage);
       expect(again.keepRecentInputs, isFalse);
+      expect(again.textSize, TextSizeSetting.larger);
     });
 
     test('the learner level is remembered, and notifies', () async {
@@ -139,12 +141,16 @@ void main() {
       return (settings, recent, prefs);
     }
 
-    testWidgets('shows the five settings with their values', (tester) async {
+    testWidgets('shows the settings with their values', (tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       await pump(tester, {});
       for (final t in [
         'Input script',
         'Display script',
         'Grammar labels',
+        'Text size',
         'Preferred engine',
         'Keep recent inputs',
       ]) {
@@ -195,6 +201,9 @@ void main() {
     });
 
     testWidgets('About and Contributors open as native pages', (tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
       await pump(tester, {});
       await tester.tap(find.text('About'));
       await tester.pumpAndSettle();

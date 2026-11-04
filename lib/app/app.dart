@@ -72,7 +72,16 @@ class SamApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
-        builder: (context, child) => KeyboardDismiss(child: child!),
+        builder: (context, child) {
+          // The setting is applied on top of the phone's own text size.
+          final media = MediaQuery.of(context);
+          final factor = context.watch<AppSettings>().textSize.factor;
+          final own = media.textScaler.scale(100) / 100;
+          return MediaQuery(
+            data: media.copyWith(textScaler: TextScaler.linear(own * factor)),
+            child: KeyboardDismiss(child: child!),
+          );
+        },
         home: const AppShell(),
       ),
     );

@@ -18,6 +18,7 @@ class TaskFrame extends StatelessWidget {
     required this.selected,
     required this.onEngineChanged,
     required this.result,
+    this.resultSliver,
     this.source,
     this.onCompare,
     this.examples = const [],
@@ -38,6 +39,10 @@ class TaskFrame extends StatelessWidget {
   /// The result area: an `OutcomeView`.
   final Widget result;
 
+  /// A result that needs a sliver of its own (Verb forms pins a row while its
+  /// tables scroll). When set it takes the place of [result].
+  final Widget? resultSliver;
+
   /// Set when the result is a found one: gives the credit line and the
   /// Compare button.
   final ResultSource? source;
@@ -55,43 +60,58 @@ class TaskFrame extends StatelessWidget {
     final others = engines.where((e) => e != selected).toList();
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: ListView(
+      body: CustomScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        padding: const EdgeInsets.all(16),
-        children: [
-          input,
-          if (showExamples && examples.isNotEmpty)
-            ExamplesRow(examples: examples),
-          if (engines.length > 1) ...[
-            const SizedBox(height: 12),
-            SegmentedButton<EngineId>(
-              key: const Key('engine-switch'),
-              segments: [
-                for (final e in engines)
-                  ButtonSegment(value: e, label: Text(engineNames[e]!)),
-              ],
-              selected: {selected},
-              onSelectionChanged: (s) => onEngineChanged(s.first),
-            ),
-          ],
-          const SizedBox(height: 8),
-          result,
-          if (source != null) ...[
-            const SizedBox(height: 12),
-            CreditLine(source!),
-            if (onCompare != null && others.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: OutlinedButton.icon(
-                  key: const Key('compare-button'),
-                  icon: const Icon(Icons.compare_arrows),
-                  label: Text('Compare with ${engineNames[others.first]!}'),
-                  onPressed: onCompare,
+        slivers: [
+          SliverPadding(
+            padding:
+                EdgeInsets.fromLTRB(16, 16, 16, resultSliver == null ? 0 : 16),
+            sliver: SliverList.list(children: [
+              input,
+              if (showExamples && examples.isNotEmpty)
+                ExamplesRow(examples: examples),
+              if (engines.length > 1) ...[
+                const SizedBox(height: 12),
+                SegmentedButton<EngineId>(
+                  key: const Key('engine-switch'),
+                  segments: [
+                    for (final e in engines)
+                      ButtonSegment(value: e, label: Text(engineNames[e]!)),
+                  ],
+                  selected: {selected},
+                  onSelectionChanged: (s) => onEngineChanged(s.first),
                 ),
-              ),
-            ],
-          ],
+              ],
+              const SizedBox(height: 8),
+              if (resultSliver == null) result,
+            ]),
+          ),
+          if (resultSliver != null)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: resultSliver,
+            ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            sliver: SliverList.list(children: [
+              if (source != null) ...[
+                const SizedBox(height: 12),
+                CreditLine(source!),
+                if (onCompare != null && others.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: OutlinedButton.icon(
+                      key: const Key('compare-button'),
+                      icon: const Icon(Icons.compare_arrows),
+                      label: Text('Compare with ${engineNames[others.first]!}'),
+                      onPressed: onCompare,
+                    ),
+                  ),
+                ],
+              ],
+            ]),
+          ),
         ],
       ),
     );

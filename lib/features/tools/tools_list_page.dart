@@ -81,7 +81,8 @@ class _ToolRow extends StatelessWidget {
             ),
             if (entry.engines.isNotEmpty) ...[
               const SizedBox(width: 12),
-              EngineMarks(entry.engines),
+              // Flexible: at the largest text size the marks wrap, not overflow.
+              Flexible(child: EngineMarks(entry.engines)),
             ],
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
@@ -9,9 +10,11 @@ import 'lakara_table_view.dart';
 typedef OnTapPadaForm = void Function(FeatureValue pada, FeatureValue lakara,
     FeatureValue person, FeatureValue number, SanskritText form);
 
-/// The result of Verb forms (`SCREENS.md` 5.4): the heading, a pada switch
-/// (only when more than one pada has forms), a row of lakāra chips that
-/// scrolls to a lakāra, and the lakāras as titled tables. [onKrt] adds the
+/// The result of Verb forms (`SCREENS.md` 5.4), as a sliver: the heading, then
+/// a pada switch (only when more than one pada has forms) and a row of
+/// lakāra chips that stay pinned under the top bar while the tables scroll
+/// under them, and the lakāras as titled tables. A chip scrolls to its table,
+/// leaving the table's heading just below the pinned row. [onKrt] adds the
 /// link to the root's kṛt forms at the end.
 class VerbParadigmView extends StatefulWidget {
   const VerbParadigmView({
@@ -34,6 +37,11 @@ class VerbParadigmView extends StatefulWidget {
 class _VerbParadigmViewState extends State<VerbParadigmView> {
   late FeatureValue _pada = widget.paradigm.padas.first.pada;
   final _keys = [for (final _ in lakaraOrder) GlobalKey()];
+  final _pinnedKey = GlobalKey();
+
+  /// The pinned row's own height, read after it is laid out (it follows the
+  /// text size); a guess until then.
+  double _pinnedHeight = 96;
 
   @override
   void didUpdateWidget(VerbParadigmView old) {
@@ -45,10 +53,20 @@ class _VerbParadigmViewState extends State<VerbParadigmView> {
   }
 
   void _scrollTo(int i) {
-    final context = _keys[i].currentContext;
-    if (context == null) return;
-    Scrollable.ensureVisible(context,
-        alignment: 0.0, duration: const Duration(milliseconds: 300));
+    final target = _keys[i].currentContext?.findRenderObject();
+    final scrollable = Scrollable.maybeOf(context);
+    if (target == null || scrollable == null) return;
+    final position = scrollable.position;
+    // The pinned row covers the top of the viewport; stop below it.
+    final pinned = (_pinnedKey.currentContext?.size?.height) ?? 0;
+    final reveal =
+        RenderAbstractViewport.of(target).getOffsetToReveal(target, 0.0).offset;
+    position.animateTo(
+      (reveal - pinned)
+          .clamp(position.minScrollExtent, position.maxScrollExtent),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -56,73 +74,133 @@ class _VerbParadigmViewState extends State<VerbParadigmView> {
     final theme = Theme.of(context);
     final settings = widget.settings;
     final script = settings.displayScript.script;
-    String label(FeatureValue v) => featureValueLabel(v,
-        language: settings.labelLanguage, display: script);
+    String label(FeatureValue v) =>
+        featureValueLabel(v, language: settings.labelLanguage, display: script);
     final padas = widget.paradigm.padas;
     final shown = widget.paradigm.pada(_pada) ?? padas.first;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(widget.paradigm.heading.display(script),
-              key: const Key('verb-heading'),
-              style: theme.textTheme.titleMedium?.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.primary)),
-        ),
-        if (padas.length > 1)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: SegmentedButton<FeatureValue>(
-              key: const Key('pada-switch'),
-              segments: [
-                for (final p in padas)
-                  ButtonSegment(value: p.pada, label: Text(label(p.pada))),
+    final row = Container(
+      key: _pinnedKey,
+      color: theme.scaffoldBackgroundColor,
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (padas.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: SegmentedButton<FeatureValue>(
+                key: const Key('pada-switch'),
+                segments: [
+                  for (final p in padas)
+                    ButtonSegment(value: p.pada, label: Text(label(p.pada))),
+                ],
+                selected: {shown.pada},
+                onSelectionChanged: (s) => setState(() => _pada = s.first),
+              ),
+            ),
+          SingleChildScrollView(
+            key: const Key('lakara-chips'),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (var i = 0; i < shown.lakaras.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ActionChip(
+                      label: Text(label(shown.lakaras[i].lakara),
+                          style: const TextStyle(fontSize: 16)),
+                      onPressed: () => _scrollTo(i),
+                    ),
+                  ),
               ],
-              selected: {shown.pada},
-              onSelectionChanged: (s) => setState(() => _pada = s.first),
             ),
           ),
-        SingleChildScrollView(
-          key: const Key('lakara-chips'),
-          scrollDirection: Axis.horizontal,
-          child: Row(
+        ],
+      ),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final h = _pinnedKey.currentContext?.size?.height;
+      if (mounted && h != null && (h - _pinnedHeight).abs() > 0.5) {
+        setState(() => _pinnedHeight = h);
+      }
+    });
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(widget.paradigm.heading.display(script),
+                key: const Key('verb-heading'),
+                style: theme.textTheme.titleMedium?.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.primary)),
+          ),
+        ),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _PinnedRow(height: _pinnedHeight, child: row),
+        ),
+        // All tables are built, not lazily, so a chip can find any of them.
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (var i = 0; i < shown.lakaras.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ActionChip(
-                    label: Text(label(shown.lakaras[i].lakara),
-                        style: const TextStyle(fontSize: 16)),
-                    onPressed: () => _scrollTo(i),
+                KeyedSubtree(
+                  key: _keys[i],
+                  child: LakaraTableView(
+                    table: shown.lakaras[i],
+                    settings: settings,
+                    onTapForm: (lakara, person, number, form) => widget
+                        .onTapForm(shown.pada, lakara, person, number, form),
                   ),
                 ),
             ],
           ),
         ),
-        for (var i = 0; i < shown.lakaras.length; i++)
-          KeyedSubtree(
-            key: _keys[i],
-            child: LakaraTableView(
-              table: shown.lakaras[i],
-              settings: settings,
-              onTapForm: (lakara, person, number, form) =>
-                  widget.onTapForm(shown.pada, lakara, person, number, form),
-            ),
-          ),
         if (widget.onKrt != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: TextButton.icon(
-              onPressed: widget.onKrt,
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text('Kṛt forms of this root'),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: TextButton.icon(
+                onPressed: widget.onKrt,
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text('Kṛt forms of this root'),
+              ),
             ),
           ),
       ],
     );
   }
+}
+
+/// Pins [child] at [height]; the child is laid out at its own height, so the
+/// owner can measure it.
+class _PinnedRow extends SliverPersistentHeaderDelegate {
+  _PinnedRow({required this.height, required this.child});
+
+  final double height;
+  final Widget child;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlaps) =>
+      OverflowBox(
+        alignment: Alignment.topCenter,
+        minHeight: 0,
+        maxHeight: double.infinity,
+        child: child,
+      );
+
+  @override
+  bool shouldRebuild(_PinnedRow old) => true;
 }

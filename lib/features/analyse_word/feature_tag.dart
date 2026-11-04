@@ -11,7 +11,7 @@ class FeatureTag extends StatelessWidget {
   final String label;
   final bool sanskrit;
 
-  /// A tag that says something about the reading as a whole ("Most likely")
+  /// A tag that says something about the reading as a whole ("Most frequent")
   /// rather than being one of its features: a tinted fill, still no outline.
   final bool emphasis;
 

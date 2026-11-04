@@ -186,6 +186,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
         final outcome = task.outcome;
         final onOpenTool = widget.onOpenTool;
         final Widget result;
+        Widget? resultSliver;
         if (_unknownRoot != null) {
           // The root was passed in as text and is not in the list.
           result = OutcomeView<VerbParadigm>(
@@ -198,6 +199,18 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
           );
         } else if (_root == null) {
           result = const SizedBox.shrink();
+        } else if (outcome is Found<VerbParadigm>) {
+          // Found: a sliver, so the lakāra row can stay pinned.
+          result = const SizedBox.shrink();
+          resultSliver = VerbParadigmView(
+            paradigm: outcome.value,
+            settings: settings,
+            onTapForm: _showForm,
+            onKrt: onOpenTool == null
+                ? null
+                : () => onOpenTool(entryFor(Task.krtForms), _root ?? '',
+                    prefix: _prefix),
+          );
         } else {
           result = OutcomeView<VerbParadigm>(
             outcome: outcome,
@@ -213,15 +226,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
             other: task.other,
             onTryOther:
                 task.other == null ? null : () => task.switchTo(task.other!),
-            builder: (paradigm, source) => VerbParadigmView(
-              paradigm: paradigm,
-              settings: settings,
-              onTapForm: _showForm,
-              onKrt: onOpenTool == null
-                  ? null
-                  : () => onOpenTool(entryFor(Task.krtForms), _root ?? '',
-                      prefix: _prefix),
-            ),
+            builder: (_, __) => const SizedBox.shrink(),
           );
         }
 
@@ -283,6 +288,7 @@ class _VerbFormsScreenState extends State<VerbFormsScreen> {
               ? outcome.source
               : null,
           result: result,
+          resultSliver: resultSliver,
         );
       },
     );

@@ -201,8 +201,8 @@ void main() {
         'vana* neuter accusative singular',
         'vana masculine nominative singular',
       ]);
-      expect(find.text('Most likely'), findsNWidgets(2));
-      expect(find.text("Most likely according to Heritage's frequency data."),
+      expect(find.text('Most frequent'), findsNWidgets(2));
+      expect(find.text("Most frequent according to Heritage's data."),
           findsOneWidget);
     });
 
@@ -236,7 +236,7 @@ void main() {
         _sam([acc, nom]),
         _her(likeliest: _likely([acc, nom])),
       ]);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
       expect(find.byKey(const Key('likeliest-note')), findsNothing);
       expect(_cards(tester), [
         'vana neuter accusative singular',
@@ -250,7 +250,7 @@ void main() {
         _her(likeliest: _likely([_noun])),
       ]);
       expect(_cards(tester).length, 1);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
       expect(find.byKey(const Key('likeliest-note')), findsNothing);
     });
 
@@ -279,7 +279,7 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(_cards(tester).map((c) => c.split(' ').first), ['rA', 'rAma']);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
       await tester.pump(const Duration(seconds: 6));
       expect(_cards(tester).map((c) => c.split(' ').first), ['rAma*', 'rA']);
     });
@@ -293,7 +293,7 @@ void main() {
       ]) {
         await _pump(tester, [_sam([_verb, _noun]), _her(likeliest: outcome)]);
         expect(_cards(tester).map((c) => c.split(' ').first), ['rA', 'rAma']);
-        expect(find.text('Most likely'), findsNothing);
+        expect(find.text('Most frequent'), findsNothing);
         expect(find.byKey(const Key('likeliest-note')), findsNothing);
       }
     });
@@ -303,13 +303,13 @@ void main() {
         _sam([_verb, _noun]),
         _her(likeliest: _likely([_other])),
       ]);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
       expect(find.byKey(const Key('likeliest-note')), findsNothing);
     });
 
     testWidgets('nothing happens without Heritage', (tester) async {
       await _pump(tester, [_sam([_verb, _noun])]);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
     });
   });
 
@@ -332,7 +332,7 @@ void main() {
         'marked, on either engine', (tester) async {
       for (final e in EngineId.values) {
         expect(await cards(tester, 'vanam', e), ['vana', 'vana'], reason: e.name);
-        expect(find.text('Most likely'), findsNothing);
+        expect(find.text('Most frequent'), findsNothing);
         expect(find.byKey(const Key('likeliest-note')), findsNothing);
       }
     });
@@ -348,7 +348,7 @@ void main() {
     testWidgets('gamyawe: Samsaadhanii has one card, so none is marked; with '
         'Heritage the two gamyawA readings are', (tester) async {
       expect(await cards(tester, 'gamyawe', EngineId.samsaadhanii), ['gam']);
-      expect(find.text('Most likely'), findsNothing);
+      expect(find.text('Most frequent'), findsNothing);
       expect(await cards(tester, 'gamyawe', EngineId.heritage), [
         'gamyawA*',
         'gamyawA*',

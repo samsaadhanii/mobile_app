@@ -40,6 +40,13 @@ class SettingsPage extends StatelessWidget {
             label: (v) => v.label,
             onChanged: s.setLabelLanguage,
           ),
+          _ChoiceTile<TextSizeSetting>(
+            title: 'Text size',
+            value: s.textSize,
+            options: TextSizeSetting.values,
+            label: (v) => v.label,
+            onChanged: s.setTextSize,
+          ),
           _ChoiceTile<EngineId>(
             title: 'Preferred engine',
             value: s.preferredEngine,

@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                 }),
               ),
           ],
-          if (text.isEmpty && !showRecent) ...[
+          if (text.isEmpty) ...[
             ExamplesRow(
               title: 'Try an example',
               examples: [

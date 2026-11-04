@@ -413,6 +413,45 @@ void main() {
       expect(tester.getTopLeft(title).dy, lessThan(300));
     });
 
+    testWidgets('the chips and the pada switch stay pinned under the top bar',
+        (tester) async {
+      await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
+          input: 'gam', size: const Size(1000, 700));
+      final bar = tester.getBottomLeft(find.byType(AppBar)).dy;
+      final chips = find.byKey(const Key('lakara-chips'));
+      final padaSwitch = find.byKey(const Key('pada-switch'));
+      // Scroll far down: the pickers and the voice switch are long gone.
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -4000));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('prayoga-switch')).hitTestable(),
+          findsNothing);
+      expect(chips.hitTestable(), findsOneWidget);
+      expect(padaSwitch.hitTestable(), findsOneWidget);
+      expect(tester.getTopLeft(padaSwitch).dy, closeTo(bar, 24));
+      // A chip still jumps, and leaves the table's heading below the row.
+      await tester.tap(find.widgetWithText(ActionChip, 'laṭ'));
+      await tester.pumpAndSettle();
+      final row = tester.getBottomLeft(chips).dy;
+      final heading = tester.getTopLeft(find.byKey(const Key('lakara-lat'))).dy;
+      expect(heading, greaterThanOrEqualTo(row - 1));
+      expect(heading, lessThan(row + 60));
+    });
+
+    testWidgets('with one pada only the chips are pinned', (tester) async {
+      await _pump(
+          tester,
+          _engine(
+              paradigm: Found(
+                  _paradigm(padas: const [FeatureValue.parasmaipada]), _src())),
+          input: 'gam',
+          size: const Size(1000, 700));
+      await tester.drag(find.byType(CustomScrollView), const Offset(0, -4000));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('pada-switch')), findsNothing);
+      expect(find.byKey(const Key('lakara-chips')).hitTestable(),
+          findsOneWidget);
+    });
+
     testWidgets('there is a chip for each of the ten lakāras', (tester) async {
       await _pump(tester, _engine(paradigm: Found(_paradigm(), _src())),
           input: 'gam');
