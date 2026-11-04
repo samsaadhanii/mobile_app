@@ -359,4 +359,148 @@ void main() {
       ]);
     });
   });
+
+  group('a compound typed into Analyse a word (U29)', () {
+    // The ways Heritage split rAmAlayaH, in its order.
+    const ways = [
+      ['rAma', 'AlayaH'],
+      ['rAma', 'alayaH'],
+      ['rAmA', 'AlayaH'],
+      ['rAmA', 'layaH'],
+      ['rAmA', 'alayaH'],
+    ];
+
+    Future<WordAnalysis> heritage(String word) async {
+      final o = await _heritageFixtures().analyseWord(SanskritText(word));
+      expect(o, isA<Found<WordAnalysis>>(), reason: word);
+      return (o as Found<WordAnalysis>).value;
+    }
+
+    test('Heritage: five ways to split, in its order, each part with readings',
+        () async {
+      final c = (await heritage('rAmAlayaH')).compound!;
+      expect([
+        for (final s in c.candidates) [for (final g in s.segments) g.text.wx]
+      ], ways);
+      for (final s in c.candidates) {
+        expect(s.segments.first.after, Boundary.compound);
+        expect(s.segments.last.after, Boundary.end);
+        expect(s.analyses, hasLength(2));
+        // Every part has readings: no slot is empty.
+        expect(s.analyses!.every((a) => a is Found<WordAnalysis>), isTrue);
+      }
+      // rAma-AlayaH: rAma as a compound member, AlayaH as Alaya and as Ali.
+      final first = c.candidates.first.analyses!;
+      expect((first[0] as Found<WordAnalysis>).value.analyses.single.wordClass,
+          WordClass.compoundMember);
+      expect([
+        for (final a in (first[1] as Found<WordAnalysis>).value.analyses)
+          a.lemma.wx
+      ], ['Alaya', 'Ali', 'Ali']);
+      // alayaH (rAma-alayaH) has the readings of ali.
+      final second = c.candidates[1].analyses!;
+      expect(
+          (second[1] as Found<WordAnalysis>)
+              .value
+              .analyses
+              .every((a) => a.lemma.wx == 'ali'),
+          isTrue);
+    });
+
+    test('the flat list of readings is still there', () async {
+      final a = await heritage('rAmAlayaH');
+      expect(a.analyses.length, 9);
+    });
+
+    test('one segment: no compound (rAmaH), nor a word that also stands whole '
+        '(agacCaw)', () async {
+      expect((await heritage('rAmaH')).compound, isNull);
+      expect((await heritage('agacCaw')).compound, isNull);
+    });
+
+    test('Samsaadhanii gives nothing for rAmAlayaH today', () async {
+      final o = await SamsaadhaniiEngine(client: SamsaadhaniiMorphFixtures())
+          .analyseWord(const SanskritText('rAmAlayaH'));
+      expect(o, isA<NotFound<WordAnalysis>>());
+    });
+
+    Future<void> open(WidgetTester tester, String word,
+        {List<String>? opened, Map<String, Object> prefs = const {}}) async {
+      tester.view.physicalSize = const Size(800, 4000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      SharedPreferences.setMockInitialValues({
+        'settings.preferredEngine': 'heritage',
+        'settings.displayScript': 'iast',
+        ...prefs,
+      });
+      final settings = await AppSettings.load();
+      await tester.pumpWidget(MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: settings),
+          Provider<EngineSet>.value(
+              value: EngineSet({
+            EngineId.samsaadhanii:
+                SamsaadhaniiEngine(client: SamsaadhaniiMorphFixtures()),
+            EngineId.heritage: HeritageEngine(client: _HeritageFixtures()),
+          })),
+        ],
+        child: MaterialApp(
+            home: AnalyseWordScreen(
+                initialInput: word,
+                onOpenTool: opened == null
+                    ? null
+                    : (e, input, {gender, prefix}) => opened.add(input))),
+      ));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('five rows under the compound heading, not nine cards',
+        (tester) async {
+      final opened = <String>[];
+      await open(tester, 'rAmAlayaH', opened: opened);
+      expect(find.byType(AnalysisCard), findsNothing);
+      expect(find.text('samāsaḥ'), findsOneWidget);
+      for (var i = 0; i < 5; i++) {
+        expect(find.byKey(Key('compound-way-$i')), findsOneWidget);
+      }
+      expect(find.byKey(const Key('compound-way-5')), findsNothing);
+      // The thin hyphen joins the parts of a row, as in Split.
+      expect(find.text('‐'), findsNWidgets(5));
+      // Tappable as in Split: a part opens Analyse a word on it.
+      await tester.tap(find.descendant(
+          of: find.byKey(const Key('compound-way-0')),
+          matching: find.text('rāma').first));
+      expect(opened, ['राम']);
+    });
+
+    testWidgets('"Read as a compound" with English labels', (tester) async {
+      await open(tester, 'rAmAlayaH',
+          prefs: {'settings.labelLanguage': 'english'});
+      expect(find.text('Read as a compound'), findsOneWidget);
+    });
+
+    testWidgets('which way is tagged follows Heritage\'s likeliest reading',
+        (tester) async {
+      await open(tester, 'rAmAlayaH');
+      // Recorded as it is today: see the report.
+      final tagged = [
+        for (var i = 0; i < 5; i++)
+          if (find
+              .descendant(
+                  of: find.byKey(Key('compound-way-$i')),
+                  matching: find.text('Most frequent'))
+              .evaluate()
+              .isNotEmpty)
+            i
+      ];
+      expect(tagged, [0]);
+    });
+
+    testWidgets('rAmaH on Heritage is as before: cards', (tester) async {
+      await open(tester, 'rAmaH');
+      expect(find.byKey(const Key('compound-heading')), findsNothing);
+      expect(find.byType(AnalysisCard), findsWidgets);
+    });
+  });
 }

@@ -73,7 +73,46 @@ Outcome<WordAnalysis> parseWordAnalysis(
         ? const ServerFault('heritage: no morph list')
         : const NotFound();
   }
-  return Found(WordAnalysis(input, analyses), source);
+  return Found(
+      WordAnalysis(input, analyses,
+          compound: _compound(answer, input, source, onUnmapped)),
+      source);
+}
+
+/// The ways Heritage split the word, when every one of them has more than one
+/// part (`rAma-AlayaH`). A word that also stands whole in the answer
+/// (`agacCaw` beside `aga-Caw`) is not read as a compound. The `morph` list is
+/// flat and shared by all the ways, so a part's readings are every entry with
+/// its `word` (`rAma-` for a non-final member), wherever it stands.
+Segmentation? _compound(HeritageAnswer answer, SanskritText input,
+    ResultSource source, OnUnmapped? onUnmapped) {
+  final ways = [
+    for (final s in answer.segmentation)
+      if (!s.trim().startsWith('?') && s.trim().isNotEmpty) s.trim(),
+  ];
+  if (ways.isEmpty || ways.any((w) => !w.contains('-'))) return null;
+  final splits = <Split>[];
+  for (final way in ways) {
+    final parts = way.split('-').where((p) => p.isNotEmpty).toList();
+    if (parts.length < 2) return null;
+    final segments = <Segment>[];
+    final slots = <Outcome<WordAnalysis>>[];
+    for (var i = 0; i < parts.length; i++) {
+      final last = i == parts.length - 1;
+      final key = last ? parts[i] : '${parts[i]}-';
+      final text = SanskritText(parts[i]);
+      segments.add(Segment(text, last ? Boundary.end : Boundary.compound));
+      final analyses = analysesOf([
+        for (final m in answer.morph)
+          if (m['word'] == key) m,
+      ], onUnmapped);
+      slots.add(analyses.isEmpty
+          ? const NotFound()
+          : Found(WordAnalysis(text, analyses), source));
+    }
+    splits.add(Split(segments, analyses: slots));
+  }
+  return Segmentation(input, splits);
 }
 
 /// One [Analysis] per entry of each `inflectional_morphs` list. An entry

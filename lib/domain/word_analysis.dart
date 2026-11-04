@@ -1,6 +1,7 @@
 import 'feature.dart';
 import 'list_equality.dart';
 import 'sanskrit_text.dart';
+import 'segmentation.dart';
 
 enum WordClass {
   noun('nāma', 'noun'),
@@ -110,16 +111,23 @@ class WordAnalysis {
   /// In the engine's order.
   final List<Analysis> analyses;
 
-  const WordAnalysis(this.input, this.analyses);
+  /// Set when the engine's answer says the word is more than one segment (a
+  /// compound): every way it split the word, in the engine's order, each part
+  /// with its own readings. [analyses] is still the flat list of all of them.
+  /// Null for a word that is one segment, and for an engine that does not say.
+  final Segmentation? compound;
+
+  const WordAnalysis(this.input, this.analyses, {this.compound});
 
   @override
   bool operator ==(Object other) =>
       other is WordAnalysis &&
       other.input == input &&
-      listEq(other.analyses, analyses);
+      listEq(other.analyses, analyses) &&
+      other.compound == compound;
 
   @override
-  int get hashCode => Object.hash(input, listHash(analyses));
+  int get hashCode => Object.hash(input, listHash(analyses), compound);
 
   @override
   String toString() => 'WordAnalysis(${input.wx}, $analyses)';

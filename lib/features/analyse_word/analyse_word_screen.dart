@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Split;
 import 'package:provider/provider.dart';
 
 import '../../app/settings.dart';
 import '../../domain/domain.dart';
+import '../../sanskrit/transliteration.dart' show convert;
 import '../compare/agreement.dart';
 import '../compare/compare_analysis_screen.dart';
+import '../split/split_view.dart';
+import 'feature_tag.dart';
 import '../task_frame/engine_set.dart';
 import '../task_frame/input_parsing.dart';
 import '../task_frame/outcome_view.dart';
@@ -195,6 +198,9 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                       ),
                   ],
                   builder: (analysis, source) {
+                    if (analysis.compound != null) {
+                      return _compoundView(analysis.compound!, settings);
+                    }
                     // The cards that agree with any of Heritage's likeliest
                     // readings (the Compare rule) go first, in the engine's
                     // order, and are tagged; the others follow in the
@@ -243,6 +249,81 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                 ),
         );
       },
+    );
+  }
+
+  /// A word the engine split into a compound: one row for each way of
+  /// splitting it, in the engine's order, drawn by Split's own widget. The way
+  /// that agrees with Heritage's likeliest readings is tagged, when exactly
+  /// one does.
+  Widget _compoundView(Segmentation compound, AppSettings settings) {
+    final theme = Theme.of(context);
+    final script = settings.displayScript.script;
+    final likely = _likeliest ?? const <Analysis>[];
+    bool agrees(Split split) =>
+        likely.isNotEmpty &&
+        (split.analyses ?? const []).isNotEmpty &&
+        split.analyses!.every((slot) =>
+            slot is Found<WordAnalysis> &&
+            slot.value.analyses.any((a) => likely.any((l) => analysesAgree(a, l))));
+    final marked = {
+      for (var i = 0; i < compound.candidates.length; i++)
+        if (agrees(compound.candidates[i])) i,
+    };
+    if (marked.length != 1) marked.clear();
+    final tap = widget.onOpenTool == null
+        ? null
+        : (Segment s) => widget.onOpenTool!(
+              entryFor(Task.analyseWord),
+              // Devanagari is the one script Home's detection never misreads.
+              s.text.display(Script.devanagari),
+            );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Text(
+            settings.labelLanguage == LabelLanguage.sanskrit
+                ? convert('samāsaḥ', Script.iast, script)
+                : 'Read as a compound',
+            key: const Key('compound-heading'),
+            style: theme.textTheme.titleMedium,
+          ),
+        ),
+        for (var i = 0; i < compound.candidates.length; i++)
+          Card(
+            key: Key('compound-way-$i'),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (marked.contains(i))
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 4),
+                      child: FeatureTag('Most frequent',
+                          sanskrit: false, emphasis: true),
+                    ),
+                  SplitView(
+                      split: compound.candidates[i],
+                      settings: settings,
+                      onWordTap: tap),
+                ],
+              ),
+            ),
+          ),
+        if (marked.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              "Most frequent according to Heritage's data.",
+              key: const Key('likeliest-note'),
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+          ),
+      ],
     );
   }
 
