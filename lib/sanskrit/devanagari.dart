@@ -48,6 +48,14 @@ final _wxSigns = {
   'M': 'ं', 'H': 'ः', 'z': 'ँ', 'Z': 'ऽ',
 };
 
+/// A colon typed straight after a Devanagari letter or vowel sign stands
+/// for a visarga; after anything else (a space, a digit, a Latin letter, a
+/// visarga already) it is left alone.
+bool _takesVisarga(String prev) =>
+    _consonants.containsKey(prev) ||
+    _independentVowels.containsKey(prev) ||
+    _vowelSigns.containsKey(prev);
+
 String devanagariToWx(String text) {
   final out = StringBuffer();
   final n = text.length;
@@ -68,6 +76,10 @@ String devanagariToWx(String text) {
       } else {
         out.write('a');
       }
+      continue;
+    }
+    if (ch == ':' && i >= 2 && _takesVisarga(text[i - 2])) {
+      out.write('H');
       continue;
     }
     final digit = _digits.indexOf(ch);

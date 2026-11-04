@@ -94,6 +94,16 @@ void main() {
       expect(toWx('स्त्री', Script.devanagari), 'swrI');
       expect(toWx('क्‍ष', Script.devanagari), 'kRa'); // virama + ZWJ
     });
+    test('a typed colon after a letter or vowel sign is a visarga', () {
+      String wx(String t) => toWx(t, Script.devanagari);
+      expect(wx('सायाह्न:'), wx('सायाह्नः'));
+      expect(wx('सायाह्न:'), 'sAyAhnaH');
+      expect(wx('रामः:'), 'rAmaH:'); // already has a visarga: no second
+      expect(wx('राम: वनम्'), 'rAmaH vanam');
+      expect(wx(': राम'), ': rAma');
+      expect(wx('a:b'), 'a:b');
+      expect(wx('१:२'), '1:2');
+    });
     test('independent vowels', () {
       expect(toWx('अआइईउऊऋॠऌएऐओऔ', Script.devanagari), 'aAiIuUqQLeEoO');
     });
