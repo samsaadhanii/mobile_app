@@ -73,28 +73,49 @@ Outcome<WordAnalysis> parseWordAnalysis(
         ? const ServerFault('heritage: no morph list')
         : const NotFound();
   }
-  return Found(
-      WordAnalysis(input, analyses,
-          compound: _compound(answer, input, source, onUnmapped)),
-      source);
+  final compound = _compound(answer, input, source, onUnmapped);
+  // The ways that are the whole word: their readings are the cards, and the
+  // ways that split it are listed apart.
+  final whole = {
+    for (final w in _ways(answer))
+      if (!w.contains('-')) w,
+  };
+  if (compound != null && whole.isNotEmpty) {
+    final wholeReadings = analysesOf([
+      for (final m in answer.morph)
+        if (whole.contains(m['word'])) m,
+    ], onUnmapped);
+    if (wholeReadings.isNotEmpty) {
+      return Found(
+          WordAnalysis(input, wholeReadings,
+              compound: compound, alsoWhole: true),
+          source);
+    }
+  }
+  return Found(WordAnalysis(input, analyses, compound: compound), source);
 }
 
-/// The ways Heritage split the word, when every one of them has more than one
-/// part (`rAma-AlayaH`). A word that also stands whole in the answer
-/// (`agacCaw` beside `aga-Caw`) is not read as a compound. The `morph` list is
-/// flat and shared by all the ways, so a part's readings are every entry with
-/// its `word` (`rAma-` for a non-final member), wherever it stands.
+List<String> _ways(HeritageAnswer answer) => [
+      for (final s in answer.segmentation)
+        if (!s.trim().startsWith('?') && s.trim().isNotEmpty) s.trim(),
+    ];
+
+/// The ways Heritage split the word, as a [Segmentation]: those that have more
+/// than one part (`rAma-AlayaH`), in its order; null when none does. The
+/// `morph` list is flat and shared by all the ways, so a part's readings are
+/// every entry with its `word` (`rAma-` for a non-final member), wherever it
+/// stands. A way that is the whole word is left out here (see
+/// [WordAnalysis.alsoWhole]).
 Segmentation? _compound(HeritageAnswer answer, SanskritText input,
     ResultSource source, OnUnmapped? onUnmapped) {
   final ways = [
-    for (final s in answer.segmentation)
-      if (!s.trim().startsWith('?') && s.trim().isNotEmpty) s.trim(),
+    for (final w in _ways(answer))
+      if (w.split('-').where((p) => p.isNotEmpty).length > 1) w,
   ];
-  if (ways.isEmpty || ways.any((w) => !w.contains('-'))) return null;
+  if (ways.isEmpty) return null;
   final splits = <Split>[];
   for (final way in ways) {
     final parts = way.split('-').where((p) => p.isNotEmpty).toList();
-    if (parts.length < 2) return null;
     final segments = <Segment>[];
     final slots = <Outcome<WordAnalysis>>[];
     for (var i = 0; i < parts.length; i++) {

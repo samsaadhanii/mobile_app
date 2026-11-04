@@ -198,7 +198,7 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                       ),
                   ],
                   builder: (analysis, source) {
-                    if (analysis.compound != null) {
+                    if (analysis.compound != null && !analysis.alsoWhole) {
                       return _compoundView(analysis.compound!, settings);
                     }
                     // The cards that agree with any of Heritage's likeliest
@@ -243,6 +243,13 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
                                           .onSurfaceVariant),
                             ),
                           ),
+                        // The word is read whole and also split: the split
+                        // ways come below the cards.
+                        if (analysis.compound != null) ...[
+                          const SizedBox(height: 16),
+                          _compoundView(analysis.compound!, settings,
+                              alsoWhole: true),
+                        ],
                       ],
                     );
                   },
@@ -256,7 +263,11 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
   /// splitting it, in the engine's order, drawn by Split's own widget. The way
   /// that agrees with Heritage's likeliest readings is tagged, when exactly
   /// one does.
-  Widget _compoundView(Segmentation compound, AppSettings settings) {
+  ///
+  /// With [alsoWhole] the cards of the whole-word readings are above it, and the
+  /// heading says the word can also be read this way.
+  Widget _compoundView(Segmentation compound, AppSettings settings,
+      {bool alsoWhole = false}) {
     final theme = Theme.of(context);
     final script = settings.displayScript.script;
     final likely = _likeliest ?? const <Analysis>[];
@@ -285,8 +296,11 @@ class _AnalyseWordScreenState extends State<AnalyseWordScreen> {
           padding: const EdgeInsets.only(bottom: 4),
           child: Text(
             settings.labelLanguage == LabelLanguage.sanskrit
-                ? convert('samāsaḥ', Script.iast, script)
-                : 'Read as a compound',
+                ? convert(alsoWhole ? 'samāsarūpeṇāpi paṭhyate' : 'samāsaḥ',
+                    Script.iast, script)
+                : alsoWhole
+                    ? 'Can also be read as a compound'
+                    : 'Read as a compound',
             key: const Key('compound-heading'),
             style: theme.textTheme.titleMedium,
           ),

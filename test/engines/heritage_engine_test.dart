@@ -135,12 +135,17 @@ void main() {
       expect(a.analyses.first.wordClass, WordClass.verb);
       expect(a.analyses.first.features.first,
           _f(FeatureKind.lakara, FeatureValue.lan, 'impft.'));
-      final iic = a.analyses[1];
+      // The whole word is one reading; the parts of aga-Caw are in the way
+      // that splits it (U29b), not in the cards.
+      expect(a.analyses, hasLength(1));
+      expect(a.alsoWhole, isTrue);
+      final parts = a.compound!.candidates.single.analyses!;
+      final iic = (parts[0] as Found<WordAnalysis>).value.analyses.single;
       expect(iic.wordClass, WordClass.compoundMember);
       expect(iic.lemma, const SanskritText('aga'));
       expect(iic.features, isEmpty);
       // Cax#2: homonym 2
-      expect(a.analyses[2].homonym, 2);
+      expect((parts[1] as Found<WordAnalysis>).value.analyses.first.homonym, 2);
     });
 
     test('xyzq: "?" is NotFound', () async {

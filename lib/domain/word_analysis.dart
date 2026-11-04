@@ -117,17 +117,25 @@ class WordAnalysis {
   /// Null for a word that is one segment, and for an engine that does not say.
   final Segmentation? compound;
 
-  const WordAnalysis(this.input, this.analyses, {this.compound});
+  /// With [compound]: the engine also reads the word whole (`gamayawi` beside
+  /// `gama-yawi`). Then [analyses] are only the whole-word readings and
+  /// [compound] holds only the ways that split the word. False when every way
+  /// splits it, and [analyses] is the flat list of all the parts' readings.
+  final bool alsoWhole;
+
+  const WordAnalysis(this.input, this.analyses,
+      {this.compound, this.alsoWhole = false});
 
   @override
   bool operator ==(Object other) =>
       other is WordAnalysis &&
       other.input == input &&
       listEq(other.analyses, analyses) &&
-      other.compound == compound;
+      other.compound == compound &&
+      other.alsoWhole == alsoWhole;
 
   @override
-  int get hashCode => Object.hash(input, listHash(analyses), compound);
+  int get hashCode => Object.hash(input, listHash(analyses), compound, alsoWhole);
 
   @override
   String toString() => 'WordAnalysis(${input.wx}, $analyses)';

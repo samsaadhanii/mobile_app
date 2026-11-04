@@ -412,10 +412,44 @@ void main() {
       expect(a.analyses.length, 9);
     });
 
-    test('one segment: no compound (rAmaH), nor a word that also stands whole '
-        '(agacCaw)', () async {
-      expect((await heritage('rAmaH')).compound, isNull);
-      expect((await heritage('agacCaw')).compound, isNull);
+    test('one segment: no compound (rAmaH)', () async {
+      final a = await heritage('rAmaH');
+      expect(a.compound, isNull);
+      expect(a.alsoWhole, isFalse);
+    });
+
+    test('rAmAlayaH: every way splits, so the cards are the flat list (U29b)',
+        () async {
+      final a = await heritage('rAmAlayaH');
+      expect(a.alsoWhole, isFalse);
+      expect(a.analyses.length, 9);
+    });
+
+    test('gamayawi: read whole and split (U29b)', () async {
+      final a = await heritage('gamayawi');
+      expect(a.alsoWhole, isTrue);
+      // The whole-word readings only: no compound member, no yawi.
+      expect(a.analyses.map((x) => x.wordClass),
+          isNot(contains(WordClass.compoundMember)));
+      expect(a.analyses.map((x) => x.lemma.wx).toSet(), {'gam', 'gamayaw'});
+      // One way below them.
+      final ways = a.compound!.candidates;
+      expect([for (final s in ways) [for (final g in s.segments) g.text.wx]],
+          [
+        ['gama', 'yawi']
+      ]);
+      final parts = ways.single.analyses!;
+      expect(
+          (parts[0] as Found<WordAnalysis>).value.analyses.single.wordClass,
+          WordClass.compoundMember);
+      expect((parts[1] as Found<WordAnalysis>).value.analyses, isNotEmpty);
+    });
+
+    test('agacCaw: the whole word and one way, aga-Caw (U29b)', () async {
+      final a = await heritage('agacCaw');
+      expect(a.alsoWhole, isTrue);
+      expect(a.analyses, hasLength(1));
+      expect(a.compound!.candidates, hasLength(1));
     });
 
     test('Samsaadhanii gives nothing for rAmAlayaH today', () async {
@@ -495,6 +529,40 @@ void main() {
             i
       ];
       expect(tagged, [0]);
+    });
+
+    testWidgets('gamayawi: the whole-word cards, then one way below them',
+        (tester) async {
+      await open(tester, 'gamayawi');
+      // Cards for the whole word only: no compound-member card.
+      final cards = tester.widgetList<AnalysisCard>(find.byType(AnalysisCard));
+      expect(cards, isNotEmpty);
+      expect(cards.every((c) => c.analysis.wordClass != WordClass.compoundMember),
+          isTrue);
+      expect(find.text('Can also be read as a compound'), findsNothing);
+      expect(find.text('samāsarūpeṇāpi paṭhyate'), findsOneWidget);
+      expect(find.byKey(const Key('compound-way-0')), findsOneWidget);
+      expect(find.byKey(const Key('compound-way-1')), findsNothing);
+      // The way is below the cards.
+      expect(tester.getTopLeft(find.byKey(const Key('compound-way-0'))).dy,
+          greaterThan(tester.getBottomLeft(find.byType(AnalysisCard).last).dy));
+      // The word-class border and the hyphen join, as in U29.
+      expect(find.text('‐'), findsOneWidget);
+    });
+
+    testWidgets('gamayawi with English labels: "Can also be read as a compound"',
+        (tester) async {
+      await open(tester, 'gamayawi',
+          prefs: {'settings.labelLanguage': 'english'});
+      expect(find.text('Can also be read as a compound'), findsOneWidget);
+    });
+
+    testWidgets('rAmAlayaH is unchanged: the compound view only, no cards',
+        (tester) async {
+      await open(tester, 'rAmAlayaH');
+      expect(find.byType(AnalysisCard), findsNothing);
+      expect(find.text('samāsaḥ'), findsOneWidget);
+      expect(find.byKey(const Key('compound-way-4')), findsOneWidget);
     });
 
     testWidgets('rAmaH on Heritage is as before: cards', (tester) async {
