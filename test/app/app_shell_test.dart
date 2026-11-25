@@ -46,14 +46,18 @@ Future<void> _pumpApp(WidgetTester tester,
 
 void main() {
   group('shell', () {
-    testWidgets('opens on Home, with a bar of exactly Home, Tools, Settings',
+    testWidgets('opens on Home, with a bar of exactly Home, Tools, Read, Settings',
         (tester) async {
       await _pumpApp(tester);
       expect(find.byType(NavigationBar), findsOneWidget);
       final bar = tester.widget<NavigationBar>(find.byType(NavigationBar));
-      expect(bar.destinations.length, 3);
+      expect(bar.destinations.length, 4);
       expect(bar.selectedIndex, 0);
-      for (final label in ['Home', 'Tools', 'Settings']) {
+      final labels = [
+        for (final d in bar.destinations) (d as NavigationDestination).label
+      ];
+      expect(labels, ['Home', 'Tools', 'Read', 'Settings']);
+      for (final label in labels) {
         expect(find.descendant(of: find.byType(NavigationBar), matching: find.text(label)),
             findsOneWidget);
       }
@@ -520,7 +524,7 @@ void main() {
         prefixes: PrefixList.fromEntries([ListEntry('Af', 'आङ्', 'āṅ')]),
       ));
       await tester.pumpAndSettle();
-      for (final tab in ['Tools', 'Settings', 'Home']) {
+      for (final tab in ['Tools', 'Read', 'Settings', 'Home']) {
         await tester.tap(find.descendant(
             of: find.byType(NavigationBar), matching: find.text(tab)));
         await tester.pumpAndSettle();

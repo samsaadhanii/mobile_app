@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../features/home/home_page.dart';
+import '../features/read/read_page.dart';
 import '../features/settings/settings_page.dart';
 import '../features/tools/tools_list_page.dart';
 import 'routes.dart';
 
-/// Home, Tools, Settings in a Material 3 `NavigationBar`. The three pages are
+/// Home, Tools, Read, Settings in a Material 3 `NavigationBar`. The four pages are
 /// kept alive together, so each tab is where the user left it. A tool opens
 /// full screen over the shell and back returns to the tab (no custom back
 /// handling).
@@ -31,6 +32,7 @@ class _AppShellState extends State<AppShell> {
           ToolsListPage(
               onOpen: (entry, input, {gender, prefix}) =>
                   openTool(context, entry, input, gender: gender, prefix: prefix)),
+          const ReadPage(),
           const SettingsPage(),
         ],
       ),
@@ -46,6 +48,10 @@ class _AppShellState extends State<AppShell> {
               icon: Icon(Icons.build_outlined),
               selectedIcon: Icon(Icons.build),
               label: 'Tools'),
+          NavigationDestination(
+              icon: Icon(Icons.menu_book_outlined),
+              selectedIcon: Icon(Icons.menu_book),
+              label: 'Read'),
           NavigationDestination(
               icon: Icon(Icons.settings_outlined),
               selectedIcon: Icon(Icons.settings),
