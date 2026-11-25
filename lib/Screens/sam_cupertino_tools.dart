@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/sandhi_splitter/cupertino_sandhi_splitter.dar
 // import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_page1.dart';
 import 'package:mobile_app/Screens/verb_generator/cupertino_verb_gen_prefix.dart';
 import 'dhatupatha/dhatupatha_page_one.dart';
+import 'gita/gita_page.dart';
 import 'krt_generator/cupertino_krt_generator_prefix.dart';
 import 'morph_analyser/cupertino_morph_analyser.dart';
 import 'noun_generator/cupertino_noun_generator.dart';
@@ -106,6 +107,19 @@ class _SamCupertinoToolsState extends State<SamCupertinoTools> {
                   ),
                 );
               }),
+            ),
+            CupertinoListTile.notched(
+              title: const Text('Bhagavad Gītā (भगवद्गीता)'),
+              trailing: const CupertinoListTileChevron(),
+              onTap: () {
+                Navigator.of(context).push(
+                  CupertinoPageRoute(
+                    builder: (BuildContext context) {
+                      return const GitaPage();
+                    },
+                  ),
+                );
+              },
             ),
             CupertinoListTile.notched(
               title: const Text('Krt Generator (कृदन्तरूपनिष्पादिका)'),

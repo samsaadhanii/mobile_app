@@ -4,6 +4,7 @@ import 'package:mobile_app/Screens/sandhi_splitter/sandhi_splitter.dart';
 import 'package:mobile_app/Screens/verb_generator/verb_generator_prefixes.dart';
 
 import 'dhatupatha/dhatupatha_page_one.dart';
+import 'gita/gita_page.dart';
 import 'krt_generator/krt_generator_prefix.dart';
 import 'morph_analyser/morph_analyser.dart';
 import 'noun_generator/noun_generator.dart';
@@ -170,6 +171,28 @@ class _ToolsPageState extends State<ToolsPage> {
                     ),
                   );
                 }),
+              ),
+            ),
+
+            /// Bhagavad Gita
+            Card(
+              child: ListTile(
+                title: const Text('Bhagavad Gītā (भगवद्गीता)',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                subtitle: const Text('Page by Sarath Oruganti',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const GitaPage();
+                      },
+                    ),
+                  );
+                },
               ),
             ),
 
